@@ -128,13 +128,23 @@ class SubmitHandler {
     }
 
     private static function send_notification( array $data ): bool {
-        $sales   = Settings::get( 'sales_email', get_option( 'admin_email' ) );
+        $recipients = Settings::get_sales_emails();
+        if ( empty( $recipients ) ) {
+            $recipients = [ get_option( 'admin_email' ) ];
+        }
         $subject = sprintf(
             'Neue PV-Konfiguration: %s (%s)',
             $data['contact']['name'],
             date_i18n( 'd.m.Y' )
         );
-        return Mailer::send( $sales, $subject, self::build_notification_html( $data ) );
+        $html    = self::build_notification_html( $data );
+        $all_ok  = true;
+        foreach ( $recipients as $email ) {
+            if ( ! Mailer::send( $email, $subject, $html ) ) {
+                $all_ok = false;
+            }
+        }
+        return $all_ok;
     }
 
     private static function send_confirmation( array $data ): bool {

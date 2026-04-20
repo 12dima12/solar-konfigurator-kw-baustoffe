@@ -19,10 +19,20 @@ define( 'KW_PV_TOOLS_PATH',     plugin_dir_path( __FILE__ ) );
 define( 'KW_PV_TOOLS_URL',      plugin_dir_url( __FILE__ ) );
 define( 'KW_PV_TOOLS_BASENAME', plugin_basename( __FILE__ ) );
 
-// Composer-Autoload (Altcha-PHP-Bibliothek)
+// Composer-Autoload (Altcha-PHP-Bibliothek + Plugin-Update-Checker)
 if ( file_exists( KW_PV_TOOLS_PATH . 'vendor/autoload.php' ) ) {
     require_once KW_PV_TOOLS_PATH . 'vendor/autoload.php';
 }
+
+// GitHub-Auto-Update via YahnisElsts/plugin-update-checker
+add_action( 'init', function () {
+    if ( ! class_exists( '\YahnisElsts\PluginUpdateChecker\v5\PucFactory' ) ) return;
+    \YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
+        'https://github.com/12dimal2/solar-konfigurator-kw-baustoffe',
+        __FILE__,
+        'kw-pv-tools'
+    );
+} );
 
 // Core
 require_once KW_PV_TOOLS_PATH . 'includes/core/class-dependency-check.php';

@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./app
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+          cache-dependency-path: app/pnpm-lock.yaml
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Validate manufacturers
+        run: node scripts/validate-manufacturers.mjs
+        working-directory: ./
+
+      - name: Run unit tests
+        run: pnpm vitest run
+
+      - name: Run data tests
+        run: pnpm tsx tests/parallel.spec.ts
+        working-directory: ./
+
+      - name: Build
+        run: pnpm build
+        env:
+          HCAPTCHA_SECRET: dummy
+          NEXT_PUBLIC_HCAPTCHA_SITE_KEY: 10000000-ffff-ffff-ffff-000000000001
+          RESEND_API_KEY: dummy

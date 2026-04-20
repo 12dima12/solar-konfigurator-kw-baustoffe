@@ -89,4 +89,3 @@ Wenn etwas kaputt ist und du nicht weißt, was zu tun ist:
 | `FROM_EMAIL` | `konfigurator@kw-baustoffe.de` | — |
 | `HCAPTCHA_SECRET` | `0x...` | https://dashboard.hcaptcha.com |
 | `NEXT_PUBLIC_HCAPTCHA_SITE_KEY` | `XXXX-...` | https://dashboard.hcaptcha.com |
-| `APP_PASSWORD` | Dein Passwort | Frei wählen |

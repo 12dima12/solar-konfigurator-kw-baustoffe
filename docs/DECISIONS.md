@@ -128,3 +128,22 @@ Format: Für jede wichtige Entscheidung Kontext + was wir gewählt haben + was w
 + Keine Laufzeit-Fehler durch Server→Client-Funktions-Transfer
 + Klare Trennung: Daten vom Server, Logik im Client-Bundle
 − Neue Hersteller müssen rules in zwei Dateien registrieren (index.ts + rules-registry.ts)
+
+---
+
+## ADR-008: Altcha als Standard-Captcha-Provider (statt reCAPTCHA / hCaptcha)
+
+**Kontext:** Phase 6 hatte hCaptcha als einzigen Provider fest verdrahtet. Für Phase 10 (WordPress-Plugin + Static Export) fallen alle Next.js-API-Routes weg — Captcha-Verifikation muss in PHP nachgebaut werden. Außerdem ist hCaptcha ein externer Dienst mit Datenschutz-Implikationen.
+
+**Entscheidung:** Modulares Captcha-Provider-System mit `CAPTCHA_PROVIDER`-Env-Variable. Standard: **Altcha** (MIT-Lizenz, Proof-of-Work, lokal, kein externer API-Call). hCaptcha + reCAPTCHA v3 als optionale Adapter. `none` für Tests/Entwicklung.
+
+**Verworfen:**
+- hCaptcha als Standard: extern, DSGVO-sensibel, teuer bei Scale
+- reCAPTCHA: Google-Abhängigkeit, Score-Heuristiken schwer zu debuggen
+- Keine Abstraktion: macht Phase 10 PHP-Port schwieriger
+
+**Konsequenzen:**
++ `ALTCHA_HMAC_KEY` in Produktion setzen (`openssl rand -hex 32`) — sonst gilt Dev-Fallback
++ PHP-Port in Phase 10 einfach: Altcha-Lib verfügbar als PHP-Package (altcha-org/altcha)
++ Kein externer Service → kein Datenschutz-Problem, keine Ausfallabhängigkeit
++ Wechsel zu hCaptcha/reCAPTCHA durch eine Env-Variable jederzeit möglich

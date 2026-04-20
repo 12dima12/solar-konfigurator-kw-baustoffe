@@ -1,12 +1,12 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import Image from "next/image";
-import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { CaptchaWidget } from "@/lib/captcha/client";
 import { useConfigStore } from "@/store/configStore";
 import { useManufacturer } from "@/lib/manufacturer-context";
 import { PHASE_LABELS } from "@/lib/constants";
@@ -22,10 +22,10 @@ const schema = z.object({
 });
 type FormData = z.infer<typeof schema>;
 
-const UI: Record<Lang, { title: string; submit: string; success: string; reset: string; name: string; email: string; phone: string; message: string; captchaHint: string }> = {
-  de: { title: "Ihre Konfiguration", submit: "Zur Anfrage", success: "Anfrage gesendet! Wir melden uns bei Ihnen.", reset: "Neue Konfiguration", name: "Name", email: "E-Mail", phone: "Telefon (optional)", message: "Nachricht (optional)", captchaHint: "Dieser Bereich ist durch hCaptcha geschützt." },
-  en: { title: "Your Configuration", submit: "Send Request", success: "Request sent! We will contact you.", reset: "New Configuration", name: "Name", email: "Email", phone: "Phone (optional)", message: "Message (optional)", captchaHint: "This area is protected by hCaptcha." },
-  cs: { title: "Vaše konfigurace", submit: "Odeslat poptávku", success: "Poptávka odeslána! Ozveme se vám.", reset: "Nová konfigurace", name: "Jméno", email: "E-mail", phone: "Telefon (volitelné)", message: "Zpráva (volitelné)", captchaHint: "Tato oblast je chráněna hCaptcha." },
+const UI: Record<Lang, { title: string; submit: string; success: string; reset: string; name: string; email: string; phone: string; message: string }> = {
+  de: { title: "Ihre Konfiguration", submit: "Zur Anfrage", success: "Anfrage gesendet! Wir melden uns bei Ihnen.", reset: "Neue Konfiguration", name: "Name", email: "E-Mail", phone: "Telefon (optional)", message: "Nachricht (optional)" },
+  en: { title: "Your Configuration", submit: "Send Request", success: "Request sent! We will contact you.", reset: "New Configuration", name: "Name", email: "Email", phone: "Phone (optional)", message: "Message (optional)" },
+  cs: { title: "Vaše konfigurace", submit: "Odeslat poptávku", success: "Poptávka odeslána! Ozveme se vám.", reset: "Nová konfigurace", name: "Jméno", email: "E-mail", phone: "Telefon (volitelné)", message: "Zpráva (volitelné)" },
 };
 
 export function SubmitSummary() {
@@ -33,7 +33,6 @@ export function SubmitSummary() {
   const manufacturer = useManufacturer();
   const [submitted, setSubmitted] = useState(false);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
-  const captchaRef = useRef<HCaptcha>(null);
   const t = UI[lang] ?? UI.de;
   const filled = selections.filter((s) => s.selectedProduct);
 
@@ -42,13 +41,7 @@ export function SubmitSummary() {
   });
 
   const onSubmit = async (data: FormData) => {
-    // Honeypot check (client-side guard — server also checks)
-    if (data.website) return;
-
-    if (!captchaToken) {
-      alert(t.captchaHint);
-      return;
-    }
+    if (data.website) return; // honeypot
 
     await fetch("/api/submit", {
       method: "POST",
@@ -58,11 +51,10 @@ export function SubmitSummary() {
         selections: filled,
         contact: { name: data.name, email: data.email, phone: data.phone, message: data.message },
         lang,
-        captchaToken,
+        captchaToken: captchaToken ?? "",
       }),
     });
 
-    captchaRef.current?.resetCaptcha();
     setSubmitted(true);
   };
 
@@ -78,8 +70,6 @@ export function SubmitSummary() {
       </div>
     );
   }
-
-  const siteKey = process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY ?? "";
 
   return (
     <div className="space-y-6">
@@ -107,7 +97,7 @@ export function SubmitSummary() {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 border-t pt-6">
-        {/* Honeypot — unsichtbar für echte User, Bots füllen es aus */}
+        {/* Honeypot — invisible to real users, bots fill it in */}
         <input
           {...register("website")}
           type="text"
@@ -138,24 +128,11 @@ export function SubmitSummary() {
           <textarea {...register("message")} rows={3} className="w-full rounded-md border border-input px-3 py-2 text-sm bg-background resize-none" />
         </div>
 
-        {siteKey && (
-          <div className="space-y-1">
-            <HCaptcha
-              ref={captchaRef}
-              sitekey={siteKey}
-              onVerify={setCaptchaToken}
-              onExpire={() => setCaptchaToken(null)}
-            />
-            <p className="text-xs text-muted-foreground">
-              {t.captchaHint}{" "}
-              <a href="/datenschutz" className="underline hover:text-primary">Datenschutzerklärung</a>
-            </p>
-          </div>
-        )}
+        <CaptchaWidget onVerify={setCaptchaToken} />
 
         <Button
           type="submit"
-          disabled={isSubmitting || (!!siteKey && !captchaToken)}
+          disabled={isSubmitting}
           className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
         >
           {t.submit}

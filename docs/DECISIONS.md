@@ -168,3 +168,22 @@ Format: Für jede wichtige Entscheidung Kontext + was wir gewählt haben + was w
 − Produktdaten-Updates erfordern neuen Build + Upload
 − Server-seitige Features (ISR, Image Optimization, Middleware) nicht mehr verfügbar
 − Zwei Codebases müssen synchron gehalten werden: Next.js-App + PHP-Plugin
+
+---
+
+## ADR-011: Event-Bus via Window CustomEvents (kein Pub/Sub-Framework)
+
+**Kontext:** Solarrechner (Phase 11) und Konfigurator müssen auf derselben WordPress-Seite kommunizieren, ohne sich gegenseitig zu kennen. Beide sind auf `window` geladen. Kein gemeinsamer React-State, kein gemeinsamer Build.
+
+**Entscheidung:** `window.dispatchEvent(new CustomEvent('kw-pv-tools:<name>', { detail }))` als Kommunikationskanal. Minimales `KW_PV_TOOLS_EVENT_BUS`-Object als Helper (emit/on/off) — kein externes Framework.
+
+**Verworfen:**
+- postMessage: nur für Cross-Origin (iFrame), hier nicht nötig
+- Redux/Zustand als globaler Store: zu viel Dependency-Overhead für zwei unabhängige Werkzeuge
+- WordPress-eigene REST-Callbacks: zu langsam, zu viel Netzwerk für UI-Koordination
+
+**Konsequenzen:**
++ Beide Werkzeuge bleiben vollständig unabhängig voneinander
++ Debugging: `localStorage.setItem('kw-pv-tools:debug', '1')` aktiviert Konsolen-Logging aller Events
++ Neue Werkzeuge können jederzeit auf Events lauschen ohne Code-Änderungen in bestehenden Modulen
+− Events sind fire-and-forget; wenn der Konfigurator beim Event-Empfang noch nicht geladen ist, geht das Event verloren → deshalb `app-ready`-Event + Retry-Logik

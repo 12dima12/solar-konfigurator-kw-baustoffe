@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "prebuild": "node scripts/validate-manufacturers.mjs",
-    "build": "next build",
-    "start": "next start",
+    "build": "next build && node scripts/post-export.mjs",
+    "mock-api": "node scripts/dev-mock-api.mjs",
     "prepare": "husky"
   },
   "dependencies": {

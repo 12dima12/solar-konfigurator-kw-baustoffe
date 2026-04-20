@@ -27,33 +27,37 @@ Lies in dieser Reihenfolge:
 
 ## Tech-Stack auf einen Blick
 
-- **Framework:** Next.js 15 (App Router, RSC wo sinnvoll)
+- **Framework:** Next.js (App Router, Static Export)
 - **Language:** TypeScript strict
 - **Styling:** Tailwind CSS + shadcn/ui
 - **State:** Zustand (Client-State)
 - **Forms:** react-hook-form + zod
 - **i18n:** 3 Sprachen (DE/EN/CS)
-- **E-Mail:** Resend
-- **Bot-Schutz:** hCaptcha + Rate-Limiting + Honeypot
-- **Deployment:** Vercel (empfohlen) oder eigener Node-Server
-- **Testing:** Vitest (Unit) + Node.js (Daten) + Playwright (E2E, optional)
+- **E-Mail:** wp_mail() via WordPress-Plugin (Phase 10)
+- **Bot-Schutz:** Altcha (Proof-of-Work, lokal) + Honeypot + Rate-Limiting in PHP
+- **Deployment:** WordPress-Plugin `kw-pv-tools` auf kw-baustoffe.de
+- **Testing:** Vitest (Unit) + Node.js (Daten)
 
 ---
 
 ## Entwicklung lokal
 
 ```bash
+# Terminal 1: Mock-API simuliert WordPress-REST-Endpunkte
+cd app && pnpm mock-api
+
+# Terminal 2: Next.js Dev-Server
 cd app
-cp .env.example .env.local   # Keys eintragen (siehe Kommentare)
-pnpm install
-pnpm dev                     # http://localhost:3000
+NEXT_PUBLIC_API_BASE=http://localhost:8080/wp-json/kw-pv-tools/v1 pnpm dev
+# http://localhost:3000/solax/configurator
 ```
 
-## Build & Deploy
+## Static Export (Produktions-Build)
 
 ```bash
-pnpm build   # validiert Hersteller-Daten + baut
-pnpm start   # Produktions-Server lokal
+cd app
+NEXT_PUBLIC_API_BASE=/wp-json/kw-pv-tools/v1 pnpm build
+# → out/ enthält das fertige HTML/CSS/JS-Bundle + kw-pv-tools-manifest.json
 ```
 
 Detaillierte Deploy-Anleitung: **`docs/DEPLOY.md`**

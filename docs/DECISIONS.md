@@ -147,3 +147,24 @@ Format: Für jede wichtige Entscheidung Kontext + was wir gewählt haben + was w
 + PHP-Port in Phase 10 einfach: Altcha-Lib verfügbar als PHP-Package (altcha-org/altcha)
 + Kein externer Service → kein Datenschutz-Problem, keine Ausfallabhängigkeit
 + Wechsel zu hCaptcha/reCAPTCHA durch eine Env-Variable jederzeit möglich
+
+---
+
+## ADR-010: Migration zu Static Export für WordPress-Deployment
+
+**Kontext:** Die App sollte in Phase 10 als statisches Bundle in ein WordPress-Plugin eingebettet werden. Next.js `output: 'standalone'` erfordert einen Node.js-Server. KW Baustoffe betreibt nur WordPress auf shared Hosting — kein Node.js verfügbar.
+
+**Entscheidung:** `output: 'export'` — Next.js generiert reines HTML/CSS/JS im `out/`-Ordner. Alle API-Routes entfernt. Serverseitige Logik (E-Mail-Versand, Captcha-Verifikation, Rate-Limiting) wandert als PHP in das WordPress-Plugin (Phase 10).
+
+**Verworfen:**
+- Vercel + iFrame: Cross-Origin-Probleme, externe Abhängigkeit, hCaptcha-Datenschutz
+- Next.js standalone: Node.js-Prozess auf WordPress-Hosting nicht möglich
+- Nuxt.js/Remix: Migration zu groß, Bestandscode in Next.js
+
+**Konsequenzen:**
++ App deploy-bar auf jedem statischen Hosting (auch GitHub Pages)
++ Kein externer Dienst außer WordPress nötig
++ Build-Time-Snapshotting der Produktdaten — kein Server-Fetch bei Seitenaufruf
+− Produktdaten-Updates erfordern neuen Build + Upload
+− Server-seitige Features (ISR, Image Optimization, Middleware) nicht mehr verfügbar
+− Zwei Codebases müssen synchron gehalten werden: Next.js-App + PHP-Plugin

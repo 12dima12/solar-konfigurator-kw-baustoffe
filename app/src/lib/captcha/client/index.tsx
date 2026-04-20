@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import type { PublicCaptchaConfig } from "../types";
+import { route, getApiHeaders } from "@/config/api";
 import { AltchaWidget } from "./AltchaWidget";
 import { HCaptchaWidget } from "./HCaptchaWidget";
 import { RecaptchaWidget } from "./RecaptchaWidget";
@@ -14,7 +15,7 @@ export function CaptchaWidget({ onVerify }: Props) {
   const [config, setConfig] = useState<PublicCaptchaConfig | null>(null);
 
   useEffect(() => {
-    fetch("/api/captcha/config")
+    fetch(route("captchaConfig"), { headers: getApiHeaders() })
       .then((r) => r.json() as Promise<PublicCaptchaConfig>)
       .then(setConfig)
       .catch(() => setConfig({ provider: "none" }));

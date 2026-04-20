@@ -43,16 +43,9 @@ Request → Rate-Limit (IP) → Honeypot-Check → Captcha-Verify → Zod-Schema
 - **Layer 4:** Zod — Strikte Typen, Längen, Regex, HTML-Escape im E-Mail-Template
 - **Layer 5:** CSP + X-Frame-Options — XSS + Clickjacking-Schutz via Middleware
 
-## Env-Variablen für Vercel (Dima einzutragen)
+## Env-Variablen für Vercel
 
-| Variable | Pflicht | Wo holen |
-|---|---|---|
-| `RESEND_API_KEY` | ✅ | https://resend.com/api-keys |
-| `HCAPTCHA_SECRET` | ✅ | https://dashboard.hcaptcha.com |
-| `NEXT_PUBLIC_HCAPTCHA_SITE_KEY` | ✅ | https://dashboard.hcaptcha.com |
-| `APP_PASSWORD` | ✅ | Frei wählen (Staging-Schutz) |
-| `SALES_EMAIL` | empfohlen | vertrieb@kw-baustoffe.de |
-| `FROM_EMAIL` | empfohlen | konfigurator@kw-baustoffe.de |
+→ Vollständige Liste mit Quellen: **`docs/USER_MANUAL.md`** (Abschnitt "Env-Variablen auf Vercel")
 
 ## Security-Header-Prüfung
 

@@ -27,12 +27,7 @@
 ### Vor dem ersten Deployment (Staging)
 
 1. **Resend-Konto anlegen** — https://resend.com, Domain `kw-baustoffe.de` verifizieren
-2. **`.env.local` erstellen** (in `app/`):
-   ```
-   RESEND_API_KEY=re_xxxxx
-   SALES_EMAIL=vertrieb@kw-baustoffe.de
-   FROM_EMAIL=konfigurator@kw-baustoffe.de
-   ```
+2. **Env-Variablen eintragen** — vollständige Liste: `docs/USER_MANUAL.md`
 3. **Deployment testen** — `cd app && vercel` (Staging)
 4. **iFrame-Test** — `tests/iframe-host.html` lokal öffnen
 

@@ -25,10 +25,8 @@ vercel              # Staging
 vercel --prod       # Produktion (nur nach Dima-Freigabe!)
 ```
 
-Umgebungsvariablen in Vercel Dashboard setzen:
-- `RESEND_API_KEY`
-- `SALES_EMAIL`
-- `FROM_EMAIL`
+Umgebungsvariablen in Vercel Dashboard setzen
+→ vollständige Liste: **`docs/USER_MANUAL.md`**
 
 **Subdomain:** `konfigurator.kw-baustoffe.de`
 → In Vercel: Custom Domain hinzufügen, DNS-Eintrag bei Hoster setzen

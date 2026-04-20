@@ -90,7 +90,7 @@ Er schickt eine Dummy-Konfiguration an alle konfigurierten Vertriebs-Empfänger.
 ## Auto-Update
 
 Das Plugin bezieht Updates direkt aus GitHub-Releases des Repositorys
-`12dimal2/solar-konfigurator-kw-baustoffe`. Sobald ein neues Release-Tag
+`12dima12/solar-konfigurator-kw-baustoffe`. Sobald ein neues Release-Tag
 (z.B. `v2.1.1`) gepusht wird, erscheint der Update-Hinweis im WP-Admin.
 
 Voraussetzung: `yahnis-elsts/plugin-update-checker` via Composer installiert.

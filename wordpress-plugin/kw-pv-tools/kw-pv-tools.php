@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       KW PV Tools
- * Plugin URI:        https://github.com/12dimal2/solar-konfigurator-kw-baustoffe
+ * Plugin URI:        https://github.com/12dima12/solar-konfigurator-kw-baustoffe
  * Description:       PV-Werkzeuge für KW Baustoffe: Konfigurator, Solarrechner.
  * Version:           2.1.0
  * Requires at least: 6.0
@@ -28,7 +28,7 @@ if ( file_exists( KW_PV_TOOLS_PATH . 'vendor/autoload.php' ) ) {
 add_action( 'init', function () {
     if ( ! class_exists( '\YahnisElsts\PluginUpdateChecker\v5\PucFactory' ) ) return;
     \YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
-        'https://github.com/12dimal2/solar-konfigurator-kw-baustoffe',
+        'https://github.com/12dima12/solar-konfigurator-kw-baustoffe',
         __FILE__,
         'kw-pv-tools'
     );

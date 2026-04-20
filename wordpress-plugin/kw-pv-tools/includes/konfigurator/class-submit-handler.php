@@ -5,6 +5,7 @@ use KW_PV_Tools\Core\Settings;
 use KW_PV_Tools\Core\Captcha;
 use KW_PV_Tools\Core\RateLimit;
 use KW_PV_Tools\Core\Mailer;
+use KW_PV_Tools\Core\TicketId;
 use WP_REST_Request;
 use WP_REST_Response;
 
@@ -50,20 +51,23 @@ class SubmitHandler {
             );
         }
 
-        // 5. Benachrichtigung an Vertrieb
+        // 5. Ticket-ID generieren
+        $ticket_id           = TicketId::generate();
+        $validated['ticket'] = $ticket_id;
+
+        // 6. Benachrichtigung an Vertrieb
         $sent = self::send_notification( $validated );
         if ( ! $sent ) {
-            // Nicht fatal — Submission trotzdem akzeptieren, aber loggen
-            error_log( '[kw-pv-tools] wp_mail() failed for ' . $validated['contact']['email'] );
+            error_log( '[kw-pv-tools] wp_mail() failed for ticket ' . $ticket_id );
         }
 
-        // 6. Kundenbestätigung
+        // 7. Kundenbestätigung
         if ( ! empty( $validated['contact']['email'] ) ) {
             self::send_confirmation( $validated );
         }
 
         return new WP_REST_Response(
-            [ 'success' => true, 'id' => wp_generate_uuid4() ],
+            [ 'success' => true, 'id' => $ticket_id ],
             200
         );
     }
@@ -133,7 +137,8 @@ class SubmitHandler {
             $recipients = [ get_option( 'admin_email' ) ];
         }
         $subject = sprintf(
-            'Neue PV-Konfiguration: %s (%s)',
+            '[%s] Neue PV-Konfiguration: %s (%s)',
+            $data['ticket'] ?? '',
             $data['contact']['name'],
             date_i18n( 'd.m.Y' )
         );
@@ -155,12 +160,13 @@ class SubmitHandler {
         );
     }
 
-    private static function build_notification_html( array $data ): string {
+    public static function build_notification_html( array $data ): string {
         $name         = esc_html( $data['contact']['name'] );
         $email        = esc_html( $data['contact']['email'] );
         $phone        = esc_html( $data['contact']['phone'] );
         $message      = esc_html( $data['contact']['message'] );
         $manufacturer = esc_html( $data['manufacturer'] );
+        $ticket       = esc_html( $data['ticket'] ?? '' );
 
         $rows = '';
         foreach ( $data['selections'] as $s ) {
@@ -184,7 +190,7 @@ class SubmitHandler {
 <div style="font-family:Inter,sans-serif;max-width:600px;margin:0 auto;">
   <div style="background:#1e3a5f;padding:20px;border-radius:8px 8px 0 0;">
     <h1 style="color:white;margin:0;font-size:20px;">Neue PV-Konfiguration</h1>
-    <p style="color:#90b4d8;margin:4px 0 0;font-size:14px;">KW PV Solutions &bull; {$manufacturer}</p>
+    <p style="color:#90b4d8;margin:4px 0 0;font-size:14px;">KW PV Solutions &bull; {$manufacturer} &bull; <strong style="color:#fff;">{$ticket}</strong></p>
   </div>
   <div style="border:1px solid #e5e7eb;border-top:none;padding:24px;border-radius:0 0 8px 8px;">
     <h2 style="color:#1e3a5f;font-size:14px;margin-bottom:8px;">Kontakt</h2>
@@ -199,8 +205,10 @@ class SubmitHandler {
 HTML;
     }
 
-    private static function build_confirmation_html( array $data ): string {
-        $name = esc_html( $data['contact']['name'] );
+    public static function build_confirmation_html( array $data ): string {
+        $name   = esc_html( $data['contact']['name'] );
+        $ticket = esc_html( $data['ticket'] ?? '' );
+        $ticket_line = $ticket ? "<p style=\"color:#6b7280;font-size:13px;\">Ihre Referenznummer: <strong>{$ticket}</strong></p>" : '';
 
         return <<<HTML
 <div style="font-family:Inter,sans-serif;max-width:600px;margin:0 auto;">
@@ -211,6 +219,7 @@ HTML;
     <p>Sehr geehrte/r {$name},</p>
     <p>vielen Dank für Ihre Konfiguration. Wir haben Ihre Anfrage erhalten und melden uns
        in Kürze bei Ihnen.</p>
+    {$ticket_line}
     <p>Mit freundlichen Grüßen,<br>
        <strong>KW PV Solutions</strong><br>
        KW Baustoffe GmbH &bull; Drensteinfurt</p>

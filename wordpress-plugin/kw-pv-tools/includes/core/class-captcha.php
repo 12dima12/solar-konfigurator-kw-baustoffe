@@ -15,9 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 class Captcha {
 
     public static function get_provider(): string {
-        $provider = Settings::get( 'captcha_provider', 'altcha' );
-        $valid    = [ 'altcha', 'hcaptcha', 'recaptcha', 'none' ];
-        return in_array( $provider, $valid, true ) ? $provider : 'altcha';
+        return Settings::get_captcha_provider_effective();
     }
 
     public static function rest_get_config( WP_REST_Request $req ): WP_REST_Response {

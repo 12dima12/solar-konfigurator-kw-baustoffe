@@ -1,3 +1,10 @@
+/**
+ * Navigation
+ *
+ * Traversiert den rekursiven Produktbaum eines Hersteller-Katalogs.
+ * Jeder Schritt im Konfigurator entspricht einem Key im Kinderknoten des aktuellen Knotens.
+ * Der optionale `catalog`-Parameter erlaubt hersteller-spezifische Kataloge (Phase 5+).
+ */
 import type { ConfigNode, ConfigPhase, Lang } from "@/data/types";
 import defaultCatalogJson from "@/data/catalog.json";
 
@@ -8,6 +15,10 @@ function getCatalog(catalog?: Record<string, unknown> | null): RawCatalog {
   return (catalog as unknown as RawCatalog) ?? defaultCatalog;
 }
 
+/**
+ * Gibt den Top-Level-Baum einer Phase zurück (z.B. alle Wechselrichter-Kategorien).
+ * @param catalog - Optionaler Hersteller-Katalog; fällt auf SolaX-Standard zurück.
+ */
 export function getPhaseTree(
   phase: ConfigPhase,
   lang: Lang,
@@ -18,6 +29,11 @@ export function getPhaseTree(
   return data.tree as Record<string, ConfigNode>;
 }
 
+/**
+ * Berechnet den aktuellen Knoten im Produktbaum basierend auf den User-Steps.
+ * @param steps - Array der bisher ausgewählten Keys (in Reihenfolge)
+ * @returns Der aktuelle Knoten oder null, wenn Steps invalide sind
+ */
 export function resolveNode(
   phase: ConfigPhase,
   lang: Lang,

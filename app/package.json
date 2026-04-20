@@ -1,12 +1,13 @@
 {
   "name": "app",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "prebuild": "node scripts/validate-manufacturers.mjs",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "prepare": "husky"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",
@@ -37,8 +38,14 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "happy-dom": "^20.9.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^4.1.4"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": ["prettier --write"],
+    "*.{json,md}": ["prettier --write"]
   }
 }

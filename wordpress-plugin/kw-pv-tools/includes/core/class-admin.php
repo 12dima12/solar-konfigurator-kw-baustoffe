@@ -188,6 +188,8 @@ class Admin {
 
                 <?php submit_button(); ?>
             </form>
+
+            <?php TestMail::render_button(); ?>
         </div>
         <?php
     }

@@ -29,6 +29,7 @@ require_once KW_PV_TOOLS_PATH . 'includes/core/class-dependency-check.php';
 require_once KW_PV_TOOLS_PATH . 'includes/core/class-ticket-id.php';
 require_once KW_PV_TOOLS_PATH . 'includes/core/class-submissions-log.php';
 require_once KW_PV_TOOLS_PATH . 'includes/core/class-system-check.php';
+require_once KW_PV_TOOLS_PATH . 'includes/core/class-test-mail.php';
 require_once KW_PV_TOOLS_PATH . 'includes/core/class-settings.php';
 require_once KW_PV_TOOLS_PATH . 'includes/core/class-rest-api.php';
 require_once KW_PV_TOOLS_PATH . 'includes/core/class-rate-limit.php';

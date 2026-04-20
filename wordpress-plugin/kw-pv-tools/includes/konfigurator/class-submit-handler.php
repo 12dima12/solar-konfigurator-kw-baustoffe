@@ -6,6 +6,7 @@ use KW_PV_Tools\Core\Captcha;
 use KW_PV_Tools\Core\RateLimit;
 use KW_PV_Tools\Core\Mailer;
 use KW_PV_Tools\Core\TicketId;
+use KW_PV_Tools\Core\SubmissionsLog;
 use WP_REST_Request;
 use WP_REST_Response;
 
@@ -55,13 +56,16 @@ class SubmitHandler {
         $ticket_id           = TicketId::generate();
         $validated['ticket'] = $ticket_id;
 
-        // 6. Benachrichtigung an Vertrieb
+        // 6. Im Log speichern
+        SubmissionsLog::save( $validated );
+
+        // 7. Benachrichtigung an Vertrieb
         $sent = self::send_notification( $validated );
         if ( ! $sent ) {
             error_log( '[kw-pv-tools] wp_mail() failed for ticket ' . $ticket_id );
         }
 
-        // 7. Kundenbestätigung
+        // 8. Kundenbestätigung
         if ( ! empty( $validated['contact']['email'] ) ) {
             self::send_confirmation( $validated );
         }

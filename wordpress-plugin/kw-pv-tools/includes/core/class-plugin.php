@@ -5,6 +5,7 @@ use KW_PV_Tools\Core\RestApi;
 use KW_PV_Tools\Core\EventBus;
 use KW_PV_Tools\Core\Admin;
 use KW_PV_Tools\Core\DependencyCheck;
+use KW_PV_Tools\Core\SubmissionsLog;
 use KW_PV_Tools\Konfigurator\Shortcode;
 use KW_PV_Tools\Konfigurator\Block;
 
@@ -29,6 +30,7 @@ class Plugin {
         add_action( 'init', [ $this, 'load_textdomain' ] );
 
         DependencyCheck::register();
+        SubmissionsLog::register();
         RestApi::register();
         EventBus::register();
         Shortcode::register();

@@ -164,6 +164,10 @@ class SubmitHandler {
         );
     }
 
+    /**
+     * Renders the sales notification email HTML.
+     * Public so TestMail and MailPreview can call it with dummy data.
+     */
     public static function build_notification_html( array $data ): string {
         $name         = esc_html( $data['contact']['name'] );
         $email        = esc_html( $data['contact']['email'] );
@@ -209,6 +213,10 @@ class SubmitHandler {
 HTML;
     }
 
+    /**
+     * Renders the customer confirmation email HTML.
+     * Public so TestMail and MailPreview can call it with dummy data.
+     */
     public static function build_confirmation_html( array $data ): string {
         $name   = esc_html( $data['contact']['name'] );
         $ticket = esc_html( $data['ticket'] ?? '' );

@@ -79,10 +79,11 @@ class SubmissionsLog {
 
     public static function purge_old_entries(): void {
         $cutoff = date( 'Y-m-d H:i:s', strtotime( '-' . self::RETENTION . ' days' ) );
+        // Max 100 per cron run to avoid timeout. Runs daily → clears backlog over several days if needed.
         $posts  = get_posts( [
             'post_type'      => self::POST_TYPE,
             'post_status'    => 'any',
-            'posts_per_page' => -1,
+            'posts_per_page' => 100,
             'date_query'     => [ [ 'before' => $cutoff ] ],
             'fields'         => 'ids',
         ] );

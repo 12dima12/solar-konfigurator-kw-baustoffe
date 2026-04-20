@@ -28,6 +28,7 @@ if ( file_exists( KW_PV_TOOLS_PATH . 'vendor/autoload.php' ) ) {
 require_once KW_PV_TOOLS_PATH . 'includes/core/class-dependency-check.php';
 require_once KW_PV_TOOLS_PATH . 'includes/core/class-ticket-id.php';
 require_once KW_PV_TOOLS_PATH . 'includes/core/class-submissions-log.php';
+require_once KW_PV_TOOLS_PATH . 'includes/core/class-system-check.php';
 require_once KW_PV_TOOLS_PATH . 'includes/core/class-settings.php';
 require_once KW_PV_TOOLS_PATH . 'includes/core/class-rest-api.php';
 require_once KW_PV_TOOLS_PATH . 'includes/core/class-rate-limit.php';

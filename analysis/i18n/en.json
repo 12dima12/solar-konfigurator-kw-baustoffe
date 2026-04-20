@@ -1,0 +1,284 @@
+[
+  {
+    "key": "10.0 kW",
+    "title": "Select number of MPPT. How many pv sections do you have (f.ex. different oriented roof pitches)? ",
+    "label": "10.0 kW",
+    "description": null
+  },
+  {
+    "key": "12.0 kW",
+    "title": "Select number of MPPT. How many pv sections do you have (f.ex. different oriented roof pitches)? ",
+    "label": "12.0 kW",
+    "description": null
+  },
+  {
+    "key": "15.0 kW",
+    "title": "Select number of MPPT. How many pv sections do you have (f.ex. different oriented roof pitches)? ",
+    "label": "15.0 kW",
+    "description": null
+  },
+  {
+    "key": "20.0 kW",
+    "title": "Select number of MPPT. How many pv sections do you have (f.ex. different oriented roof pitches)? ",
+    "label": "20.0 kW",
+    "description": null
+  },
+  {
+    "key": "25.0 kW",
+    "title": "With AFCI (Arc-fault circuit interrupter)?",
+    "label": "25.0 kW",
+    "description": null
+  },
+  {
+    "key": "30.0 kW",
+    "title": "With AFCI (Arc-fault circuit interrupter)?",
+    "label": "30.0 kW",
+    "description": null
+  },
+  {
+    "key": "5.0 kW",
+    "title": "Select min number of modules per string",
+    "label": "5.0 kW",
+    "description": null
+  },
+  {
+    "key": "6.0 kW",
+    "title": "Select min number of modules per string",
+    "label": "6.0 kW",
+    "description": null
+  },
+  {
+    "key": "8.0 kW",
+    "title": "Select number of MPPT. How many pv sections do you have (f.ex. different oriented roof pitches)? ",
+    "label": "8.0 kW",
+    "description": null
+  },
+  {
+    "key": "HAC",
+    "title": null,
+    "label": "Standard",
+    "description": "SolaX X3 HAC"
+  },
+  {
+    "key": "IES",
+    "title": null,
+    "label": "ALL in One IES",
+    "description": null
+  },
+  {
+    "key": "IES 10.0 kW AFCI",
+    "title": null,
+    "label": "10.0 kW",
+    "description": "X3 IES 10K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>"
+  },
+  {
+    "key": "IES 12.0 kW AFCI",
+    "title": null,
+    "label": "12.0 kW",
+    "description": "X3 IES 12K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>"
+  },
+  {
+    "key": "IES 15.0 kW AFCI",
+    "title": null,
+    "label": "15.0 kW",
+    "description": "X3 IES 15K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>"
+  },
+  {
+    "key": "IES 4.0 kW AFCI",
+    "title": null,
+    "label": "4.0 kW",
+    "description": "X3 IES 4K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>"
+  },
+  {
+    "key": "IES 5.0 kW AFCI",
+    "title": null,
+    "label": "5.0 kW",
+    "description": "X3 IES 5K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>"
+  },
+  {
+    "key": "IES 6.0 kW",
+    "title": null,
+    "label": "6.0 kW",
+    "description": "X3 IES 6K<span class='text-red-500'><i class='fa-solid fa-xmark mx-1'></i>AFCI</span>"
+  },
+  {
+    "key": "IES 6.0 kW AFCI",
+    "title": null,
+    "label": "6.0 kW",
+    "description": "X3 IES 6K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>"
+  },
+  {
+    "key": "IES 8.0 kW AFCI",
+    "title": null,
+    "label": "8.0 kW",
+    "description": "X3 IES 8K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>"
+  },
+  {
+    "key": "More then one",
+    "title": "Select an option",
+    "label": "For more than one wallbox, please contact your installer.",
+    "description": null
+  },
+  {
+    "key": "No",
+    "title": null,
+    "label": "No",
+    "description": ""
+  },
+  {
+    "key": "No Charger",
+    "title": null,
+    "label": "No Charger",
+    "description": null
+  },
+  {
+    "key": "One",
+    "title": "Select Wallbox Power",
+    "label": "One",
+    "description": null
+  },
+  {
+    "key": "Please contact your sales person or our support. SolaX has the solution.",
+    "title": null,
+    "label": "> 30.0 kW",
+    "description": null
+  },
+  {
+    "key": "Plug",
+    "title": "Select HAC version",
+    "label": "Plug",
+    "description": null
+  },
+  {
+    "key": "Power 11",
+    "title": "Socket or plug",
+    "label": "11 kW",
+    "description": null
+  },
+  {
+    "key": "Power 22",
+    "title": "Socket or plug",
+    "label": "22 kW",
+    "description": null
+  },
+  {
+    "key": "Single-phase inverter X1",
+    "title": "Select Single-phase inverter Power",
+    "label": "Single-phase inverter X1",
+    "description": null
+  },
+  {
+    "key": "Socket",
+    "title": "Select HAC version",
+    "label": "Socket",
+    "description": null
+  },
+  {
+    "key": "Split System",
+    "title": "Select Inverter type",
+    "label": "Split System",
+    "description": null
+  },
+  {
+    "key": "Three-phase inverter X3",
+    "title": "Select three-phase inverter Power",
+    "label": "Three-phase inverter X3",
+    "description": null
+  },
+  {
+    "key": "X1 EPS Box",
+    "title": null,
+    "label": "X1 EPS Box",
+    "description": null
+  },
+  {
+    "key": "X1 G4",
+    "title": null,
+    "label": "3.0 kW",
+    "description": "X1 Hybrid G4 3.0 kW"
+  },
+  {
+    "key": "X1 Matebox Advanced",
+    "title": null,
+    "label": "X1 Matebox Advanced",
+    "description": null
+  },
+  {
+    "key": "X3 EPS Box",
+    "title": null,
+    "label": "X3 EPS Box",
+    "description": null
+  },
+  {
+    "key": "X3 EPS PBOX 60 kW",
+    "title": null,
+    "label": "X3 EPS PBOX 60 kW",
+    "description": null
+  },
+  {
+    "key": "X3 G4",
+    "title": null,
+    "label": "Min. number of modules: 7",
+    "description": "X3 Hybrid G4 5.0 kW"
+  },
+  {
+    "key": "X3 G4 PRO",
+    "title": null,
+    "label": "Min. number of modules: 4",
+    "description": "X3 Hybrid G4 PRO 5.0 kW"
+  },
+  {
+    "key": "X3 Matebox Advanced",
+    "title": null,
+    "label": "X3 Matebox Advanced",
+    "description": null
+  },
+  {
+    "key": "X3 Matebox G2",
+    "title": null,
+    "label": "X3 Matebox G2",
+    "description": null
+  },
+  {
+    "key": "X3 Ultra 15 K",
+    "title": null,
+    "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 2 <small class=\"text-gray-600\">(2/2)</small>",
+    "description": "X3 Hybrid Ultra 15 K <span class='text-red-500'><br><i class='fa-solid fa-xmark text-red-500 mr-1'></i>AFCI</span>"
+  },
+  {
+    "key": "X3 Ultra 15 K AFCI",
+    "title": null,
+    "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 2 <small class=\"text-gray-600\">(2/2)</small>",
+    "description": "X3 Hybrid Ultra 15 K <span class='text-green-500'><br><i class='fa-solid fa-check text-green-500 mr-1'></i>AFCI</span>"
+  },
+  {
+    "key": "X3 Ultra 20 K",
+    "title": null,
+    "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 2 <small class=\"text-gray-600\">(2/2)</small>",
+    "description": "X3 Hybrid Ultra 20 K <span class='text-red-500'><br><i class='fa-solid fa-xmark text-red-500 mr-1'></i>AFCI</span>"
+  },
+  {
+    "key": "X3 Ultra 20 KP AFCI",
+    "title": null,
+    "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 3 <small class=\"text-gray-600\">(2/2/2)</small>",
+    "description": "X3 Hybrid Ultra 20 KP <span class='text-green-500'><br><i class='fa-solid fa-check text-green-500 mr-1'></i>AFCI</span>"
+  },
+  {
+    "key": "X3 Ultra 3 MPPT",
+    "title": null,
+    "label": "X3 Ultra 3 MPPT",
+    "description": "<span class='text-red-500'><i class='fa-solid fa-xmark mr-1'></i>AFCI</span>"
+  },
+  {
+    "key": "X3 Ultra 3 MPPT AFCI",
+    "title": null,
+    "label": "X3 Ultra 3 MPPT",
+    "description": "<span class='text-green-500'><i class='fa-solid fa-check mr-1'></i>AFCI</span>"
+  },
+  {
+    "key": "Yes",
+    "title": "Select Backup Option",
+    "label": "Yes",
+    "description": null
+  }
+]

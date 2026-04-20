@@ -1,0 +1,125 @@
+{
+    "configuratorId": "backup",
+    "configuratorNext": "battery",
+    "titlesByPath": {
+        "": "Potřebujete zálohu?"
+    },
+    "tree": {
+        "Yes": {
+            "label": "Ano",
+            "value": "Yes",
+            "title": "Vyberte zálohovací zařízení",
+            "icon": "fa-solid fa-check text-green-500",
+            "description": null,
+            "image": null,
+            "info": null,
+            "children": {
+                "X1 Matebox Advanced": {
+                    "product_code": "G-210-303d",
+                    "product_name": "Solax X1-Matebox Advanced, D ",
+                    "label": "X1 Matebox Advanced",
+                    "value": "X1 Matebox Advanced",
+                    "title": null,
+                    "icon": null,
+                    "description": null,
+                    "image": "img\/X1 Matebox Advanced.png",
+                    "info": null,
+                    "stock": {
+                        "totalAvailable": 0,
+                        "totalOrdered": 0
+                    },
+                    "priority": 99
+                },
+                "X3 Matebox G2": {
+                    "product_code": "G-210-503m",
+                    "product_name": "Solax X3-Matebox G2",
+                    "label": "X3 Matebox G2",
+                    "value": "X3 Matebox G2",
+                    "title": null,
+                    "icon": null,
+                    "description": null,
+                    "image": "img\/X3 Matebox G2.png",
+                    "info": null,
+                    "stock": {
+                        "totalAvailable": 0,
+                        "totalOrdered": 112
+                    },
+                    "priority": 99
+                },
+                "X1 EPS Box": {
+                    "product_code": "B-210-10061",
+                    "product_name": "Solax X1-EPS Box, 1*63 A",
+                    "label": "X1 EPS Box",
+                    "value": "X1 EPS Box",
+                    "title": null,
+                    "icon": null,
+                    "description": null,
+                    "image": "img\/X1 EPS Box.png",
+                    "info": null,
+                    "stock": {
+                        "totalAvailable": 42,
+                        "totalOrdered": 0
+                    },
+                    "priority": 999
+                },
+                "X3 EPS Box": {
+                    "product_code": "B-210-1006",
+                    "product_name": "Solax X3-EPS Box, 3*63 A",
+                    "label": "X3 EPS Box",
+                    "value": "X3 EPS Box",
+                    "title": null,
+                    "icon": null,
+                    "description": null,
+                    "image": "img\/X3 EPS Box 3D.png",
+                    "info": "<h2 class='text-lg mb-4 pb-2 border-b-2 border-gray-500'>X3 EPS BOX<\/h2><p>- Automatická záložní spínací jednotka<br>- Max. proud 63 A<\/p>",
+                    "stock": {
+                        "totalAvailable": 23,
+                        "totalOrdered": 593
+                    },
+                    "priority": 999
+                },
+                "X3 Matebox Advanced": {
+                    "product_code": "G-210-405dd",
+                    "product_name": "Solax X3-Matebox Advanced, D, V1.4, WiFi 3.0P, denoise",
+                    "label": "X3 Matebox Advanced",
+                    "value": "X3 Matebox Advanced",
+                    "title": null,
+                    "icon": null,
+                    "description": null,
+                    "image": "img\/X3 Matebox Advanced.png",
+                    "info": "<h2 class='text-lg mb-4 pb-2 border-b-2 border-gray-500'>X3 Matebox Advanced<\/h2><p>- Předinstalováno<br>- Automatická záložní spínací jednotka<br>- Max. proud 63 A<br>- Včetně chytrého měřiče a bezpečnostních spínačů<br>- Zkracuje dobu instalace až o 1 hodinu<\/p>",
+                    "stock": {
+                        "totalAvailable": 101,
+                        "totalOrdered": 40
+                    },
+                    "priority": 999
+                },
+                "X3 EPS 60 kW": {
+                    "product_code": "B-210-10081",
+                    "product_name": "Solax X3-EPS PBOX-60kW-G2",
+                    "label": "X3 EPS PBOX 60 kW",
+                    "value": "X3 EPS PBOX 60 kW",
+                    "title": null,
+                    "icon": null,
+                    "description": null,
+                    "image": "img\/EPS 60 kW.png",
+                    "info": null,
+                    "stock": {
+                        "totalAvailable": 24,
+                        "totalOrdered": 0
+                    },
+                    "priority": 999
+                }
+            }
+        },
+        "No": {
+            "label": "Ne",
+            "value": null,
+            "icon": "fa-solid fa-xmark text-red-500",
+            "title": null,
+            "image": null,
+            "description": "",
+            "info": null
+        }
+    }
+}

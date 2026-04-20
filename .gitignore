@@ -1,0 +1,16 @@
+# Dependencies
+app/node_modules/
+app/.next/
+app/.pnpm-store/
+
+# Env
+app/.env.local
+app/.env*.local
+
+# Build artifacts
+app/.next/
+app/out/
+
+# OS
+.DS_Store
+Thumbs.db

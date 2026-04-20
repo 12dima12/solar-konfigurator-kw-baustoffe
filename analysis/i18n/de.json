@@ -1,0 +1,284 @@
+[
+  {
+    "key": "10.0 kW",
+    "title": "Benötigte Anzahl an MPP-Trackern (für z.B. unterschiedliche Dachausrichtungen)?",
+    "label": "10.0 kW",
+    "description": null
+  },
+  {
+    "key": "12.0 kW",
+    "title": "Benötigte Anzahl an MPP-Trackern (für z.B. unterschiedliche Dachausrichtungen)?",
+    "label": "12.0 kW",
+    "description": null
+  },
+  {
+    "key": "15.0 kW",
+    "title": "Benötigte Anzahl an MPP-Trackern (für z.B. unterschiedliche Dachausrichtungen)?",
+    "label": "15.0 kW",
+    "description": null
+  },
+  {
+    "key": "20.0 kW",
+    "title": "Benötigte Anzahl an MPP-Trackern (für z.B. unterschiedliche Dachausrichtungen)?",
+    "label": "20.0 kW",
+    "description": null
+  },
+  {
+    "key": "25.0 kW",
+    "title": "Mit AFCI (Fehlerlichtbogen-Schutzschalter)?",
+    "label": "25.0 kW",
+    "description": null
+  },
+  {
+    "key": "30.0 kW",
+    "title": "Mit AFCI (Fehlerlichtbogen-Schutzschalter)?",
+    "label": "30.0 kW",
+    "description": null
+  },
+  {
+    "key": "5.0 kW",
+    "title": "Wählen Sie die Mindestanzahl der Module pro String",
+    "label": "5.0 kW",
+    "description": null
+  },
+  {
+    "key": "6.0 kW",
+    "title": "Wählen Sie die Mindestanzahl der Module pro String",
+    "label": "6.0 kW",
+    "description": null
+  },
+  {
+    "key": "8.0 kW",
+    "title": "Benötigte Anzahl an MPP-Trackern (für z.B. unterschiedliche Dachausrichtungen)?",
+    "label": "8.0 kW",
+    "description": null
+  },
+  {
+    "key": "Bitte kontaktieren Sie Ihren Vertriebsmitarbeiter oder unseren Support. SolaX hat die Lösung.",
+    "title": null,
+    "label": "> 30.0 kW",
+    "description": null
+  },
+  {
+    "key": "HAC",
+    "title": null,
+    "label": "Standard",
+    "description": "SolaX X3 HAC"
+  },
+  {
+    "key": "IES",
+    "title": null,
+    "label": "Alles in Einem IES",
+    "description": null
+  },
+  {
+    "key": "IES 10.0 kW AFCI",
+    "title": null,
+    "label": "10.0 kW",
+    "description": "X3 IES 10K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>"
+  },
+  {
+    "key": "IES 12.0 kW AFCI",
+    "title": null,
+    "label": "12.0 kW",
+    "description": "X3 IES 12K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>"
+  },
+  {
+    "key": "IES 15.0 kW AFCI",
+    "title": null,
+    "label": "15.0 kW",
+    "description": "X3 IES 15K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>"
+  },
+  {
+    "key": "IES 4.0 kW AFCI",
+    "title": null,
+    "label": "4.0 kW",
+    "description": "X3 IES 4K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>"
+  },
+  {
+    "key": "IES 5.0 kW AFCI",
+    "title": null,
+    "label": "5.0 kW",
+    "description": "X3 IES 5K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>"
+  },
+  {
+    "key": "IES 6.0 kW",
+    "title": null,
+    "label": "6.0 kW",
+    "description": "X3 IES 6K<span class='text-red-500'><i class='fa-solid fa-xmark mx-1'></i>AFCI</span>"
+  },
+  {
+    "key": "IES 6.0 kW AFCI",
+    "title": null,
+    "label": "6.0 kW",
+    "description": "X3 IES 6K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>"
+  },
+  {
+    "key": "IES 8.0 kW AFCI",
+    "title": null,
+    "label": "8.0 kW",
+    "description": "X3 IES 8K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>"
+  },
+  {
+    "key": "Kein Ladegerat",
+    "title": null,
+    "label": "Kein Ladegerat",
+    "description": null
+  },
+  {
+    "key": "More then one",
+    "title": "Wahlen Sie eine Option",
+    "label": "Fur mehr als eine Wallbox kontaktieren Sie bitte unseren Vertrieb.",
+    "description": null
+  },
+  {
+    "key": "Nein",
+    "title": null,
+    "label": "Nein",
+    "description": "Notstromfunktion über integrierten EPS Ausgang ist ausreichend<ul><li>- 3 Phasen bei X3 und Ultra Wechselrichter</li><li>- Ausgangsleistung entsprechend der Wechselrichter-Nennleistung</li></ul>"
+  },
+  {
+    "key": "One",
+    "title": "Wahlen Sie die Ladeleistung",
+    "label": "Eine",
+    "description": null
+  },
+  {
+    "key": "Plug",
+    "title": "HAC-Version auswahlen",
+    "label": "Typ-2 Kabel",
+    "description": null
+  },
+  {
+    "key": "Power 11",
+    "title": "Buchse oder Kabel",
+    "label": "11 kW",
+    "description": null
+  },
+  {
+    "key": "Power 22",
+    "title": "Steckdose oder Stecker",
+    "label": "22 kW",
+    "description": null
+  },
+  {
+    "key": "Single-phase inverter X1",
+    "title": "Einphasen-Wechselrichter Leistung auswählen",
+    "label": "Einphasen-Wechselrichter X1",
+    "description": null
+  },
+  {
+    "key": "Socket",
+    "title": "HAC-Version auswahlen",
+    "label": "Typ-2 Buchse",
+    "description": null
+  },
+  {
+    "key": "Split System",
+    "title": "Wechselrichtertyp auswählen",
+    "label": "Klassisches System",
+    "description": null
+  },
+  {
+    "key": "Three-phase inverter X3",
+    "title": "Dreiphasen-Wechselrichter Leistung auswählen",
+    "label": "Dreiphasen-Wechselrichter X3",
+    "description": null
+  },
+  {
+    "key": "X1 EPS Box",
+    "title": null,
+    "label": "X1 EPS Box",
+    "description": null
+  },
+  {
+    "key": "X1 G4",
+    "title": null,
+    "label": "3.0 kW",
+    "description": "X1 Hybrid G4 3.0 kW"
+  },
+  {
+    "key": "X1 Matebox Advanced",
+    "title": null,
+    "label": "X1 Matebox Advanced",
+    "description": null
+  },
+  {
+    "key": "X3 EPS Box",
+    "title": null,
+    "label": "X3 EPS Box",
+    "description": null
+  },
+  {
+    "key": "X3 EPS PBOX 60 kW",
+    "title": null,
+    "label": "X3 EPS PBOX 60 kW",
+    "description": null
+  },
+  {
+    "key": "X3 G4",
+    "title": null,
+    "label": "Mindestanzahl an Modulen: 7",
+    "description": "X3 Hybrid G4 5.0 kW"
+  },
+  {
+    "key": "X3 G4 PRO",
+    "title": null,
+    "label": "Mindestanzahl an Modulen: 4",
+    "description": "X3 Hybrid G4 PRO 5.0 kW"
+  },
+  {
+    "key": "X3 Matebox Advanced",
+    "title": null,
+    "label": "X3 Matebox Advanced",
+    "description": null
+  },
+  {
+    "key": "X3 Matebox G2",
+    "title": null,
+    "label": "X3 Matebox G2",
+    "description": null
+  },
+  {
+    "key": "X3 Ultra 15 K",
+    "title": null,
+    "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 2 <small class=\"text-gray-600\">(2/2)</small>",
+    "description": "X3 Hybrid Ultra 15 K <span class='text-red-500'><br><i class='fa-solid fa-xmark text-red-500 mr-1'></i>AFCI</span>"
+  },
+  {
+    "key": "X3 Ultra 15 K AFCI",
+    "title": null,
+    "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 2 <small class=\"text-gray-600\">(2/2)</small>",
+    "description": "X3 Hybrid Ultra 15 K <span class='text-green-500'><br><i class='fa-solid fa-check text-green-500 mr-1'></i>AFCI</span>"
+  },
+  {
+    "key": "X3 Ultra 20 K",
+    "title": null,
+    "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 2 <small class=\"text-gray-600\">(2/2)</small>",
+    "description": "X3 Hybrid Ultra 20 K <span class='text-red-500'><br><i class='fa-solid fa-xmark text-red-500 mr-1'></i>AFCI</span>"
+  },
+  {
+    "key": "X3 Ultra 20 KP AFCI",
+    "title": null,
+    "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 3 <small class=\"text-gray-600\">(2/2/2)</small>",
+    "description": "X3 Hybrid Ultra 20 KP <span class='text-green-500'><br><i class='fa-solid fa-check text-green-500 mr-1'></i>AFCI</span>"
+  },
+  {
+    "key": "X3 Ultra 3 MPPT",
+    "title": null,
+    "label": "X3 Ultra 3 MPPT",
+    "description": "<span class='text-red-500'><i class='fa-solid fa-xmark mr-1'></i>AFCI</span>"
+  },
+  {
+    "key": "X3 Ultra 3 MPPT AFCI",
+    "title": null,
+    "label": "X3 Ultra 3 MPPT",
+    "description": "<span class='text-green-500'><i class='fa-solid fa-check mr-1'></i>AFCI</span>"
+  },
+  {
+    "key": "Yes",
+    "title": "Wählen Sie eine Option für die automatische Umschaltung",
+    "label": "Ja",
+    "description": null
+  }
+]

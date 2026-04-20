@@ -14,3 +14,8 @@ app/out/
 # OS
 .DS_Store
 Thumbs.db
+
+# WordPress Plugin
+wordpress-plugin/kw-pv-tools/vendor/
+wordpress-plugin/kw-pv-tools/assets/konfigurator/
+wordpress-plugin/builds/

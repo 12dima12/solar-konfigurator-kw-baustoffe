@@ -1,16 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "standalone",
+  output: "export",
+  images: {
+    unoptimized: true,
+  },
+  trailingSlash: true,
   experimental: {
     workerThreads: false,
     cpus: 1,
-  },
-  async redirects() {
-    return [
-      { source: "/configurator", destination: "/solax/configurator", permanent: true },
-      { source: "/embed", destination: "/solax/embed", permanent: true },
-    ];
   },
 };
 

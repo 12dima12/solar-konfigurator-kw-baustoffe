@@ -7,6 +7,14 @@ const EMBED_ALLOWED_HOSTS = [
   "https://kw-pv-solutions.de",
 ];
 
+// External captcha script origins (only needed when CAPTCHA_PROVIDER != altcha)
+const CAPTCHA_HOSTS = [
+  "https://hcaptcha.com",
+  "https://*.hcaptcha.com",
+  "https://www.google.com",
+  "https://www.gstatic.com",
+];
+
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   return applySecurityHeaders(NextResponse.next(), pathname);
@@ -18,15 +26,16 @@ function applySecurityHeaders(res: NextResponse, pathname: string): NextResponse
   res.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
 
   const isEmbedRoute = pathname.endsWith("/embed");
+  const captchaHosts = CAPTCHA_HOSTS.join(" ");
 
   const csp = [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://hcaptcha.com https://*.hcaptcha.com",
+    `script-src 'self' 'unsafe-inline' 'unsafe-eval' ${captchaHosts}`,
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: https:",
     "font-src 'self' data:",
-    "connect-src 'self' https://hcaptcha.com https://*.hcaptcha.com",
-    "frame-src https://hcaptcha.com https://*.hcaptcha.com",
+    `connect-src 'self' ${captchaHosts}`,
+    `frame-src ${captchaHosts}`,
     isEmbedRoute
       ? `frame-ancestors ${EMBED_ALLOWED_HOSTS.join(" ")}`
       : "frame-ancestors 'none'",

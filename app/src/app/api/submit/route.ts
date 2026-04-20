@@ -5,7 +5,7 @@ import { ConfiguratorPDF } from "@/lib/pdf";
 import type { PhaseSelection } from "@/store/configStore";
 import type { Lang } from "@/data/types";
 import { checkRateLimit, getClientIp } from "@/lib/security/rate-limit";
-import { verifyCaptcha } from "@/lib/security/captcha";
+import { getActiveCaptchaProvider } from "@/lib/captcha";
 
 const RATE_LIMIT = { limit: 3, windowMs: 60 * 60 * 1000 }; // 3 Submits/Stunde/IP
 
@@ -32,7 +32,7 @@ const schema = z.object({
     message: z.string().max(2000).optional(),
   }),
   lang: z.enum(["de", "en", "cs"]).default("de"),
-  captchaToken: z.string().min(10).optional(),
+  captchaToken: z.string().optional(),
   website: z.string().max(0).optional(), // honeypot — muss leer sein
 });
 
@@ -174,11 +174,10 @@ export async function POST(req: Request) {
     }
 
     // Captcha verify
-    if (data.captchaToken) {
-      const captchaOk = await verifyCaptcha(data.captchaToken);
-      if (!captchaOk) {
-        return Response.json({ error: "Captcha verification failed" }, { status: 403 });
-      }
+    const captchaProvider = getActiveCaptchaProvider();
+    const captchaResult = await captchaProvider.verify(data.captchaToken ?? "", ip);
+    if (!captchaResult.success) {
+      return Response.json({ error: "Captcha verification failed" }, { status: 403 });
     }
 
     const pdfBuffer = await generatePdf(data);

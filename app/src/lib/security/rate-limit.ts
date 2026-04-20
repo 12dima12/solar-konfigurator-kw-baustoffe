@@ -1,4 +1,6 @@
 /**
+ * Rate-Limiter
+ *
  * In-Memory Rate-Limiter (Sliding Window pro IP).
  * Für Single-Instance-Deployments (Vercel single region, VPS) ausreichend.
  * Upgrade-Pfad: Upstash Redis — siehe docs/SECURITY.md.

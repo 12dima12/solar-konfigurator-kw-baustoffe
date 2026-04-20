@@ -1,67 +1,92 @@
-# Benutzerhandbuch – KW PV Konfigurator
+# User Manual – Für Dima
 
-## Für Dima / Vertrieb
+Dieses Dokument beschreibt, was du selbst ohne Entwickler-Hilfe tun kannst.
 
-### Eingehende Konfigurationen lesen
+---
 
-Jede abgeschlossene Konfiguration erzeugt:
-1. Eine E-Mail an `vertrieb@kw-baustoffe.de` mit Kundendaten und Komponentenliste
-2. Ein A4-PDF als Anhang mit allen Produktcodes
+## Häufige Aufgaben
 
-Der Betreff lautet: `Neue PV-Konfiguration: [Kundenname] ([Datum])`
+### Produktdaten aktualisieren (SolaX)
 
-### Produktcodes zuordnen
+SolaX-Produktdaten kommen vom GBC-Solino-Konfigurator. Wenn dort neue Produkte auftauchen oder sich Daten ändern:
 
-| Präfix | Typ |
-|---|---|
-| `G-21d-3I...` | SolaX X3-IES Wechselrichter |
-| `G-21s-6...` | SolaX X1 Hybrid G4 |
-| `G-21c-4...` | SolaX X3 Hybrid G4 (CT, ohne WiFi) |
-| `G-21d-4P...` | SolaX X3 Hybrid G4 (WiFi+LAN) |
-| `G-21s-3H...` | SolaX X3 Ultra |
-| `G-210-...` | Backup-Komponenten (Matebox etc.) |
-| `B-210-...` | EPS Box / Backup |
-| `EV-210-...` | Wallbox (HAC) |
+1. Terminal im Projekt-Ordner öffnen (oder Entwickler bitten)
+2. Ausführen: `./scripts/refresh-solax.sh`
+3. Das Skript lädt die neuen Daten und zeigt dir die Änderungen (Diff)
+4. Falls alles gut aussieht: `git add . && git commit -m "chore: solax catalog update"`
+5. `git push` – deployted automatisch (ca. 2–3 Minuten)
 
-### Produktdaten aktualisieren (bei SolaX-Änderungen)
+### Neue Hersteller anbinden (Fronius, Huawei)
 
-Bitte an den Techniker weitergeben:
+Das ist eine Entwickler-Aufgabe. Gib dem Entwickler `docs/ADD_MANUFACTURER.md` als Briefing.
 
-```bash
-cd /root/solax-rebuild
-node analysis/generate_catalog.mjs
-cp analysis/catalog.json app/src/data/catalog.json
-# Dann neu deployen
-```
+### E-Mail-Empfänger ändern
 
-## Für den Webmaster
+1. Vercel-Konsole öffnen: https://vercel.com/dashboard
+2. Projekt auswählen → Settings → Environment Variables
+3. `RESEND_TO_ADDRESS` bearbeiten
+4. "Redeploy" klicken
 
-### Konfigurator einbetten
+### Texte ändern (Headlines, Buttons, etc.)
 
-Füge folgenden Code auf der gewünschten WordPress-Seite ein:
+Das ist eine Entwickler-Aufgabe. Die Texte liegen in `app/src/messages/{de,en,cs}.json`.
 
-```html
-<iframe
-  src="https://konfigurator.kw-baustoffe.de/embed?lang=de"
-  style="width:100%;border:0;min-height:800px;"
-  id="kw-configurator"
-  title="KW PV Konfigurator"
-></iframe>
-<script>
-window.addEventListener("message", function(e) {
-  if (e.origin !== "https://konfigurator.kw-baustoffe.de") return;
-  if (e.data && e.data.type === "kw-configurator-resize") {
-    document.getElementById("kw-configurator").style.height = e.data.height + "px";
-  }
-});
-</script>
-```
+### Farben ändern
 
-### Logs einsehen (Vercel)
+Das ist eine Entwickler-Aufgabe. Die Farben sind in `app/src/app/globals.css` als CSS-Variablen definiert.
 
-1. Vercel Dashboard → `kw-konfigurator` → Logs
-2. Filter: `[submit]` für alle Konfigurationsabschlüsse
+### Produktbilder austauschen
 
-### Rollback
+1. Neues Bild vorbereiten (am besten WebP, max. 800×800px)
+2. Datei unter `app/public/products/` ersetzen (gleicher Dateiname)
+3. Falls Dateiname sich ändert: catalog.json anpassen (Entwickler)
+4. Commit + Push
 
-Im Vercel Dashboard unter "Deployments" auf das letzte stabile Deployment klicken → "Promote to Production".
+---
+
+## Was du NICHT selbst tun solltest
+
+- Code-Dateien (`.ts`, `.tsx`) bearbeiten
+- `package.json` ändern
+- `next.config.ts` ändern
+- `.env`-Dateien committen (echte Secrets nie ins Git!)
+
+Diese Dinge brauchen einen Entwickler.
+
+---
+
+## Monitoring
+
+### Wie sehe ich, wie viele Anfragen reinkommen?
+- Vercel Dashboard → Analytics
+- E-Mails kommen in dein `vertrieb@kw-baustoffe.de` Postfach
+
+### Wie sehe ich, ob etwas kaputt ist?
+- Vercel Dashboard → Deployments (rot/grün)
+- Sentry Dashboard (falls konfiguriert) → Fehler-Liste
+
+### Kosten-Monitoring
+- **Vercel:** Settings → Billing (Hobby-Tier kostenlos bis 100k Besucher/Monat)
+- **Resend:** Dashboard → Usage (Free Tier: 3.000 E-Mails/Monat)
+- **hCaptcha:** Dashboard → Usage (Free Tier: 1M Requests/Monat)
+
+---
+
+## Support
+
+Wenn etwas kaputt ist und du nicht weißt, was zu tun ist:
+1. Vercel-Deployment rückgängig machen: Dashboard → Deployments → Previous → "Promote to Production"
+2. Entwickler kontaktieren
+
+---
+
+## Env-Variablen auf Vercel (Pflichtliste)
+
+| Variable | Wert | Wo holen |
+|---|---|---|
+| `RESEND_API_KEY` | `re_...` | https://resend.com/api-keys |
+| `RESEND_TO_ADDRESS` | `vertrieb@kw-baustoffe.de` | — |
+| `FROM_EMAIL` | `konfigurator@kw-baustoffe.de` | — |
+| `HCAPTCHA_SECRET` | `0x...` | https://dashboard.hcaptcha.com |
+| `NEXT_PUBLIC_HCAPTCHA_SITE_KEY` | `XXXX-...` | https://dashboard.hcaptcha.com |
+| `APP_PASSWORD` | Dein Passwort | Frei wählen |

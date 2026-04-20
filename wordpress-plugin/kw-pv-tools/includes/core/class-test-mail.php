@@ -33,22 +33,12 @@ class TestMail {
         exit;
     }
 
+    const TEST_RECIPIENT = 'info@kw-baustoffe.de';
+
     private static function send( array $data ): bool {
-        $recipients = Settings::get_sales_emails();
-        if ( empty( $recipients ) ) {
-            $recipients = [ get_option( 'admin_email' ) ];
-        }
-
         $subject = sprintf( '[%s] Test-E-Mail KW PV Tools', $data['ticket'] );
-        $html    = SubmitHandler::build_notification_html( $data );
-
-        $all_ok = true;
-        foreach ( $recipients as $email ) {
-            if ( ! Mailer::send( $email, $subject, $html ) ) {
-                $all_ok = false;
-            }
-        }
-        return $all_ok;
+        $html = SubmitHandler::build_notification_html( $data );
+        return Mailer::send( self::TEST_RECIPIENT, $subject, $html );
     }
 
     private static function build_dummy_data(): array {
@@ -93,7 +83,7 @@ class TestMail {
         $status = sanitize_key( $_GET['kw_pv_test_mail'] ?? '' );
         ?>
         <h2><?php _e( 'Test-E-Mail', 'kw-pv-tools' ); ?></h2>
-        <p><?php _e( 'Sendet eine Dummy-Konfiguration an die konfigurierten Vertriebs-Empfänger.', 'kw-pv-tools' ); ?></p>
+        <p><?php printf( __( 'Sendet eine Dummy-Konfiguration an <strong>%s</strong> (fest verdrahtet, unabhängig von den Einstellungen).', 'kw-pv-tools' ), esc_html( self::TEST_RECIPIENT ) ); ?></p>
         <?php if ( $status === 'ok' ): ?>
             <div class="notice notice-success inline"><p><?php _e( 'Test-E-Mail erfolgreich gesendet.', 'kw-pv-tools' ); ?></p></div>
         <?php elseif ( $status === 'fail' ): ?>

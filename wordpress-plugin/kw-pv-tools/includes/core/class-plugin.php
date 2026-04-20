@@ -8,6 +8,7 @@ use KW_PV_Tools\Core\DependencyCheck;
 use KW_PV_Tools\Core\SubmissionsLog;
 use KW_PV_Tools\Core\SystemCheck;
 use KW_PV_Tools\Core\TestMail;
+use KW_PV_Tools\Core\MailPreview;
 use KW_PV_Tools\Konfigurator\Shortcode;
 use KW_PV_Tools\Konfigurator\Block;
 
@@ -35,6 +36,7 @@ class Plugin {
         SubmissionsLog::register();
         SystemCheck::register();
         TestMail::register();
+        MailPreview::register();
         RestApi::register();
         EventBus::register();
         Shortcode::register();

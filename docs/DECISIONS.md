@@ -128,3 +128,62 @@ Format: Für jede wichtige Entscheidung Kontext + was wir gewählt haben + was w
 + Keine Laufzeit-Fehler durch Server→Client-Funktions-Transfer
 + Klare Trennung: Daten vom Server, Logik im Client-Bundle
 − Neue Hersteller müssen rules in zwei Dateien registrieren (index.ts + rules-registry.ts)
+
+---
+
+## ADR-008: Altcha als Standard-Captcha-Provider (statt reCAPTCHA / hCaptcha)
+
+**Kontext:** Phase 6 hatte hCaptcha als einzigen Provider fest verdrahtet. Für Phase 10 (WordPress-Plugin + Static Export) fallen alle Next.js-API-Routes weg — Captcha-Verifikation muss in PHP nachgebaut werden. Außerdem ist hCaptcha ein externer Dienst mit Datenschutz-Implikationen.
+
+**Entscheidung:** Modulares Captcha-Provider-System mit `CAPTCHA_PROVIDER`-Env-Variable. Standard: **Altcha** (MIT-Lizenz, Proof-of-Work, lokal, kein externer API-Call). hCaptcha + reCAPTCHA v3 als optionale Adapter. `none` für Tests/Entwicklung.
+
+**Verworfen:**
+- hCaptcha als Standard: extern, DSGVO-sensibel, teuer bei Scale
+- reCAPTCHA: Google-Abhängigkeit, Score-Heuristiken schwer zu debuggen
+- Keine Abstraktion: macht Phase 10 PHP-Port schwieriger
+
+**Konsequenzen:**
++ `ALTCHA_HMAC_KEY` in Produktion setzen (`openssl rand -hex 32`) — sonst gilt Dev-Fallback
++ PHP-Port in Phase 10 einfach: Altcha-Lib verfügbar als PHP-Package (altcha-org/altcha)
++ Kein externer Service → kein Datenschutz-Problem, keine Ausfallabhängigkeit
++ Wechsel zu hCaptcha/reCAPTCHA durch eine Env-Variable jederzeit möglich
+
+---
+
+## ADR-010: Migration zu Static Export für WordPress-Deployment
+
+**Kontext:** Die App sollte in Phase 10 als statisches Bundle in ein WordPress-Plugin eingebettet werden. Next.js `output: 'standalone'` erfordert einen Node.js-Server. KW Baustoffe betreibt nur WordPress auf shared Hosting — kein Node.js verfügbar.
+
+**Entscheidung:** `output: 'export'` — Next.js generiert reines HTML/CSS/JS im `out/`-Ordner. Alle API-Routes entfernt. Serverseitige Logik (E-Mail-Versand, Captcha-Verifikation, Rate-Limiting) wandert als PHP in das WordPress-Plugin (Phase 10).
+
+**Verworfen:**
+- Vercel + iFrame: Cross-Origin-Probleme, externe Abhängigkeit, hCaptcha-Datenschutz
+- Next.js standalone: Node.js-Prozess auf WordPress-Hosting nicht möglich
+- Nuxt.js/Remix: Migration zu groß, Bestandscode in Next.js
+
+**Konsequenzen:**
++ App deploy-bar auf jedem statischen Hosting (auch GitHub Pages)
++ Kein externer Dienst außer WordPress nötig
++ Build-Time-Snapshotting der Produktdaten — kein Server-Fetch bei Seitenaufruf
+− Produktdaten-Updates erfordern neuen Build + Upload
+− Server-seitige Features (ISR, Image Optimization, Middleware) nicht mehr verfügbar
+− Zwei Codebases müssen synchron gehalten werden: Next.js-App + PHP-Plugin
+
+---
+
+## ADR-011: Event-Bus via Window CustomEvents (kein Pub/Sub-Framework)
+
+**Kontext:** Solarrechner (Phase 11) und Konfigurator müssen auf derselben WordPress-Seite kommunizieren, ohne sich gegenseitig zu kennen. Beide sind auf `window` geladen. Kein gemeinsamer React-State, kein gemeinsamer Build.
+
+**Entscheidung:** `window.dispatchEvent(new CustomEvent('kw-pv-tools:<name>', { detail }))` als Kommunikationskanal. Minimales `KW_PV_TOOLS_EVENT_BUS`-Object als Helper (emit/on/off) — kein externes Framework.
+
+**Verworfen:**
+- postMessage: nur für Cross-Origin (iFrame), hier nicht nötig
+- Redux/Zustand als globaler Store: zu viel Dependency-Overhead für zwei unabhängige Werkzeuge
+- WordPress-eigene REST-Callbacks: zu langsam, zu viel Netzwerk für UI-Koordination
+
+**Konsequenzen:**
++ Beide Werkzeuge bleiben vollständig unabhängig voneinander
++ Debugging: `localStorage.setItem('kw-pv-tools:debug', '1')` aktiviert Konsolen-Logging aller Events
++ Neue Werkzeuge können jederzeit auf Events lauschen ohne Code-Änderungen in bestehenden Modulen
+− Events sind fire-and-forget; wenn der Konfigurator beim Event-Empfang noch nicht geladen ist, geht das Event verloren → deshalb `app-ready`-Event + Retry-Logik

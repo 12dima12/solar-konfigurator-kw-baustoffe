@@ -32,10 +32,19 @@ class Admin {
     }
 
     public static function sanitize( array $input ): array {
-        $current        = Settings::all();
+        $current         = Settings::all();
         $valid_providers = [ 'altcha', 'hcaptcha', 'recaptcha', 'none' ];
 
+        // sales_email: allow comma-separated list; sanitize each address
+        $sales_raw    = $input['sales_email'] ?? get_option( 'admin_email' );
+        $sales_emails = array_filter(
+            array_map( 'sanitize_email', array_map( 'trim', explode( ',', $sales_raw ) ) ),
+            'is_email'
+        );
+        $sales_email  = implode( ', ', $sales_emails ) ?: sanitize_email( get_option( 'admin_email' ) );
+
         return [
+            'captcha_enabled'           => ! empty( $input['captcha_enabled'] ),
             'captcha_provider'          => in_array( $input['captcha_provider'] ?? '', $valid_providers, true )
                 ? $input['captcha_provider'] : 'altcha',
             'altcha_hmac_key'           => sanitize_text_field( $input['altcha_hmac_key'] ?? ( $current['altcha_hmac_key'] ?? '' ) ),
@@ -44,7 +53,7 @@ class Admin {
             'captcha_hcaptcha_sitekey'  => sanitize_text_field( $input['captcha_hcaptcha_sitekey'] ?? '' ),
             'captcha_recaptcha_secret'  => sanitize_text_field( $input['captcha_recaptcha_secret'] ?? '' ),
             'captcha_recaptcha_sitekey' => sanitize_text_field( $input['captcha_recaptcha_sitekey'] ?? '' ),
-            'sales_email'               => sanitize_email( $input['sales_email'] ?? get_option( 'admin_email' ) ),
+            'sales_email'               => $sales_email,
             'from_email'                => sanitize_email( $input['from_email'] ?? get_option( 'admin_email' ) ),
             'rate_limit_per_hour'       => max( 1, min( 100, (int) ( $input['rate_limit_per_hour'] ?? 3 ) ) ),
             'default_lang'              => in_array( $input['default_lang'] ?? '', [ 'de', 'en', 'cs' ], true )
@@ -80,9 +89,9 @@ class Admin {
                 <table class="form-table" role="presentation">
                     <tr>
                         <th scope="row"><label for="sales_email"><?php _e( 'Vertriebs-E-Mail (Empfänger)', 'kw-pv-tools' ); ?></label></th>
-                        <td><input type="email" id="sales_email" name="kw_pv_tools_settings[sales_email]"
-                                value="<?php echo esc_attr( $s['sales_email'] ?? '' ); ?>" class="regular-text">
-                            <p class="description"><?php _e( 'Hierhin werden neue Konfigurationen gesendet.', 'kw-pv-tools' ); ?></p>
+                        <td><input type="text" id="sales_email" name="kw_pv_tools_settings[sales_email]"
+                                value="<?php echo esc_attr( $s['sales_email'] ?? '' ); ?>" class="large-text">
+                            <p class="description"><?php _e( 'Hierhin werden neue Konfigurationen gesendet. Mehrere Adressen kommasepariert eingeben.', 'kw-pv-tools' ); ?></p>
                         </td>
                     </tr>
                     <tr>
@@ -97,6 +106,17 @@ class Admin {
                 <h2><?php _e( 'Captcha', 'kw-pv-tools' ); ?></h2>
                 <table class="form-table" role="presentation">
                     <tr>
+                        <th scope="row"><?php _e( 'Captcha aktiviert', 'kw-pv-tools' ); ?></th>
+                        <td>
+                            <label>
+                                <input type="checkbox" id="captcha_enabled" name="kw_pv_tools_settings[captcha_enabled]"
+                                    value="1" <?php checked( $s['captcha_enabled'] ?? true ); ?>>
+                                <?php _e( 'Captcha beim Abschicken des Formulars anfordern', 'kw-pv-tools' ); ?>
+                            </label>
+                            <p class="description"><?php _e( 'Deaktivieren nur zu Testzwecken empfohlen.', 'kw-pv-tools' ); ?></p>
+                        </td>
+                    </tr>
+                    <tr>
                         <th scope="row"><label for="captcha_provider"><?php _e( 'Provider', 'kw-pv-tools' ); ?></label></th>
                         <td>
                             <select id="captcha_provider" name="kw_pv_tools_settings[captcha_provider]">
@@ -106,6 +126,7 @@ class Admin {
                                     </option>
                                 <?php endforeach; ?>
                             </select>
+                            <p class="description"><?php _e( 'Wird ignoriert wenn Captcha deaktiviert ist.', 'kw-pv-tools' ); ?></p>
                         </td>
                     </tr>
                     <tr>

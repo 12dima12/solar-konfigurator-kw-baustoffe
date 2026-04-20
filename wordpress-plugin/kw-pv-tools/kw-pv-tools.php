@@ -48,6 +48,7 @@ add_action( 'plugins_loaded', function () {
 
 register_activation_hook( __FILE__, function () {
     $defaults = [
+        'captcha_enabled'           => true,
         'captcha_provider'          => 'altcha',
         'altcha_hmac_key'           => wp_generate_password( 32, false ),
         'altcha_complexity'         => 100000,

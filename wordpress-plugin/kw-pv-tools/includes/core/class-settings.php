@@ -19,4 +19,21 @@ class Settings {
     public static function update( array $values ): bool {
         return update_option( self::OPTION_KEY, array_merge( self::all(), $values ) );
     }
+
+    public static function get_captcha_enabled(): bool {
+        return (bool) self::get( 'captcha_enabled', true );
+    }
+
+    public static function get_captcha_provider_effective(): string {
+        if ( ! self::get_captcha_enabled() ) return 'none';
+        $provider = self::get( 'captcha_provider', 'altcha' );
+        $valid    = [ 'altcha', 'hcaptcha', 'recaptcha', 'none' ];
+        return in_array( $provider, $valid, true ) ? $provider : 'altcha';
+    }
+
+    public static function get_sales_emails(): array {
+        $raw    = self::get( 'sales_email', get_option( 'admin_email' ) );
+        $emails = array_map( 'trim', explode( ',', $raw ) );
+        return array_values( array_filter( $emails, 'is_email' ) );
+    }
 }

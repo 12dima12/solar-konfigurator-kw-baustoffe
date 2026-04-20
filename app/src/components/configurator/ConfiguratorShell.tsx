@@ -1,0 +1,153 @@
+"use client";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import { StepIndicator } from "./StepIndicator";
+import { OptionGrid } from "./OptionGrid";
+import { PowerSlider } from "./PowerSlider";
+import { SubmitSummary } from "./SubmitSummary";
+import { CurrentSetupSidebar } from "./CurrentSetupSidebar";
+import { LanguageSwitcher } from "./LanguageSwitcher";
+import { useConfigState } from "@/hooks/useConfigState";
+import { useIframeResize } from "@/hooks/useIframeResize";
+import { ACTIVE_PHASES } from "@/lib/navigation";
+import { useManufacturer } from "@/lib/manufacturer-context";
+import { ChevronLeft, RotateCcw } from "lucide-react";
+import { getPhaseTree } from "@/lib/navigation";
+import type { Lang } from "@/data/types";
+
+const PHASE_TITLES: Record<string, Record<Lang, string>> = {
+  inverter: { de: "Montagetyp wählen", en: "Choose installation type", cs: "Vyberte typ montáže" },
+  backup: { de: "Notstromversorgung", en: "Backup power", cs: "Záložní napájení" },
+  battery: { de: "Batterie auswählen", en: "Select battery", cs: "Vyberte baterii" },
+  wallbox: { de: "Wallbox konfigurieren", en: "Configure wallbox", cs: "Konfigurace wallboxu" },
+};
+
+const BACK_LABELS: Record<Lang, string> = {
+  de: "Zurück",
+  en: "Back",
+  cs: "Zpět",
+};
+
+export function ConfiguratorShell() {
+  useIframeResize();
+  const manufacturer = useManufacturer();
+
+  const { phase, lang, steps, currentNode, children, isFinalPhase, currentPhaseIndex, selections, handleSelect, goBack, goToPhase, reset } =
+    useConfigState(manufacturer.catalog);
+
+  const isX3 =
+    phase === "inverter" &&
+    steps.includes("Split System") &&
+    steps.includes("Three-phase inverter X3");
+
+  const isBattery = phase === "battery";
+
+  const isFinalStep = isFinalPhase && !!selections[currentPhaseIndex]?.selectedProduct;
+
+  const completedPhases = selections
+    .map((s, i) => (s.selectedProduct ? i : -1))
+    .filter((i) => i >= 0);
+
+  const totalDepth = isBattery ? 1 : (children.length === 0 ? 1 : 4);
+  const progress = Math.round(((currentPhaseIndex + steps.length / Math.max(totalDepth, 1)) / ACTIVE_PHASES.length) * 100);
+
+  const phaseTitle = PHASE_TITLES[phase]?.[lang] ?? phase;
+
+  // Battery phase: flat tree (Record<string, string>)
+  const batteryTree = isBattery ? getPhaseTree("battery", lang, manufacturer.catalog) : null;
+  const batteryKeys = batteryTree ? Object.keys(batteryTree) : [];
+
+  if (isFinalStep) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header lang={lang} selections={selections} onReset={reset} logoUrl={manufacturer.meta.logoUrl} />
+        <main className="max-w-3xl mx-auto px-4 py-8">
+          <SubmitSummary />
+        </main>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Header lang={lang} selections={selections} onReset={reset} logoUrl={manufacturer.meta.logoUrl} />
+
+      <main className="max-w-3xl mx-auto px-4 pb-12">
+        <StepIndicator
+          currentPhaseIndex={currentPhaseIndex}
+          lang={lang}
+          onStepClick={goToPhase}
+          completedPhases={completedPhases}
+        />
+
+        <Progress value={progress} className="mb-6 h-1.5" />
+
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h2 className="text-xl font-bold text-primary">{phaseTitle}</h2>
+            {steps.length > 0 && (
+              <p className="text-sm text-muted-foreground mt-0.5">
+                {steps.map((s) => <span key={s} className="after:content-['_›_'] last:after:content-[''] after:mx-1">{s}</span>)}
+              </p>
+            )}
+          </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={goBack}
+            className="text-muted-foreground hover:text-primary"
+          >
+            <ChevronLeft className="h-4 w-4 mr-1" />
+            {BACK_LABELS[lang]}
+          </Button>
+        </div>
+
+        {isX3 ? (
+          <PowerSlider lang={lang} steps={steps} onSelect={handleSelect} catalog={manufacturer.catalog} />
+        ) : isBattery ? (
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {batteryKeys.map((key) => (
+              <button
+                key={key}
+                onClick={() => handleSelect(key, { value: key, label: key })}
+                className="rounded-xl border-2 border-border hover:border-primary p-6 text-center font-semibold text-sm transition-all hover:shadow-md cursor-pointer bg-card"
+              >
+                {key}
+              </button>
+            ))}
+          </div>
+        ) : (
+          <OptionGrid children={children} locale={lang} onSelect={handleSelect} />
+        )}
+      </main>
+    </div>
+  );
+}
+
+function Header({
+  lang,
+  selections,
+  onReset,
+  logoUrl,
+}: {
+  lang: Lang;
+  selections: ReturnType<typeof useConfigState>["selections"];
+  onReset: () => void;
+  logoUrl: string;
+}) {
+  return (
+    <header className="sticky top-0 z-10 bg-background/95 backdrop-blur border-b border-border">
+      <div className="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+        <Image src={logoUrl} alt="KW PV Solutions" width={140} height={32} priority />
+        <div className="flex items-center gap-2">
+          <LanguageSwitcher />
+          <CurrentSetupSidebar selections={selections} lang={lang} />
+          <Button variant="ghost" size="icon" onClick={onReset} aria-label="Zurücksetzen" className="text-muted-foreground">
+            <RotateCcw className="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+    </header>
+  );
+}

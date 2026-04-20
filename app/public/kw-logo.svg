@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="40" viewBox="0 0 180 40">
+  <rect width="180" height="40" fill="none"/>
+  <rect x="0" y="8" width="4" height="24" rx="2" fill="#1e3a5f"/>
+  <polygon points="4,8 18,20 4,32" fill="#e63946"/>
+  <text x="26" y="27" font-family="Inter,sans-serif" font-weight="700" font-size="16" fill="#1e3a5f">KW PV Solutions</text>
+</svg>

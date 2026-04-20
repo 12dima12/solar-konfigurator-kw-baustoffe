@@ -1,0 +1,9 @@
+{
+  "inverter": {
+    "de": {
+      "configuratorId": "inverter",
+      "configuratorNext": "backup",
+      "tree": {}
+    }
+  }
+}

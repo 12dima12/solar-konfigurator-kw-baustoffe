@@ -1,102 +1,89 @@
 # Deployment-Anleitung
 
-## Entscheidung: E-Mail-Integration
-
-**Option A (empfohlen): Resend**
-- Konto anlegen: https://resend.com
-- Domain `kw-baustoffe.de` verifizieren
-- API-Key erzeugen und in `.env.local` / Vercel-Env setzen
-- Kosten: kostenlos bis 3.000 E-Mails/Monat
-
-**Option B: Lexware/Openhandwerk-Webhook**
-- Webhook-URL von Openhandwerk anfordern
-- In `/api/submit/route.ts` ergänzen: `fetch(process.env.CRM_WEBHOOK_URL, ...)`
-- Entscheidung offen — Dima klärt mit Openhandwerk
+> **Ab Phase 9:** Die App ist ein reiner Static Export. Deployment erfolgt ausschließlich über das WordPress-Plugin `kw-pv-tools` (Phase 10). Vercel wird nicht mehr benötigt.
 
 ---
 
-## Option 1: Vercel (empfohlen)
+## Build erstellen
 
 ```bash
 cd app
-npm install -g vercel
-vercel login
-vercel              # Staging
-vercel --prod       # Produktion (nur nach Dima-Freigabe!)
+NEXT_PUBLIC_API_BASE=/wp-json/kw-pv-tools/v1 pnpm build
 ```
 
-Umgebungsvariablen in Vercel Dashboard setzen
-→ vollständige Liste: **`docs/USER_MANUAL.md`**
+Ausgabe: `app/out/` — reines HTML/CSS/JS-Bundle.
 
-**Subdomain:** `konfigurator.kw-baustoffe.de`
-→ In Vercel: Custom Domain hinzufügen, DNS-Eintrag bei Hoster setzen
+Enthält nach dem Build:
+```
+out/
+├── solax/configurator/index.html
+├── solax/embed/index.html
+├── index.html
+├── 404.html
+├── kw-pv-tools-manifest.json   ← Plugin liest dieses Manifest
+└── _next/static/               ← JS/CSS-Assets
+```
 
-## Option 2: Eigener Server (Node.js + PM2 + Nginx)
+---
+
+## Deployment via WordPress-Plugin (Produktion)
+
+Das Plugin `kw-pv-tools` (Phase 10) übernimmt:
+1. Ausliefern der statischen Assets aus `out/`
+2. REST-API Endpunkte (`/wp-json/kw-pv-tools/v1/...`)
+3. Security-Header (via `send_headers`-Hook)
+4. Shortcode `[kw_pv_konfigurator]` zum Einbetten
+
+Detaillierte Anleitung: Phase 10 Dokumentation.
+
+---
+
+## Lokale Entwicklung (ohne WordPress)
 
 ```bash
-# Build
+# Terminal 1: Mock-API (simuliert WP-REST-Endpunkte)
 cd app
-NODE_OPTIONS="--max-old-space-size=2048" pnpm build
+pnpm mock-api
+# Läuft auf http://localhost:8080
 
-# Start mit PM2
-npm install -g pm2
-pm2 start node_modules/.bin/next --name kw-konfigurator -- start -p 3000
-pm2 save && pm2 startup
+# Terminal 2: Next.js Dev-Server
+NEXT_PUBLIC_API_BASE=http://localhost:8080/wp-json/kw-pv-tools/v1 pnpm dev
+# http://localhost:3000/solax/configurator
 ```
 
-Nginx-Konfiguration:
-```nginx
-server {
-  listen 443 ssl;
-  server_name konfigurator.kw-baustoffe.de;
+---
 
-  location / {
-    proxy_pass http://localhost:3000;
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection 'upgrade';
-    proxy_set_header Host $host;
-    proxy_cache_bypass $http_upgrade;
-  }
-}
-```
+## Produktdaten aktualisieren
 
-## iFrame-Einbettung in kw-baustoffe.de
-
-Code-Snippet für den Webmaster:
-
-```html
-<iframe
-  src="https://konfigurator.kw-baustoffe.de/embed?lang=de"
-  style="width: 100%; border: 0; min-height: 800px;"
-  id="kw-configurator"
-  title="KW PV Konfigurator"
-  loading="lazy"
-></iframe>
-<script>
-  window.addEventListener("message", (e) => {
-    if (e.origin !== "https://konfigurator.kw-baustoffe.de") return;
-    if (e.data?.type === "kw-configurator-resize") {
-      document.getElementById("kw-configurator").style.height = e.data.height + "px";
-    }
-  });
-</script>
-```
-
-## Datenaktualisierung (Strategie A: Statisch)
-
-Produktdaten sind im Build eingefroren. Für eine Aktualisierung:
+Produktdaten sind im Build eingefroren. Bei Änderungen:
 
 ```bash
-# 1. Neue Daten abrufen (solax-rebuild/)
+# 1. Neue Daten generieren (im solax-rebuild/-Verzeichnis)
 node analysis/generate_catalog.mjs
 
-# 2. Ins App kopieren
-cp analysis/catalog.json app/src/data/catalog.json
-cp analysis/products.json app/src/data/products.json
+# 2. In App kopieren
+cp analysis/catalog.json app/src/manufacturers/solax/catalog.json
 
-# 3. Neu deployen
-cd app && vercel --prod
+# 3. Neu bauen und deployen
+cd app && NEXT_PUBLIC_API_BASE=/wp-json/kw-pv-tools/v1 pnpm build
+# → out/ zum Plugin-Update hochladen
 ```
 
-Empfehlung: Quartalsweise aktualisieren oder bei SolaX-Produktänderungen.
+Empfehlung: Quartalsweise oder bei SolaX-Produktänderungen.
+
+---
+
+## Umgebungsvariablen
+
+| Variable | Wert | Beschreibung |
+|---|---|---|
+| `NEXT_PUBLIC_API_BASE` | `/wp-json/kw-pv-tools/v1` | API-Basis (in Produktion Same-Origin) |
+
+Alle serverseitigen Env-Variablen (Resend, Altcha, hCaptcha) sind jetzt Sache des WordPress-Plugins.
+Konfiguration: WP-Admin → KW PV Tools → Einstellungen.
+
+---
+
+## Einschränkungen
+
+Siehe `docs/STATIC_EXPORT_LIMITATIONS.md`.

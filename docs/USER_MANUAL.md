@@ -80,12 +80,13 @@ Wenn etwas kaputt ist und du nicht weißt, was zu tun ist:
 
 ---
 
-## Env-Variablen auf Vercel (Pflichtliste)
+## Konfiguration (ab Phase 9: WordPress-Plugin)
 
-| Variable | Wert | Wo holen |
+Ab Phase 9 gibt es keine Vercel-Deployment mehr. Alle serverseitigen Einstellungen
+(E-Mail, Captcha, Rate-Limiting) werden im WP-Admin unter **KW PV Tools → Einstellungen** konfiguriert.
+
+**Build-Variable:**
+
+| Variable | Wert | Beschreibung |
 |---|---|---|
-| `RESEND_API_KEY` | `re_...` | https://resend.com/api-keys |
-| `RESEND_TO_ADDRESS` | `vertrieb@kw-baustoffe.de` | — |
-| `FROM_EMAIL` | `konfigurator@kw-baustoffe.de` | — |
-| `HCAPTCHA_SECRET` | `0x...` | https://dashboard.hcaptcha.com |
-| `NEXT_PUBLIC_HCAPTCHA_SITE_KEY` | `XXXX-...` | https://dashboard.hcaptcha.com |
+| `NEXT_PUBLIC_API_BASE` | `/wp-json/kw-pv-tools/v1` | API-Basis (Same-Origin in Produktion) |

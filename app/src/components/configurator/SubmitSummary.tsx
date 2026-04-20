@@ -7,6 +7,7 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { CaptchaWidget } from "@/lib/captcha/client";
+import { route, getApiHeaders } from "@/config/api";
 import { useConfigStore } from "@/store/configStore";
 import { useManufacturer } from "@/lib/manufacturer-context";
 import { PHASE_LABELS } from "@/lib/constants";
@@ -43,9 +44,9 @@ export function SubmitSummary() {
   const onSubmit = async (data: FormData) => {
     if (data.website) return; // honeypot
 
-    await fetch("/api/submit", {
+    await fetch(route("submit"), {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: getApiHeaders(),
       body: JSON.stringify({
         manufacturer: manufacturer.meta.slug,
         selections: filled,

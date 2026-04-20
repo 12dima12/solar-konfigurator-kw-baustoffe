@@ -25,6 +25,7 @@ if ( file_exists( KW_PV_TOOLS_PATH . 'vendor/autoload.php' ) ) {
 }
 
 // Core
+require_once KW_PV_TOOLS_PATH . 'includes/core/class-dependency-check.php';
 require_once KW_PV_TOOLS_PATH . 'includes/core/class-settings.php';
 require_once KW_PV_TOOLS_PATH . 'includes/core/class-rest-api.php';
 require_once KW_PV_TOOLS_PATH . 'includes/core/class-rate-limit.php';

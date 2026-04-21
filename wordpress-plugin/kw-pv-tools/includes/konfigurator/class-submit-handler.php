@@ -15,7 +15,18 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 class SubmitHandler {
 
     public static function handle( WP_REST_Request $req ): WP_REST_Response {
-        // 1. Rate-Limit
+        // 1. Body parsen (Honeypot-Check braucht Rohdaten vor Validierung)
+        $data = $req->get_json_params();
+        if ( ! is_array( $data ) ) {
+            return new WP_REST_Response( [ 'error' => 'Invalid body' ], 400 );
+        }
+
+        // 2. Honeypot — vor Rate-Limit: Bots verbrauchen keine Slots, erzeugen keine Tickets
+        if ( ! empty( $data['website'] ) ) {
+            return new WP_REST_Response( [ 'success' => true, 'id' => wp_generate_uuid4() ], 200 );
+        }
+
+        // 3. Rate-Limit
         $ip    = RateLimit::get_client_ip();
         $limit = (int) Settings::get( 'rate_limit_per_hour', 3 );
         $rl    = RateLimit::check( "submit:{$ip}", $limit, 3600 );
@@ -27,23 +38,13 @@ class SubmitHandler {
             );
         }
 
-        // 2. Body parsen & validieren
-        $data = $req->get_json_params();
-        if ( ! is_array( $data ) ) {
-            return new WP_REST_Response( [ 'error' => 'Invalid body' ], 400 );
-        }
-
+        // 4. Validierung
         $validated = self::validate( $data );
         if ( isset( $validated['error'] ) ) {
             return new WP_REST_Response( $validated, 400 );
         }
 
-        // 3. Honeypot (silent accept)
-        if ( ! empty( $data['website'] ) ) {
-            return new WP_REST_Response( [ 'success' => true, 'id' => wp_generate_uuid4() ], 200 );
-        }
-
-        // 4. Captcha
+        // 5. Captcha
         $captcha_result = Captcha::verify( $data['captchaToken'] ?? null );
         if ( ! $captcha_result['success'] ) {
             return new WP_REST_Response(
@@ -52,14 +53,14 @@ class SubmitHandler {
             );
         }
 
-        // 5. Ticket-ID generieren
+        // 6. Ticket-ID generieren
         $ticket_id           = TicketId::generate();
         $validated['ticket'] = $ticket_id;
 
-        // 6. Im Log speichern
+        // 7. Im Log speichern
         SubmissionsLog::save( $validated );
 
-        // 7. Benachrichtigung an Vertrieb
+        // 8. Benachrichtigung an Vertrieb
         $notification_ok = self::send_notification( $validated );
         if ( ! $notification_ok ) {
             // Submission ist im Log gespeichert — kein 500 (würde Retry + Duplikat auslösen).
@@ -71,7 +72,7 @@ class SubmitHandler {
             ) );
         }
 
-        // 8. Kundenbestätigung
+        // 9. Kundenbestätigung
         if ( ! empty( $validated['contact']['email'] ) ) {
             $confirmation_ok = self::send_confirmation( $validated );
             if ( ! $confirmation_ok ) {

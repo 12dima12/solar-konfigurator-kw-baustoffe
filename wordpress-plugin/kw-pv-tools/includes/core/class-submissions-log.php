@@ -90,10 +90,14 @@ class SubmissionsLog {
         foreach ( $posts as $id ) {
             wp_delete_post( $id, true );
         }
+
+        // Stale Rate-Limit-Einträge mitbereinigen (abgelaufene Fenster)
+        RateLimit::cleanup();
     }
 
     public static function on_deactivation(): void {
         wp_clear_scheduled_hook( self::CRON_HOOK );
+        RateLimit::delete_all();
     }
 
     // --- GDPR ---

@@ -91,14 +91,22 @@ class Captcha {
             return [ 'success' => false, 'reason' => 'library-missing' ];
         }
 
+        // Replay-Schutz: gelöste Token dürfen nur einmal verwendet werden.
+        $fp = 'kw_pv_altcha_' . hash( 'sha256', $payload );
+        if ( get_transient( $fp ) ) {
+            return [ 'success' => false, 'reason' => 'replay' ];
+        }
+
         try {
             $decoded = json_decode( base64_decode( $payload ), true );
             if ( ! is_array( $decoded ) ) return [ 'success' => false, 'reason' => 'parse-error' ];
 
             $ok = \AltchaOrg\Altcha\Altcha::verifySolution( $decoded, $hmac );
-            return $ok
-                ? [ 'success' => true ]
-                : [ 'success' => false, 'reason' => 'verification-failed' ];
+            if ( ! $ok ) return [ 'success' => false, 'reason' => 'verification-failed' ];
+
+            // Token als "verbraucht" markieren (24h TTL — länger als jede Challenge-Gültigkeitsdauer)
+            set_transient( $fp, 1, DAY_IN_SECONDS );
+            return [ 'success' => true ];
         } catch ( \Throwable $e ) {
             return [ 'success' => false, 'reason' => 'exception: ' . $e->getMessage() ];
         }

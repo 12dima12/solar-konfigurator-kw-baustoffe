@@ -1,7 +1,6 @@
 <?php
 namespace KW_PV_Tools\Konfigurator;
 
-use KW_PV_Tools\Core\Assets;
 use KW_PV_Tools\Core\CSP;
 use KW_PV_Tools\Core\Settings;
 
@@ -10,25 +9,23 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Shortcode [kw_pv_konfigurator]
  *
+ * Rendert den Konfigurator als iframe, der auf den statischen Next.js-Export
+ * zeigt. Inline-Einbettung ist nicht möglich: Next.js hydratet via
+ * hydrateRoot(document, …) den kompletten <html>/<body>, das lässt sich nicht
+ * in einen WP-Page-Container stecken. Der iframe bekommt sein eigenes
+ * Dokument und die App hydratet normal.
+ *
+ * Die Höhe wird dynamisch via postMessage vom Embed-Hook im Bundle
+ * (useIframeResize) an den Parent gemeldet.
+ *
  * Attribute:
  *   manufacturer   solax (default)
- *   route          embed | configurator (default: configurator)
- *   lang           de | en | cs
- *   preset_kwp     float – Vorauswahl kWp (für Event-Bus / Phase 11)
+ *   lang           de | en | cs  (als URL-Parameter an den iframe)
+ *   preset_kwp     float – Vorauswahl kWp
  *   preset_battery float – Vorauswahl Batterie kWh
  *   privacy_url    optionaler Override; Default: get_privacy_policy_url()
- *
- * Beispiel:
- *   [kw_pv_konfigurator manufacturer="solax"]
- *
- * Route-Unterschied:
- *   configurator → reiner React-Component, für inline-Einbettung in WP-Seiten
- *   embed        → mit eigenem <html>/<body>-Wrapper, nur für iframe-Einbettung
- *
- * Default ist "configurator" weil der Shortcode inline in eine WP-Seite
- * gerendert wird. Der "embed"-Entry würde zusätzlich <html>/<body>-Tags
- * rendern → React kann im verschachtelten DOM nicht hydraten, Event-Handler
- * attachen nie, Buttons werden tot.
+ *   height         CSS-Höhe des iframes bis die App die Höhe per postMessage
+ *                  meldet — default 1200px
  */
 class Shortcode {
 
@@ -41,72 +38,62 @@ class Shortcode {
     public static function render( $atts = [] ): string {
         $atts = shortcode_atts( [
             'manufacturer'   => 'solax',
-            'route'          => 'configurator',
             'lang'           => Settings::get( 'default_lang', 'de' ),
             'preset_kwp'     => '',
             'preset_battery' => '',
             'privacy_url'    => '',
+            'height'         => '1200px',
         ], $atts, self::TAG );
 
         $manufacturer = sanitize_key( $atts['manufacturer'] );
         $lang         = in_array( $atts['lang'], [ 'de', 'en', 'cs' ], true ) ? $atts['lang'] : 'de';
-        $route        = in_array( $atts['route'], [ 'embed', 'configurator' ], true ) ? $atts['route'] : 'configurator';
 
-        // DSGVO Art. 13: der Datenschutz-Hinweis muss vor der Datenerhebung
-        // sichtbar sein. Quelle-Priorität: Shortcode-Attribut → WP-Privacy-Page.
         $privacy_url_raw = is_string( $atts['privacy_url'] ) ? trim( $atts['privacy_url'] ) : '';
         $privacy_url     = $privacy_url_raw !== ''
             ? esc_url_raw( $privacy_url_raw )
             : (string) get_privacy_policy_url();
 
-        // Next.js RSC emits inline <script> blocks (self.__next_f.push) for React
-        // hydration. Allow 'unsafe-inline' in script-src on this page only.
+        $query = [ 'lang' => $lang ];
+        if ( is_numeric( $atts['preset_kwp'] ) )     $query['kwp']     = (float) $atts['preset_kwp'];
+        if ( is_numeric( $atts['preset_battery'] ) ) $query['battery'] = (float) $atts['preset_battery'];
+        if ( $privacy_url !== '' )                    $query['privacy'] = $privacy_url;
+
+        $iframe_path = 'assets/konfigurator/' . $manufacturer . '/embed/';
+        $iframe_url  = KW_PV_TOOLS_URL . $iframe_path . '?' . http_build_query( $query );
+
+        $iframe_id = 'kw-pv-iframe-' . wp_generate_uuid4();
+        $height    = sanitize_text_field( $atts['height'] );
+
+        // Das kleine Resize-Listener-Script ist inline eingebettet.
         CSP::allow_inline();
-
-        $assets = Assets::extract_asset_tags( $manufacturer, $route );
-
-        if ( isset( $assets['error'] ) ) {
-            if ( current_user_can( 'manage_options' ) ) {
-                return '<div class="kw-pv-tools-error" style="border:1px solid #c00;padding:12px;background:#fff8f8;">'
-                    . '<strong>KW PV Tools:</strong> ' . esc_html( $assets['error'] ) . '</div>';
-            }
-            return '';
-        }
-
-        // Preset-Daten für Event-Bus (Phase 11)
-        $presets = [];
-        if ( is_numeric( $atts['preset_kwp'] ) )     $presets['kWp']        = (float) $atts['preset_kwp'];
-        if ( is_numeric( $atts['preset_battery'] ) )  $presets['batteryKwh'] = (float) $atts['preset_battery'];
-
-        // Bootstrap-Daten für init.js vorbereiten
-        $bootstrap = Assets::get_bootstrap_data();
-
-        // Event-Bus + Init-Script einreihen (kein Inline-Script nötig)
-        wp_enqueue_script( 'kw-pv-tools-event-bus' );
-        wp_enqueue_script( 'kw-pv-tools-init' );
 
         ob_start();
         ?>
-<div class="kw-pv-konfigurator-container"
-     data-manufacturer="<?php echo esc_attr( $manufacturer ); ?>"
-     data-lang="<?php echo esc_attr( $lang ); ?>"
-     data-kw-api-base="<?php echo esc_attr( $bootstrap['apiBase'] ); ?>"
-     data-kw-nonce="<?php echo esc_attr( $bootstrap['nonce'] ); ?>"
-     data-kw-lang="<?php echo esc_attr( $bootstrap['lang'] ); ?>"
-     data-kw-version="<?php echo esc_attr( $bootstrap['version'] ); ?>"
-     <?php if ( $privacy_url ): ?>data-kw-privacy-url="<?php echo esc_attr( $privacy_url ); ?>"<?php endif; ?>
-     <?php if ( $presets ): ?>data-kw-presets="<?php echo esc_attr( wp_json_encode( $presets ) ); ?>"<?php endif; ?>>
-
-<?php foreach ( $assets['styles'] as $tag ) : ?>
-<?php echo $tag; // phpcs:ignore WordPress.Security.EscapeOutput — pre-rendered <link> markup from the bundle, already built through DOMDocument::saveHTML ?>
-<?php endforeach; ?>
-
-<?php echo $assets['body']; // phpcs:ignore WordPress.Security.EscapeOutput — pre-rendered React HTML ?>
-
-<?php foreach ( $assets['scripts'] as $tag ) : ?>
-<?php echo $tag; // phpcs:ignore WordPress.Security.EscapeOutput — pre-rendered <script> markup from the bundle (preserves async/defer/type/integrity/crossorigin) ?>
-<?php endforeach; ?>
-
+<div class="kw-pv-konfigurator-iframe-wrap">
+<iframe
+    id="<?php echo esc_attr( $iframe_id ); ?>"
+    src="<?php echo esc_url( $iframe_url ); ?>"
+    style="width:100%; border:0; display:block; height:<?php echo esc_attr( $height ); ?>;"
+    loading="lazy"
+    title="PV-Konfigurator"
+    allow="clipboard-write"
+></iframe>
+<script>
+(function(){
+  var iframe = document.getElementById(<?php echo wp_json_encode( $iframe_id ); ?>);
+  if (!iframe) return;
+  var expected;
+  try { expected = new URL(iframe.src).origin; } catch(e) { return; }
+  window.addEventListener('message', function(e) {
+    if (e.source !== iframe.contentWindow) return;
+    if (e.origin !== expected) return;
+    var d = e.data;
+    if (d && d.type === 'kw-configurator-resize' && typeof d.height === 'number') {
+      iframe.style.height = Math.max(600, Math.ceil(d.height)) + 'px';
+    }
+  });
+})();
+</script>
 </div>
         <?php
         return ob_get_clean();

@@ -1,33 +1,28 @@
 "use client";
 import { useEffect } from "react";
 
-const ALLOWED_ORIGINS = [
-  "https://www.kw-baustoffe.de",
-  "https://kw-baustoffe.de",
-  "https://kw-pv-solutions.de",
-  ...(process.env.NODE_ENV === "development"
-    ? ["http://localhost:3000", "http://localhost:5173"]
-    : []),
-];
+// Fallback falls document.referrer nicht verfügbar ist (z.B. bei strikter
+// Referrer-Policy des Parent). Wird nur als initiales Ziel genutzt; sobald
+// der Parent antwortet wird seine Origin übernommen.
+const FALLBACK_ORIGIN = "https://www.kw-baustoffe.de";
 
 function getTargetOrigin(): string {
-  if (typeof document === "undefined") return ALLOWED_ORIGINS[0];
+  if (typeof document === "undefined") return FALLBACK_ORIGIN;
 
+  // Gleiche Origin wie die Seite, die uns einbettet — steht im Referrer.
+  // Kein Whitelist-Check: der Plugin-Admin entscheidet, auf welchen Seiten
+  // der iframe eingebettet wird (über den WP-Shortcode). Die Nachrichten
+  // enthalten nur numerische Höhe, kein Exfiltrations-Risiko.
   try {
     const referrer = document.referrer;
-    if (!referrer) return ALLOWED_ORIGINS[0];
-
-    const url = new URL(referrer);
-    const origin = `${url.protocol}//${url.host}`;
-
-    if (ALLOWED_ORIGINS.includes(origin)) {
-      return origin;
+    if (referrer) {
+      const url = new URL(referrer);
+      return `${url.protocol}//${url.host}`;
     }
   } catch {
     // ignore parse errors
   }
-
-  return ALLOWED_ORIGINS[0];
+  return FALLBACK_ORIGIN;
 }
 
 export function useIframeResize() {
@@ -47,7 +42,9 @@ export function useIframeResize() {
     observer.observe(document.body);
 
     const messageHandler = (e: MessageEvent) => {
-      if (!ALLOWED_ORIGINS.includes(e.origin)) return;
+      // Nur der Parent-Window darf anfragen. Cross-frame-Messages aus
+      // anderen iframes werden ignoriert — Origin-Check über die Source.
+      if (e.source !== window.parent) return;
       if (e.data === "getHeight") sendHeight();
     };
     window.addEventListener("message", messageHandler);

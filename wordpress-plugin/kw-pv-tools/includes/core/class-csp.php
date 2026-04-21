@@ -74,7 +74,8 @@ class CSP {
             "font-src 'self' data:",
             "connect-src 'self'",
             "worker-src 'self' blob:",
-            "frame-src 'none'",
+            // 'self' damit der Konfigurator-iframe (gleicher Host) laden darf.
+            "frame-src 'self'",
             "object-src 'none'",
             "base-uri 'self'",
             "form-action 'self'",

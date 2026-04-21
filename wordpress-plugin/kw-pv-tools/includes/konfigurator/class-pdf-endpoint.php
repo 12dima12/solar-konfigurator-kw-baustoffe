@@ -3,7 +3,6 @@ namespace KW_PV_Tools\Konfigurator;
 
 use KW_PV_Tools\Core\PdfGenerator;
 use KW_PV_Tools\Core\RateLimit;
-use KW_PV_Tools\Core\TicketId;
 use WP_REST_Request;
 use WP_REST_Response;
 
@@ -48,7 +47,7 @@ class PdfEndpoint {
 
 		$data = [
 			'manufacturer' => sanitize_key( (string) ( $body['manufacturer'] ?? 'solax' ) ),
-			'ticket'       => TicketId::generate(),
+			'ticket'       => self::ephemeral_id(),
 			'contact'      => [
 				'name' => '', 'email' => '', 'phone' => '', 'message' => '',
 				'address' => '', 'timeline' => '',
@@ -138,5 +137,16 @@ class PdfEndpoint {
 
 	private static function cap( string $value, int $max ): string {
 		return function_exists( 'mb_substr' ) ? mb_substr( $value, 0, $max ) : substr( $value, 0, $max );
+	}
+
+	/**
+	 * Ephemeral identifier for preview PDFs — never persisted, never
+	 * reused. Uses date + 6 hex chars from a cryptographic RNG so two
+	 * concurrent previews don't collide and the string looks distinct
+	 * from real KW-PV-YYYY-NNNNN tickets.
+	 */
+	private static function ephemeral_id(): string {
+		$suffix = bin2hex( random_bytes( 3 ) );
+		return 'PV-PREVIEW-' . date( 'Ymd' ) . '-' . $suffix;
 	}
 }

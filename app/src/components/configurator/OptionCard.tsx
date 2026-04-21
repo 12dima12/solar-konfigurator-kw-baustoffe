@@ -5,6 +5,7 @@ import { StockBadge } from "./StockBadge";
 import { InfoModal } from "./InfoModal";
 import type { ConfigNode } from "@/data/types";
 import { isLeafNode } from "@/lib/navigation";
+import { publicAsset } from "@/lib/public-asset";
 
 interface Props {
   nodeKey: string;
@@ -38,7 +39,7 @@ export function OptionCard({ nodeKey, node, locale, onClick, disabled }: Props) 
       {hasCover && (
         <div className="absolute inset-0">
           <Image
-            src={`/products/media/${node.cover!.replace("img/media/", "")}`}
+            src={publicAsset(`/products/media/${node.cover!.replace("img/media/", "")}`)}
             alt={label}
             fill
             className="object-cover opacity-30 group-hover:opacity-40 transition-opacity"
@@ -52,7 +53,7 @@ export function OptionCard({ nodeKey, node, locale, onClick, disabled }: Props) 
         {hasImage && !hasCover && (
           <div className="mb-3 flex justify-center">
             <Image
-              src={`/products/${node.image!.replace("img/", "")}`}
+              src={publicAsset(`/products/${node.image!.replace("img/", "")}`)}
               alt={label}
               width={80}
               height={80}

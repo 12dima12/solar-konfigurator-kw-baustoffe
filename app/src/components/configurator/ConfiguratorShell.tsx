@@ -14,6 +14,7 @@ import { ACTIVE_PHASES } from "@/lib/navigation";
 import { useManufacturer } from "@/lib/manufacturer-context";
 import { ChevronLeft, RotateCcw } from "lucide-react";
 import { getPhaseTree } from "@/lib/navigation";
+import { publicAsset } from "@/lib/public-asset";
 import type { Lang } from "@/data/types";
 
 const PHASE_TITLES: Record<string, Record<Lang, string>> = {
@@ -139,7 +140,7 @@ function Header({
   return (
     <header className="sticky top-0 z-10 bg-background/95 backdrop-blur border-b border-border">
       <div className="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
-        <Image src={logoUrl} alt="KW PV Solutions" width={140} height={32} priority />
+        <Image src={publicAsset(logoUrl)} alt="KW PV Solutions" width={140} height={32} priority />
         <div className="flex items-center gap-2">
           <LanguageSwitcher />
           <CurrentSetupSidebar selections={selections} lang={lang} />

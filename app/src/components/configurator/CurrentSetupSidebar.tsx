@@ -6,6 +6,7 @@ import Image from "next/image";
 import type { PhaseSelection } from "@/store/configStore";
 import { PHASE_LABELS } from "@/lib/constants";
 import type { Lang } from "@/data/types";
+import { publicAsset } from "@/lib/public-asset";
 
 interface Props {
   selections: PhaseSelection[];
@@ -47,7 +48,7 @@ export function CurrentSetupSidebar({ selections, lang }: Props) {
               <div key={s.phase} className="flex items-start gap-3 border-b pb-3">
                 {s.selectedProduct?.image && (
                   <Image
-                    src={`/products/${s.selectedProduct.image.replace("img/", "")}`}
+                    src={publicAsset(`/products/${s.selectedProduct.image.replace("img/", "")}`)}
                     alt={s.selectedProduct.value}
                     width={48}
                     height={48}

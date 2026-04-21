@@ -13,6 +13,7 @@ import { useManufacturer } from "@/lib/manufacturer-context";
 import { PHASE_LABELS } from "@/lib/constants";
 import type { Lang } from "@/data/types";
 import { CheckCircle, RotateCcw } from "lucide-react";
+import { publicAsset } from "@/lib/public-asset";
 
 const schema = z.object({
   name: z.string().min(2).max(100),
@@ -146,7 +147,7 @@ export function SubmitSummary() {
           <Card key={s.phase} className="p-4 flex items-center gap-3">
             {s.selectedProduct?.image && (
               <Image
-                src={`/products/${s.selectedProduct.image.replace("img/", "")}`}
+                src={publicAsset(`/products/${s.selectedProduct.image.replace("img/", "")}`)}
                 alt={s.selectedProduct.value}
                 width={56}
                 height={56}

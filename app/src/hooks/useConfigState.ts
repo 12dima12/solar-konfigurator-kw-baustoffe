@@ -22,7 +22,6 @@ export function useConfigState(catalog: Record<string, unknown>) {
   const handleSelect = (key: string, node: ConfigNode) => {
     if (isLeafNode(node)) {
       confirmProduct({
-        product_code: node.product_code ?? key,
         product_name: node.product_name ?? key,
         value: node.value ?? key,
         image: node.image,

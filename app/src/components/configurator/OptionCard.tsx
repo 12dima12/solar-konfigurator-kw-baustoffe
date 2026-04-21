@@ -1,22 +1,18 @@
 "use client";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { StockBadge } from "./StockBadge";
 import { InfoModal } from "./InfoModal";
 import type { ConfigNode } from "@/data/types";
-import { isLeafNode } from "@/lib/navigation";
 import { publicAsset } from "@/lib/public-asset";
 
 interface Props {
   nodeKey: string;
   node: ConfigNode;
-  locale: string;
   onClick: (key: string, node: ConfigNode) => void;
   disabled?: boolean;
 }
 
-export function OptionCard({ nodeKey, node, locale, onClick, disabled }: Props) {
-  const isLeaf = isLeafNode(node);
+export function OptionCard({ nodeKey, node, onClick, disabled }: Props) {
   const hasImage = !!node.image;
   const hasCover = !!node.cover;
   const label = node.label ?? node.value ?? nodeKey;
@@ -72,12 +68,6 @@ export function OptionCard({ nodeKey, node, locale, onClick, disabled }: Props) 
 
         {node.product_name && (
           <p className="mt-1 text-xs text-muted-foreground font-mono truncate">{node.product_name}</p>
-        )}
-
-        {isLeaf && node.stock && (
-          <div className="mt-2">
-            <StockBadge stock={node.stock} locale={locale} />
-          </div>
         )}
       </div>
 

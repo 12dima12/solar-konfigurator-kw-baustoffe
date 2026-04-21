@@ -81,7 +81,7 @@ export function PowerSlider({ lang, steps, onSelect, catalog }: Props) {
           </Button>
         </div>
       ) : powerChildren.length > 0 ? (
-        <OptionGrid children={powerChildren} locale={lang} onSelect={onSelect} />
+        <OptionGrid children={powerChildren} onSelect={onSelect} />
       ) : (
         <div className="text-center text-muted-foreground text-sm py-8">
           Für {selectedKw} kW keine Produkte verfügbar.

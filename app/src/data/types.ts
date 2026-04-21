@@ -6,11 +6,6 @@ export interface InfoSpec {
 }
 export type Lang = "de" | "en" | "cs";
 
-export interface StockInfo {
-  totalAvailable: number;
-  totalOrdered: number;
-}
-
 export interface ConfigNode {
   value?: string;
   label?: string;
@@ -20,9 +15,7 @@ export interface ConfigNode {
   image?: string | null;
   cover?: string | null;
   info?: InfoSpec | null;
-  product_code?: string;
   product_name?: string;
-  stock?: StockInfo;
   priority?: number;
   power?: number;
   type?: string;
@@ -55,14 +48,12 @@ export interface Catalog {
 export interface FlatProduct {
   phase: ConfigPhase;
   path: string[];
-  product_code: string;
   product_name: string;
   value: string;
   label: string;
   description?: string | null;
   image?: string | null;
   info?: InfoSpec | null;
-  stock?: StockInfo;
   priority?: number;
   power?: number;
   type?: string;

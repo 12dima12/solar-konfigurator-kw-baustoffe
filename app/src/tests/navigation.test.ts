@@ -25,7 +25,7 @@ describe("resolveNode", () => {
   });
   it("resolves leaf node under IES", () => {
     const node = resolveNode("inverter", "de", ["IES", "4.0 kW"], catalog);
-    expect(node?.product_code).toBeDefined();
+    expect(node).not.toBeNull();
     expect(isLeafNode(node!)).toBe(true);
   });
   it("resolves empty steps as root", () => {

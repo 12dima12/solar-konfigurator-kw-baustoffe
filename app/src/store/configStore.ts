@@ -7,7 +7,7 @@ import { ACTIVE_PHASES } from "@/lib/navigation";
 export interface PhaseSelection {
   phase: ConfigPhase;
   steps: string[];
-  selectedProduct?: { product_code: string; product_name: string; value: string; image?: string | null };
+  selectedProduct?: { product_name: string; value: string; image?: string | null };
 }
 
 interface ConfigState {

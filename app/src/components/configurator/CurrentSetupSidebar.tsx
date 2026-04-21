@@ -60,9 +60,6 @@ export function CurrentSetupSidebar({ selections, lang }: Props) {
                     {(PHASE_LABELS as Record<string, Record<string, string>>)[s.phase]?.[lang] ?? s.phase}
                   </p>
                   <p className="text-sm font-semibold truncate">{s.selectedProduct?.value}</p>
-                  {s.selectedProduct?.product_code && (
-                    <p className="text-xs font-mono text-muted-foreground">{s.selectedProduct.product_code}</p>
-                  )}
                 </div>
               </div>
             ))

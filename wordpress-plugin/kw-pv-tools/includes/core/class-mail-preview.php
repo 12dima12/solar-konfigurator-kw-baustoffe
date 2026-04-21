@@ -100,7 +100,6 @@ class MailPreview {
                     'phase'           => 'inverter',
                     'steps'           => [ 'single-phase', '5kw' ],
                     'selectedProduct' => [
-                        'product_code' => 'SLX-X1-5.0',
                         'product_name' => 'SolaX X1 Boost 5.0',
                         'value'        => '5,0 kW',
                     ],
@@ -109,7 +108,6 @@ class MailPreview {
                     'phase'           => 'battery',
                     'steps'           => [ '10kwh' ],
                     'selectedProduct' => [
-                        'product_code' => 'SLX-T58-200',
                         'product_name' => 'SolaX T-BAT H 5.8 × 2',
                         'value'        => '11,6 kWh',
                     ],

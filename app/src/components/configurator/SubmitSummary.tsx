@@ -157,7 +157,6 @@ export function SubmitSummary() {
             <div className="min-w-0">
               <p className="text-xs font-medium text-muted-foreground uppercase">{PHASE_LABELS[s.phase][lang]}</p>
               <p className="font-semibold text-sm">{s.selectedProduct?.value}</p>
-              <p className="text-xs font-mono text-muted-foreground">{s.selectedProduct?.product_code}</p>
             </div>
           </Card>
         ))}

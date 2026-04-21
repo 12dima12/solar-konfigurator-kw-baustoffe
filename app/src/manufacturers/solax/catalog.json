@@ -29,7 +29,6 @@
               "children": {
                 "3.0 kW": {
                   "priority": 1,
-                  "product_code": "G-21s-6304",
                   "product_name": "Solax G4 X1-Hybrid-3.0-D, WiFi 3.0, CT",
                   "type": "SolaX Hybrid G4",
                   "label": "3.0 kW",
@@ -39,15 +38,10 @@
                   "icon": null,
                   "description": "X1 Hybrid G4 3.0 kW",
                   "image": "img/X1 G4.png",
-                  "info": null,
-                  "stock": {
-                    "totalAvailable": 1,
-                    "totalOrdered": 0
-                  }
+                  "info": null
                 },
                 "3.7 kW": {
                   "priority": 101,
-                  "product_code": "G-21s-6374",
                   "product_name": "Solax G4 X1-Hybrid-3.7-D, WiFi 3.0, CT",
                   "type": "SolaX Hybrid G4",
                   "label": "3.7 kW",
@@ -57,15 +51,10 @@
                   "icon": null,
                   "description": "X1 Hybrid G4 3.7 kW",
                   "image": "img/X1 G4.png",
-                  "info": null,
-                  "stock": {
-                    "totalAvailable": 0,
-                    "totalOrdered": 0
-                  }
+                  "info": null
                 },
                 "5.0 kW": {
                   "priority": 102,
-                  "product_code": "G-21s-6504",
                   "product_name": "Solax G4 X1-Hybrid-5.0-D, WiFi 3.0, CT",
                   "type": "SolaX Hybrid G4",
                   "label": "5.0 kW",
@@ -75,11 +64,7 @@
                   "icon": null,
                   "description": "X1 Hybrid G4 5.0 kW",
                   "image": "img/X1 G4.png",
-                  "info": null,
-                  "stock": {
-                    "totalAvailable": 0,
-                    "totalOrdered": 0
-                  }
+                  "info": null
                 }
               }
             },
@@ -103,7 +88,6 @@
                   "children": {
                     "G-21c-4205": {
                       "priority": 2,
-                      "product_code": "G-21c-4205",
                       "product_name": "Solax G4 X3-Hybrid-5.0-D, CT, ohne WiFi 3.0",
                       "type": "SolaX Hybrid G4",
                       "label": "Mindestanzahl an Modulen: 7",
@@ -142,15 +126,10 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 118,
-                        "totalOrdered": 0
                       }
                     },
                     "G-21d-4P05": {
                       "priority": 3,
-                      "product_code": "G-21d-4P05",
                       "product_name": "Solax G4 X3-HYB-5.0-P, WiFi+LAN",
                       "type": "SolaX Hybrid G4 PRO",
                       "label": "Mindestanzahl an Modulen: 4",
@@ -195,10 +174,6 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 117,
-                        "totalOrdered": 0
                       }
                     }
                   }
@@ -214,7 +189,6 @@
                   "children": {
                     "G-21d-4206": {
                       "priority": 3,
-                      "product_code": "G-21d-4206",
                       "product_name": "Solax G4 X3-Hybrid-6.0-D, WiFi+LAN, CT",
                       "type": "SolaX Hybrid G4",
                       "label": "Mindestanzahl an Modulen: 4",
@@ -253,15 +227,10 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 117,
-                        "totalOrdered": 0
                       }
                     },
                     "G-21d-4P06": {
                       "priority": 103,
-                      "product_code": "G-21d-4P06",
                       "product_name": "Solax G4 X3-HYB-6.0-P, WiFi+LAN",
                       "type": "SolaX Hybrid G4 PRO",
                       "label": "Mindestanzahl an Modulen: 4",
@@ -306,10 +275,6 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 0,
-                        "totalOrdered": 75
                       }
                     }
                   }
@@ -325,7 +290,6 @@
                   "children": {
                     "G-21c-4208": {
                       "priority": 2,
-                      "product_code": "G-21c-4208",
                       "product_name": "Solax G4 X3-Hybrid-8.0-D, CT, ohne WiFi 3.0",
                       "type": "SolaX Hybrid G4",
                       "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 2 <small class=\"text-gray-600\">(2/1)</small>",
@@ -364,15 +328,10 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 23,
-                        "totalOrdered": 0
                       }
                     },
                     "G-21d-4P08": {
                       "priority": 4,
-                      "product_code": "G-21d-4P08",
                       "product_name": "Solax G4 X3-HYB-8.0-P, WiFi+LAN",
                       "type": "SolaX Hybrid G4 PRO",
                       "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 3 <small class=\"text-gray-600\">(1/1/1)</small>",
@@ -417,10 +376,6 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 229,
-                        "totalOrdered": 0
                       }
                     }
                   }
@@ -436,7 +391,6 @@
                   "children": {
                     "G-21s-4210": {
                       "priority": 1,
-                      "product_code": "G-21s-4210",
                       "product_name": "Solax G4 X3-Hybrid-10.0-D, WiFi 3.0, CT",
                       "type": "SolaX Hybrid G4",
                       "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 2 <small class=\"text-gray-600\">(2/1)</small>",
@@ -475,15 +429,10 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 2055,
-                        "totalOrdered": 0
                       }
                     },
                     "G-21d-4P10": {
                       "priority": 3,
-                      "product_code": "G-21d-4P10",
                       "product_name": "Solax G4 X3-HYB-10.0-P, WiFi+LAN",
                       "type": "SolaX Hybrid G4 PRO",
                       "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 3 <small class=\"text-gray-600\">(1/1/1)</small>",
@@ -528,10 +477,6 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 75,
-                        "totalOrdered": 200
                       }
                     }
                   }
@@ -547,7 +492,6 @@
                   "children": {
                     "G-21d-4P12": {
                       "priority": 2,
-                      "product_code": "G-21d-4P12",
                       "product_name": "Solax G4 X3-HYB-12.0-P, WiFi+LAN",
                       "type": "SolaX Hybrid G4 PRO",
                       "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 3 <small class=\"text-gray-600\">(1/1/1)</small>",
@@ -592,15 +536,10 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 10,
-                        "totalOrdered": 0
                       }
                     },
                     "G-21d-4212": {
                       "priority": 3,
-                      "product_code": "G-21d-4212",
                       "product_name": "Solax G4 X3-Hybrid-12.0-D, WiFi+LAN, CT",
                       "type": "SolaX Hybrid G4",
                       "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 2 <small class=\"text-gray-600\">(2/1)</small>",
@@ -639,10 +578,6 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 117,
-                        "totalOrdered": 160
                       }
                     }
                   }
@@ -658,7 +593,6 @@
                   "children": {
                     "G-21c-4215": {
                       "priority": 2,
-                      "product_code": "G-21c-4215",
                       "product_name": "Solax G4 X3-Hybrid-15.0-D, CT, ohne WiFi 3.0",
                       "type": "SolaX Hybrid G4",
                       "group": "Solax Hybrid G4",
@@ -698,15 +632,10 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 3,
-                        "totalOrdered": 0
                       }
                     },
                     "G-21d-4P15": {
                       "priority": 3,
-                      "product_code": "G-21d-4P15",
                       "product_name": "Solax G4 X3-HYB-15.0-P, WiFi+LAN",
                       "type": "SolaX Hybrid G4 PRO",
                       "group": "Solax Hybrid G4",
@@ -752,15 +681,10 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 219,
-                        "totalOrdered": 0
                       }
                     },
                     "2 (2/2) AFCI": {
                       "priority": 4,
-                      "product_code": "G-21s-3H15a",
                       "product_name": "Solax X3 ULT-15K, AFCI, WiFi+LAN, CT, (2xMPP)",
                       "type": "SolaX Hybrid Ultra AFCI",
                       "group": "SolaX Hybrid Ultra",
@@ -803,15 +727,10 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 9,
-                        "totalOrdered": 0
                       }
                     },
                     "2 (2/2)": {
                       "priority": 102,
-                      "product_code": "G-21s-3H15",
                       "product_name": "Solax X3 ULT-15K, WiFi+LAN, CT, (2xMPP)",
                       "type": "SolaX Hybrid Ultra",
                       "group": "SolaX Hybrid Ultra",
@@ -854,10 +773,6 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 0,
-                        "totalOrdered": 0
                       }
                     }
                   }
@@ -873,7 +788,6 @@
                   "children": {
                     "3 (2/2/2) AFCI": {
                       "priority": 2,
-                      "product_code": "G-21s-3H20Pa",
                       "product_name": "Solax X3 ULT-20KP , AFCI, WiFi+LAN, CT",
                       "type": "SolaX Hybrid Ultra AFCI",
                       "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 3 <small class=\"text-gray-600\">(2/2/2)</small>",
@@ -915,15 +829,10 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 7,
-                        "totalOrdered": 69
                       }
                     },
                     "2 (2/2)": {
                       "priority": 100,
-                      "product_code": "G-21s-3H20",
                       "product_name": "Solax X3 ULT-20K, WiFi+LAN, CT, (2xMPP)",
                       "type": "SolaX Hybrid Ultra",
                       "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 2 <small class=\"text-gray-600\">(2/2)</small>",
@@ -965,10 +874,6 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 0,
-                        "totalOrdered": 0
                       }
                     }
                   }
@@ -984,7 +889,6 @@
                   "children": {
                     "X3 Ultra 3 MPPT AFCI": {
                       "priority": 2,
-                      "product_code": "G-21s-3H25a",
                       "product_name": "Solax X3 ULT-25K , AFCI, WiFi+LAN, CT",
                       "type": "SolaX Hybrid Ultra AFCI",
                       "label": "X3 Ultra 3 MPPT",
@@ -1026,15 +930,10 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 231,
-                        "totalOrdered": 0
                       }
                     },
                     "X3 Ultra 3 MPPT": {
                       "priority": 100,
-                      "product_code": "G-21s-3H25",
                       "product_name": "Solax X3 ULT-25K, WiFi+LAN, CT",
                       "type": "SolaX Hybrid Ultra",
                       "label": "X3 Ultra 3 MPPT",
@@ -1076,10 +975,6 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 0,
-                        "totalOrdered": 0
                       }
                     }
                   }
@@ -1095,7 +990,6 @@
                   "children": {
                     "X3 Ultra 3 MPPT AFCI": {
                       "priority": 2,
-                      "product_code": "G-21s-3H30a",
                       "product_name": "Solax X3 ULT-30K, AFCI, WiFi+LAN, CT",
                       "type": "SolaX Hybrid Ultra AFCI",
                       "label": "X3 Ultra 3 MPPT",
@@ -1137,15 +1031,10 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 392,
-                        "totalOrdered": 0
                       }
                     },
                     "X3 Ultra 3 MPPT": {
                       "priority": 100,
-                      "product_code": "G-21s-3H30",
                       "product_name": "Solax X3 ULT-30K, WiFi+LAN, CT",
                       "type": "SolaX Hybrid Ultra",
                       "label": "X3 Ultra 3 MPPT",
@@ -1187,10 +1076,6 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 0,
-                        "totalOrdered": 0
                       }
                     }
                   }
@@ -1219,7 +1104,6 @@
           "info": null,
           "children": {
             "4.0 kW": {
-              "product_code": "G-21d-3I40a",
               "product_name": "Solax X3-IES-4.0K, AFCI, WiFi+LAN, CT",
               "label": "4.0 kW",
               "value": "IES 4.0 kW AFCI",
@@ -1229,14 +1113,9 @@
               "description": "X3 IES 4K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 9,
-                "totalOrdered": 0
-              },
               "priority": 1
             },
             "5.0 kW": {
-              "product_code": "G-21d-3I50a",
               "product_name": "Solax X3-IES-5.0K, AFCI, WiFi+LAN, CT",
               "label": "5.0 kW",
               "value": "IES 5.0 kW AFCI",
@@ -1246,14 +1125,9 @@
               "description": "X3 IES 5K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 34,
-                "totalOrdered": 0
-              },
               "priority": 2
             },
             "6.0 kW AFCI": {
-              "product_code": "G-21d-3I60a",
               "product_name": "Solax X3-IES-6.0K, AFCI, WiFi+LAN, CT",
               "label": "6.0 kW",
               "value": "IES 6.0 kW AFCI",
@@ -1263,14 +1137,9 @@
               "description": "X3 IES 6K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 20,
-                "totalOrdered": 0
-              },
               "priority": 3
             },
             "6.0 kW": {
-              "product_code": "G-21d-3I60",
               "product_name": "Solax X3-IES-6.0K, WiFi+LAN, CT",
               "label": "6.0 kW",
               "value": "IES 6.0 kW",
@@ -1280,14 +1149,9 @@
               "description": "X3 IES 6K<span class='text-red-500'><i class='fa-solid fa-xmark mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 0,
-                "totalOrdered": 0
-              },
               "priority": 4
             },
             "8.0 kW": {
-              "product_code": "G-21d-3I80a",
               "product_name": "Solax X3-IES-8.0K, AFCI, WiFi+LAN, CT",
               "label": "8.0 kW",
               "value": "IES 8.0 kW AFCI",
@@ -1297,14 +1161,9 @@
               "description": "X3 IES 8K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 39,
-                "totalOrdered": 0
-              },
               "priority": 5
             },
             "10.0 kW": {
-              "product_code": "G-21d-3I100a",
               "product_name": "Solax X3-IES-10.0K, AFCI, WiFi+LAN, CT",
               "label": "10.0 kW",
               "value": "IES 10.0 kW AFCI",
@@ -1314,14 +1173,9 @@
               "description": "X3 IES 10K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 36,
-                "totalOrdered": 0
-              },
               "priority": 6
             },
             "12.0 kW": {
-              "product_code": "G-21d-3I120a",
               "product_name": "Solax X3-IES-12.0K, AFCI, WiFi+LAN, CT",
               "label": "12.0 kW",
               "value": "IES 12.0 kW AFCI",
@@ -1331,14 +1185,9 @@
               "description": "X3 IES 12K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 9,
-                "totalOrdered": 0
-              },
               "priority": 7
             },
             "15.0 kW": {
-              "product_code": "G-21d-3I150a",
               "product_name": "Solax X3-IES-15.0K, AFCI, WiFi+LAN, CT",
               "label": "15.0 kW",
               "value": "IES 15.0 kW AFCI",
@@ -1348,10 +1197,6 @@
               "description": "X3 IES 15K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 11,
-                "totalOrdered": 0
-              },
               "priority": 8
             }
           }
@@ -1387,7 +1232,6 @@
               "children": {
                 "3.0 kW": {
                   "priority": 1,
-                  "product_code": "G-21s-6304",
                   "product_name": "Solax G4 X1-Hybrid-3.0-D, WiFi 3.0, CT",
                   "type": "SolaX Hybrid G4",
                   "label": "3.0 kW",
@@ -1397,15 +1241,10 @@
                   "icon": null,
                   "description": "X1 Hybrid G4 3.0 kW",
                   "image": "img/X1 G4.png",
-                  "info": null,
-                  "stock": {
-                    "totalAvailable": 1,
-                    "totalOrdered": 0
-                  }
+                  "info": null
                 },
                 "3.7 kW": {
                   "priority": 101,
-                  "product_code": "G-21s-6374",
                   "product_name": "Solax G4 X1-Hybrid-3.7-D, WiFi 3.0, CT",
                   "type": "SolaX Hybrid G4",
                   "label": "3.7 kW",
@@ -1415,15 +1254,10 @@
                   "icon": null,
                   "description": "X1 Hybrid G4 3.7 kW",
                   "image": "img/X1 G4.png",
-                  "info": null,
-                  "stock": {
-                    "totalAvailable": 0,
-                    "totalOrdered": 0
-                  }
+                  "info": null
                 },
                 "5.0 kW": {
                   "priority": 102,
-                  "product_code": "G-21s-6504",
                   "product_name": "Solax G4 X1-Hybrid-5.0-D, WiFi 3.0, CT",
                   "type": "SolaX Hybrid G4",
                   "label": "5.0 kW",
@@ -1433,11 +1267,7 @@
                   "icon": null,
                   "description": "X1 Hybrid G4 5.0 kW",
                   "image": "img/X1 G4.png",
-                  "info": null,
-                  "stock": {
-                    "totalAvailable": 0,
-                    "totalOrdered": 0
-                  }
+                  "info": null
                 }
               }
             },
@@ -1461,7 +1291,6 @@
                   "children": {
                     "G-21c-4205": {
                       "priority": 2,
-                      "product_code": "G-21c-4205",
                       "product_name": "Solax G4 X3-Hybrid-5.0-D, CT, without WiFi 3.0",
                       "type": "SolaX Hybrid G4",
                       "label": "Min. number of modules: 7",
@@ -1500,15 +1329,10 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 118,
-                        "totalOrdered": 0
                       }
                     },
                     "G-21d-4P05": {
                       "priority": 3,
-                      "product_code": "G-21d-4P05",
                       "product_name": "Solax G4 X3-HYB-5.0-P, WiFi+LAN",
                       "type": "SolaX Hybrid G4 PRO",
                       "label": "Min. number of modules: 4",
@@ -1553,10 +1377,6 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 117,
-                        "totalOrdered": 0
                       }
                     }
                   }
@@ -1572,7 +1392,6 @@
                   "children": {
                     "G-21d-4206": {
                       "priority": 3,
-                      "product_code": "G-21d-4206",
                       "product_name": "Solax G4 X3-Hybrid-6.0-D, WiFi+LAN, CT",
                       "type": "SolaX Hybrid G4",
                       "label": "Min. number of modules: 4",
@@ -1611,15 +1430,10 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 117,
-                        "totalOrdered": 0
                       }
                     },
                     "G-21d-4P06": {
                       "priority": 103,
-                      "product_code": "G-21d-4P06",
                       "product_name": "Solax G4 X3-HYB-6.0-P, WiFi+LAN",
                       "type": "SolaX Hybrid G4 PRO",
                       "label": "Min. number of modules: 4",
@@ -1664,10 +1478,6 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 0,
-                        "totalOrdered": 75
                       }
                     }
                   }
@@ -1683,7 +1493,6 @@
                   "children": {
                     "G-21c-4208": {
                       "priority": 2,
-                      "product_code": "G-21c-4208",
                       "product_name": "Solax G4 X3-Hybrid-8.0-D, CT, without WiFi 3.0",
                       "type": "SolaX Hybrid G4",
                       "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 2 <small class=\"text-gray-600\">(2/1)</small>",
@@ -1722,15 +1531,10 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 23,
-                        "totalOrdered": 0
                       }
                     },
                     "G-21d-4P08": {
                       "priority": 4,
-                      "product_code": "G-21d-4P08",
                       "product_name": "Solax G4 X3-HYB-8.0-P, WiFi+LAN",
                       "type": "SolaX Hybrid G4 PRO",
                       "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 3 <small class=\"text-gray-600\">(1/1/1)</small>",
@@ -1775,10 +1579,6 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 229,
-                        "totalOrdered": 0
                       }
                     }
                   }
@@ -1794,7 +1594,6 @@
                   "children": {
                     "G-21s-4210": {
                       "priority": 1,
-                      "product_code": "G-21s-4210",
                       "product_name": "Solax G4 X3-Hybrid-10.0-D, WiFi 3.0, CT",
                       "type": "SolaX Hybrid G4",
                       "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 2 <small class=\"text-gray-600\">(2/1)</small>",
@@ -1833,15 +1632,10 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 2055,
-                        "totalOrdered": 0
                       }
                     },
                     "G-21d-4P10": {
                       "priority": 3,
-                      "product_code": "G-21d-4P10",
                       "product_name": "Solax G4 X3-HYB-10.0-P, WiFi+LAN",
                       "type": "SolaX Hybrid G4 PRO",
                       "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 3 <small class=\"text-gray-600\">(1/1/1)</small>",
@@ -1886,10 +1680,6 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 75,
-                        "totalOrdered": 200
                       }
                     }
                   }
@@ -1905,7 +1695,6 @@
                   "children": {
                     "G-21d-4P12": {
                       "priority": 2,
-                      "product_code": "G-21d-4P12",
                       "product_name": "Solax G4 X3-HYB-12.0-P, WiFi+LAN",
                       "type": "SolaX Hybrid G4 PRO",
                       "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 3 <small class=\"text-gray-600\">(1/1/1)</small>",
@@ -1950,15 +1739,10 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 10,
-                        "totalOrdered": 0
                       }
                     },
                     "G-21d-4212": {
                       "priority": 3,
-                      "product_code": "G-21d-4212",
                       "product_name": "Solax G4 X3-Hybrid-12.0-D, WiFi+LAN, CT",
                       "type": "SolaX Hybrid G4",
                       "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 2 <small class=\"text-gray-600\">(2/1)</small>",
@@ -1997,10 +1781,6 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 117,
-                        "totalOrdered": 160
                       }
                     }
                   }
@@ -2016,7 +1796,6 @@
                   "children": {
                     "G-21c-4215": {
                       "priority": 2,
-                      "product_code": "G-21c-4215",
                       "product_name": "Solax G4 X3-Hybrid-15.0-D, CT, without WiFi 3.0",
                       "type": "SolaX Hybrid G4",
                       "group": "Solax Hybrid G4",
@@ -2056,15 +1835,10 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 3,
-                        "totalOrdered": 0
                       }
                     },
                     "G-21d-4P15": {
                       "priority": 3,
-                      "product_code": "G-21d-4P15",
                       "product_name": "Solax G4 X3-HYB-15.0-P, WiFi+LAN",
                       "type": "SolaX Hybrid G4 PRO",
                       "group": "Solax Hybrid G4",
@@ -2110,15 +1884,10 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 219,
-                        "totalOrdered": 0
                       }
                     },
                     "2 (2/2) AFCI": {
                       "priority": 4,
-                      "product_code": "G-21s-3H15a",
                       "product_name": "Solax X3 ULT-15K, AFCI, WiFi+LAN, CT, (2xMPP)",
                       "type": "SolaX Hybrid Ultra AFCI",
                       "group": "SolaX Hybrid Ultra",
@@ -2161,15 +1930,10 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 9,
-                        "totalOrdered": 0
                       }
                     },
                     "2 (2/2)": {
                       "priority": 102,
-                      "product_code": "G-21s-3H15",
                       "product_name": "Solax X3 ULT-15K, WiFi+LAN, CT, (2xMPP)",
                       "type": "SolaX Hybrid Ultra",
                       "group": "SolaX Hybrid Ultra",
@@ -2212,10 +1976,6 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 0,
-                        "totalOrdered": 0
                       }
                     }
                   }
@@ -2231,7 +1991,6 @@
                   "children": {
                     "3 (2/2/2) AFCI": {
                       "priority": 2,
-                      "product_code": "G-21s-3H20Pa",
                       "product_name": "Solax X3 ULT-20KP , AFCI, WiFi+LAN, CT",
                       "type": "SolaX Hybrid Ultra AFCI",
                       "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 3 <small class=\"text-gray-600\">(2/2/2)</small>",
@@ -2273,15 +2032,10 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 7,
-                        "totalOrdered": 69
                       }
                     },
                     "2 (2/2)": {
                       "priority": 100,
-                      "product_code": "G-21s-3H20",
                       "product_name": "Solax X3 ULT-20K, WiFi+LAN, CT, (2xMPP)",
                       "type": "SolaX Hybrid Ultra",
                       "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 2 <small class=\"text-gray-600\">(2/2)</small>",
@@ -2323,10 +2077,6 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 0,
-                        "totalOrdered": 0
                       }
                     }
                   }
@@ -2342,7 +2092,6 @@
                   "children": {
                     "X3 Ultra 3 MPPT AFCI": {
                       "priority": 2,
-                      "product_code": "G-21s-3H25a",
                       "product_name": "Solax X3 ULT-25K , AFCI, WiFi+LAN, CT",
                       "type": "SolaX Hybrid Ultra AFCI",
                       "label": "X3 Ultra 3 MPPT",
@@ -2384,15 +2133,10 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 231,
-                        "totalOrdered": 0
                       }
                     },
                     "X3 Ultra 3 MPPT": {
                       "priority": 100,
-                      "product_code": "G-21s-3H25",
                       "product_name": "Solax X3 ULT-25K, WiFi+LAN, CT",
                       "type": "SolaX Hybrid Ultra",
                       "label": "X3 Ultra 3 MPPT",
@@ -2434,10 +2178,6 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 0,
-                        "totalOrdered": 0
                       }
                     }
                   }
@@ -2453,7 +2193,6 @@
                   "children": {
                     "X3 Ultra 3 MPPT AFCI": {
                       "priority": 2,
-                      "product_code": "G-21s-3H30a",
                       "product_name": "Solax X3 ULT-30K, AFCI, WiFi+LAN, CT",
                       "type": "SolaX Hybrid Ultra AFCI",
                       "label": "X3 Ultra 3 MPPT",
@@ -2495,15 +2234,10 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 392,
-                        "totalOrdered": 0
                       }
                     },
                     "X3 Ultra 3 MPPT": {
                       "priority": 100,
-                      "product_code": "G-21s-3H30",
                       "product_name": "Solax X3 ULT-30K, WiFi+LAN, CT",
                       "type": "SolaX Hybrid Ultra",
                       "label": "X3 Ultra 3 MPPT",
@@ -2545,10 +2279,6 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 0,
-                        "totalOrdered": 0
                       }
                     }
                   }
@@ -2577,7 +2307,6 @@
           "info": null,
           "children": {
             "4.0 kW": {
-              "product_code": "G-21d-3I40a",
               "product_name": "Solax X3-IES-4.0K, AFCI, WiFi+LAN, CT",
               "label": "4.0 kW",
               "value": "IES 4.0 kW AFCI",
@@ -2587,14 +2316,9 @@
               "description": "X3 IES 4K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 9,
-                "totalOrdered": 0
-              },
               "priority": 1
             },
             "5.0 kW": {
-              "product_code": "G-21d-3I50a",
               "product_name": "Solax X3-IES-5.0K, AFCI, WiFi+LAN, CT",
               "label": "5.0 kW",
               "value": "IES 5.0 kW AFCI",
@@ -2604,14 +2328,9 @@
               "description": "X3 IES 5K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 34,
-                "totalOrdered": 0
-              },
               "priority": 2
             },
             "6.0 kW AFCI": {
-              "product_code": "G-21d-3I60a",
               "product_name": "Solax X3-IES-6.0K, AFCI, WiFi+LAN, CT",
               "label": "6.0 kW",
               "value": "IES 6.0 kW AFCI",
@@ -2621,14 +2340,9 @@
               "description": "X3 IES 6K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 20,
-                "totalOrdered": 0
-              },
               "priority": 3
             },
             "6.0 kW": {
-              "product_code": "G-21d-3I60",
               "product_name": "Solax X3-IES-6.0K, WiFi+LAN, CT",
               "label": "6.0 kW",
               "value": "IES 6.0 kW",
@@ -2638,14 +2352,9 @@
               "description": "X3 IES 6K<span class='text-red-500'><i class='fa-solid fa-xmark mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 0,
-                "totalOrdered": 0
-              },
               "priority": 4
             },
             "8.0 kW": {
-              "product_code": "G-21d-3I80a",
               "product_name": "Solax X3-IES-8.0K, AFCI, WiFi+LAN, CT",
               "label": "8.0 kW",
               "value": "IES 8.0 kW AFCI",
@@ -2655,14 +2364,9 @@
               "description": "X3 IES 8K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 39,
-                "totalOrdered": 0
-              },
               "priority": 5
             },
             "10.0 kW": {
-              "product_code": "G-21d-3I100a",
               "product_name": "Solax X3-IES-10.0K, AFCI, WiFi+LAN, CT",
               "label": "10.0 kW",
               "value": "IES 10.0 kW AFCI",
@@ -2672,14 +2376,9 @@
               "description": "X3 IES 10K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 36,
-                "totalOrdered": 0
-              },
               "priority": 6
             },
             "12.0 kW": {
-              "product_code": "G-21d-3I120a",
               "product_name": "Solax X3-IES-12.0K, AFCI, WiFi+LAN, CT",
               "label": "12.0 kW",
               "value": "IES 12.0 kW AFCI",
@@ -2689,14 +2388,9 @@
               "description": "X3 IES 12K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 9,
-                "totalOrdered": 0
-              },
               "priority": 7
             },
             "15.0 kW": {
-              "product_code": "G-21d-3I150a",
               "product_name": "Solax X3-IES-15.0K, AFCI, WiFi+LAN, CT",
               "label": "15.0 kW",
               "value": "IES 15.0 kW AFCI",
@@ -2706,10 +2400,6 @@
               "description": "X3 IES 15K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 11,
-                "totalOrdered": 0
-              },
               "priority": 8
             }
           }
@@ -2745,7 +2435,6 @@
               "children": {
                 "3.0 kW": {
                   "priority": 1,
-                  "product_code": "G-21s-6304",
                   "product_name": "Solax G4 X1-Hybrid-3.0-D, WiFi 3.0, CT",
                   "type": "SolaX Hybrid G4",
                   "label": "3.0 kW",
@@ -2755,15 +2444,10 @@
                   "icon": null,
                   "description": "X1 Hybrid G4 3.0 kW",
                   "image": "img/X1 G4.png",
-                  "info": null,
-                  "stock": {
-                    "totalAvailable": 1,
-                    "totalOrdered": 0
-                  }
+                  "info": null
                 },
                 "3.7 kW": {
                   "priority": 101,
-                  "product_code": "G-21s-6374",
                   "product_name": "Solax G4 X1-Hybrid-3.7-D, WiFi 3.0, CT",
                   "type": "SolaX Hybrid G4",
                   "label": "3.7 kW",
@@ -2773,15 +2457,10 @@
                   "icon": null,
                   "description": "X1 Hybrid G4 3.7 kW",
                   "image": "img/X1 G4.png",
-                  "info": null,
-                  "stock": {
-                    "totalAvailable": 0,
-                    "totalOrdered": 0
-                  }
+                  "info": null
                 },
                 "5.0 kW": {
                   "priority": 102,
-                  "product_code": "G-21s-6504",
                   "product_name": "Solax G4 X1-Hybrid-5.0-D, WiFi 3.0, CT",
                   "type": "SolaX Hybrid G4",
                   "label": "5.0 kW",
@@ -2791,11 +2470,7 @@
                   "icon": null,
                   "description": "X1 Hybrid G4 5.0 kW",
                   "image": "img/X1 G4.png",
-                  "info": null,
-                  "stock": {
-                    "totalAvailable": 0,
-                    "totalOrdered": 0
-                  }
+                  "info": null
                 }
               }
             },
@@ -2819,7 +2494,6 @@
                   "children": {
                     "G-21c-4205": {
                       "priority": 2,
-                      "product_code": "G-21c-4205",
                       "product_name": "Solax G4 X3-Hybrid-5.0-D, CT, bez WiFi 3.0",
                       "type": "SolaX Hybrid G4",
                       "label": "Min. počet modulů: 7",
@@ -2858,15 +2532,10 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 118,
-                        "totalOrdered": 0
                       }
                     },
                     "G-21d-4P05": {
                       "priority": 3,
-                      "product_code": "G-21d-4P05",
                       "product_name": "Solax G4 X3-HYB-5.0-P, WiFi+LAN",
                       "type": "SolaX Hybrid G4 PRO",
                       "label": "Min. počet modulů: 4",
@@ -2911,10 +2580,6 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 117,
-                        "totalOrdered": 0
                       }
                     }
                   }
@@ -2930,7 +2595,6 @@
                   "children": {
                     "G-21d-4206": {
                       "priority": 3,
-                      "product_code": "G-21d-4206",
                       "product_name": "Solax G4 X3-Hybrid-6.0-D, WiFi+LAN, CT",
                       "type": "SolaX Hybrid G4",
                       "label": "Min. počet modulů: 4",
@@ -2969,15 +2633,10 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 117,
-                        "totalOrdered": 0
                       }
                     },
                     "G-21d-4P06": {
                       "priority": 103,
-                      "product_code": "G-21d-4P06",
                       "product_name": "Solax G4 X3-HYB-6.0-P, WiFi+LAN",
                       "type": "SolaX Hybrid G4 PRO",
                       "label": "Min. počet modulů: 4",
@@ -3022,10 +2681,6 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 0,
-                        "totalOrdered": 75
                       }
                     }
                   }
@@ -3041,7 +2696,6 @@
                   "children": {
                     "G-21c-4208": {
                       "priority": 2,
-                      "product_code": "G-21c-4208",
                       "product_name": "Solax G4 X3-Hybrid-8.0-D, CT, bez WiFi 3.0",
                       "type": "SolaX Hybrid G4",
                       "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 2 <small class=\"text-gray-600\">(2/1)</small>",
@@ -3080,15 +2734,10 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 23,
-                        "totalOrdered": 0
                       }
                     },
                     "G-21d-4P08": {
                       "priority": 4,
-                      "product_code": "G-21d-4P08",
                       "product_name": "Solax G4 X3-HYB-8.0-P, WiFi+LAN",
                       "type": "SolaX Hybrid G4 PRO",
                       "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 3 <small class=\"text-gray-600\">(1/1/1)</small>",
@@ -3133,10 +2782,6 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 229,
-                        "totalOrdered": 0
                       }
                     }
                   }
@@ -3152,7 +2797,6 @@
                   "children": {
                     "G-21s-4210": {
                       "priority": 1,
-                      "product_code": "G-21s-4210",
                       "product_name": "Solax G4 X3-Hybrid-10.0-D, WiFi 3.0, CT",
                       "type": "SolaX Hybrid G4",
                       "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 2 <small class=\"text-gray-600\">(2/1)</small>",
@@ -3191,15 +2835,10 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 2055,
-                        "totalOrdered": 0
                       }
                     },
                     "G-21d-4P10": {
                       "priority": 3,
-                      "product_code": "G-21d-4P10",
                       "product_name": "Solax G4 X3-HYB-10.0-P, WiFi+LAN",
                       "type": "SolaX Hybrid G4 PRO",
                       "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 3 <small class=\"text-gray-600\">(1/1/1)</small>",
@@ -3244,10 +2883,6 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 75,
-                        "totalOrdered": 200
                       }
                     }
                   }
@@ -3263,7 +2898,6 @@
                   "children": {
                     "G-21d-4P12": {
                       "priority": 2,
-                      "product_code": "G-21d-4P12",
                       "product_name": "Solax G4 X3-HYB-12.0-P, WiFi+LAN",
                       "type": "SolaX Hybrid G4 PRO",
                       "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 3 <small class=\"text-gray-600\">(1/1/1)</small>",
@@ -3308,15 +2942,10 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 10,
-                        "totalOrdered": 0
                       }
                     },
                     "G-21d-4212": {
                       "priority": 3,
-                      "product_code": "G-21d-4212",
                       "product_name": "Solax G4 X3-Hybrid-12.0-D, WiFi+LAN, CT",
                       "type": "SolaX Hybrid G4",
                       "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 2 <small class=\"text-gray-600\">(2/1)</small>",
@@ -3355,10 +2984,6 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 117,
-                        "totalOrdered": 160
                       }
                     }
                   }
@@ -3374,7 +2999,6 @@
                   "children": {
                     "G-21c-4215": {
                       "priority": 2,
-                      "product_code": "G-21c-4215",
                       "product_name": "Solax G4 X3-Hybrid-15.0-D, CT, bez WiFi 3.0",
                       "type": "SolaX Hybrid G4",
                       "group": "Solax Hybrid G4",
@@ -3414,15 +3038,10 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 3,
-                        "totalOrdered": 0
                       }
                     },
                     "G-21d-4P15": {
                       "priority": 3,
-                      "product_code": "G-21d-4P15",
                       "product_name": "Solax G4 X3-HYB-15.0-P, WiFi+LAN",
                       "type": "SolaX Hybrid G4 PRO",
                       "group": "Solax Hybrid G4",
@@ -3468,15 +3087,10 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 219,
-                        "totalOrdered": 0
                       }
                     },
                     "2 (2/2) AFCI": {
                       "priority": 4,
-                      "product_code": "G-21s-3H15a",
                       "product_name": "Solax X3 ULT-15K, AFCI, WiFi+LAN, CT, (2xMPP)",
                       "type": "SolaX Hybrid Ultra AFCI",
                       "group": "SolaX Hybrid Ultra",
@@ -3519,15 +3133,10 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 9,
-                        "totalOrdered": 0
                       }
                     },
                     "2 (2/2)": {
                       "priority": 102,
-                      "product_code": "G-21s-3H15",
                       "product_name": "Solax X3 ULT-15K, WiFi+LAN, CT, (2xMPP)",
                       "type": "SolaX Hybrid Ultra",
                       "group": "SolaX Hybrid Ultra",
@@ -3570,10 +3179,6 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 0,
-                        "totalOrdered": 0
                       }
                     }
                   }
@@ -3589,7 +3194,6 @@
                   "children": {
                     "3 (2/2/2) AFCI": {
                       "priority": 2,
-                      "product_code": "G-21s-3H20Pa",
                       "product_name": "Solax X3 ULT-20KP , AFCI, WiFi+LAN, CT",
                       "type": "SolaX Hybrid Ultra AFCI",
                       "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 3 <small class=\"text-gray-600\">(2/2/2)</small>",
@@ -3631,15 +3235,10 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 7,
-                        "totalOrdered": 69
                       }
                     },
                     "2 (2/2)": {
                       "priority": 100,
-                      "product_code": "G-21s-3H20",
                       "product_name": "Solax X3 ULT-20K, WiFi+LAN, CT, (2xMPP)",
                       "type": "SolaX Hybrid Ultra",
                       "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 2 <small class=\"text-gray-600\">(2/2)</small>",
@@ -3681,10 +3280,6 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 0,
-                        "totalOrdered": 0
                       }
                     }
                   }
@@ -3700,7 +3295,6 @@
                   "children": {
                     "X3 Ultra 3 MPPT AFCI": {
                       "priority": 2,
-                      "product_code": "G-21s-3H25a",
                       "product_name": "Solax X3 ULT-25K , AFCI, WiFi+LAN, CT",
                       "type": "SolaX Hybrid Ultra AFCI",
                       "label": "X3 Ultra 3 MPPT",
@@ -3742,15 +3336,10 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 231,
-                        "totalOrdered": 0
                       }
                     },
                     "X3 Ultra 3 MPPT": {
                       "priority": 100,
-                      "product_code": "G-21s-3H25",
                       "product_name": "Solax X3 ULT-25K, WiFi+LAN, CT",
                       "type": "SolaX Hybrid Ultra",
                       "label": "X3 Ultra 3 MPPT",
@@ -3792,10 +3381,6 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 0,
-                        "totalOrdered": 0
                       }
                     }
                   }
@@ -3811,7 +3396,6 @@
                   "children": {
                     "X3 Ultra 3 MPPT AFCI": {
                       "priority": 2,
-                      "product_code": "G-21s-3H30a",
                       "product_name": "Solax X3 ULT-30K, AFCI, WiFi+LAN, CT",
                       "type": "SolaX Hybrid Ultra AFCI",
                       "label": "X3 Ultra 3 MPPT",
@@ -3853,15 +3437,10 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 392,
-                        "totalOrdered": 0
                       }
                     },
                     "X3 Ultra 3 MPPT": {
                       "priority": 100,
-                      "product_code": "G-21s-3H30",
                       "product_name": "Solax X3 ULT-30K, WiFi+LAN, CT",
                       "type": "SolaX Hybrid Ultra",
                       "label": "X3 Ultra 3 MPPT",
@@ -3903,10 +3482,6 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      },
-                      "stock": {
-                        "totalAvailable": 0,
-                        "totalOrdered": 0
                       }
                     }
                   }
@@ -3935,7 +3510,6 @@
           "info": null,
           "children": {
             "4.0 kW": {
-              "product_code": "G-21d-3I40a",
               "product_name": "Solax X3-IES-4.0K, AFCI, WiFi+LAN, CT",
               "label": "4.0 kW",
               "value": "IES 4.0 kW AFCI",
@@ -3945,14 +3519,9 @@
               "description": "X3 IES 4K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 9,
-                "totalOrdered": 0
-              },
               "priority": 1
             },
             "5.0 kW": {
-              "product_code": "G-21d-3I50a",
               "product_name": "Solax X3-IES-5.0K, AFCI, WiFi+LAN, CT",
               "label": "5.0 kW",
               "value": "IES 5.0 kW AFCI",
@@ -3962,14 +3531,9 @@
               "description": "X3 IES 5K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 34,
-                "totalOrdered": 0
-              },
               "priority": 2
             },
             "6.0 kW AFCI": {
-              "product_code": "G-21d-3I60a",
               "product_name": "Solax X3-IES-6.0K, AFCI, WiFi+LAN, CT",
               "label": "6.0 kW",
               "value": "IES 6.0 kW AFCI",
@@ -3979,14 +3543,9 @@
               "description": "X3 IES 6K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 20,
-                "totalOrdered": 0
-              },
               "priority": 3
             },
             "6.0 kW": {
-              "product_code": "G-21d-3I60",
               "product_name": "Solax X3-IES-6.0K, WiFi+LAN, CT",
               "label": "6.0 kW",
               "value": "IES 6.0 kW",
@@ -3996,14 +3555,9 @@
               "description": "X3 IES 6K<span class='text-red-500'><i class='fa-solid fa-xmark mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 0,
-                "totalOrdered": 0
-              },
               "priority": 4
             },
             "8.0 kW": {
-              "product_code": "G-21d-3I80a",
               "product_name": "Solax X3-IES-8.0K, AFCI, WiFi+LAN, CT",
               "label": "8.0 kW",
               "value": "IES 8.0 kW AFCI",
@@ -4013,14 +3567,9 @@
               "description": "X3 IES 8K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 39,
-                "totalOrdered": 0
-              },
               "priority": 5
             },
             "10.0 kW": {
-              "product_code": "G-21d-3I100a",
               "product_name": "Solax X3-IES-10.0K, AFCI, WiFi+LAN, CT",
               "label": "10.0 kW",
               "value": "IES 10.0 kW AFCI",
@@ -4030,14 +3579,9 @@
               "description": "X3 IES 10K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 36,
-                "totalOrdered": 0
-              },
               "priority": 6
             },
             "12.0 kW": {
-              "product_code": "G-21d-3I120a",
               "product_name": "Solax X3-IES-12.0K, AFCI, WiFi+LAN, CT",
               "label": "12.0 kW",
               "value": "IES 12.0 kW AFCI",
@@ -4047,14 +3591,9 @@
               "description": "X3 IES 12K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 9,
-                "totalOrdered": 0
-              },
               "priority": 7
             },
             "15.0 kW": {
-              "product_code": "G-21d-3I150a",
               "product_name": "Solax X3-IES-15.0K, AFCI, WiFi+LAN, CT",
               "label": "15.0 kW",
               "value": "IES 15.0 kW AFCI",
@@ -4064,10 +3603,6 @@
               "description": "X3 IES 15K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 11,
-                "totalOrdered": 0
-              },
               "priority": 8
             }
           }
@@ -4093,7 +3628,6 @@
           "info": null,
           "children": {
             "X1 Matebox Advanced": {
-              "product_code": "G-210-303d",
               "product_name": "Solax X1-Matebox Advanced, D ",
               "label": "X1 Matebox Advanced",
               "value": "X1 Matebox Advanced",
@@ -4102,14 +3636,9 @@
               "description": null,
               "image": "img/X1 Matebox Advanced.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 0,
-                "totalOrdered": 0
-              },
               "priority": 99
             },
             "X3 Matebox G2": {
-              "product_code": "G-210-503m",
               "product_name": "Solax X3-Matebox G2",
               "label": "X3 Matebox G2",
               "value": "X3 Matebox G2",
@@ -4118,14 +3647,9 @@
               "description": null,
               "image": "img/X3 Matebox G2.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 0,
-                "totalOrdered": 112
-              },
               "priority": 99
             },
             "X1 EPS Box": {
-              "product_code": "B-210-10061",
               "product_name": "Solax X1-EPS Box, 1*63 A",
               "label": "X1 EPS Box",
               "value": "X1 EPS Box",
@@ -4134,14 +3658,9 @@
               "description": null,
               "image": "img/X1 EPS Box.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 42,
-                "totalOrdered": 0
-              },
               "priority": 999
             },
             "X3 EPS Box": {
-              "product_code": "B-210-1006",
               "product_name": "Solax X3-EPS Box, 3*63 A",
               "label": "X3 EPS Box",
               "value": "X3 EPS Box",
@@ -4153,14 +3672,9 @@
                 "title": "X3 EPS BOX",
                 "specs": []
               },
-              "stock": {
-                "totalAvailable": 23,
-                "totalOrdered": 593
-              },
               "priority": 999
             },
             "X3 Matebox Advanced": {
-              "product_code": "G-210-405dd",
               "product_name": "Solax X3-Matebox Advanced, D, V1.4, WiFi 3.0P, denoise",
               "label": "X3 Matebox Advanced",
               "value": "X3 Matebox Advanced",
@@ -4172,14 +3686,9 @@
                 "title": "X3 Matebox Advanced",
                 "specs": []
               },
-              "stock": {
-                "totalAvailable": 101,
-                "totalOrdered": 40
-              },
               "priority": 999
             },
             "X3 EPS 60 kW": {
-              "product_code": "B-210-10081",
               "product_name": "Solax X3-EPS PBOX-60kW-G2",
               "label": "X3 EPS PBOX 60 kW",
               "value": "X3 EPS PBOX 60 kW",
@@ -4188,10 +3697,6 @@
               "description": null,
               "image": "img/EPS 60 kW.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 24,
-                "totalOrdered": 0
-              },
               "priority": 999
             }
           }
@@ -4224,7 +3729,6 @@
           "info": null,
           "children": {
             "X1 Matebox Advanced": {
-              "product_code": "G-210-303d",
               "product_name": "Solax X1-Matebox Advanced, D ",
               "label": "X1 Matebox Advanced",
               "value": "X1 Matebox Advanced",
@@ -4233,14 +3737,9 @@
               "description": null,
               "image": "img/X1 Matebox Advanced.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 0,
-                "totalOrdered": 0
-              },
               "priority": 99
             },
             "X3 Matebox G2": {
-              "product_code": "G-210-503m",
               "product_name": "Solax X3-Matebox G2",
               "label": "X3 Matebox G2",
               "value": "X3 Matebox G2",
@@ -4249,14 +3748,9 @@
               "description": null,
               "image": "img/X3 Matebox G2.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 0,
-                "totalOrdered": 112
-              },
               "priority": 99
             },
             "X1 EPS Box": {
-              "product_code": "B-210-10061",
               "product_name": "Solax X1-EPS Box, 1*63 A",
               "label": "X1 EPS Box",
               "value": "X1 EPS Box",
@@ -4265,14 +3759,9 @@
               "description": null,
               "image": "img/X1 EPS Box.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 42,
-                "totalOrdered": 0
-              },
               "priority": 999
             },
             "X3 EPS Box": {
-              "product_code": "B-210-1006",
               "product_name": "Solax X3-EPS Box, 3*63 A",
               "label": "X3 EPS Box",
               "value": "X3 EPS Box",
@@ -4284,14 +3773,9 @@
                 "title": "X3 EPS BOX",
                 "specs": []
               },
-              "stock": {
-                "totalAvailable": 23,
-                "totalOrdered": 593
-              },
               "priority": 999
             },
             "X3 Matebox Advanced": {
-              "product_code": "G-210-405dd",
               "product_name": "Solax X3-Matebox Advanced, D, V1.4, WiFi 3.0P, denoise",
               "label": "X3 Matebox Advanced",
               "value": "X3 Matebox Advanced",
@@ -4303,14 +3787,9 @@
                 "title": "X3 Matebox Advanced",
                 "specs": []
               },
-              "stock": {
-                "totalAvailable": 101,
-                "totalOrdered": 40
-              },
               "priority": 999
             },
             "X3 EPS 60 kW": {
-              "product_code": "B-210-10081",
               "product_name": "Solax X3-EPS PBOX-60kW-G2",
               "label": "X3 EPS PBOX 60 kW",
               "value": "X3 EPS PBOX 60 kW",
@@ -4319,10 +3798,6 @@
               "description": null,
               "image": "img/EPS 60 kW.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 24,
-                "totalOrdered": 0
-              },
               "priority": 999
             }
           }
@@ -4355,7 +3830,6 @@
           "info": null,
           "children": {
             "X1 Matebox Advanced": {
-              "product_code": "G-210-303d",
               "product_name": "Solax X1-Matebox Advanced, D ",
               "label": "X1 Matebox Advanced",
               "value": "X1 Matebox Advanced",
@@ -4364,14 +3838,9 @@
               "description": null,
               "image": "img/X1 Matebox Advanced.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 0,
-                "totalOrdered": 0
-              },
               "priority": 99
             },
             "X3 Matebox G2": {
-              "product_code": "G-210-503m",
               "product_name": "Solax X3-Matebox G2",
               "label": "X3 Matebox G2",
               "value": "X3 Matebox G2",
@@ -4380,14 +3849,9 @@
               "description": null,
               "image": "img/X3 Matebox G2.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 0,
-                "totalOrdered": 112
-              },
               "priority": 99
             },
             "X1 EPS Box": {
-              "product_code": "B-210-10061",
               "product_name": "Solax X1-EPS Box, 1*63 A",
               "label": "X1 EPS Box",
               "value": "X1 EPS Box",
@@ -4396,14 +3860,9 @@
               "description": null,
               "image": "img/X1 EPS Box.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 42,
-                "totalOrdered": 0
-              },
               "priority": 999
             },
             "X3 EPS Box": {
-              "product_code": "B-210-1006",
               "product_name": "Solax X3-EPS Box, 3*63 A",
               "label": "X3 EPS Box",
               "value": "X3 EPS Box",
@@ -4415,14 +3874,9 @@
                 "title": "X3 EPS BOX",
                 "specs": []
               },
-              "stock": {
-                "totalAvailable": 23,
-                "totalOrdered": 593
-              },
               "priority": 999
             },
             "X3 Matebox Advanced": {
-              "product_code": "G-210-405dd",
               "product_name": "Solax X3-Matebox Advanced, D, V1.4, WiFi 3.0P, denoise",
               "label": "X3 Matebox Advanced",
               "value": "X3 Matebox Advanced",
@@ -4434,14 +3888,9 @@
                 "title": "X3 Matebox Advanced",
                 "specs": []
               },
-              "stock": {
-                "totalAvailable": 101,
-                "totalOrdered": 40
-              },
               "priority": 999
             },
             "X3 EPS 60 kW": {
-              "product_code": "B-210-10081",
               "product_name": "Solax X3-EPS PBOX-60kW-G2",
               "label": "X3 EPS PBOX 60 kW",
               "value": "X3 EPS PBOX 60 kW",
@@ -4450,10 +3899,6 @@
               "description": null,
               "image": "img/EPS 60 kW.png",
               "info": null,
-              "stock": {
-                "totalAvailable": 24,
-                "totalOrdered": 0
-              },
               "priority": 999
             }
           }
@@ -4553,7 +3998,6 @@
                   "info": null,
                   "children": {
                     "Standard": {
-                      "product_code": "EV-210-11S",
                       "product_name": "Solax X3-HAC-11S, 1/3 phase shift",
                       "label": "Standard",
                       "value": "HAC",
@@ -4562,14 +4006,9 @@
                       "description": "SolaX X3 HAC",
                       "image": "img/HAC.png",
                       "info": null,
-                      "stock": {
-                        "totalAvailable": 0,
-                        "totalOrdered": 98
-                      },
                       "priority": 99
                     },
                     "With display": {
-                      "product_code": "EV-210-11SL",
                       "product_name": "Solax X3-HAC-11S - L, 1/3 phase shift",
                       "label": "Mit Display",
                       "value": "HAC",
@@ -4578,10 +4017,6 @@
                       "description": "SolaX X3 HAC",
                       "image": "img/HAC.png",
                       "info": null,
-                      "stock": {
-                        "totalAvailable": 0,
-                        "totalOrdered": 40
-                      },
                       "priority": 99
                     }
                   }
@@ -4596,7 +4031,6 @@
                   "info": null,
                   "children": {
                     "Standard": {
-                      "product_code": "EV-210-118",
                       "product_name": "Solax X3-HAC-11P, 1/3 phase shift",
                       "label": "Standard",
                       "value": "HAC",
@@ -4605,14 +4039,9 @@
                       "description": "SolaX X3 HAC",
                       "image": "img/HAC.png",
                       "info": null,
-                      "stock": {
-                        "totalAvailable": 0,
-                        "totalOrdered": 441
-                      },
                       "priority": 99
                     },
                     "With display": {
-                      "product_code": "EV-210-118L",
                       "product_name": "Solax X3-HAC-11P - L, 1/3 phase shift",
                       "label": "Mit Display",
                       "value": "HAC",
@@ -4621,10 +4050,6 @@
                       "description": "SolaX X3 HAC",
                       "image": "img/HAC.png",
                       "info": null,
-                      "stock": {
-                        "totalAvailable": 103,
-                        "totalOrdered": 200
-                      },
                       "priority": 999
                     }
                   }
@@ -4650,7 +4075,6 @@
                   "info": null,
                   "children": {
                     "Standard": {
-                      "product_code": "EV-210-22S",
                       "product_name": "Solax X3-HAC-22S, 1/3 phase shift",
                       "label": "Standard",
                       "value": "HAC",
@@ -4659,14 +4083,9 @@
                       "description": "SolaX X3 HAC",
                       "image": "img/HAC.png",
                       "info": null,
-                      "stock": {
-                        "totalAvailable": 15,
-                        "totalOrdered": 25
-                      },
                       "priority": 999
                     },
                     "With display": {
-                      "product_code": "EV-210-22SL",
                       "product_name": "Solax X3-HAC-22S - L, 1/3 phase shift",
                       "label": "Mit Display",
                       "value": "HAC",
@@ -4675,10 +4094,6 @@
                       "description": "SolaX X3 HAC",
                       "image": "img/HAC.png",
                       "info": null,
-                      "stock": {
-                        "totalAvailable": 25,
-                        "totalOrdered": 30
-                      },
                       "priority": 999
                     }
                   }
@@ -4693,7 +4108,6 @@
                   "info": null,
                   "children": {
                     "Standard": {
-                      "product_code": "EV-210-227",
                       "product_name": "Solax X3-HAC-22P, 1/3 phase shift",
                       "label": "Standard",
                       "value": "HAC",
@@ -4702,14 +4116,9 @@
                       "description": "SolaX X3 HAC",
                       "image": "img/HAC.png",
                       "info": null,
-                      "stock": {
-                        "totalAvailable": 17,
-                        "totalOrdered": 150
-                      },
                       "priority": 999
                     },
                     "With display": {
-                      "product_code": "EV-210-227L",
                       "product_name": "Solax X3-HAC-22P - L, 1/3 phase shift",
                       "label": "Mit Display",
                       "value": "HAC",
@@ -4718,10 +4127,6 @@
                       "description": "SolaX X3 HAC",
                       "image": "img/HAC.png",
                       "info": null,
-                      "stock": {
-                        "totalAvailable": 277,
-                        "totalOrdered": 0
-                      },
                       "priority": 999
                     }
                   }
@@ -4782,7 +4187,6 @@
                   "info": null,
                   "children": {
                     "Standard": {
-                      "product_code": "EV-210-11S",
                       "product_name": "Solax X3-HAC-11S, 1/3 phase shift",
                       "label": "Standard",
                       "value": "HAC",
@@ -4791,14 +4195,9 @@
                       "description": "SolaX X3 HAC",
                       "image": "img/HAC.png",
                       "info": null,
-                      "stock": {
-                        "totalAvailable": 0,
-                        "totalOrdered": 98
-                      },
                       "priority": 99
                     },
                     "With display": {
-                      "product_code": "EV-210-11SL",
                       "product_name": "Solax X3-HAC-11S - L, 1/3 phase shift",
                       "label": "With display",
                       "value": "HAC",
@@ -4807,10 +4206,6 @@
                       "description": "SolaX X3 HAC",
                       "image": "img/HAC.png",
                       "info": null,
-                      "stock": {
-                        "totalAvailable": 0,
-                        "totalOrdered": 40
-                      },
                       "priority": 99
                     }
                   }
@@ -4825,7 +4220,6 @@
                   "info": null,
                   "children": {
                     "Standard": {
-                      "product_code": "EV-210-118",
                       "product_name": "Solax X3-HAC-11P, 1/3 phase shift",
                       "label": "Standard",
                       "value": "HAC",
@@ -4834,14 +4228,9 @@
                       "description": "SolaX X3 HAC",
                       "image": "img/HAC.png",
                       "info": null,
-                      "stock": {
-                        "totalAvailable": 0,
-                        "totalOrdered": 441
-                      },
                       "priority": 99
                     },
                     "With display": {
-                      "product_code": "EV-210-118L",
                       "product_name": "Solax X3-HAC-11P - L, 1/3 phase shift",
                       "label": "With display",
                       "value": "HAC",
@@ -4850,10 +4239,6 @@
                       "description": "SolaX X3 HAC",
                       "image": "img/HAC.png",
                       "info": null,
-                      "stock": {
-                        "totalAvailable": 103,
-                        "totalOrdered": 200
-                      },
                       "priority": 999
                     }
                   }
@@ -4879,7 +4264,6 @@
                   "info": null,
                   "children": {
                     "Standard": {
-                      "product_code": "EV-210-22S",
                       "product_name": "Solax X3-HAC-22S, 1/3 phase shift",
                       "label": "Standard",
                       "value": "HAC",
@@ -4888,14 +4272,9 @@
                       "description": "SolaX X3 HAC",
                       "image": "img/HAC.png",
                       "info": null,
-                      "stock": {
-                        "totalAvailable": 15,
-                        "totalOrdered": 25
-                      },
                       "priority": 999
                     },
                     "With display": {
-                      "product_code": "EV-210-22SL",
                       "product_name": "Solax X3-HAC-22S - L, 1/3 phase shift",
                       "label": "With display",
                       "value": "HAC",
@@ -4904,10 +4283,6 @@
                       "description": "SolaX X3 HAC",
                       "image": "img/HAC.png",
                       "info": null,
-                      "stock": {
-                        "totalAvailable": 25,
-                        "totalOrdered": 30
-                      },
                       "priority": 999
                     }
                   }
@@ -4922,7 +4297,6 @@
                   "info": null,
                   "children": {
                     "Standard": {
-                      "product_code": "EV-210-227",
                       "product_name": "Solax X3-HAC-22P, 1/3 phase shift",
                       "label": "Standard",
                       "value": "HAC",
@@ -4931,14 +4305,9 @@
                       "description": "SolaX X3 HAC",
                       "image": "img/HAC.png",
                       "info": null,
-                      "stock": {
-                        "totalAvailable": 17,
-                        "totalOrdered": 150
-                      },
                       "priority": 999
                     },
                     "With display": {
-                      "product_code": "EV-210-227L",
                       "product_name": "Solax X3-HAC-22P - L, 1/3 phase shift",
                       "label": "With display",
                       "value": "HAC",
@@ -4947,10 +4316,6 @@
                       "description": "SolaX X3 HAC",
                       "image": "img/HAC.png",
                       "info": null,
-                      "stock": {
-                        "totalAvailable": 277,
-                        "totalOrdered": 0
-                      },
                       "priority": 999
                     }
                   }
@@ -5011,7 +4376,6 @@
                   "info": null,
                   "children": {
                     "Standard": {
-                      "product_code": "EV-210-11S",
                       "product_name": "Solax X3-HAC-11S, 1/3 phase shift",
                       "label": "Standard",
                       "value": "HAC",
@@ -5020,14 +4384,9 @@
                       "description": "SolaX X3 HAC",
                       "image": "img/HAC.png",
                       "info": null,
-                      "stock": {
-                        "totalAvailable": 0,
-                        "totalOrdered": 98
-                      },
                       "priority": 99
                     },
                     "With display": {
-                      "product_code": "EV-210-11SL",
                       "product_name": "Solax X3-HAC-11S - L, 1/3 phase shift",
                       "label": "S displejem",
                       "value": "HAC",
@@ -5036,10 +4395,6 @@
                       "description": "SolaX X3 HAC",
                       "image": "img/HAC.png",
                       "info": null,
-                      "stock": {
-                        "totalAvailable": 0,
-                        "totalOrdered": 40
-                      },
                       "priority": 99
                     }
                   }
@@ -5054,7 +4409,6 @@
                   "info": null,
                   "children": {
                     "Standard": {
-                      "product_code": "EV-210-118",
                       "product_name": "Solax X3-HAC-11P, 1/3 phase shift",
                       "label": "Standard",
                       "value": "HAC",
@@ -5063,14 +4417,9 @@
                       "description": "SolaX X3 HAC",
                       "image": "img/HAC.png",
                       "info": null,
-                      "stock": {
-                        "totalAvailable": 0,
-                        "totalOrdered": 441
-                      },
                       "priority": 99
                     },
                     "With display": {
-                      "product_code": "EV-210-118L",
                       "product_name": "Solax X3-HAC-11P - L, 1/3 phase shift",
                       "label": "S displejem",
                       "value": "HAC",
@@ -5079,10 +4428,6 @@
                       "description": "SolaX X3 HAC",
                       "image": "img/HAC.png",
                       "info": null,
-                      "stock": {
-                        "totalAvailable": 103,
-                        "totalOrdered": 200
-                      },
                       "priority": 999
                     }
                   }
@@ -5108,7 +4453,6 @@
                   "info": null,
                   "children": {
                     "Standard": {
-                      "product_code": "EV-210-22S",
                       "product_name": "Solax X3-HAC-22S, 1/3 phase shift",
                       "label": "Standard",
                       "value": "HAC",
@@ -5117,14 +4461,9 @@
                       "description": "SolaX X3 HAC",
                       "image": "img/HAC.png",
                       "info": null,
-                      "stock": {
-                        "totalAvailable": 15,
-                        "totalOrdered": 25
-                      },
                       "priority": 999
                     },
                     "With display": {
-                      "product_code": "EV-210-22SL",
                       "product_name": "Solax X3-HAC-22S - L, 1/3 phase shift",
                       "label": "S displejem",
                       "value": "HAC",
@@ -5133,10 +4472,6 @@
                       "description": "SolaX X3 HAC",
                       "image": "img/HAC.png",
                       "info": null,
-                      "stock": {
-                        "totalAvailable": 25,
-                        "totalOrdered": 30
-                      },
                       "priority": 999
                     }
                   }
@@ -5151,7 +4486,6 @@
                   "info": null,
                   "children": {
                     "Standard": {
-                      "product_code": "EV-210-227",
                       "product_name": "Solax X3-HAC-22P, 1/3 phase shift",
                       "label": "Standard",
                       "value": "HAC",
@@ -5160,14 +4494,9 @@
                       "description": "SolaX X3 HAC",
                       "image": "img/HAC.png",
                       "info": null,
-                      "stock": {
-                        "totalAvailable": 17,
-                        "totalOrdered": 150
-                      },
                       "priority": 999
                     },
                     "With display": {
-                      "product_code": "EV-210-227L",
                       "product_name": "Solax X3-HAC-22P - L, 1/3 phase shift",
                       "label": "S displejem",
                       "value": "HAC",
@@ -5176,10 +4505,6 @@
                       "description": "SolaX X3 HAC",
                       "image": "img/HAC.png",
                       "info": null,
-                      "stock": {
-                        "totalAvailable": 277,
-                        "totalOrdered": 0
-                      },
                       "priority": 999
                     }
                   }

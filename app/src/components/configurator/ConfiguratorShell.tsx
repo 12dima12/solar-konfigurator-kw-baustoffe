@@ -119,7 +119,7 @@ export function ConfiguratorShell() {
             ))}
           </div>
         ) : (
-          <OptionGrid children={children} locale={lang} onSelect={handleSelect} />
+          <OptionGrid children={children} onSelect={handleSelect} />
         )}
       </main>
     </div>

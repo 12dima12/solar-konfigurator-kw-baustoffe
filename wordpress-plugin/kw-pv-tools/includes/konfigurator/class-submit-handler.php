@@ -161,7 +161,6 @@ class SubmitHandler {
             $product = null;
             if ( isset( $s['selectedProduct'] ) && is_array( $s['selectedProduct'] ) ) {
                 $product = [
-                    'product_code' => sanitize_text_field( self::cap( $s['selectedProduct']['product_code'] ?? '', self::MAX_PRODUCT_FIELD ) ),
                     'product_name' => sanitize_text_field( self::cap( $s['selectedProduct']['product_name'] ?? '', self::MAX_PRODUCT_FIELD ) ),
                     'value'        => sanitize_text_field( self::cap( $s['selectedProduct']['value']        ?? '', self::MAX_PRODUCT_FIELD ) ),
                 ];
@@ -257,10 +256,9 @@ class SubmitHandler {
             $rows .= sprintf(
                 '<tr><td style="padding:8px;border-bottom:1px solid #e5e7eb;">
                     <strong>%s</strong><br>
-                    <small style="color:#888;">#%s &bull; %s</small>
+                    <small style="color:#888;">%s</small>
                 </td></tr>',
                 esc_html( $p['product_name'] ),
-                esc_html( $p['product_code'] ),
                 esc_html( $p['value'] )
             );
         }

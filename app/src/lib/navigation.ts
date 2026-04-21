@@ -63,7 +63,7 @@ export function getChildrenSorted(node: ConfigNode): Array<[string, ConfigNode]>
 }
 
 export function isLeafNode(node: ConfigNode): boolean {
-  return !!node.product_code || (!node.children && node.value !== null);
+  return !node.children && node.value !== null;
 }
 
 export function getNextPhase(

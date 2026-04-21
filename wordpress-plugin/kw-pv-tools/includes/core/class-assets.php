@@ -106,7 +106,7 @@ class Assets {
             $value = $m[3];
 
             // srcset can contain comma-separated URL+descriptor pairs
-            if ( str_contains( strtolower( $attr ), 'srcset' ) ) {
+            if ( strpos( strtolower( $attr ), 'srcset' ) !== false ) {
                 $parts = array_map( function ( $part ) use ( $asset_prefixes ) {
                     $part  = trim( $part );
                     $split = preg_split( '/\s+/', $part, 2 );

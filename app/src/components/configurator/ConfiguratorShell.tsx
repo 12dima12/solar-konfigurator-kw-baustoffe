@@ -76,6 +76,7 @@ export function ConfiguratorShell() {
     model: string;
     seriesLabel: string;
     moduleCount: number;
+    montageParts: Array<{ count: number; label: string }>;
   }) => {
     const store = useConfigStore.getState();
     store.confirmProduct({
@@ -88,6 +89,7 @@ export function ConfiguratorShell() {
         kwh: payload.kwh,
         moduleCount: payload.moduleCount,
         model: payload.model,
+        parts: payload.montageParts,
       },
     });
     if (!isFinalPhase) store.skipPhase();

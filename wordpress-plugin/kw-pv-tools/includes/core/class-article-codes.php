@@ -50,6 +50,10 @@ class ArticleCodes {
 		'BMS'        => 'G-690-9I01',
 		'Series BOX' => 'G-690-9I02',
 
+		// -- BMS Parallel-Boxen (Mehrstapel-Verschaltung bei T58 / T30 > Schwellwert) --
+		'BMS Parallel Box G1' => null,
+		'BMS Parallel Box G2' => null,
+
 		// -- Batteriezubehör --
 		'Solax Triple Power Holding Bracket' => null,
 		'Solax Triple Power Base Plate'      => null,

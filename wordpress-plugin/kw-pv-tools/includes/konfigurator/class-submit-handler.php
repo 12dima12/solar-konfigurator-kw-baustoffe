@@ -206,6 +206,7 @@ class SubmitHandler {
                         'kwh'         => (float) ( $bm['kwh']         ?? 0 ),
                         'moduleCount' => max( 0, (int) ( $bm['moduleCount'] ?? 0 ) ),
                         'model'       => sanitize_text_field( self::cap( (string) ( $bm['model']       ?? '' ), 50 ) ),
+                        'parts'       => self::sanitize_battery_parts( $bm['parts'] ?? null ),
                     ];
                 }
                 // Structured accessory line items (see AccessoryConfigurator).
@@ -246,6 +247,23 @@ class SubmitHandler {
      * Multibyte-aware truncation. Avoids mid-sequence cuts that would
      * corrupt UTF-8. Accepts non-strings silently to simplify callers.
      */
+    /**
+     * Validates the structured battery parts array ({label, count}[]). Caps
+     * count range and label length to stop mass-submit abuse.
+     */
+    private static function sanitize_battery_parts( $raw ): array {
+        if ( ! is_array( $raw ) ) return [];
+        $out = [];
+        foreach ( array_slice( $raw, 0, 10 ) as $row ) {
+            if ( ! is_array( $row ) ) continue;
+            $label = sanitize_text_field( self::cap( (string) ( $row['label'] ?? '' ), 80 ) );
+            $count = max( 0, min( 99, (int) ( $row['count'] ?? 0 ) ) );
+            if ( $label === '' || $count === 0 ) continue;
+            $out[] = [ 'label' => $label, 'count' => $count ];
+        }
+        return $out;
+    }
+
     private static function cap( $value, int $max ): string {
         if ( ! is_string( $value ) ) return '';
         // mb_substr ensures name fields with Umlauts / Czech diacritics /

@@ -96,12 +96,22 @@ class PdfEndpoint {
 				];
 				if ( isset( $sp['batteryMeta'] ) && is_array( $sp['batteryMeta'] ) ) {
 					$bm                     = $sp['batteryMeta'];
+					$parts                  = [];
+					if ( is_array( $bm['parts'] ?? null ) ) {
+						foreach ( array_slice( $bm['parts'], 0, 10 ) as $row ) {
+							if ( ! is_array( $row ) ) continue;
+							$label = sanitize_text_field( self::cap( (string) ( $row['label'] ?? '' ), 80 ) );
+							$count = max( 0, min( 99, (int) ( $row['count'] ?? 0 ) ) );
+							if ( $label !== '' && $count > 0 ) $parts[] = [ 'label' => $label, 'count' => $count ];
+						}
+					}
 					$product['batteryMeta'] = [
 						'seriesKey'   => sanitize_key( (string) ( $bm['seriesKey']   ?? '' ) ),
 						'seriesLabel' => sanitize_text_field( self::cap( (string) ( $bm['seriesLabel'] ?? '' ), self::MAX_PRODUCT_FIELD ) ),
 						'kwh'         => (float) ( $bm['kwh']         ?? 0 ),
 						'moduleCount' => max( 0, (int) ( $bm['moduleCount'] ?? 0 ) ),
 						'model'       => sanitize_text_field( self::cap( (string) ( $bm['model']       ?? '' ), 50 ) ),
+						'parts'       => $parts,
 					];
 				}
 				if ( isset( $sp['items'] ) && is_array( $sp['items'] ) ) {

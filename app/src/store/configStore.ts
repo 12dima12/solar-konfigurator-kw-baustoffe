@@ -22,6 +22,7 @@ export interface PhaseSelection {
       kwh: number;
       moduleCount: number;
       model: string;
+      parts: Array<{ count: number; label: string }>;
     };
     /**
      * Optional structured line items. Written by the accessory phase so the

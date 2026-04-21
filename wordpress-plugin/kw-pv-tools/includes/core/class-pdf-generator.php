@@ -147,46 +147,43 @@ class PdfGenerator {
 	}
 
 	/**
-	 * Derive "Master"/"Slave" or "BMS"/"BAT BOX"/"Series BOX" rows from the
-	 * battery meta the frontend posts. Falls back silently if the series
-	 * is unknown — the user still gets the summary row.
+	 * Render battery component rows straight from the montage parts the
+	 * client committed (Master/Slave/BMS/BAT BOX/Series BOX/BMS Parallel Box G1+G2).
+	 * Falls back to seriesKey-derived heuristics only when the client posted
+	 * no parts array (older clients pre-v2.6.4).
 	 */
 	private static function battery_component_items( array $meta ): array {
+		$parts = is_array( $meta['parts'] ?? null ) ? $meta['parts'] : null;
+		if ( is_array( $parts ) && count( $parts ) > 0 ) {
+			$rows = [];
+			foreach ( $parts as $p ) {
+				$label = sanitize_text_field( (string) ( $p['label'] ?? '' ) );
+				$count = max( 0, (int) ( $p['count'] ?? 0 ) );
+				if ( $label === '' || $count === 0 ) continue;
+				$rows[] = [
+					'category' => 'Batteriekomponenten',
+					'name'     => $label,
+					'code'     => ArticleCodes::lookup( $label ),
+					'qty'      => $count,
+				];
+			}
+			return $rows;
+		}
+
+		// Legacy fallback: derive rows from moduleCount + seriesKey.
 		$count  = max( 0, (int) ( $meta['moduleCount'] ?? 0 ) );
 		$series = (string) ( $meta['seriesKey'] ?? '' );
 		if ( $count === 0 ) return [];
-
 		switch ( $series ) {
 			case 't58':
-				$out = [ [
-					'category' => 'Batteriekomponenten',
-					'name'     => 'Master',
-					'code'     => ArticleCodes::lookup( 'Master' ),
-					'qty'      => 1,
-				] ];
-				if ( $count > 1 ) {
-					$out[] = [
-						'category' => 'Batteriekomponenten',
-						'name'     => 'Slave',
-						'code'     => ArticleCodes::lookup( 'Slave' ),
-						'qty'      => $count - 1,
-					];
-				}
+				$out = [ [ 'category' => 'Batteriekomponenten', 'name' => 'Master', 'code' => ArticleCodes::lookup( 'Master' ), 'qty' => 1 ] ];
+				if ( $count > 1 ) $out[] = [ 'category' => 'Batteriekomponenten', 'name' => 'Slave', 'code' => ArticleCodes::lookup( 'Slave' ), 'qty' => $count - 1 ];
 				return $out;
-
 			case 's25-s36':
 			case 't30':
 				return [
 					[ 'category' => 'Batteriekomponenten', 'name' => 'BMS',     'code' => ArticleCodes::lookup( 'BMS' ),     'qty' => 1 ],
 					[ 'category' => 'Batteriekomponenten', 'name' => 'BAT BOX', 'code' => ArticleCodes::lookup( 'BAT BOX' ), 'qty' => $count ],
-				];
-
-			case 'hs50e':
-				// IES all-in-one: BMS + BAT BOX + Series BOX.
-				return [
-					[ 'category' => 'Batteriekomponenten', 'name' => 'BMS',        'code' => ArticleCodes::lookup( 'BMS' ),        'qty' => 1 ],
-					[ 'category' => 'Batteriekomponenten', 'name' => 'BAT BOX',    'code' => ArticleCodes::lookup( 'BAT BOX' ),    'qty' => $count ],
-					[ 'category' => 'Batteriekomponenten', 'name' => 'Series BOX', 'code' => ArticleCodes::lookup( 'Series BOX' ), 'qty' => 1 ],
 				];
 		}
 		return [];

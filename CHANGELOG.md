@@ -4,6 +4,23 @@ Format: [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+### Changed (Batch A — review fix-up)
+- Provider-System für Captcha auf Altcha-only reduziert. hCaptcha und reCAPTCHA v3 entfernt inkl. PHP-Backend, Frontend-Widgets und NPM-Dependencies. Siehe `docs/DECISIONS.md` ADR-013.
+- Shortcode-Asset-Rewriting umfasst jetzt auch `<img>`/`<link>` im Body-Markup — Produktbilder laden endlich aus dem Plugin-URL (vorher 404).
+- PDF-Generation vollständig entfernt: `app/src/lib/pdf.tsx`, `@react-pdf/renderer` aus `package.json`. Der PDF-Versand war seit der Phase-10-Migration (Static Export + WP-Plugin) funktional tot, wurde aber weiterhin in Docs und README versprochen. Die Benachrichtigungs- und Bestätigungs-Mails sind reine HTML-Mails via `wp_mail()`.
+- `post-export.mjs` scannt Manufacturer-Verzeichnisse dynamisch statt SolaX hardcoded.
+
+### Fixed (previous)
+- CSP: `strict-dynamic` entfernt (blockierte ohne Hashes alle Scripts).
+- CSRF-Schutz via Origin-Check auf `/submit`.
+- Altcha-Replay-Schutz via Transient-Fingerprint.
+- Rate-Limiter atomisiert (`START TRANSACTION` + `SELECT … FOR UPDATE`).
+- Honeypot-Check vor Rate-Limit und Validation.
+- Path-Traversal-Guard in `Assets::extract_asset_tags()`.
+
+## [2.1.0] – 2026-04-20 (vormals getaggt v2.1.0)
+- Phase-11-Meilenstein: UX & Ops (siehe `PHASE_10_DONE.md`, `readme.txt`).
+
 ## [1.0.0] – 2026-04-20
 
 ### Added

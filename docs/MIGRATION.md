@@ -26,8 +26,7 @@
 | Power-Slider | Custom Vue-Slider | shadcn/ui Slider |
 | Sidebar | Absolut positionierte Sidebar | shadcn/ui Sheet (Drawer) |
 | Sprach-Routing | URL-Parameter | Next.js i18n + Zustand |
-| Submit-Endpoint | Unbekannter PHP-Backend | Next.js API Route |
-| PDF-Export | Nicht vorhanden | @react-pdf/renderer (Phase 4) |
-| iFrame-Resize | postMessage (Original unbekannt) | Eigener `useIframeResize.ts` mit `kw-configurator-resize` Namespace |
+| Submit-Endpoint | Unbekannter PHP-Backend | Next.js API Route (Phase 3–8) → WordPress REST-API (Phase 10+) |
+| iFrame-Resize | postMessage (Original unbekannt) | Eigener `useIframeResize.ts` mit `kw-configurator-resize` Namespace (historisch; nicht mehr aktiv, siehe ADR-010 Static Export) |
 | Branding | GBC-Solino (Gelb/Weiß) | KW PV Solutions (Dunkelblau/Rot) |
 | Domains/Logos | GBC-Solino | KW PV Solutions |

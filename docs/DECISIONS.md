@@ -187,3 +187,23 @@ Format: Für jede wichtige Entscheidung Kontext + was wir gewählt haben + was w
 + Debugging: `localStorage.setItem('kw-pv-tools:debug', '1')` aktiviert Konsolen-Logging aller Events
 + Neue Werkzeuge können jederzeit auf Events lauschen ohne Code-Änderungen in bestehenden Modulen
 − Events sind fire-and-forget; wenn der Konfigurator beim Event-Empfang noch nicht geladen ist, geht das Event verloren → deshalb `app-ready`-Event + Retry-Logik
+
+---
+
+## ADR-012: Entfernung der Passwort-Auth-Middleware (Phase 8)
+
+**Kontext:** `app/src/middleware.ts` enthielt einen Staging-Schutz: alle Routen außer `/_login` und `/api/*` wurden auf einen Login-Screen umgeleitet. Das Passwort wurde als Klartext-Cookie gesetzt (`document.cookie = kw_auth=${password}`) und serverseitig direkt verglichen (`cookie === PASSWORD`).
+
+**Problem:** Dieser Schutz war in keinem Phase-Dokument erwähnt und hätte vor Go-Live aktiv zurückgebaut werden müssen. Er machte den primären Deployment-Pfad — `<iframe src="https://konfigurator.kw-baustoffe.de/solax/embed">` auf `kw-baustoffe.de` — in Production strukturell kaputt:
+
+1. **iFrame-Redirect:** Ein nicht-authentifizierter Besucher sieht im iFrame den Login-Screen statt des Konfigurators.
+2. **Third-Party-Cookie-Blockade:** Der Auth-Cookie ist auf `konfigurator.kw-baustoffe.de` gesetzt. Im iFrame-Kontext auf `kw-baustoffe.de` blockieren Safari ITP, Firefox ETP und Chromes Third-Party-Cookie-Phaseout den Cookie-Transfer — `SameSite=Lax` verstärkt das noch. D.h. selbst nach einmaligem Login auf der Konfigurator-Domain bleibt der iFrame dauerhaft gesperrt.
+3. **Plaintext-Credential im Cookie:** Das echte Passwort stand als URL-encoded String im Cookie-Value — sichtbar in DevTools und Netzwerk-Logs.
+
+**Entscheidung:** Middleware vollständig entfernt (Phase 8, `b58003b`). Staging-Schutz wird stattdessen auf Infrastruktur-Ebene gehandhabt (HTTP Basic Auth via nginx/Caddy, IP-Whitelist), nicht in der Applikation.
+
+**Konsequenzen:**
++ iFrame-Embedding funktioniert ohne Cookie-Abhängigkeit
++ Keine Third-Party-Cookie-Problematik
++ Kein Credential im Client-seitigen Cookie
++ Static Export (Phase 9) macht serverseitige Middleware ohnehin unmöglich — die Entscheidung ist architektonisch verankert

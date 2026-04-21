@@ -150,6 +150,16 @@ Format: Für jede wichtige Entscheidung Kontext + was wir gewählt haben + was w
 
 ---
 
+## ADR-009: Captcha serverseitig immer erzwingen — kein optional()-Pattern
+
+**Kontext:** Die ursprüngliche Next.js-API (`app/api/submit/route.ts`) deklarierte `captchaToken` im Zod-Schema als `.optional()` und prüfte es nur per `if (data.captchaToken) { ... }`. Das erlaubte einen vollständigen Captcha-Bypass durch einfaches Weglassen des Feldes. `docs/SECURITY.md` beschrieb Layer 3 als „Server-seitige Token-Verifikation, HTTP 403 bei Fehler" — das war faktisch falsch. Zusätzlich gab `captcha.ts` in Dev-Mode (`NODE_ENV !== 'production'` und fehlendes Secret) automatisch `true` zurück — ein Environment-Konfigurationsfehler hätte Captcha auf Vercel Previews lautlos deaktiviert.
+
+**Entscheidung:** In der PHP-Implementierung (Phase 10) wird `Captcha::verify()` **bedingungslos** aufgerufen. Fehlt das Token, liefern alle Provider `['success' => false]` — kein Early-Return, keine Sonderbehandlung. Es gibt keinen Dev-Mode-Bypass: PHP kennt kein `NODE_ENV`, und Captcha lässt sich ausschließlich über explizite Admin-Einstellungen (`captcha_enabled = false` oder `captcha_provider = none`) deaktivieren — nicht durch Umgebungsvariablen.
+
+**Konsequenz:** Captcha ist fail-closed. Ein Request ohne Token erhält HTTP 403 — unabhängig davon, was das Frontend tut.
+
+---
+
 ## ADR-010: Migration zu Static Export für WordPress-Deployment
 
 **Kontext:** Die App sollte in Phase 10 als statisches Bundle in ein WordPress-Plugin eingebettet werden. Next.js `output: 'standalone'` erfordert einen Node.js-Server. KW Baustoffe betreibt nur WordPress auf shared Hosting — kein Node.js verfügbar.

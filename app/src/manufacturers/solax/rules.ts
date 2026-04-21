@@ -1,5 +1,5 @@
 import type { ManufacturerRules } from "../types";
-import type { ConfigPhase, Lang } from "@/data/types";
+import type { ConfigNode, ConfigPhase, Lang } from "@/data/types";
 import type { PhaseSelection } from "@/store/configStore";
 
 function isX1Selected(selections: PhaseSelection[]): boolean {
@@ -20,15 +20,41 @@ function isX3Selected(selections: PhaseSelection[]): boolean {
   );
 }
 
+// Option key starts with "X1 …" or "X3 …"; anything else (section headings
+// like "Yes"/"No") passes through.
+function nameMatchesPhaseCount(key: string, node: ConfigNode, prefix: "X1" | "X3"): boolean {
+  if (key.startsWith(prefix + " ")) return true;
+  const productName = node.product_name ?? "";
+  if (productName.includes(prefix)) return true;
+  return false;
+}
+
+function isPhaseTaggedProduct(key: string, node: ConfigNode): boolean {
+  if (key.startsWith("X1 ") || key.startsWith("X3 ")) return true;
+  const productName = node.product_name ?? "";
+  return productName.includes("X1") || productName.includes("X3");
+}
+
 const rules: ManufacturerRules = {
   filterOptions(
     phase: ConfigPhase,
     _lang: Lang,
-    options: Record<string, unknown>
-  ): Record<string, unknown> {
-    // Backup phase: filter X1 vs X3 compatible backup units by product name prefix
+    options: Array<[string, ConfigNode]>,
+    selections: PhaseSelection[],
+  ): Array<[string, ConfigNode]> {
+    // Backup / Ersatzstromversorgung: a 3-phase inverter (X3) can only run
+    // a 3-phase backup unit and vice versa. Hide phase-incompatible entries
+    // entirely so the user can't pick them. Non-phase-tagged options
+    // (e.g. "Yes"/"No" top-level choices) pass through unchanged.
     if (phase === "backup") {
-      return options; // filtering happens implicitly via product names (X1/X3 prefix)
+      const x1 = isX1Selected(selections);
+      const x3 = isX3Selected(selections);
+      if (!x1 && !x3) return options;
+      const keep: "X1" | "X3" = x3 ? "X3" : "X1";
+      return options.filter(([key, node]) => {
+        if (!isPhaseTaggedProduct(key, node)) return true;
+        return nameMatchesPhaseCount(key, node, keep);
+      });
     }
     return options;
   },

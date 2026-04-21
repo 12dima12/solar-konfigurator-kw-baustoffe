@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { ConfigPhase, Lang } from "@/data/types";
+import type { ConfigNode, ConfigPhase, Lang } from "@/data/types";
 import type { PhaseSelection } from "@/store/configStore";
 
 export const ManufacturerMetaSchema = z.object({
@@ -14,11 +14,18 @@ export const ManufacturerMetaSchema = z.object({
 export type ManufacturerMeta = z.infer<typeof ManufacturerMetaSchema>;
 
 export interface ManufacturerRules {
+  /**
+   * Applied to the sorted [key, ConfigNode] list before it reaches the
+   * option grid. Use this to hide options that are electrically
+   * incompatible with earlier selections (e.g. X1 backup units when an
+   * X3 inverter was picked) so the user can't even click them.
+   */
   filterOptions(
     phase: ConfigPhase,
     lang: Lang,
-    options: Record<string, unknown>
-  ): Record<string, unknown>;
+    options: Array<[string, ConfigNode]>,
+    selections: PhaseSelection[]
+  ): Array<[string, ConfigNode]>;
   validateCombination(selections: PhaseSelection[]): { valid: boolean; reason?: string };
 }
 

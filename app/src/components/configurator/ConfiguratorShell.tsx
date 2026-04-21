@@ -36,8 +36,13 @@ export function ConfiguratorShell() {
   useIframeResize();
   const manufacturer = useManufacturer();
 
-  const { phase, lang, steps, currentNode, children, isFinalPhase, currentPhaseIndex, selections, handleSelect, goBack, goToPhase, reset } =
+  const { phase, lang, steps, currentNode, children: rawChildren, isFinalPhase, currentPhaseIndex, selections, handleSelect, goBack, goToPhase, reset } =
     useConfigState(manufacturer.catalog);
+
+  // Apply manufacturer rules — e.g. for SolaX hide X1 backup units when an
+  // X3 inverter was picked (and vice versa) so only electrically compatible
+  // options show up in the grid.
+  const children = manufacturer.rules.filterOptions(phase, lang, rawChildren, selections);
 
   const isX3 =
     phase === "inverter" &&

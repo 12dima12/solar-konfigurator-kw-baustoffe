@@ -23,8 +23,8 @@ export function ManufacturerProvider({
   catalog: Record<string, any>;
   children: ReactNode;
 }) {
-  const rules = getRules(meta.slug) ?? {
-    filterOptions: (_phase: unknown, _lang: unknown, options: Record<string, unknown>) => options,
+  const rules: ManufacturerRules = getRules(meta.slug) ?? {
+    filterOptions: (_phase, _lang, options, _selections) => options,
     validateCombination: () => ({ valid: true }),
   };
 

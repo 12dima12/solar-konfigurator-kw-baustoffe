@@ -167,6 +167,18 @@ class SystemCheck {
                 : __( 'DISABLE_WP_CRON ist gesetzt — Bereinigung manuell einrichten', 'kw-pv-tools' ),
         ];
 
+        // Datenschutzseite (DSGVO Art. 13: Hinweis vor Datenerhebung pflicht)
+        $privacy_url = get_privacy_policy_url();
+        $privacy_ok  = ! empty( $privacy_url );
+        $checks[] = [
+            'label'  => __( 'Datenschutzseite', 'kw-pv-tools' ),
+            'ok'     => $privacy_ok,
+            'status' => $privacy_ok ? 'OK' : __( 'Nicht gesetzt', 'kw-pv-tools' ),
+            'detail' => $privacy_ok
+                ? sprintf( '<a href="%s" target="_blank" rel="noreferrer">%s</a>', esc_url( $privacy_url ), esc_html( $privacy_url ) )
+                : __( 'WP-Admin → Einstellungen → Datenschutz → Datenschutzseite wählen. Der Konfigurator verlinkt sie im Kontaktformular.', 'kw-pv-tools' ),
+        ];
+
         return $checks;
     }
 }

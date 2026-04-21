@@ -59,3 +59,16 @@ export function route(name: keyof typeof API_ROUTES): string {
   const base = getApiBase();
   return API_ROUTES[name].replace(API_BASE, base);
 }
+
+/**
+ * Datenschutz-Seite — vom WP-Shortcode via `data-kw-privacy-url`
+ * durchgereicht (Fallback im Plugin: `get_privacy_policy_url()`).
+ * Leerer String → kein Link im Frontend; der System-Check flaggt das
+ * separat als "Datenschutzseite nicht konfiguriert".
+ */
+export function getPrivacyUrl(): string {
+  if (typeof window === "undefined") return "";
+  return (
+    (window as { KW_PV_TOOLS?: { privacyUrl?: string } }).KW_PV_TOOLS?.privacyUrl ?? ""
+  );
+}

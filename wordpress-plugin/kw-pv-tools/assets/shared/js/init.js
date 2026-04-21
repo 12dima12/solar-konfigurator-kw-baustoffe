@@ -13,10 +13,11 @@
 
   // Bootstrap-Objekt setzen (wird von der React-App vor Hydration erwartet)
   window.KW_PV_TOOLS = {
-    apiBase: container.dataset.kwApiBase  || '',
-    nonce:   container.dataset.kwNonce   || '',
-    lang:    container.dataset.kwLang    || 'de',
-    version: container.dataset.kwVersion || '',
+    apiBase:    container.dataset.kwApiBase    || '',
+    nonce:      container.dataset.kwNonce      || '',
+    lang:       container.dataset.kwLang       || 'de',
+    version:    container.dataset.kwVersion    || '',
+    privacyUrl: container.dataset.kwPrivacyUrl || '',
   };
 
   // Preset via Event-Bus weiterleiten, sobald App bereit ist

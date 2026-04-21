@@ -5,12 +5,21 @@ import { Card } from "@/components/ui/card";
 import { BatteryCapacitySlider } from "./BatteryCapacitySlider";
 import { SOLAX_BATTERY_SERIES, type BatterySeries } from "@/manufacturers/solax/battery-series";
 import { computeMontage } from "@/lib/battery-montage";
+import { countBatteryModules } from "@/lib/battery-accessory";
 import type { Lang } from "@/data/types";
 import { Battery, Check } from "lucide-react";
 
 interface Props {
   lang: Lang;
-  onConfirm: (payload: { key: string; label: string; value: string; kwh: number; model: string }) => void;
+  onConfirm: (payload: {
+    key: string;
+    label: string;
+    value: string;
+    kwh: number;
+    model: string;
+    seriesLabel: string;
+    moduleCount: number;
+  }) => void;
 }
 
 const UI = {
@@ -124,6 +133,8 @@ export function BatteryConfigurator({ lang, onConfirm }: Props) {
               value: `${montage.kwh.toFixed(2)} kWh`,
               kwh: montage.kwh,
               model: montage.model,
+              seriesLabel: series.label,
+              moduleCount: countBatteryModules(montage.parts),
             })
           }
           disabled={montage.parts.length === 0}

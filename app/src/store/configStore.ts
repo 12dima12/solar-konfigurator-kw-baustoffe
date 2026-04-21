@@ -7,7 +7,23 @@ import { ACTIVE_PHASES } from "@/lib/navigation";
 export interface PhaseSelection {
   phase: ConfigPhase;
   steps: string[];
-  selectedProduct?: { product_name: string; value: string; image?: string | null };
+  selectedProduct?: {
+    product_name: string;
+    value: string;
+    image?: string | null;
+    /**
+     * Written by the battery phase so the accessory phase can derive
+     * holding-bracket / base-plate counts without re-running the slider
+     * logic. Populated only for phase === "battery".
+     */
+    batteryMeta?: {
+      seriesKey: string;
+      seriesLabel: string;
+      kwh: number;
+      moduleCount: number;
+      model: string;
+    };
+  };
 }
 
 interface ConfigState {
@@ -91,6 +107,9 @@ export const useConfigStore = create<ConfigState>()(
       reset: () =>
         set({ currentPhaseIndex: 0, selections: initialSelections() }),
     }),
-    { name: "kw-pv-configurator" }
+    // Key is suffixed with a phase-count version so the schema bump (adding
+    // the accessory phase) invalidates stale persisted 4-phase states
+    // instead of leaving selections[4] undefined.
+    { name: "kw-pv-configurator-v2" }
   )
 );

@@ -6,6 +6,7 @@ import { StepIndicator } from "./StepIndicator";
 import { OptionGrid } from "./OptionGrid";
 import { PowerSlider } from "./PowerSlider";
 import { BatteryConfigurator } from "./BatteryConfigurator";
+import { AccessoryConfigurator, type AccessorySelection } from "./AccessoryConfigurator";
 import { SubmitSummary } from "./SubmitSummary";
 import { CurrentSetupSidebar } from "./CurrentSetupSidebar";
 import { LanguageSwitcher } from "./LanguageSwitcher";
@@ -24,6 +25,7 @@ const PHASE_TITLES: Record<string, Record<Lang, string>> = {
   backup: { de: "Notstromversorgung", en: "Backup power", cs: "Záložní napájení" },
   battery: { de: "Batterie auswählen", en: "Select battery", cs: "Vyberte baterii" },
   wallbox: { de: "Wallbox konfigurieren", en: "Configure wallbox", cs: "Konfigurace wallboxu" },
+  accessory: { de: "Zubehör auswählen", en: "Select accessories", cs: "Vyberte příslušenství" },
 };
 
 const BACK_LABELS: Record<Lang, string> = {
@@ -50,6 +52,7 @@ export function ConfiguratorShell() {
     steps.includes("Three-phase inverter X3");
 
   const isBattery = phase === "battery";
+  const isAccessory = phase === "accessory";
 
   const isFinalStep = isFinalPhase && !!selections[currentPhaseIndex]?.selectedProduct;
 
@@ -66,11 +69,40 @@ export function ConfiguratorShell() {
   // → live montage preview) instead of the generic option grid. The selected
   // configuration is committed via the same store.confirmProduct path as every
   // other phase.
-  const confirmBattery = (payload: { key: string; label: string; value: string; kwh: number; model: string }) => {
+  const confirmBattery = (payload: {
+    key: string;
+    label: string;
+    value: string;
+    kwh: number;
+    model: string;
+    seriesLabel: string;
+    moduleCount: number;
+  }) => {
     const store = useConfigStore.getState();
     store.confirmProduct({
       product_name: `${payload.label} · ${payload.model}`,
       value: payload.value,
+      image: null,
+      batteryMeta: {
+        seriesKey: payload.key,
+        seriesLabel: payload.seriesLabel,
+        kwh: payload.kwh,
+        moduleCount: payload.moduleCount,
+        model: payload.model,
+      },
+    });
+    if (!isFinalPhase) store.skipPhase();
+    scrollToTop();
+  };
+
+  // Accessory phase is fully custom: the summary/product list is synthesised
+  // from Battery meta + dongle + others + smart meter. Everything lands in
+  // selectedProduct.product_name so the sales email renders it as one row.
+  const confirmAccessory = (payload: AccessorySelection) => {
+    const store = useConfigStore.getState();
+    store.confirmProduct({
+      product_name: payload.productListMulti || "Kein Zubehör",
+      value: payload.summary,
       image: null,
     });
     if (!isFinalPhase) store.skipPhase();
@@ -126,6 +158,8 @@ export function ConfiguratorShell() {
           <PowerSlider lang={lang} steps={steps} onSelect={handleSelect} catalog={manufacturer.catalog} />
         ) : isBattery ? (
           <BatteryConfigurator lang={lang} onConfirm={confirmBattery} />
+        ) : isAccessory ? (
+          <AccessoryConfigurator lang={lang} onConfirm={confirmAccessory} onBack={goBack} />
         ) : (
           <OptionGrid children={children} onSelect={handleSelect} />
         )}

@@ -1,4 +1,4 @@
-export const PHASES = ["inverter", "backup", "battery", "wallbox"] as const;
+export const PHASES = ["inverter", "backup", "battery", "wallbox", "accessory"] as const;
 export type ActivePhase = (typeof PHASES)[number];
 
 export const PHASE_LABELS: Record<string, { de: string; en: string; cs: string }> = {
@@ -6,6 +6,7 @@ export const PHASE_LABELS: Record<string, { de: string; en: string; cs: string }
   backup: { de: "Notstrom", en: "Backup", cs: "Záloha" },
   battery: { de: "Batterie", en: "Battery", cs: "Baterie" },
   wallbox: { de: "Wallbox", en: "Wallbox", cs: "Wallbox" },
+  accessory: { de: "Zubehör", en: "Accessory", cs: "Příslušenství" },
 };
 
 export const LOCALES = ["de", "en", "cs"] as const;

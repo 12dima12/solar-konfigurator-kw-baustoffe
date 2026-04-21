@@ -75,4 +75,4 @@ export function getNextPhase(
   return data?.configuratorNext ?? null;
 }
 
-export const ACTIVE_PHASES: ConfigPhase[] = ["inverter", "backup", "battery", "wallbox"];
+export const ACTIVE_PHASES: ConfigPhase[] = ["inverter", "backup", "battery", "wallbox", "accessory"];

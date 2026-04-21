@@ -44,8 +44,9 @@ class SubmitHandler {
             return new WP_REST_Response( $validated, 400 );
         }
 
-        // 5. Captcha
-        $captcha_result = Captcha::verify( $data['captchaToken'] ?? null );
+        // 5. Captcha — token must be a bounded string or null (never array/object)
+        $captcha_token  = self::clean_captcha_token( $data['captchaToken'] ?? null );
+        $captcha_result = Captcha::verify( $captcha_token );
         if ( ! $captcha_result['success'] ) {
             return new WP_REST_Response(
                 [ 'error' => 'Captcha verification failed', 'reason' => $captcha_result['reason'] ?? '' ],
@@ -93,23 +94,47 @@ class SubmitHandler {
         return new WP_REST_Response( $response, 200 );
     }
 
+    // Hard upper bounds enforced on the server regardless of what the
+    // frontend Zod schema claims. Values mirror src/components/configurator/
+    // SubmitSummary.tsx but apply independently so tampering with the
+    // client-side schema cannot sneak oversized strings past the backend.
+    const MAX_NAME_LEN         = 100;
+    const MAX_EMAIL_LEN        = 200;
+    const MAX_PHONE_LEN        = 30;
+    const MAX_MESSAGE_LEN      = 2000;
+    const MAX_MANUFACTURER_LEN = 50;
+    const MAX_PRODUCT_FIELD    = 200;
+    const MAX_STEP_LEN         = 200;
+    const MAX_STEPS_PER_PHASE  = 10;
+    const MAX_SELECTIONS       = 20;
+    const MAX_CAPTCHA_TOKEN    = 10000;
+
     private static function validate( array $data ): array {
         $errors = [];
 
-        $manufacturer = sanitize_key( $data['manufacturer'] ?? '' );
+        $manufacturer_raw = is_string( $data['manufacturer'] ?? null )
+            ? self::cap( $data['manufacturer'], self::MAX_MANUFACTURER_LEN )
+            : '';
+        $manufacturer = sanitize_key( $manufacturer_raw );
         if ( ! $manufacturer ) $errors[] = 'manufacturer missing';
 
         $selections = $data['selections'] ?? [];
         if ( ! is_array( $selections ) || count( $selections ) === 0 ) $errors[] = 'no selections';
-        if ( count( $selections ) > 20 ) $errors[] = 'too many selections';
+        if ( is_array( $selections ) && count( $selections ) > self::MAX_SELECTIONS ) $errors[] = 'too many selections';
 
-        $contact = $data['contact'] ?? [];
-        $name    = sanitize_text_field( $contact['name'] ?? '' );
-        $email   = sanitize_email( $contact['email'] ?? '' );
-        if ( ! $name )                         $errors[] = 'name required';
+        $contact  = is_array( $data['contact'] ?? null ) ? $data['contact'] : [];
+        $name_raw  = is_string( $contact['name']  ?? null ) ? self::cap( $contact['name'],  self::MAX_NAME_LEN )  : '';
+        $email_raw = is_string( $contact['email'] ?? null ) ? self::cap( $contact['email'], self::MAX_EMAIL_LEN ) : '';
+
+        $name  = sanitize_text_field( $name_raw );
+        $email = sanitize_email( $email_raw );
+        if ( ! $name )                          $errors[] = 'name required';
         if ( ! $email || ! is_email( $email ) ) $errors[] = 'valid email required';
 
         if ( $errors ) return [ 'error' => 'validation', 'errors' => $errors ];
+
+        $phone_raw   = is_string( $contact['phone']   ?? null ) ? self::cap( $contact['phone'],   self::MAX_PHONE_LEN )   : '';
+        $message_raw = is_string( $contact['message'] ?? null ) ? self::cap( $contact['message'], self::MAX_MESSAGE_LEN ) : '';
 
         return [
             'manufacturer' => $manufacturer,
@@ -117,8 +142,8 @@ class SubmitHandler {
             'contact'      => [
                 'name'    => $name,
                 'email'   => strtolower( $email ),
-                'phone'   => sanitize_text_field( $contact['phone'] ?? '' ),
-                'message' => sanitize_textarea_field( substr( $contact['message'] ?? '', 0, 2000 ) ),
+                'phone'   => sanitize_text_field( $phone_raw ),
+                'message' => sanitize_textarea_field( $message_raw ),
             ],
             'lang' => in_array( $data['lang'] ?? '', [ 'de', 'en', 'cs' ], true ) ? $data['lang'] : 'de',
         ];
@@ -136,20 +161,52 @@ class SubmitHandler {
             $product = null;
             if ( isset( $s['selectedProduct'] ) && is_array( $s['selectedProduct'] ) ) {
                 $product = [
-                    'product_code' => sanitize_text_field( $s['selectedProduct']['product_code'] ?? '' ),
-                    'product_name' => sanitize_text_field( $s['selectedProduct']['product_name'] ?? '' ),
-                    'value'        => sanitize_text_field( $s['selectedProduct']['value'] ?? '' ),
+                    'product_code' => sanitize_text_field( self::cap( $s['selectedProduct']['product_code'] ?? '', self::MAX_PRODUCT_FIELD ) ),
+                    'product_name' => sanitize_text_field( self::cap( $s['selectedProduct']['product_name'] ?? '', self::MAX_PRODUCT_FIELD ) ),
+                    'value'        => sanitize_text_field( self::cap( $s['selectedProduct']['value']        ?? '', self::MAX_PRODUCT_FIELD ) ),
                 ];
+            }
+
+            $steps_raw = is_array( $s['steps'] ?? null ) ? $s['steps'] : [];
+            // Cap both the number of steps and each step's length
+            $steps_capped = array_slice( $steps_raw, 0, self::MAX_STEPS_PER_PHASE );
+            $steps_clean  = [];
+            foreach ( $steps_capped as $step ) {
+                if ( ! is_scalar( $step ) ) continue;
+                $steps_clean[] = sanitize_text_field( self::cap( (string) $step, self::MAX_STEP_LEN ) );
             }
 
             $out[] = [
                 'phase'           => $phase,
-                'steps'           => array_map( 'sanitize_text_field', (array) ( $s['steps'] ?? [] ) ),
+                'steps'           => $steps_clean,
                 'selectedProduct' => $product,
             ];
         }
 
         return $out;
+    }
+
+    /**
+     * Multibyte-aware truncation. Avoids mid-sequence cuts that would
+     * corrupt UTF-8. Accepts non-strings silently to simplify callers.
+     */
+    private static function cap( $value, int $max ): string {
+        if ( ! is_string( $value ) ) return '';
+        // mb_substr ensures name fields with Umlauts / Czech diacritics /
+        // emoji survive truncation without producing an invalid sequence.
+        return function_exists( 'mb_substr' )
+            ? mb_substr( $value, 0, $max )
+            : substr( $value, 0, $max );
+    }
+
+    /**
+     * Normalise captchaToken before handing it to Captcha::verify().
+     * Ensures the value is a string (never an array/object that would
+     * trigger a TypeError in the ?string parameter) and bounded in size.
+     */
+    private static function clean_captcha_token( $raw ): ?string {
+        if ( ! is_string( $raw ) || $raw === '' ) return null;
+        return self::cap( $raw, self::MAX_CAPTCHA_TOKEN );
     }
 
     private static function send_notification( array $data ): bool {

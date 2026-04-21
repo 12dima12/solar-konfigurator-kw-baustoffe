@@ -70,6 +70,7 @@ class CSP {
             "img-src 'self' data: blob:",
             "font-src 'self'",
             "connect-src 'self'",
+            "worker-src 'self' blob:",
             "frame-src 'none'",
             "object-src 'none'",
             "base-uri 'self'",

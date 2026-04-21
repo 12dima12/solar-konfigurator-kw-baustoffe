@@ -39,6 +39,7 @@ jobs:
         run: pnpm build
         env:
           NEXT_PUBLIC_API_BASE: "/wp-json/kw-pv-tools/v1"
+          NEXT_PUBLIC_ASSET_PREFIX: "/wp-content/plugins/kw-pv-tools/assets/konfigurator"
 
       - name: Check export output
         run: |

@@ -15,7 +15,9 @@ TARGET="$REPO_ROOT/wordpress-plugin/kw-pv-tools/assets/konfigurator"
 echo "[sync] Baue Next.js-App..."
 (
   cd "$APP_DIR"
-  NEXT_PUBLIC_API_BASE="/wp-json/kw-pv-tools/v1" pnpm build
+  NEXT_PUBLIC_API_BASE="/wp-json/kw-pv-tools/v1" \
+  NEXT_PUBLIC_ASSET_PREFIX="/wp-content/plugins/kw-pv-tools/assets/konfigurator" \
+  pnpm build
 )
 
 # 2. Sync nach Plugin

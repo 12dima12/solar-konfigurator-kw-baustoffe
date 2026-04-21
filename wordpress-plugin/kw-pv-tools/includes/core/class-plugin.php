@@ -3,6 +3,7 @@ namespace KW_PV_Tools;
 
 use KW_PV_Tools\Core\RestApi;
 use KW_PV_Tools\Core\EventBus;
+use KW_PV_Tools\Core\CSP;
 use KW_PV_Tools\Core\Admin;
 use KW_PV_Tools\Core\DependencyCheck;
 use KW_PV_Tools\Core\SubmissionsLog;
@@ -33,6 +34,7 @@ class Plugin {
         add_action( 'init', [ $this, 'load_textdomain' ] );
 
         DependencyCheck::register();
+        CSP::register();
         SubmissionsLog::register();
         SystemCheck::register();
         TestMail::register();

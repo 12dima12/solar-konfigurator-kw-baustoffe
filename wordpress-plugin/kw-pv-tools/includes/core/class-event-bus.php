@@ -33,5 +33,15 @@ class EventBus {
             KW_PV_TOOLS_VERSION,
             false // im <head>, vor allem anderen
         );
+
+        // Init-Script: liest Bootstrap-Daten aus data-*-Attributen des Containers.
+        // Ersetzt das Inline-<script>-Pattern — kein unsafe-inline erforderlich.
+        wp_register_script(
+            'kw-pv-tools-init',
+            KW_PV_TOOLS_URL . 'assets/shared/js/init.js',
+            [ 'kw-pv-tools-event-bus' ],
+            KW_PV_TOOLS_VERSION,
+            true // im <body> nach Event-Bus
+        );
     }
 }

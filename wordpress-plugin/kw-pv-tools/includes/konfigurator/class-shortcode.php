@@ -55,17 +55,23 @@ class Shortcode {
         if ( is_numeric( $atts['preset_kwp'] ) )     $presets['kWp']        = (float) $atts['preset_kwp'];
         if ( is_numeric( $atts['preset_battery'] ) )  $presets['batteryKwh'] = (float) $atts['preset_battery'];
 
-        // Event-Bus-Script sicherstellen
+        // Bootstrap-Daten für init.js vorbereiten
+        $bootstrap = Assets::get_bootstrap_data();
+
+        // Event-Bus + Init-Script einreihen (kein Inline-Script nötig)
         wp_enqueue_script( 'kw-pv-tools-event-bus' );
+        wp_enqueue_script( 'kw-pv-tools-init' );
 
         ob_start();
         ?>
 <div class="kw-pv-konfigurator-container"
      data-manufacturer="<?php echo esc_attr( $manufacturer ); ?>"
      data-lang="<?php echo esc_attr( $lang ); ?>"
-     <?php if ( $presets ): ?>data-presets="<?php echo esc_attr( wp_json_encode( $presets ) ); ?>"<?php endif; ?>>
-
-<script><?php echo Assets::get_bootstrap_script(); // phpcs:ignore WordPress.Security.EscapeOutput ?></script>
+     data-kw-api-base="<?php echo esc_attr( $bootstrap['apiBase'] ); ?>"
+     data-kw-nonce="<?php echo esc_attr( $bootstrap['nonce'] ); ?>"
+     data-kw-lang="<?php echo esc_attr( $bootstrap['lang'] ); ?>"
+     data-kw-version="<?php echo esc_attr( $bootstrap['version'] ); ?>"
+     <?php if ( $presets ): ?>data-kw-presets="<?php echo esc_attr( wp_json_encode( $presets ) ); ?>"<?php endif; ?>>
 
 <?php foreach ( $assets['styles'] as $href ) : ?>
 <link rel="stylesheet" href="<?php echo esc_url( $href ); ?>">
@@ -76,16 +82,6 @@ class Shortcode {
 <?php foreach ( $assets['scripts'] as $src ) : ?>
 <script src="<?php echo esc_url( $src ); ?>" defer></script>
 <?php endforeach; ?>
-
-<?php if ( $presets ) : ?>
-<script>
-window.addEventListener('kw-pv-tools:app-ready', function() {
-    window.dispatchEvent(new CustomEvent('kw-pv-tools:preset', {
-        detail: <?php echo wp_json_encode( $presets ); ?>
-    }));
-}, { once: true });
-</script>
-<?php endif; ?>
 
 </div>
         <?php

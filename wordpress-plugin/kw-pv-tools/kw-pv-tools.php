@@ -49,6 +49,7 @@ require_once KW_PV_TOOLS_PATH . 'includes/core/class-mailer.php';
 require_once KW_PV_TOOLS_PATH . 'includes/core/class-assets.php';
 require_once KW_PV_TOOLS_PATH . 'includes/core/class-admin.php';
 require_once KW_PV_TOOLS_PATH . 'includes/core/class-event-bus.php';
+require_once KW_PV_TOOLS_PATH . 'includes/core/class-csp.php';
 require_once KW_PV_TOOLS_PATH . 'includes/core/class-plugin.php';
 
 // Konfigurator-Modul

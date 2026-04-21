@@ -96,21 +96,20 @@ class Assets {
      * JavaScript-Globals für die React-App.
      * Muss vor dem App-Script-Tag geladen werden.
      */
-    public static function get_bootstrap_script(): string {
-        $nonce    = wp_create_nonce( 'wp_rest' );
-        $api_base = esc_url_raw( rest_url( 'kw-pv-tools/v1' ) );
-        $locale   = get_locale();
-        $lang     = $locale ? substr( $locale, 0, 2 ) : 'de';
+    /**
+     * Returns bootstrap data as a plain array.
+     * Consumed via data-* attributes on the container — no inline script needed.
+     */
+    public static function get_bootstrap_data(): array {
+        $locale = get_locale();
+        $lang   = $locale ? substr( $locale, 0, 2 ) : 'de';
         if ( ! in_array( $lang, [ 'de', 'en', 'cs' ], true ) ) $lang = 'de';
 
-        return sprintf(
-            'window.KW_PV_TOOLS = %s;',
-            wp_json_encode( [
-                'apiBase' => $api_base,
-                'nonce'   => $nonce,
-                'lang'    => $lang,
-                'version' => KW_PV_TOOLS_VERSION,
-            ] )
-        );
+        return [
+            'apiBase' => esc_url_raw( rest_url( 'kw-pv-tools/v1' ) ),
+            'nonce'   => wp_create_nonce( 'wp_rest' ),
+            'lang'    => $lang,
+            'version' => KW_PV_TOOLS_VERSION,
+        ];
     }
 }

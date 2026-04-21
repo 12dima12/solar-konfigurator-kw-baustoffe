@@ -1,32 +1,42 @@
 <?php
 namespace KW_PV_Tools\Core;
 
+use KW_PV_Tools\Konfigurator\Block;
+use KW_PV_Tools\Konfigurator\Shortcode;
+
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * Content-Security-Policy für Frontend-Seiten mit dem Konfigurator-Shortcode.
  *
- * SCRIPT_HASHES: SHA-256-Hashes von Inline-<script>-Blöcken, die Next.js
- * möglicherweise in den Body injiziert (z.B. __NEXT_DATA__-Objekte).
- * Nach jedem `pnpm build` prüfen ob neue Inline-Scripts entstanden sind.
+ * Hook-Timing (wichtig für das Opt-In):
+ *   init → send_headers → parse_query → template_redirect → the_content
+ *          ↑ CSP-Header                                      ↑ Shortcode rendert
  *
- * Hash berechnen: printf '%s' "script-inhalt" | openssl dgst -sha256 -binary | base64
+ * Die CSP wird bei `send_headers` geschrieben — VOR dem Shortcode-Render.
+ * Ein Opt-In "setze flag beim Rendern" kommt zu spät; der Header ist zu
+ * dem Zeitpunkt schon raus. Wir detecten deshalb direkt im Post-Content
+ * via has_shortcode/has_block — get_queried_object() ist bei send_headers
+ * bereits aufgelöst (Main-Query lief vorher).
  *
- * WICHTIG: 'strict-dynamic' wird NICHT verwendet. Es würde 'self' in modernen
- * Browsern inoperativ machen und alle <script src> blockieren, sobald kein
- * Nonce/Hash die externen Scripts explizit whitelisted — App wäre komplett kaputt.
- * 'self' reicht: alle unsere Scripts sind externe Dateien von der eigenen Domain.
+ * SCRIPT_HASHES: leer, solange Konfigurator-Seiten 'unsafe-inline' nutzen.
+ * Next.js RSC emittiert mehrere `self.__next_f.push(...)` Inline-Blöcke
+ * für die React-Hydration — ohne deren Ausführung wird der Tree statisch
+ * gerendert, aber Event-Handler werden nie attached (Buttons tot).
+ * Hash-basierter Pfad ist in Batch F geplant: post-export.mjs berechnet
+ * die Hashes zur Build-Zeit und schreibt sie in eine JSON, die diese
+ * Klasse zur Laufzeit liest.
  */
 class CSP {
 
-    // SHA-256-Hashes von Inline-<script>-Blöcken aus dem Next.js-Bundle.
-    // Leer = keine Inline-Scripts im Bundle (Normalfall nach unserer Refaktorierung).
     const SCRIPT_HASHES = [];
 
-    // Gesetzt durch den Shortcode/Block wenn der Konfigurator auf der Seite gerendert wird.
-    // Next.js RSC injiziert mehrere Inline-<script>-Blöcke (self.__next_f.push(...)) die
-    // für die React-Hydration zwingend ausgeführt werden müssen. 'unsafe-inline' wird daher
-    // nur auf Konfigurator-Seiten aktiviert, nicht global.
+    /**
+     * Beibehalten als explizites Opt-In für Fälle, in denen der Shortcode
+     * nicht im post_content liegt (z.B. `do_shortcode()` in einem Theme-
+     * Template). Solche Aufrufer müssen allow_inline() VOR send_headers
+     * aufrufen — realistisch auf `init` oder sehr früh im Template.
+     */
     private static bool $needs_inline = false;
 
     public static function allow_inline(): void {
@@ -38,13 +48,12 @@ class CSP {
     }
 
     public static function send_csp(): void {
-        // Nur auf öffentlichen Seiten setzen — WP-Admin hat eigene Anforderungen.
         if ( is_admin() ) return;
 
-        // Externe Scripts von der eigenen Domain erlauben.
-        // Konfigurator-Seiten brauchen zusätzlich 'unsafe-inline' für Next.js RSC-Flight-Data.
+        $needs_inline = self::$needs_inline || self::current_page_has_konfigurator();
+
         $script_src = "'self'";
-        if ( self::$needs_inline ) {
+        if ( $needs_inline ) {
             $script_src .= " 'unsafe-inline'";
         } elseif ( ! empty( self::SCRIPT_HASHES ) ) {
             $hashes     = implode( ' ', array_map( fn( $h ) => "'sha256-{$h}'", self::SCRIPT_HASHES ) );
@@ -54,7 +63,7 @@ class CSP {
         $directives = [
             "default-src 'self'",
             "script-src {$script_src}",
-            "style-src 'self' 'unsafe-inline'",   // Tailwind inline styles aus dem Bundle
+            "style-src 'self' 'unsafe-inline'",
             "img-src 'self' data: blob:",
             "font-src 'self'",
             "connect-src 'self'",
@@ -62,15 +71,41 @@ class CSP {
             "object-src 'none'",
             "base-uri 'self'",
             "form-action 'self'",
-            // Erlaubt Einbettung nur von der eigenen Domain und kw-baustoffe.de
             "frame-ancestors 'self' https://www.kw-baustoffe.de https://kw-baustoffe.de",
         ];
 
         header( 'Content-Security-Policy: ' . implode( '; ', $directives ) );
 
-        // Clickjacking-Schutz als Fallback für Browser ohne CSP frame-ancestors
         header( 'X-Frame-Options: SAMEORIGIN' );
         header( 'X-Content-Type-Options: nosniff' );
         header( 'Referrer-Policy: strict-origin-when-cross-origin' );
+    }
+
+    /**
+     * True wenn die aktuelle Haupt-Seite den Konfigurator-Shortcode oder
+     * -Block enthält. Wird während `send_headers` aufgerufen — dort ist
+     * die Main-Query bereits ausgeführt und get_queried_object() liefert
+     * den WP_Post.
+     *
+     * Deckt nicht ab:
+     *   - Shortcode via `do_shortcode()` aus einem Theme-Template;
+     *     post_content ist leer oder irrelevant. Dafür muss das Theme
+     *     CSP::allow_inline() explizit auf einem frühen Hook (z.B. `init`)
+     *     aufrufen.
+     *   - Nicht-Main-Query-Seiten (Archive, Suche), wo get_queried_object()
+     *     kein WP_Post ist. Der Konfigurator-Shortcode gehört nicht auf
+     *     solche Seiten, daher akzeptiert.
+     */
+    private static function current_page_has_konfigurator(): bool {
+        $post = get_queried_object();
+        if ( ! $post instanceof \WP_Post ) return false;
+
+        $content = (string) $post->post_content;
+        if ( $content === '' ) return false;
+
+        if ( has_shortcode( $content, Shortcode::TAG ) ) return true;
+        if ( function_exists( 'has_block' ) && has_block( Block::BLOCK_NAME, $post ) ) return true;
+
+        return false;
     }
 }

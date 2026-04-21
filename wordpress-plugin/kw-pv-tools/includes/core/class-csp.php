@@ -67,8 +67,11 @@ class CSP {
             "default-src 'self'",
             "script-src {$script_src}",
             "style-src 'self' 'unsafe-inline'",
-            "img-src 'self' data: blob:",
-            "font-src 'self'",
+            // https: für Gravatar (Admin-Bar eingeloggter User). Kein CDN-Upload-Kanal —
+            // CSP erlaubt hier nur lesenden Fetch, kein Script-Exec.
+            "img-src 'self' https: data: blob:",
+            // data: für Next.js icon fonts (inline base64 WOFF2 im Bundle).
+            "font-src 'self' data:",
             "connect-src 'self'",
             "worker-src 'self' blob:",
             "frame-src 'none'",

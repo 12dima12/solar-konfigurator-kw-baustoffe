@@ -7,7 +7,7 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { CaptchaWidget } from "@/lib/captcha/client";
-import { route, getApiHeaders } from "@/config/api";
+import { route, getApiHeaders, getPrivacyUrl } from "@/config/api";
 import { useConfigStore } from "@/store/configStore";
 import { useManufacturer } from "@/lib/manufacturer-context";
 import { PHASE_LABELS } from "@/lib/constants";
@@ -23,10 +23,63 @@ const schema = z.object({
 });
 type FormData = z.infer<typeof schema>;
 
-const UI: Record<Lang, { title: string; submit: string; success: string; reset: string; name: string; email: string; phone: string; message: string; error: string }> = {
-  de: { title: "Ihre Konfiguration", submit: "Zur Anfrage", success: "Anfrage gesendet! Wir melden uns bei Ihnen.", reset: "Neue Konfiguration", name: "Name", email: "E-Mail", phone: "Telefon (optional)", message: "Nachricht (optional)", error: "Fehler beim Senden. Bitte versuche es erneut." },
-  en: { title: "Your Configuration", submit: "Send Request", success: "Request sent! We will contact you.", reset: "New Configuration", name: "Name", email: "Email", phone: "Phone (optional)", message: "Message (optional)", error: "Failed to send. Please try again." },
-  cs: { title: "Vaše konfigurace", submit: "Odeslat poptávku", success: "Poptávka odeslána! Ozveme se vám.", reset: "Nová konfigurace", name: "Jméno", email: "E-mail", phone: "Telefon (volitelné)", message: "Zpráva (volitelné)", error: "Chyba při odesílání. Zkuste to prosím znovu." },
+interface UiCopy {
+  title: string;
+  submit: string;
+  success: string;
+  reset: string;
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
+  error: string;
+  privacyNotice: string;
+  privacyLink: string;
+}
+
+const UI: Record<Lang, UiCopy> = {
+  de: {
+    title: "Ihre Konfiguration",
+    submit: "Zur Anfrage",
+    success: "Anfrage gesendet! Wir melden uns bei Ihnen.",
+    reset: "Neue Konfiguration",
+    name: "Name",
+    email: "E-Mail",
+    phone: "Telefon (optional)",
+    message: "Nachricht (optional)",
+    error: "Fehler beim Senden. Bitte versuche es erneut.",
+    privacyNotice:
+      "Mit dem Absenden stimmen Sie der Verarbeitung Ihrer Daten zur Bearbeitung Ihrer Anfrage zu.",
+    privacyLink: "Datenschutzerklärung",
+  },
+  en: {
+    title: "Your Configuration",
+    submit: "Send Request",
+    success: "Request sent! We will contact you.",
+    reset: "New Configuration",
+    name: "Name",
+    email: "Email",
+    phone: "Phone (optional)",
+    message: "Message (optional)",
+    error: "Failed to send. Please try again.",
+    privacyNotice:
+      "By sending, you consent to the processing of your data for handling your request.",
+    privacyLink: "Privacy Policy",
+  },
+  cs: {
+    title: "Vaše konfigurace",
+    submit: "Odeslat poptávku",
+    success: "Poptávka odeslána! Ozveme se vám.",
+    reset: "Nová konfigurace",
+    name: "Jméno",
+    email: "E-mail",
+    phone: "Telefon (volitelné)",
+    message: "Zpráva (volitelné)",
+    error: "Chyba při odesílání. Zkuste to prosím znovu.",
+    privacyNotice:
+      "Odesláním souhlasíte se zpracováním vašich údajů pro vyřízení poptávky.",
+    privacyLink: "Zásady ochrany osobních údajů",
+  },
 };
 
 export function SubmitSummary() {
@@ -36,6 +89,7 @@ export function SubmitSummary() {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const t = UI[lang] ?? UI.de;
+  const privacyUrl = getPrivacyUrl();
   const filled = selections.filter((s) => s.selectedProduct);
 
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormData>({
@@ -141,6 +195,20 @@ export function SubmitSummary() {
         </div>
 
         <CaptchaWidget onVerify={setCaptchaToken} />
+
+        {privacyUrl && (
+          <p className="text-xs text-muted-foreground">
+            {t.privacyNotice}{" "}
+            <a
+              href={privacyUrl}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="underline hover:text-primary"
+            >
+              {t.privacyLink}
+            </a>
+          </p>
+        )}
 
         <Button
           type="submit"

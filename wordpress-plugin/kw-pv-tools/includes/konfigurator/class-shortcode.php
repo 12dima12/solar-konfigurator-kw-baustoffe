@@ -15,6 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *   lang           de | en | cs
  *   preset_kwp     float – Vorauswahl kWp (für Event-Bus / Phase 11)
  *   preset_battery float – Vorauswahl Batterie kWh
+ *   privacy_url    optionaler Override; Default: get_privacy_policy_url()
  *
  * Beispiel:
  *   [kw_pv_konfigurator manufacturer="solax" route="embed"]
@@ -34,11 +35,19 @@ class Shortcode {
             'lang'           => Settings::get( 'default_lang', 'de' ),
             'preset_kwp'     => '',
             'preset_battery' => '',
+            'privacy_url'    => '',
         ], $atts, self::TAG );
 
         $manufacturer = sanitize_key( $atts['manufacturer'] );
         $lang         = in_array( $atts['lang'], [ 'de', 'en', 'cs' ], true ) ? $atts['lang'] : 'de';
         $route        = in_array( $atts['route'], [ 'embed', 'configurator' ], true ) ? $atts['route'] : 'embed';
+
+        // DSGVO Art. 13: der Datenschutz-Hinweis muss vor der Datenerhebung
+        // sichtbar sein. Quelle-Priorität: Shortcode-Attribut → WP-Privacy-Page.
+        $privacy_url_raw = is_string( $atts['privacy_url'] ) ? trim( $atts['privacy_url'] ) : '';
+        $privacy_url     = $privacy_url_raw !== ''
+            ? esc_url_raw( $privacy_url_raw )
+            : (string) get_privacy_policy_url();
 
         $assets = Assets::extract_asset_tags( $manufacturer, $route );
 
@@ -71,6 +80,7 @@ class Shortcode {
      data-kw-nonce="<?php echo esc_attr( $bootstrap['nonce'] ); ?>"
      data-kw-lang="<?php echo esc_attr( $bootstrap['lang'] ); ?>"
      data-kw-version="<?php echo esc_attr( $bootstrap['version'] ); ?>"
+     <?php if ( $privacy_url ): ?>data-kw-privacy-url="<?php echo esc_attr( $privacy_url ); ?>"<?php endif; ?>
      <?php if ( $presets ): ?>data-kw-presets="<?php echo esc_attr( wp_json_encode( $presets ) ); ?>"<?php endif; ?>>
 
 <?php foreach ( $assets['styles'] as $href ) : ?>

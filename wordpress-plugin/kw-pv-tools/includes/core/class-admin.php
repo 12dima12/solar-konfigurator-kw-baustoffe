@@ -127,9 +127,21 @@ class Admin {
                     </tr>
                     <tr>
                         <th scope="row"><label for="altcha_hmac_key"><?php _e( 'Altcha HMAC-Key', 'kw-pv-tools' ); ?></label></th>
-                        <td><input type="text" id="altcha_hmac_key" name="kw_pv_tools_settings[altcha_hmac_key]"
-                                value="<?php echo esc_attr( $s['altcha_hmac_key'] ?? '' ); ?>" class="regular-text">
-                            <p class="description"><?php _e( 'Automatisch generiert bei Aktivierung. Nicht öffentlich teilen.', 'kw-pv-tools' ); ?></p>
+                        <td>
+                            <input type="password" id="altcha_hmac_key" name="kw_pv_tools_settings[altcha_hmac_key]"
+                                value="<?php echo esc_attr( $s['altcha_hmac_key'] ?? '' ); ?>"
+                                class="regular-text" autocomplete="off" spellcheck="false">
+                            <button type="button" class="button button-secondary"
+                                    aria-pressed="false"
+                                    aria-controls="altcha_hmac_key"
+                                    onclick="
+                                        var f=document.getElementById('altcha_hmac_key');
+                                        var shown=f.type==='text';
+                                        f.type=shown?'password':'text';
+                                        this.setAttribute('aria-pressed', String(!shown));
+                                        this.textContent=shown?'<?php echo esc_js( __( 'Anzeigen', 'kw-pv-tools' ) ); ?>':'<?php echo esc_js( __( 'Verbergen', 'kw-pv-tools' ) ); ?>';
+                                    "><?php _e( 'Anzeigen', 'kw-pv-tools' ); ?></button>
+                            <p class="description"><?php _e( 'Automatisch generiert bei Aktivierung. Nicht öffentlich teilen — Key ist standardmäßig maskiert.', 'kw-pv-tools' ); ?></p>
                         </td>
                     </tr>
                     <tr>

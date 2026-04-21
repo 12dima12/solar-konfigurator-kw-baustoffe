@@ -3,7 +3,7 @@ import { useConfigStore } from "@/store/configStore";
 import { resolveNode, getChildrenSorted, isLeafNode, getPhaseTree, ACTIVE_PHASES } from "@/lib/navigation";
 import type { ConfigNode } from "@/data/types";
 
-export function useConfigState(catalog?: Record<string, unknown> | null) {
+export function useConfigState(catalog: Record<string, unknown>) {
   const { currentPhaseIndex, selections, lang, selectOption, goBack, goToPhase, confirmProduct, skipPhase, reset } =
     useConfigStore();
 

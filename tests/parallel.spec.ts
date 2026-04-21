@@ -52,7 +52,7 @@ const testPaths: { path: string[]; expected_code: string; expected_name: string;
 // Daten-basierter Test (ohne Browser) — prüft direkt gegen catalog.json
 test.describe("Datenintegrität (Catalog)", () => {
   // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const catalog = require("../app/src/data/catalog.json") as Record<string, Record<string, { tree: Record<string, unknown> }>>;
+  const catalog = require("../app/src/manufacturers/solax/catalog.json") as Record<string, Record<string, { tree: Record<string, unknown> }>>;
 
   for (const { path, expected_code, lang = "de" } of testPaths.slice(0, 15)) {
     test(`[${lang}] ${path.join(" › ")}`, () => {

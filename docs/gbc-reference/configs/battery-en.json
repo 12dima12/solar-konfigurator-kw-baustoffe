@@ -1,0 +1,16 @@
+{
+    "configuratorId": "battery",
+    "configuratorNext": "accessory",
+    "tree": {
+        "Triple Power S 25\/S 36": "Triple Power S 25\/S 36",
+        "Triple Power T58": "Triple Power T58",
+        "Triple Power T30": "Triple Power T30"
+    },
+    "titlesByPath": {
+        "": "1) Select Battery"
+    },
+    "dynamicTitles": [],
+    "iconsByPath": [],
+    "descriptionsByPath": [],
+    "imagesByPath": []
+}

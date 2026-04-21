@@ -1,0 +1,229 @@
+{
+    "configuratorId": "wallbox",
+    "configuratorNext": "accessory",
+    "tree": {
+        "One": {
+            "label": "Eine",
+            "value": "One",
+            "title": "Wahlen Sie die Ladeleistung",
+            "icon": "fa-solid fa-1 text-blue-500",
+            "description": null,
+            "image": null,
+            "info": null,
+            "children": {
+                "Power 11": {
+                    "label": "11 kW",
+                    "value": "Power 11",
+                    "title": "Buchse oder Kabel",
+                    "icon": null,
+                    "description": null,
+                    "image": null,
+                    "info": null,
+                    "children": {
+                        "Socket": {
+                            "label": "Typ-2 Buchse",
+                            "value": "Socket",
+                            "title": "HAC-Version auswahlen",
+                            "icon": "fa-solid fa-plug-circle-bolt text-purple-700",
+                            "description": null,
+                            "image": null,
+                            "info": null,
+                            "children": {
+                                "Standard": {
+                                    "product_code": "EV-210-11S",
+                                    "product_name": "Solax X3-HAC-11S, 1\/3 phase shift",
+                                    "label": "Standard",
+                                    "value": "HAC",
+                                    "title": null,
+                                    "icon": null,
+                                    "description": "SolaX X3 HAC",
+                                    "image": "img\/HAC.png",
+                                    "info": null,
+                                    "stock": {
+                                        "totalAvailable": 0,
+                                        "totalOrdered": 96
+                                    },
+                                    "priority": 99
+                                },
+                                "With display": {
+                                    "product_code": "EV-210-11SL",
+                                    "product_name": "Solax X3-HAC-11S - L, 1\/3 phase shift",
+                                    "label": "Mit Display",
+                                    "value": "HAC",
+                                    "title": null,
+                                    "icon": null,
+                                    "description": "SolaX X3 HAC",
+                                    "image": "img\/HAC.png",
+                                    "info": null,
+                                    "stock": {
+                                        "totalAvailable": 0,
+                                        "totalOrdered": 40
+                                    },
+                                    "priority": 99
+                                }
+                            }
+                        },
+                        "Plug": {
+                            "label": "Typ-2 Kabel",
+                            "value": "Plug",
+                            "title": "HAC-Version auswahlen",
+                            "icon": "fa-solid fa-charging-station text-blue-500",
+                            "description": null,
+                            "image": null,
+                            "info": null,
+                            "children": {
+                                "Standard": {
+                                    "product_code": "EV-210-118",
+                                    "product_name": "Solax X3-HAC-11P, 1\/3 phase shift",
+                                    "label": "Standard",
+                                    "value": "HAC",
+                                    "title": null,
+                                    "icon": null,
+                                    "description": "SolaX X3 HAC",
+                                    "image": "img\/HAC.png",
+                                    "info": null,
+                                    "stock": {
+                                        "totalAvailable": 0,
+                                        "totalOrdered": 386
+                                    },
+                                    "priority": 99
+                                },
+                                "With display": {
+                                    "product_code": "EV-210-118L",
+                                    "product_name": "Solax X3-HAC-11P - L, 1\/3 phase shift",
+                                    "label": "Mit Display",
+                                    "value": "HAC",
+                                    "title": null,
+                                    "icon": null,
+                                    "description": "SolaX X3 HAC",
+                                    "image": "img\/HAC.png",
+                                    "info": null,
+                                    "stock": {
+                                        "totalAvailable": 55,
+                                        "totalOrdered": 200
+                                    },
+                                    "priority": 999
+                                }
+                            }
+                        }
+                    }
+                },
+                "Power 22": {
+                    "label": "22 kW",
+                    "value": "Power 22",
+                    "title": "Steckdose oder Stecker",
+                    "icon": null,
+                    "description": null,
+                    "image": null,
+                    "info": null,
+                    "children": {
+                        "Socket": {
+                            "label": "Typ-2 Buchse",
+                            "value": "Socket",
+                            "title": "HAC-Version auswahlen",
+                            "icon": "fa-solid fa-plug-circle-bolt text-purple-700",
+                            "description": null,
+                            "image": null,
+                            "info": null,
+                            "children": {
+                                "Standard": {
+                                    "product_code": "EV-210-22S",
+                                    "product_name": "Solax X3-HAC-22S, 1\/3 phase shift",
+                                    "label": "Standard",
+                                    "value": "HAC",
+                                    "title": null,
+                                    "icon": null,
+                                    "description": "SolaX X3 HAC",
+                                    "image": "img\/HAC.png",
+                                    "info": null,
+                                    "stock": {
+                                        "totalAvailable": 15,
+                                        "totalOrdered": 25
+                                    },
+                                    "priority": 999
+                                },
+                                "With display": {
+                                    "product_code": "EV-210-22SL",
+                                    "product_name": "Solax X3-HAC-22S - L, 1\/3 phase shift",
+                                    "label": "Mit Display",
+                                    "value": "HAC",
+                                    "title": null,
+                                    "icon": null,
+                                    "description": "SolaX X3 HAC",
+                                    "image": "img\/HAC.png",
+                                    "info": null,
+                                    "stock": {
+                                        "totalAvailable": 25,
+                                        "totalOrdered": 30
+                                    },
+                                    "priority": 999
+                                }
+                            }
+                        },
+                        "Plug": {
+                            "label": "Typ-2 Kabel",
+                            "value": "Plug",
+                            "title": "HAC-Version auswahlen",
+                            "icon": "fa-solid fa-charging-station text-blue-500",
+                            "description": null,
+                            "image": null,
+                            "info": null,
+                            "children": {
+                                "Standard": {
+                                    "product_code": "EV-210-227",
+                                    "product_name": "Solax X3-HAC-22P, 1\/3 phase shift",
+                                    "label": "Standard",
+                                    "value": "HAC",
+                                    "title": null,
+                                    "icon": null,
+                                    "description": "SolaX X3 HAC",
+                                    "image": "img\/HAC.png",
+                                    "info": null,
+                                    "stock": {
+                                        "totalAvailable": 0,
+                                        "totalOrdered": 115
+                                    },
+                                    "priority": 99
+                                },
+                                "With display": {
+                                    "product_code": "EV-210-227L",
+                                    "product_name": "Solax X3-HAC-22P - L, 1\/3 phase shift",
+                                    "label": "Mit Display",
+                                    "value": "HAC",
+                                    "title": null,
+                                    "icon": null,
+                                    "description": "SolaX X3 HAC",
+                                    "image": "img\/HAC.png",
+                                    "info": null,
+                                    "stock": {
+                                        "totalAvailable": 268,
+                                        "totalOrdered": 0
+                                    },
+                                    "priority": 999
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "More then one": {
+            "label": "Fur mehr als eine Wallbox kontaktieren Sie bitte unseren Vertrieb.",
+            "value": "More then one",
+            "title": "Wahlen Sie eine Option",
+            "icon": "fa-solid fa-infinity text-green-500",
+            "description": null,
+            "image": null,
+            "info": null
+        },
+        "No Charger": {
+            "label": "Kein Ladegerat",
+            "value": null,
+            "title": null,
+            "icon": "fa-solid fa-minus text-red-500",
+            "description": null,
+            "image": null,
+            "info": null
+        }
+    }
+}

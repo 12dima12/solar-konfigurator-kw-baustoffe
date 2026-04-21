@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SolaX Configurator</title>
+  <script src="https://unpkg.com/vue@3"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+  <link href="src/output.css" rel="stylesheet">
+  <!--script src="https://cdn.tailwindcss.com"></script-->
+  
+</head>
+<body class="">
+<!-- ============================================ -->
+<!-- HTML STRUKTURA -->
+<!-- ============================================ -->
+
+<div class="w-full max-w-[1600px] mx-auto relative overflow-hidden">
+    <div class="mb-4 bg-white">
+        <!-- Header -->
+        <div id="header" class="bg-white">
+            <!-- Language Selection Dropdown -->
+            <div class="absolute top-0 right-2 inline-block text-right z-15">
+                <button onclick="toggleDropdown()" 
+                        class="inline-flex items-center gap-2 rounded-md border border-gray-300 px-3 py-1.5 bg-white text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
+                    <img src="img/flags/flag_de.png" 
+                         alt="de" 
+                         class="w-5 h-5 rounded-sm">
+                    <span class="hidden sm:block uppercase">de</span>
+                    <svg class="hidden sm:block h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                
+                <div id="langDropdown" class="absolute right-0 mt-1 w-32 rounded-md shadow-lg bg-white border border-gray-200 hidden z-10"><ul class="py-1 text-sm text-gray-700"><li><a href="./?configuratorNext=wallbox&amp;lang=en" class="flex items-center px-4 py-2 hover:bg-gray-100 gap-2"><img src="img/flags/flag_en.png" alt="English" class="w-5 h-5 rounded-sm">English</a></li><li><a href="./?configuratorNext=wallbox&amp;lang=cs" class="flex items-center px-4 py-2 hover:bg-gray-100 gap-2"><img src="img/flags/flag_cs.png" alt="Čeština" class="w-5 h-5 rounded-sm">Čeština</a></li><li><a href="./?configuratorNext=wallbox&amp;lang=de" class="flex items-center px-4 py-2 hover:bg-gray-100 gap-2"><img src="img/flags/flag_de.png" alt="Deutsch" class="w-5 h-5 rounded-sm">Deutsch</a></li></ul></div>            </div>
+
+            <!-- Logo and Title -->
+            <div class="flex flex-row items-center px-4 ">
+                
+                <div class="w-full flex flex-col text-center items-center space-y-0">
+                    <h1 class="text-base sm:text-2xl text-gray-800 leading-snug px-2">
+                        <span class="animatedTitle">
+                            Bestellkonfigurator <span class="sm:inline-block hidden px-2"> - </span><span class="text-green-600 text-sm sm:text-xl sm:inline-block block">Neue Installation</span>                        </span>
+                    </h1>
+
+                                            <div class="flex items-center justify-center space-x-2">
+                            <button id="currentSetup" type="button" class="py-0 m-0 px-0 bg-transparent border-0 inline-block"><span class="text-xs text-blue-500 hover:text-blue-600 hover:bg-blue-200 py-0.5 px-2 font-semibold cursor-pointer transition">Aktuelles Setup</span></button>                            <form method="GET" action="./"><input type="hidden" name="reset" value="true"><input type="hidden" name="lang" value="de"><button type="submit" class="py-0 m-0 px-0 bg-transparent border-0 inline-block"><span class="text-xs text-red-500 hover:text-red-600 hover:bg-red-200 py-0.5 px-2 font-semibold cursor-pointer transition">Reset</span></button></form>                        </div>
+                                    </div>
+            </div>
+        </div>
+        
+        <div class="w-full flex justify-center py- my-4">
+  <nav aria-label="Progress" class="relative mb-12">
+    <ol role="list" class="flex items-center">
+      <li class="relative pr-[40px] sm:pr-[50px] md:pr-[80px] lg:pr-[140px]"><div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="h-0.5 w-full border-t-2 border-gray-200 border-dashed"></div>
+                </div><a href="?configuratorNext=inverter" class="group overflow-visible border-2 border-transparent relative flex items-center justify-center rounded-full bg-white w-12 h-12 sm:w-14 sm:h-14" aria-current="step"><img src="img/X3 G4.png" alt="Completed" class="w-10 h-10 sm:w-12 sm:h-12 object-contain" /><div class="absolute top-0 left-1/2 -translate-x-1/2 px-3 py-1.5 text-xs text-white bg-black rounded shadow-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                          X3 G4
+                        </div><span class="sr-only">Step 1</span><span class="absolute step text-xs sm:text-lg font-semibold bottom-[-32px]">Wechselrichter</span></a></li><li class="relative pr-[40px] sm:pr-[50px] md:pr-[80px] lg:pr-[140px]"><div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="h-0.5 w-full border-t-2 border-gray-200 border-dashed"></div>
+                </div><a href="?configuratorNext=backup" class="group relative flex size-4 sm:size-8 items-center justify-center rounded-full text-gray-400 border-2 border-[#fdb517] bg-white hover:border-[#fdb517]"><span class="size-2.5 rounded-full bg-transparent group-hover:bg-gray-300" aria-hidden="true"></span><span class="absolute top-0 left-1/2 -translate-x-1/2 px-3 py-1.5 text-xs text-white bg-black rounded shadow-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                              null
+                            </span><span class="sr-only">Step 2</span><span class="absolute step text-xs sm:text-lg font-semibold bottom-[-48px] md:bottom-[-43px]">Ersatzstromversorgung</span></a></li><li class="relative pr-[40px] sm:pr-[50px] md:pr-[80px] lg:pr-[140px]"><div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="h-0.5 w-full border-t-2 border-gray-200 border-dashed"></div>
+                </div><a href="?configuratorNext=battery" class="group overflow-visible border-2 border-transparent relative flex items-center justify-center rounded-full bg-white w-12 h-12 sm:w-14 sm:h-14" aria-current="step"><img src="img/T58 master+slave_V2.png" alt="Completed" class="w-10 h-10 sm:w-12 sm:h-12 object-contain" /><div class="absolute top-0 left-1/2 -translate-x-1/2 px-3 py-1.5 text-xs text-white bg-black rounded shadow-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                          Triple Power T58
+                        </div><span class="sr-only">Step 3</span><span class="absolute step text-xs sm:text-lg font-semibold bottom-[-32px]">Batterie</span></a></li><li class="relative pr-[40px] sm:pr-[50px] md:pr-[80px] lg:pr-[140px]"><div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="h-0.5 w-full border-t-2 border-gray-200 border-dashed"></div>
+                </div><a href="?configuratorNext=wallbox" class="group relative flex size-4 sm:size-8 items-center justify-center rounded-full border-2 border-[#fdb517] bg-white" aria-current="step"><span class="pulse-ring"></span><span class="size-2.5 rounded-full bg-[#fdb517] z-5" aria-hidden="true"></span><span class="sr-only">Step 4</span><span class="absolute step text-xs sm:text-lg font-semibold bottom-[-48px] md:bottom-[-43px]">Wallbox</span></a></li><li class="relative pr-[40px] sm:pr-[50px] md:pr-[80px] lg:pr-[140px]"><div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="h-0.5 w-full border-t-2 border-gray-200 border-dashed"></div>
+                </div><a href="#" class="group relative flex size-4 sm:size-8 items-center justify-center rounded-full text-gray-400 border-2 border-gray-300 bg-white hover:border-gray-400 cursor-not-allowed">
+                      <span class="size-2.5 rounded-full bg-transparent group-hover:bg-gray-300" aria-hidden="true"></span>
+                      <span class="sr-only">Step 5</span>
+                    <span class="absolute step text-xs sm:text-lg font-semibold bottom-[-48px] md:bottom-[-43px]">Zubehör</span></a></li><li class="relative "><div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="h-0.5 w-full border-t-2 border-gray-200 border-dashed"></div>
+                </div><a href="#" class="group relative flex size-4 sm:size-8 items-center justify-center rounded-full text-gray-400 border-2 border-gray-300 bg-white hover:border-gray-400 cursor-not-allowed">
+                      <span class="size-2.5 rounded-full bg-transparent group-hover:bg-gray-300" aria-hidden="true"></span>
+                      <span class="sr-only">Step 6</span>
+                    <span class="absolute step text-xs sm:text-lg font-semibold bottom-[-48px] md:bottom-[-43px]">Ende</span></a></li>    </ol>
+  </nav>
+</div></div><div id="app" class="p-4">
+<!-- Progress bar -->
+  <div id="progress-bar" class="w-full bg-gray-200 rounded-full h-2 mb-4">
+    <div
+      class="bg-[#fdb517] h-2 rounded-full progress-bar"
+      :style="{ width: `${progressPercent}%` }">
+    </div>
+  </div>
+
+    
+  <!-- DEBUG: Test Three-phase inverter -->
+  
+<div v-if="isLoading" class="flex justify-center items-center min-h-[120px]">
+  <img src="img/loading.gif" alt="Loading..." class="w-16 h-16" />
+</div>
+<div v-else>
+  <!-- Transition -->
+  <div class="relative h-auto">
+    <transition name="slide" mode="out-in">
+      <div :key="currentStep" class="relative">
+        
+      
+      <!-- Special view for Three-phase inverter X3 -->
+        <div v-if="isThreePhaseInverterView">
+          <h3 class="text-xl font-semibold mb-4">{{ currentTitle }}</h3>
+          
+          <!-- Power Slider -->
+          <div class="mb-8">
+            <div class="slider-wrapper min-h-[120px]">
+              <button 
+                @click="decreasePower" 
+                :disabled="!canDecreasePower"
+                id="arrow-left" class="arrow"
+              >
+                <i class="fa-solid fa-minus"></i>
+              </button>
+              <div class="flex-1 relative">
+                <div class="slider-track">
+                <div 
+                  class="slider-fill"
+                  :style="{ width: sliderFillWidth + '%' }"
+                ></div>
+                
+                <div 
+                  class="thumb"
+                  :style="{ left: sliderThumbPosition + '%' }"
+                  @mousedown="startDrag"
+                  @touchstart="startDrag"
+                >
+                  <div class="thumb-value">
+                    {{ selectedPowerValue === 35.0 ? '30+' : selectedPowerValue }} kW
+                  </div>
+                </div>
+                
+                <div class="slider-overlay" @click="handleSliderClick"></div>
+                
+                <div class="ruler-points">
+                  <!-- Body pouze pro dostupné hodnoty -->
+                  <div 
+                    v-for="power in powerValues" 
+                    :key="power"
+                    :style="{ left: power === 35.0 ? '95%' : getPowerPosition(power) + '%' }"
+                  ></div>
+                </div>
+              </div>
+              
+              <div class="scale">
+                <!-- Značka pro 0 -->
+                <div class="tick" style="left: 0%">
+                  <div class="bar"></div>
+                  <div class="label text-xs text-gray-600">0</div>
+                </div>
+                <!-- Značky pro dostupné hodnoty -->
+                <div 
+                  v-for="power in powerValues" 
+                  :key="power"
+                  class="tick"
+                  :style="{ left: power === 35.0 ? '95%' : getPowerPosition(power) + '%' }"
+                >
+                  <div class="bar"></div>
+                  <div class="label text-xs text-gray-600">{{ power === 35.0 ? '30+' : power }}</div>
+                </div>
+              </div>
+              </div>
+              <button 
+                @click="increasePower" 
+                :disabled="!canIncreasePower"
+                id="arrow-right" class="arrow"
+              >
+                <i class="fa-solid fa-plus"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- oznámení při výběru > 30 kW -->
+
+          <div v-if="selectedPowerValue === 35.0" class="max-w-2xl mx-auto">
+            <div class="relative p-6 bg-white rounded-xl border-4 border-blue-400 shadow-lg animate-pulse-border">
+              <!-- Obsah -->
+              <div class="flex items-start gap-4">
+                <div class="text-blue-500 mt-1">
+                  <i class="fa-solid fa-circle-info text-2xl"></i>
+                </div>
+                <div>
+                  <h3 class="text-base font-semibold text-blue-800 mb-1">Wichtiger Hinweis</h3>
+                  <p class="text-sm text-blue-700 leading-relaxed">{{ selectedPowerInfoMessage }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div v-else-if="selectedPowerChildren && Object.keys(selectedPowerChildren).length">
+            <h4 class="text-xl font-semibold mb-4 bg-gradient-to-r from-gray-800 to-gray-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 shadow-md">
+              <i class="fa-solid fa-circle-question text-amber-500"></i>
+              {{ selectedPowerTitle }}
+            </h4>
+            
+            <div v-for="(group, groupName) in selectedPowerGroupedOptions" :key="groupName" class="mb-6">
+              <h4 v-if="groupName" class="text-lg font-bold mb-4">{{ groupName }}</h4>
+
+              <div :class="sliderChildrenGridClass">
+                <label
+                  v-for="({ key, option }) in group"
+                  :key="key"
+                  :for="`power-option-${key}`"
+                  :class="[
+                    'relative flex w-full items-center font-semibold border-2 border-gray-300 hover:border-[#fdb517] rounded-lg transition-all cursor-pointer',
+                    selectedPowerImages[key] ? 'flex-col sm:flex-row' : '',
+                    selectedPowerCoverImages[key] ? 'group justify-center h-[200px] sm:h-[300px] md:h-[400px] transition-transform duration-300 ease-in-out transform hover:scale-[1.02]' : 'p-4'
+                  ]"                
+                >
+                  <!-- Pozadí jako obrázek -->
+                  <img 
+                    v-if="selectedPowerCoverImages[key]" 
+                    :src="selectedPowerCoverImages[key]" 
+                    alt="Power option"
+                    class="absolute inset-0 w-full h-full object-cover object-center z-0" 
+                    loading="lazy" 
+                  />
+
+                  <input
+                    type="radio"
+                    class="hidden"
+                    :value="option.value"
+                    :name="option.name || 'power-option'"
+                    :id="`power-option-${key}`"
+                    @change="selectPowerOption(key)"
+                  />
+
+                  <i
+                    v-if="selectedPowerIcons[key]"
+                    :class="[selectedPowerIcons[key], 'text-xl', 'mr-3 ml-2']"
+                  ></i>
+
+                  <img
+                    v-if="selectedPowerImages[key]"
+                    :src="selectedPowerImages[key]"
+                    :alt="option.product_code || option.label"
+                    :title="option.product_code || option.label"
+                    class="min-h-12 max-h-16 w-auto sm:mr-3 mb-3 sm:mb-0 object-contain"
+                  />
+
+                  <div
+                    class="text-xl"
+                    :class="[
+                      selectedPowerImages[key] ? 'text-center sm:text-left' : '',
+                      selectedPowerCoverImages[key] ? 'relative z-10 text-2xl text-center w-full bg-black/80 p-4 shadow-lg text-white group-hover:text-amber-500 transition-colors duration-300' : 'ml-3'
+                    ]"
+                  >
+                    <span
+                      v-if="option.label"
+                      :class="selectedPowerCoverImages[key] ? 'font-bold text-2xl' : ''"
+                      v-html="option.label"
+                    ></span>
+
+                    <span
+                      v-if="option.description"
+                      class="text-gray-600 text-sm font-bold block"
+                      v-html="option.description"
+                    ></span>
+
+                                        
+
+                    <span
+                      v-if="option.stock !== undefined"
+                      :class="{
+                        'text-red-500': option.stock.totalAvailable === 0,
+                        'text-yellow-500': option.stock.totalAvailable > 0 && option.stock.totalAvailable < 10,
+                        'text-green-500': option.stock.totalAvailable >= 10
+                      }"
+                      class="text-sm font-semibold block"
+                    >
+                      <template v-if="option.stock.totalAvailable === 0">
+                        Nicht verfügbar                        <template v-if="option.stock.totalOrdered > 0">
+                          <span class="text-gray-500 text-xs block sm:inline-block">(unterwegs: {{ option.stock.totalOrdered }} Stück)</span>
+                        </template>
+                      </template>
+                      <template v-else-if="option.stock.totalAvailable < 10">
+                        Auf Lager: {{ option.stock.totalAvailable }} Stück                        <template v-if="option.stock.totalOrdered > 0">
+                          <span class="text-gray-500 text-xs block sm:inline-block">(unterwegs: {{ option.stock.totalOrdered }} Stück)</span>
+                        </template>
+                      </template>
+                      <template v-else>
+                        Auf Lager:
+                        {{ option.stock.totalAvailable > 1000 ? '> 1000' : option.stock.totalAvailable }} Stück                        <template v-if="option.stock.totalOrdered > 0">
+                          <span class="text-gray-500 text-xs block sm:inline-block">
+                            (unterwegs: {{ option.stock.totalOrdered }} Stück)
+                          </span>
+                        </template>
+                      </template>
+                    </span>
+
+                    <div v-if="option.info" class="absolute top-[-5px] right-[-5px] group">
+                      <button
+                        type="button"
+                        @click="showModal(option.info)"
+                        class="px-3 py-1.5 bg-gray-200 text-black text-xs font-semibold rounded-full border-2 border-gray-300 shadow-md hover:bg-gray-800 hover:text-white transition-all duration-300 ease-in-out cursor-help"
+                      >
+                        <i class="fa-solid fa-circle-info mr-1"></i>Info
+                      </button>
+
+                      <div
+                        class="absolute bottom-full text-left right-0 mb-2 min-w-[400px] w-auto p-3 bg-gray-800 border border-black rounded-lg shadow-lg text-sm text-white opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-400 ease-in-out pointer-events-none z-15"
+                      >
+                        <template v-if="typeof option.info === 'object'">
+                          <div v-for="(value, key) in option.info" :key="key">
+                            <strong>{{ key }}:</strong> {{ value }}
+                          </div>
+                        </template>
+                        <template v-else>
+                          <div v-html="option.info"></div>
+                        </template>
+                      </div>
+                    </div>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Standard view -->
+        <div v-else-if="currentOptions && typeof currentOptions === 'object' && Object.keys(currentOptions).length">
+          <h3 class="text-xl font-semibold mb-4">{{ currentTitle }}</h3>
+
+          <div v-for="(group, groupName) in groupedOptions" :key="groupName" class="mb-6">
+            <h4 class="text-lg font-bold mb-4">{{ groupName }}</h4>
+
+            <div :class="optionGridClass">
+              <label
+                v-for="({ key, option }) in group"
+                :key="key"
+                :for="`option-${key}`"
+                :class="[
+                  'relative flex w-full items-center font-semibold border-2 border-gray-300 hover:border-[#fdb517] rounded-lg transition-all cursor-pointer',
+                  currentImages[key] ? 'flex-col sm:flex-row' : '',
+                  coverImages[key] ? 'group justify-center h-[200px] sm:h-[300px] md:h-[400px] transition-transform duration-300 ease-in-out transform hover:scale-[1.02]' : 'p-4'
+                ]"                
+              >
+                 <!-- Pozadí jako obrázek -->
+                <img 
+                  v-if="coverImages[key]" 
+                  :src="coverImages[key]" 
+                  alt="New installation"
+                  class="absolute inset-0 w-full h-full object-cover object-center z-0" 
+                  loading="lazy" 
+                />
+
+
+                <input
+                  type="radio"
+                  class="hidden"
+                  :value="option.value"
+                  :name="option.name || 'option'"
+                  :id="`option-${key}`"
+                  :checked="steps[currentStep] === key"
+                  @change="selectOption(key)"
+                />
+
+                <i
+                  v-if="currentIcons[key]"
+                  :class="[currentIcons[key], 'text-xl', 'mr-3 ml-2']"
+                ></i>
+
+                <img
+                  v-if="currentImages[key]"
+                  :src="currentImages[key]"
+                  :alt="option.product_code || option.label"
+                  :title="option.product_code || option.label"
+                  class="min-h-12 max-h-16 w-auto sm:mr-3 mb-3 sm:mb-0 object-contain"
+                />
+
+                <div
+                  class="text-xl"
+                  :class="[
+                    currentImages[key] ? 'text-center sm:text-left' : '',
+                    coverImages[key] ? 'relative z-10 text-2xl text-center w-full bg-black/80 p-4 shadow-lg text-white group-hover:text-amber-500 transition-colors duration-300' : 'ml-3'
+                  ]"
+                >
+                  <span :class="coverImages[key] ? 'font-bold text-2xl' : ''">
+                    {{ option.label }}
+                  </span>
+
+                  <span
+                    v-if="option.description"
+                    class="text-gray-600 text-sm font-bold block"
+                    v-html="option.description"
+                  ></span>
+
+                  <span
+                    v-if="option.stock !== undefined"
+                    :class="{
+                      'text-red-500': option.stock.totalAvailable === 0,
+                      'text-yellow-500': option.stock.totalAvailable > 0 && option.stock.totalAvailable < 10,
+                      'text-green-500': option.stock.totalAvailable >= 10
+                    }"
+                    class="text-sm font-semibold block"
+                  >
+                    <template v-if="option.stock.totalAvailable === 0">
+                      Nicht verfügbar                      <template v-if="option.stock.totalOrdered > 0">
+                        <span class="text-gray-500 text-xs block sm:inline-block">(unterwegs: {{ option.stock.totalOrdered }} Stück)</span>
+                      </template>
+                    </template>
+                    <template v-else-if="option.stock.totalAvailable < 10">
+                      Auf Lager: {{ option.stock.totalAvailable }} Stück                      <template v-if="option.stock.totalOrdered > 0">
+                        <span class="text-gray-500 text-xs block sm:inline-block">(unterwegs: {{ option.stock.totalOrdered }} Stück)</span>
+                      </template>
+                    </template>
+                    <template v-else>
+                      Auf Lager:
+                      {{ option.stock.totalAvailable > 1000 ? '> 1000' : option.stock.totalAvailable }} Stück                      <template v-if="option.stock.totalOrdered > 0">
+                        <span class="text-gray-500 text-xs block sm:inline-block">
+                          (unterwegs: {{ option.stock.totalOrdered }} Stück)
+                        </span>
+                      </template>
+                    </template>
+                  </span>
+
+                  <div v-if="option.info" class="absolute top-[-5px] right-[-5px] group">
+                    <button
+                      type="button"
+                      @click="showModal(option.info)"
+                      class="px-3 py-1.5 bg-gray-200 text-black text-xs font-semibold rounded-full border-2 border-gray-300 shadow-md hover:bg-gray-800 hover:text-white transition-all duration-300 ease-in-out cursor-help"
+                    >
+                      <i class="fa-solid fa-circle-info mr-1"></i>Info
+                    </button>
+
+                    <div
+                      class="absolute bottom-full text-left right-0 mb-2 min-w-[400px] w-auto p-3 bg-gray-800 border border-black rounded-lg shadow-lg text-sm text-white opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-400 ease-in-out pointer-events-none z-15"
+                    >
+                      <template v-if="typeof option.info === 'object'">
+                        <div v-for="(value, key) in option.info" :key="key">
+                          <strong>{{ key }}:</strong> {{ value }}
+                        </div>
+                      </template>
+                      <template v-else>
+                        <div v-html="option.info"></div>
+                      </template>
+                    </div>
+                  </div>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+
+        <div v-else class="text-gray-700 text-center">
+          <form v-if="isFinalStep" method="POST" action="" class="ml-auto">
+            <div class="text-2xl font-bold mb-4 text-center">
+              <button type="submit" class="relative w-full items-center text-gray-600 p-6 bg-gray-50 border-2 border-gray-300 hover:border-[#fdb517] rounded-lg cursor-pointer hover:bg-gray-50 transition-all duration-300 ease-in-out flex-col sm:flex-row">{{ currentNode?.value || 'Selection completed' }}</button>
+              <input type="hidden" name="final_value" :value="currentNode?.value" />
+              <input type="hidden" name="product_code" :value="currentNode?.product_code" />
+              <input type="hidden" name="product_name" :value="currentNode?.product_name" />
+              <input type="hidden" name="configurator" :value="configuratorId" />
+              <input type="hidden" name="configuratorNext" :value="configuratorNext" />
+              <input type="hidden" name="steps" :value="JSON.stringify(steps)" />
+            </div>
+          </form>
+        </div>
+      </div>
+    </transition>
+  </div>
+
+  <!-- Buttons -->
+  <div class="flex justify-between mt-6 text-sm">
+    <button v-if="currentStep > 0" @click="goBack" class="px-6 py-2 bg-[#333132] text-white hover:bg-[#fdb517] hover:text-white font-semibold cursor-pointer"><i class="fa-solid fa-arrow-left mr-1"></i> Zurück</button>
+      </div>
+
+  <!-- Modal -->
+  <div 
+    v-if="isModalVisible" 
+    class="fixed inset-0 z-50 flex items-center justify-center"
+    role="dialog" 
+    aria-modal="true"
+  >
+    <!-- Overlay -->
+    <div 
+      class="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ease-in-out"
+      @click="closeModal"
+    ></div>
+
+    <!-- Modal Content -->
+    <div 
+      class="relative z-[60] w-full max-w-xl mx-4 p-6 bg-white rounded-2xl shadow-2xl transition-transform duration-300 ease-in-out scale-100"
+    >
+      <div class="flex items-start justify-between mb-4">
+        <h2 class="text-xl font-bold text-gray-800">
+          Information        </h2>
+        <button 
+          @click="closeModal" 
+          class="text-gray-400 hover:text-gray-700"
+          aria-label="Close modal"
+        >
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="text-gray-700 mb-6" v-html="modalContent"></div>
+
+      <div class="flex justify-end">
+        <button 
+          @click="closeModal" 
+          class="px-5 py-2 rounded-lg bg-yellow-400 text-black font-semibold hover:bg-gray-800 hover:text-white transition-colors duration-300"
+        >
+          Schließen        </button>
+      </div>
+    </div>
+  </div><!-- End Modal -->
+</div>
+</div><!-- End App -->
+
+<script>
+const app = Vue.createApp({
+  data() {
+    return {
+      tree: {},
+      configuratorId: "",
+      configuratorNext: "",
+      steps: [],
+      dynamicMaxSteps: 1,
+      isModalVisible: false,
+      modalContent: "",
+      isLoading: true,
+      // Three-phase inverter slider data
+      selectedPowerValue: 5.0,
+      isDragging: false,
+      powerValues: [5.0, 6.0, 8.0, 10.0, 12.0, 15.0, 20.0, 25.0, 30.0, 35.0],
+    };
+  },
+
+  computed: {
+    currentStep() {
+      return this.steps.length;
+    },
+    currentNode() {
+      return this.getNestedNode();
+    },
+    currentOptions() {
+      return this.currentNode?.children || {};
+    },
+    groupedOptions() {
+      const options = this.currentOptions || {};
+      const groups = {};
+
+      // Nejdříve vytvoříme pole s klíči a možnostmi pro řazení
+      const optionsArray = Object.entries(options).map(([key, option]) => ({
+        key,
+        option,
+        priority: option.priority || 999 // Pokud nemá priority, dáme mu vysoké číslo
+      }));
+
+      // Seřadíme podle priority (1 = nejvyšší, 100 = nejnižší)
+      optionsArray.sort((a, b) => a.priority - b.priority);
+
+      // Nyní seskupíme do skupin
+      for (const { key, option } of optionsArray) {
+        const group = option.group || "";
+        if (!groups[group]) {
+          groups[group] = [];
+        }
+        groups[group].push({ key, option });
+      }
+
+      return groups;
+    },
+    isFinalStep() {
+      return this.steps.length > 0 &&
+        (!this.currentNode?.children || Object.keys(this.currentNode.children).length === 0);
+    },
+    currentTitle() {
+      return this.currentNode?.title || this.tree?.title || 'Wählen Sie eine Option';
+    },
+    optionGridClass() {
+      const count = Object.keys(this.currentOptions || {}).length;
+      return count > 2 
+        ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4' 
+        : 'grid grid-cols-1 lg:grid-cols-2 gap-4';
+    },
+    progressPercent() {
+      if (this.isFinalStep) return 100;
+      return Math.min(((this.steps.length + 1) / this.dynamicMaxSteps) * 100, 100);
+    },
+    currentIcons() {
+      return this.extractProperty(this.currentOptions, 'icon');
+    },
+    currentImages() {
+      return this.extractProperty(this.currentOptions, 'image');
+    },
+    coverImages() {
+      return this.extractProperty(this.currentOptions, 'cover');
+    },
+    // Three-phase inverter specific computed properties
+    isThreePhaseInverterView() {
+      return this.currentNode?.value === 'Three-phase inverter X3';
+    },
+    selectedPowerChildren() {
+      if (!this.isThreePhaseInverterView) return {};
+      const powerKey = this.selectedPowerValue === 35.0 ? '> 30.0 kW' : `${this.selectedPowerValue.toFixed(1)} kW`;
+      return this.currentOptions[powerKey]?.children || {};
+    },
+    selectedPowerTitle() {
+      if (!this.isThreePhaseInverterView) return '';
+      const powerKey = this.selectedPowerValue === 35.0 ? '> 30.0 kW' : `${this.selectedPowerValue.toFixed(1)} kW`;
+      const powerOption = this.currentOptions[powerKey];
+      if (powerOption && powerOption.title) {
+        if (typeof powerOption.title === 'object') {
+          const lang = 'de';
+          return powerOption.title[lang] || powerOption.title['en'] || '';
+        }
+        return powerOption.title;
+      }
+      return '';
+    },
+    sliderChildrenGridClass() {
+      const count = Object.keys(this.selectedPowerChildren || {}).length;
+      return count > 2 
+        ? 'grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 gap-4' 
+        : 'grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 gap-4';
+    },
+    sliderFillWidth() {
+      const maxValue = Math.max(...this.powerValues);
+      if (this.selectedPowerValue === 35.0) {
+        return 95; // Speciální pozice pro "> 30.0 kW"
+      }
+      const percentage = (this.selectedPowerValue / maxValue) * 100;
+      return percentage;
+    },
+    sliderThumbPosition() {
+      const maxValue = Math.max(...this.powerValues);
+      if (this.selectedPowerValue === 35.0) {
+        return 95; // Speciální pozice pro "> 30.0 kW"
+      }
+      const percentage = (this.selectedPowerValue / maxValue) * 100;
+      return percentage;
+    },
+    selectedPowerGroupedOptions() {
+      const options = this.selectedPowerChildren || {};
+      const groups = {};
+
+      // Nejdříve vytvoříme pole s klíči a možnostmi pro řazení
+      const optionsArray = Object.entries(options).map(([key, option]) => ({
+        key,
+        option,
+        priority: option.priority || 999 // Pokud nemá priority, dáme mu vysoké číslo
+      }));
+
+      // Seřadíme podle priority (1 = nejvyšší, 100 = nejnižší)
+      optionsArray.sort((a, b) => a.priority - b.priority);
+
+      // Nyní seskupíme do skupin
+      for (const { key, option } of optionsArray) {
+        const group = option.group || "";
+        if (!groups[group]) {
+          groups[group] = [];
+        }
+        groups[group].push({ key, option });
+      }
+
+      return groups;
+    },
+    selectedPowerImages() {
+      return this.extractProperty(this.selectedPowerChildren, 'image');
+    },
+    selectedPowerIcons() {
+      return this.extractProperty(this.selectedPowerChildren, 'icon');
+    },
+    selectedPowerCoverImages() {
+      return this.extractProperty(this.selectedPowerChildren, 'cover');
+    },
+    canDecreasePower() {
+      if (!this.isThreePhaseInverterView) return false;
+      const currentIndex = this.powerValues.indexOf(this.selectedPowerValue);
+      return currentIndex > 0;
+    },
+    canIncreasePower() {
+      if (!this.isThreePhaseInverterView) return false;
+      const currentIndex = this.powerValues.indexOf(this.selectedPowerValue);
+      return currentIndex < this.powerValues.length - 1;
+    },
+    selectedPowerInfoMessage() {
+      if (!this.isThreePhaseInverterView || this.selectedPowerValue !== 35.0) return '';
+      const powerKey = '> 30.0 kW';
+      const powerOption = this.currentOptions[powerKey];
+      if (powerOption && powerOption.info) {
+        const lang = 'de';
+        if (typeof powerOption.info === 'object') {
+          return powerOption.info[lang] || powerOption.info['en'] || '';
+        }
+        return powerOption.info;
+      }
+      return '';
+    },
+  },
+
+  methods: {
+    getNestedNode() {
+      let node = this.tree;
+      for (const key of this.steps) {
+        node = node?.children?.[key];
+        if (!node) break;
+      }
+      return node;
+    },
+
+    selectOption(key) {
+      // Přepíšeme steps na základě aktuální pozice
+      this.steps = [...this.steps.slice(0, this.currentStep), key];
+
+      const selectedNode = this.getNestedNode();
+      if (!selectedNode) return;
+
+      // Initialize power values for Three-phase inverter view
+      if (selectedNode.value === 'Three-phase inverter X3') {
+        // Find all power values including "> 30.0 kW"
+        const availablePowers = [];
+        const powerOptions = Object.keys(selectedNode.children || {});
+        
+        for (const key of powerOptions) {
+          if (key === '> 30.0 kW') {
+            availablePowers.push(35.0); // Use 35 as placeholder for > 30
+          } else {
+            const power = parseFloat(key.replace(' kW', ''));
+            if (!isNaN(power)) {
+              availablePowers.push(power);
+            }
+          }
+        }
+        
+        if (availablePowers.length > 0) {
+          availablePowers.sort((a, b) => a - b);
+          this.selectedPowerValue = availablePowers[0];
+          this.powerValues = availablePowers;
+        }
+      }
+
+      if (!selectedNode.children || Object.keys(selectedNode.children).length === 0) {
+        // Finální krok: odeslat formulář
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '';
+
+        const inputs = [
+          { name: 'final_value', value: selectedNode.value },
+          { name: 'product_code', value: selectedNode.product_code },
+          { name: 'product_name', value: selectedNode.product_name },
+          { name: 'configurator', value: this.configuratorId },
+          { name: 'configuratorNext', value: this.configuratorNext },
+          { name: 'steps', value: JSON.stringify(this.steps) },
+        ];
+
+        inputs.forEach(({ name, value }) => {
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = name;
+          input.value = value;
+          form.appendChild(input);
+        });
+
+        document.body.appendChild(form);
+        form.submit();
+      } else {
+        this.updateDynamicMaxSteps();
+      }
+    },
+
+    extractProperty(options, property) {
+      if (!options) return {};
+      const result = {};
+      for (const [key, option] of Object.entries(options)) {
+        const value = option[property];
+        result[key] = (typeof value === 'string' || typeof value === 'object') ? value : null;
+      }
+      return result;
+    },
+
+    showModal(content) {
+      this.modalContent = content;
+      this.isModalVisible = true;
+    },
+
+    closeModal() {
+      this.isModalVisible = false;
+      this.modalContent = "";
+    },
+
+    updateDynamicMaxSteps() {
+      this.dynamicMaxSteps = this.calculateBranchDepth(this.tree);
+    },
+
+    calculateBranchDepth(node, depth = 0) {
+      if (!node || !node.children || Object.keys(node.children).length === 0) {
+        return depth;
+      }
+      return Math.max(
+        ...Object.values(node.children).map(child =>
+          this.calculateBranchDepth(child, depth + 1)
+        )
+      );
+    },
+
+    goBack() {
+      this.steps = this.steps.slice(0, -1);
+      this.updateDynamicMaxSteps();
+    },
+
+    goNext() {
+      if (!this.steps[this.currentStep]) {
+        alert("Wählen Sie eine Option, bevor Sie fortfahren.");
+        return;
+      }
+      if (Object.keys(this.currentOptions || {}).length) {
+        this.steps.push('');
+        this.updateDynamicMaxSteps();
+      }
+    },
+
+    async loadConfiguration() {
+      try {
+        const response = await fetch(`inc/filter-config-refactored.php?configFile=wallbox&lang=de`);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+        const config = await response.json();
+
+        let tree = config.tree;
+        if (!tree.children && typeof tree === 'object') {
+          tree = {
+            title: config.titlesByPath?.[''] || 'Wählen Sie eine Option',
+            children: tree,
+          };
+        }
+
+        this.tree = tree;
+        this.configuratorId = config.configuratorId;
+        this.configuratorNext = config.configuratorNext;
+
+        this.updateDynamicMaxSteps();
+        this.isLoading = false; // <- skryje loading
+
+        console.log("Načtená konfigurace:", this.tree);
+      } catch (error) {
+        console.error("Chyba při načtení konfigurace:", error);
+        this.isLoading = false;
+      }
+    },
+
+    // Three-phase inverter slider methods
+    getPowerPosition(power) {
+      const maxValue = Math.max(...this.powerValues);
+      return (power / maxValue) * 100;
+    },
+
+    handleSliderClick(event) {
+      const rect = event.currentTarget.getBoundingClientRect();
+      const percentage = (event.clientX - rect.left) / rect.width;
+      this.updateSliderFromPercentage(percentage);
+    },
+
+    updateSliderFromPercentage(percentage) {
+      const clampedPercentage = Math.max(0, Math.min(1, percentage));
+      const maxValue = Math.max(...this.powerValues);
+      const targetValue = clampedPercentage * maxValue;
+      
+      // Find the closest available power value
+      let closestValue = this.powerValues[0];
+      let minDiff = Math.abs(targetValue - closestValue);
+      
+      for (const power of this.powerValues) {
+        const diff = Math.abs(targetValue - power);
+        if (diff < minDiff) {
+          minDiff = diff;
+          closestValue = power;
+        }
+      }
+      
+      this.selectedPowerValue = closestValue;
+    },
+
+    startDrag(event) {
+      this.isDragging = true;
+      document.addEventListener('mousemove', this.onDrag);
+      document.addEventListener('mouseup', this.stopDrag);
+      document.addEventListener('touchmove', this.onDrag);
+      document.addEventListener('touchend', this.stopDrag);
+      event.preventDefault();
+    },
+
+    onDrag(event) {
+      if (!this.isDragging) return;
+      
+      const slider = document.querySelector('.slider-overlay');
+      if (!slider) return;
+      
+      const rect = slider.getBoundingClientRect();
+      const clientX = event.clientX || (event.touches && event.touches[0]?.clientX);
+      if (clientX === undefined) return;
+      
+      const percentage = (clientX - rect.left) / rect.width;
+      this.updateSliderFromPercentage(percentage);
+    },
+
+    stopDrag() {
+      this.isDragging = false;
+      document.removeEventListener('mousemove', this.onDrag);
+      document.removeEventListener('mouseup', this.stopDrag);
+      document.removeEventListener('touchmove', this.onDrag);
+      document.removeEventListener('touchend', this.stopDrag);
+    },
+
+    selectPowerOption(key) {
+      // Handle selection of specific power option under slider
+      const powerKey = this.selectedPowerValue === 35.0 ? '> 30.0 kW' : `${this.selectedPowerValue.toFixed(1)} kW`;
+      const powerOption = this.currentOptions[powerKey];
+      const selectedOption = powerOption.children[key];
+      
+      if (!selectedOption) return;
+
+      // Add both steps: power selection and specific option selection
+      this.steps = [...this.steps.slice(0, this.currentStep), powerKey, key];
+
+      if (!selectedOption.children || Object.keys(selectedOption.children).length === 0) {
+        // Final step: submit form
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '';
+
+        const inputs = [
+          { name: 'final_value', value: selectedOption.value },
+          { name: 'product_code', value: selectedOption.product_code },
+          { name: 'product_name', value: selectedOption.product_name },
+          { name: 'configurator', value: this.configuratorId },
+          { name: 'configuratorNext', value: this.configuratorNext },
+          { name: 'steps', value: JSON.stringify(this.steps) },
+        ];
+
+        inputs.forEach(({ name, value }) => {
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = name;
+          input.value = value;
+          form.appendChild(input);
+        });
+
+        document.body.appendChild(form);
+        form.submit();
+      } else {
+        this.updateDynamicMaxSteps();
+      }
+    },
+
+    testThreePhaseInverter() {
+      // Navigate directly to Three-phase inverter X3 for testing
+      this.steps = ['Split System', 'Three-phase inverter X3'];
+      this.updateDynamicMaxSteps();
+    },
+
+    decreasePower() {
+      if (!this.canDecreasePower) return;
+      const currentIndex = this.powerValues.indexOf(this.selectedPowerValue);
+      if (currentIndex > 0) {
+        this.selectedPowerValue = this.powerValues[currentIndex - 1];
+      }
+    },
+
+    increasePower() {
+      if (!this.canIncreasePower) return;
+      const currentIndex = this.powerValues.indexOf(this.selectedPowerValue);
+      if (currentIndex < this.powerValues.length - 1) {
+        this.selectedPowerValue = this.powerValues[currentIndex + 1];
+      }
+    },
+  },
+
+  mounted() {
+    this.loadConfiguration();
+  },
+});
+
+app.mount('#app');
+</script>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center my-4">
+        <span class="text-xs text-gray-400">
+            Version: 1.8.1 - 13. 04. 2026        </span>
+    </footer>
+
+        <!-- Overlay -->
+    <div id="sidebarOverlay" class="fixed inset-0 z-50 bg-black/50 opacity-0 pointer-events-none transition-opacity duration-300 backdrop-blur-xs"></div>
+
+    <!-- Sidebar Panel -->
+    <div id="customSidebar" class="hidden fixed top-0 left-0 h-full w-full max-w sm:max-w-md z-50 bg-white transform -translate-x-full transition-transform duration-300 ease-in-out overflow-y-auto p-6 text-sm font-normal shadow-lg">
+        <div id="customSidebarContent">
+            <div class="absolute top-4 right-4">
+                <button onclick="closeSidebar()" class="text-gray-500 hover:text-white hover:bg-[#fdb517] focus:outline-none transition duration-300 p-2 cursor-pointer">
+                    <i class="fas fa-times"></i>
+                    <span class="sr-only">X</span>
+                </button>
+            </div>    
+            <div class="flex items-center justify-center mb-0">
+                <img src="https://www.gbc-solino.cz/media/images/logo-cs.svg?nocache=1749102786747" alt="SolaX Power Logo" class="h-16 sm:h-20 zoom-in">
+            </div>    
+            <div class="flex flex-col items-center justify-center mt-2 mb-6">  
+                <h1 class="text-xl text-gray-800">
+                    Bestellkonfigurator - Aktuelle Konfiguration                </h1>
+            </div>
+
+            <div id="sidebarContent" class="space-y-6">
+
+                                    <div>
+                        <h3 class="text-base font-semibold mb-2 text-blue-700 flex items-center gap-2">
+                            <i class="fas fa-bolt"></i> Wechselrichter                        </h3>
+                        
+                        <div class='flex justify-between items-center py-2 border-b border-dashed border-gray-300'>
+                            <span class='text-gray-700'>Wechselrichtertyp</span>
+                            <span class='text-gray-900 font-medium'>X3</span>
+                        </div>
+                                            
+                        <div class='flex justify-between items-center py-2 border-b border-dashed border-gray-300'>
+                            <span class='text-gray-700'>Leistung (kW)</span>
+                            <span class='text-gray-900 font-medium'>5.0 kW</span>
+                        </div>
+                                            
+                        <div class='flex justify-between items-center py-2 border-b border-dashed border-gray-300'>
+                            <span class='text-gray-700'>Konfiguration</span>
+                            <span class='text-gray-900 font-medium'>Solax G4 X3-Hybrid-5.0-D, CT, ohne WiFi 3.0</span>
+                        </div>
+                                        </div>
+                                    <div>
+                        <h3 class="text-base font-semibold mb-2 text-green-700 flex items-center gap-2">
+                            <i class="fas fa-battery-full"></i> Batterie                        </h3>
+                        <?//= renderItem('Battery type', htmlspecialchars($battery['battery_type'] ?? '')) ?>
+                        <?//= renderItem('Capacity (kWh)', htmlspecialchars($battery['battery_capacity'] ?? '')) ?>
+                        
+                        <div class='flex justify-between items-center py-2 border-b border-dashed border-gray-300'>
+                            <span class='text-gray-700'>Konfiguration</span>
+                            <span class='text-gray-900 font-medium'>Triple Power T58 - 11.5 kWh</span>
+                        </div>
+                                                                </div>
+                                    <div>
+                        <h3 class="text-base font-semibold mb-2 text-yellow-700 flex items-center gap-2">
+                            <i class="fas fa-plug"></i> Ersatzstromversorgung                        </h3>
+                        
+                        <div class='flex justify-between items-center py-2 border-b border-dashed border-gray-300'>
+                            <span class='text-gray-700'>Produkt</span>
+                            <span class='text-gray-900 font-medium'>null</span>
+                        </div>
+                                        </div>
+                
+            </div>
+        </div>
+        <div class="mt-8 flex justify-between items-center">
+        <!--button onclick="printCustomSidebar()" class="px-6 py-2 hover:bg-[#fdb517] hover:text-white font-semibold cursor-pointer"><i class="fas fa-print mr-1"></i>Drucken</button-->    
+        <button onclick="closeSidebar()" class="ml-auto px-6 py-2 bg-[#333132] text-white hover:bg-[#fdb517] hover:text-white font-semibold cursor-pointer">Schließen</button>
+            
+        </div>
+    </div>
+
+    <script>
+        function openSidebar() {
+            const sidebar = document.getElementById('customSidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+
+            sidebar.classList.remove('hidden');
+            setTimeout(() => {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('opacity-0', 'pointer-events-none');
+            }, 10);
+        }
+
+        function closeSidebar() {
+            const sidebar = document.getElementById('customSidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('opacity-0', 'pointer-events-none');
+
+            setTimeout(() => {
+                sidebar.classList.add('hidden');
+            }, 300);
+        }
+
+        document.getElementById('currentSetup')?.addEventListener('click', openSidebar);
+        document.getElementById('sidebarOverlay')?.addEventListener('click', closeSidebar);
+
+        function printCustomSidebar() {
+            const sidebarContent = document.getElementById('customSidebarContent').innerHTML;
+            const printWindow = window.open('', '_blank', 'width=800,height=600');
+            printWindow.document.open();
+            printWindow.document.write(`
+            <html>
+                <head>
+                <title>Print Custom Sidebar</title>
+                <style>
+                    body { font-family: Arial, sans-serif; margin: 20px; }
+                </style>
+                </head>
+                <body>
+                ${sidebarContent}
+                </body>
+            </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
+        }
+    </script>
+</div>
+
+<!-- ============================================ -->
+<!-- JAVASCRIPT -->
+<!-- ============================================ -->
+
+<script>
+
+function toggleDropdown() {
+    const dropdown = document.getElementById('langDropdown');
+    
+    if (!dropdown) {
+        console.error('Language dropdown element not found');
+        return;
+    }
+    
+    dropdown.classList.toggle('hidden');
+    
+    // Použití weak reference pro lepší garbage collection
+    const closeHandler = function(e) {
+        if (!dropdown.contains(e.target) && !e.target.closest('button[onclick="toggleDropdown()"]')) {
+            dropdown.classList.add('hidden');
+            document.removeEventListener('click', closeHandler);
+        }
+    };
+    
+    // Přidání event listeneru s mírným zpožděním
+    setTimeout(() => {
+        document.addEventListener('click', closeHandler);
+    }, 10);
+}
+
+// Accessibility enhancement - keyboard support
+document.addEventListener('DOMContentLoaded', function() {
+    const dropdownButton = document.querySelector('button[onclick="toggleDropdown()"]');
+    
+    if (dropdownButton) {
+        dropdownButton.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleDropdown();
+            }
+        });
+    }
+});
+</script>
+<script>
+    let lastHeight = 0;
+    let isInitialized = false;
+    
+    function sendHeight() {
+        const height = document.body.scrollHeight;
+        
+        // Pošli výšku pouze pokud se změnila nebo je to první volání
+        if (height !== lastHeight || !isInitialized) {
+            lastHeight = height;
+            isInitialized = true;
+            console.log('Sending height to parent:', height);
+            window.parent.postMessage({ height: height }, "*");
+        }
+    }
+    
+    // Pošli výšku po načtení
+    window.addEventListener('load', sendHeight);
+    
+    // Debounce funkce pro resize
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(sendHeight, 250);
+    });
+    
+    // Debounce funkce pro mutation observer
+    let mutationTimeout;
+    const observer = new MutationObserver(function() {
+        clearTimeout(mutationTimeout);
+        mutationTimeout = setTimeout(sendHeight, 100);
+    });
+    observer.observe(document.body, { 
+        childList: true, 
+        subtree: true, 
+        attributes: true 
+    });
+    
+    // Poslouchej zprávy od parent okna
+    window.addEventListener('message', function(event) {
+        if (event.data === 'getHeight') {
+            sendHeight();
+        }
+    });
+</script>
+</body>
+</html>

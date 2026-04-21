@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SolaX Configurator</title>
+  <script src="https://unpkg.com/vue@3"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+  <link href="src/output.css" rel="stylesheet">
+  <!--script src="https://cdn.tailwindcss.com"></script-->
+  
+</head>
+<body class="">
+<!-- ============================================ -->
+<!-- HTML STRUKTURA -->
+<!-- ============================================ -->
+
+<div class="w-full max-w-[1600px] mx-auto relative overflow-hidden">
+    <div class="mb-4 bg-white">
+        <!-- Header -->
+        <div id="header" class="bg-white">
+            <!-- Language Selection Dropdown -->
+            <div class="absolute top-0 right-2 inline-block text-right z-15">
+                <button onclick="toggleDropdown()" 
+                        class="inline-flex items-center gap-2 rounded-md border border-gray-300 px-3 py-1.5 bg-white text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
+                    <img src="img/flags/flag_de.png" 
+                         alt="de" 
+                         class="w-5 h-5 rounded-sm">
+                    <span class="hidden sm:block uppercase">de</span>
+                    <svg class="hidden sm:block h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                
+                <div id="langDropdown" class="absolute right-0 mt-1 w-32 rounded-md shadow-lg bg-white border border-gray-200 hidden z-10"><ul class="py-1 text-sm text-gray-700"><li><a href="./?configuratorNext=accessory&amp;lang=en" class="flex items-center px-4 py-2 hover:bg-gray-100 gap-2"><img src="img/flags/flag_en.png" alt="English" class="w-5 h-5 rounded-sm">English</a></li><li><a href="./?configuratorNext=accessory&amp;lang=cs" class="flex items-center px-4 py-2 hover:bg-gray-100 gap-2"><img src="img/flags/flag_cs.png" alt="Čeština" class="w-5 h-5 rounded-sm">Čeština</a></li><li><a href="./?configuratorNext=accessory&amp;lang=de" class="flex items-center px-4 py-2 hover:bg-gray-100 gap-2"><img src="img/flags/flag_de.png" alt="Deutsch" class="w-5 h-5 rounded-sm">Deutsch</a></li></ul></div>            </div>
+
+            <!-- Logo and Title -->
+            <div class="flex flex-row items-center px-4 ">
+                
+                <div class="w-full flex flex-col text-center items-center space-y-0">
+                    <h1 class="text-base sm:text-2xl text-gray-800 leading-snug px-2">
+                        <span class="animatedTitle">
+                            Bestellkonfigurator                         </span>
+                    </h1>
+
+                                    </div>
+            </div>
+        </div>
+        
+        
+<div class="relative h-auto p-4">
+  <div class="relative">
+    <h3 class="text-xl font-semibold mb-4">Installationsart</h3>
+
+    <div class="flex flex-col w-full sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
+          <label 
+        onclick="window.location.href='?configuratorNext=inverter&installation_type=new&lang=de'"
+        class="relative group flex w-full h-[200px] sm:h-[300px] md:h-[400px] items-center justify-center font-semibold border-2 border-gray-300 hover:border-[#fdb517] rounded-lg cursor-pointer overflow-hidden transition-transform duration-300 ease-in-out transform hover:scale-[1.02]"
+    >
+        <img src="img/media/image002.jpg" alt="New installation"
+             class="absolute inset-0 w-full h-full object-cover object-center z-0"
+             loading="lazy" />
+
+        <span class="relative z-10 text-2xl text-center w-full bg-black/80 p-4 shadow-lg text-white group-hover:text-amber-500 transition-colors duration-300">
+            Neue Installation        </span>
+    </label>
+        <label 
+        onclick="window.location.href='?configuratorNext=battery&installation_type=ac_coupling&lang=de'"
+        class="relative group flex w-full h-[200px] sm:h-[300px] md:h-[400px] items-center justify-center font-semibold border-2 border-gray-300 hover:border-[#fdb517] rounded-lg cursor-pointer overflow-hidden transition-transform duration-300 ease-in-out transform hover:scale-[1.02]"
+    >
+        <img src="img/media/image001.jpg" alt="AC Coupling"
+             class="absolute inset-0 w-full h-full object-cover object-center z-0"
+             loading="lazy" />
+
+        <span class="relative z-10 text-2xl text-center w-full bg-black/80 p-4 shadow-lg text-white group-hover:text-amber-500 transition-colors duration-300">
+            AC-Kopplung        </span>
+    </label>
+        </div>
+  </div>
+</div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center my-4">
+        <span class="text-xs text-gray-400">
+            Version: 1.8.1 - 13. 04. 2026        </span>
+    </footer>
+
+    </div>
+
+<!-- ============================================ -->
+<!-- JAVASCRIPT -->
+<!-- ============================================ -->
+
+<script>
+
+function toggleDropdown() {
+    const dropdown = document.getElementById('langDropdown');
+    
+    if (!dropdown) {
+        console.error('Language dropdown element not found');
+        return;
+    }
+    
+    dropdown.classList.toggle('hidden');
+    
+    // Použití weak reference pro lepší garbage collection
+    const closeHandler = function(e) {
+        if (!dropdown.contains(e.target) && !e.target.closest('button[onclick="toggleDropdown()"]')) {
+            dropdown.classList.add('hidden');
+            document.removeEventListener('click', closeHandler);
+        }
+    };
+    
+    // Přidání event listeneru s mírným zpožděním
+    setTimeout(() => {
+        document.addEventListener('click', closeHandler);
+    }, 10);
+}
+
+// Accessibility enhancement - keyboard support
+document.addEventListener('DOMContentLoaded', function() {
+    const dropdownButton = document.querySelector('button[onclick="toggleDropdown()"]');
+    
+    if (dropdownButton) {
+        dropdownButton.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleDropdown();
+            }
+        });
+    }
+});
+</script>
+<script>
+    let lastHeight = 0;
+    let isInitialized = false;
+    
+    function sendHeight() {
+        const height = document.body.scrollHeight;
+        
+        // Pošli výšku pouze pokud se změnila nebo je to první volání
+        if (height !== lastHeight || !isInitialized) {
+            lastHeight = height;
+            isInitialized = true;
+            console.log('Sending height to parent:', height);
+            window.parent.postMessage({ height: height }, "*");
+        }
+    }
+    
+    // Pošli výšku po načtení
+    window.addEventListener('load', sendHeight);
+    
+    // Debounce funkce pro resize
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(sendHeight, 250);
+    });
+    
+    // Debounce funkce pro mutation observer
+    let mutationTimeout;
+    const observer = new MutationObserver(function() {
+        clearTimeout(mutationTimeout);
+        mutationTimeout = setTimeout(sendHeight, 100);
+    });
+    observer.observe(document.body, { 
+        childList: true, 
+        subtree: true, 
+        attributes: true 
+    });
+    
+    // Poslouchej zprávy od parent okna
+    window.addEventListener('message', function(event) {
+        if (event.data === 'getHeight') {
+            sendHeight();
+        }
+    });
+</script>
+</body>
+</html>

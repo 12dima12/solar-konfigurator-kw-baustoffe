@@ -55,24 +55,25 @@ class ArticleCodes {
 		'BMS Parallel Box G2' => null,
 
 		// -- Batteriezubehör --
-		'Solax Triple Power Holding Bracket' => null,
-		'Solax Triple Power Base Plate'      => null,
+		'Solax Triple Power Holding Bracket' => 'G-690-90bw',
+		'Solax Triple Power Base Plate'      => 'G-690-90st',
 
 		// -- Dongle --
-		'Solax Pocket Dongle 4G 3.0'            => null,
-		'Solax Pocket Dongle WiFi 3.0'          => null,
+		'Solax Pocket Dongle 4G 3.0'            => 'B-210-1021',
+		'Solax Pocket Dongle WiFi 3.0'          => 'B-210-1014',
 		'Solax Pocket Dongle WiFi+LAN 10s'      => 'B-210-1020',
-		'Pocket WiFi Dongle V3.0 PLUS 10s'      => null,
+		'Pocket WiFi Dongle V3.0 PLUS 10s'      => 'B-210-10s',
 
 		// -- Extras --
 		'Solax Adapter Box G2'                  => 'B-210-G210',
 		'Solax Chint Wireless Bridge'           => 'B-210-1005',
 		'Solax DataHub 1000'                    => 'B-210-1u15',
+		'SolaX EVC Pedestal Dual'               => 'EV-210-003',
 		'Solax Xhub'                            => null,
 
 		// -- Smart Meter --
 		'Solax Chint 3Ph Meter DTSU666' => 'B-210-1003',
-		'Solax Chint 1Ph Meter DDSU666' => null,
+		'Solax Chint 1Ph Meter DDSU666' => 'B-210-1002',
 	];
 
 	/**

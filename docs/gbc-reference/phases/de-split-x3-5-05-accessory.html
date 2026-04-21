@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SolaX Configurator</title>
+  <script src="https://unpkg.com/vue@3"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+  <link href="src/output.css" rel="stylesheet">
+  <!--script src="https://cdn.tailwindcss.com"></script-->
+  
+</head>
+<body class="">
+<!-- ============================================ -->
+<!-- HTML STRUKTURA -->
+<!-- ============================================ -->
+
+<div class="w-full max-w-[1600px] mx-auto relative overflow-hidden">
+    <div class="mb-4 bg-white">
+        <!-- Header -->
+        <div id="header" class="bg-white">
+            <!-- Language Selection Dropdown -->
+            <div class="absolute top-0 right-2 inline-block text-right z-15">
+                <button onclick="toggleDropdown()" 
+                        class="inline-flex items-center gap-2 rounded-md border border-gray-300 px-3 py-1.5 bg-white text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
+                    <img src="img/flags/flag_de.png" 
+                         alt="de" 
+                         class="w-5 h-5 rounded-sm">
+                    <span class="hidden sm:block uppercase">de</span>
+                    <svg class="hidden sm:block h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                
+                <div id="langDropdown" class="absolute right-0 mt-1 w-32 rounded-md shadow-lg bg-white border border-gray-200 hidden z-10"><ul class="py-1 text-sm text-gray-700"><li><a href="./?configuratorNext=accessory&amp;lang=en" class="flex items-center px-4 py-2 hover:bg-gray-100 gap-2"><img src="img/flags/flag_en.png" alt="English" class="w-5 h-5 rounded-sm">English</a></li><li><a href="./?configuratorNext=accessory&amp;lang=cs" class="flex items-center px-4 py-2 hover:bg-gray-100 gap-2"><img src="img/flags/flag_cs.png" alt="Čeština" class="w-5 h-5 rounded-sm">Čeština</a></li><li><a href="./?configuratorNext=accessory&amp;lang=de" class="flex items-center px-4 py-2 hover:bg-gray-100 gap-2"><img src="img/flags/flag_de.png" alt="Deutsch" class="w-5 h-5 rounded-sm">Deutsch</a></li></ul></div>            </div>
+
+            <!-- Logo and Title -->
+            <div class="flex flex-row items-center px-4 ">
+                
+                <div class="w-full flex flex-col text-center items-center space-y-0">
+                    <h1 class="text-base sm:text-2xl text-gray-800 leading-snug px-2">
+                        <span class="animatedTitle">
+                            Bestellkonfigurator <span class="sm:inline-block hidden px-2"> - </span><span class="text-green-600 text-sm sm:text-xl sm:inline-block block">Neue Installation</span>                        </span>
+                    </h1>
+
+                                            <div class="flex items-center justify-center space-x-2">
+                            <button id="currentSetup" type="button" class="py-0 m-0 px-0 bg-transparent border-0 inline-block"><span class="text-xs text-blue-500 hover:text-blue-600 hover:bg-blue-200 py-0.5 px-2 font-semibold cursor-pointer transition">Aktuelles Setup</span></button>                            <form method="GET" action="./"><input type="hidden" name="reset" value="true"><input type="hidden" name="lang" value="de"><button type="submit" class="py-0 m-0 px-0 bg-transparent border-0 inline-block"><span class="text-xs text-red-500 hover:text-red-600 hover:bg-red-200 py-0.5 px-2 font-semibold cursor-pointer transition">Reset</span></button></form>                        </div>
+                                    </div>
+            </div>
+        </div>
+        
+        <div class="w-full flex justify-center py- my-4">
+  <nav aria-label="Progress" class="relative mb-12">
+    <ol role="list" class="flex items-center">
+      <li class="relative pr-[40px] sm:pr-[50px] md:pr-[80px] lg:pr-[140px]"><div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="h-0.5 w-full border-t-2 border-gray-200 border-dashed"></div>
+                </div><a href="?configuratorNext=inverter" class="group overflow-visible border-2 border-transparent relative flex items-center justify-center rounded-full bg-white w-12 h-12 sm:w-14 sm:h-14" aria-current="step"><img src="img/X3 G4.png" alt="Completed" class="w-10 h-10 sm:w-12 sm:h-12 object-contain" /><div class="absolute top-0 left-1/2 -translate-x-1/2 px-3 py-1.5 text-xs text-white bg-black rounded shadow-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                          X3 G4
+                        </div><span class="sr-only">Step 1</span><span class="absolute step text-xs sm:text-lg font-semibold bottom-[-32px]">Wechselrichter</span></a></li><li class="relative pr-[40px] sm:pr-[50px] md:pr-[80px] lg:pr-[140px]"><div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="h-0.5 w-full border-t-2 border-gray-200 border-dashed"></div>
+                </div><a href="?configuratorNext=backup" class="group relative flex size-4 sm:size-8 items-center justify-center rounded-full text-gray-400 border-2 border-[#fdb517] bg-white hover:border-[#fdb517]"><span class="size-2.5 rounded-full bg-transparent group-hover:bg-gray-300" aria-hidden="true"></span><span class="absolute top-0 left-1/2 -translate-x-1/2 px-3 py-1.5 text-xs text-white bg-black rounded shadow-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                              null
+                            </span><span class="sr-only">Step 2</span><span class="absolute step text-xs sm:text-lg font-semibold bottom-[-48px] md:bottom-[-43px]">Ersatzstromversorgung</span></a></li><li class="relative pr-[40px] sm:pr-[50px] md:pr-[80px] lg:pr-[140px]"><div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="h-0.5 w-full border-t-2 border-gray-200 border-dashed"></div>
+                </div><a href="?configuratorNext=battery" class="group overflow-visible border-2 border-transparent relative flex items-center justify-center rounded-full bg-white w-12 h-12 sm:w-14 sm:h-14" aria-current="step"><img src="img/T58 master+slave_V2.png" alt="Completed" class="w-10 h-10 sm:w-12 sm:h-12 object-contain" /><div class="absolute top-0 left-1/2 -translate-x-1/2 px-3 py-1.5 text-xs text-white bg-black rounded shadow-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                          Triple Power T58
+                        </div><span class="sr-only">Step 3</span><span class="absolute step text-xs sm:text-lg font-semibold bottom-[-32px]">Batterie</span></a></li><li class="relative pr-[40px] sm:pr-[50px] md:pr-[80px] lg:pr-[140px]"><div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="h-0.5 w-full border-t-2 border-gray-200 border-dashed"></div>
+                </div><a href="?configuratorNext=wallbox" class="group relative flex size-4 sm:size-8 items-center justify-center rounded-full text-gray-400 border-2 border-[#fdb517] bg-white hover:border-[#fdb517]"><span class="size-2.5 rounded-full bg-transparent group-hover:bg-gray-300" aria-hidden="true"></span><span class="absolute top-0 left-1/2 -translate-x-1/2 px-3 py-1.5 text-xs text-white bg-black rounded shadow-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                              null
+                            </span><span class="sr-only">Step 4</span><span class="absolute step text-xs sm:text-lg font-semibold bottom-[-48px] md:bottom-[-43px]">Wallbox</span></a></li><li class="relative pr-[40px] sm:pr-[50px] md:pr-[80px] lg:pr-[140px]"><div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="h-0.5 w-full border-t-2 border-gray-200 border-dashed"></div>
+                </div><a href="?configuratorNext=accessory" class="group relative flex size-4 sm:size-8 items-center justify-center rounded-full border-2 border-[#fdb517] bg-white" aria-current="step"><span class="pulse-ring"></span><span class="size-2.5 rounded-full bg-[#fdb517] z-5" aria-hidden="true"></span><span class="sr-only">Step 5</span><span class="absolute step text-xs sm:text-lg font-semibold bottom-[-48px] md:bottom-[-43px]">Zubehör</span></a></li><li class="relative "><div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="h-0.5 w-full border-t-2 border-gray-200 border-dashed"></div>
+                </div><a href="#" class="group relative flex size-4 sm:size-8 items-center justify-center rounded-full text-gray-400 border-2 border-gray-300 bg-white hover:border-gray-400 cursor-not-allowed">
+                      <span class="size-2.5 rounded-full bg-transparent group-hover:bg-gray-300" aria-hidden="true"></span>
+                      <span class="sr-only">Step 6</span>
+                    <span class="absolute step text-xs sm:text-lg font-semibold bottom-[-48px] md:bottom-[-43px]">Ende</span></a></li>    </ol>
+  </nav>
+</div></div><form method="POST" action="" class="ml-auto p-4"><div class="flex justify-end text-sm"><button type="submit" class="px-6 py-2 bg-[#fdb517] text-black hover:bg-[#333132] hover:text-white font-semibold cursor-pointer">Speichern & Fortfahren</button></div><div class="border-t-4 border-[#fdb517] py-4"><h2 class="text-lg sm:text-2xl">Zubehör für Batterie <span class="text-black font-bold">Triple Power T58</span></h2><h3 class="mb-4 text-gray-600"><i>Kapazität: 11.5</i> kWh</h3><div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4"><label for="T58_holding_bracket" class="relative checkbox-label relative flex w-full items-center p-4 font-semibold border-2 rounded-lg transition-all duration-300 ease-in-out flex-col sm:flex-row border-gray-300 hover:border-[#fdb517] hover:bg-gray-50 cursor-pointer" title="G-690-90bw">    <input 
+                    id="T58_holding_bracket" 
+                    name="T58_holding_bracket" 
+                    type="checkbox" 
+                    value="G-690-90bw" 
+                     
+                     
+                     
+                    class="hidden" 
+                    onchange="updateCheckboxState(this)">    <img src="img/accessory/G-690-90bw.png" alt="Holding bracket" title="G-690-90bw" class="min-h-12 max-h-16 w-auto sm:mr-3 mb-3 sm:mb-0 object-contain">    <div class="text-lg sm:ml-3 text-center sm:text-left">Holding bracket<br>        <span class="text-gray-400 text-sm font-semibold">1 per 2 modules</span>    </div></label><label for="base_plate" class="relative checkbox-label relative flex w-full items-center p-4 font-semibold border-2 rounded-lg transition-all duration-300 ease-in-out flex-col sm:flex-row border-gray-300 hover:border-[#fdb517] hover:bg-gray-50 cursor-pointer" title="G-690-90st">    <input 
+                    id="base_plate" 
+                    name="base_plate" 
+                    type="checkbox" 
+                    value="G-690-90st" 
+                     
+                     
+                     
+                    class="hidden" 
+                    onchange="updateCheckboxState(this)">    <img src="img/accessory/G-690-90st.png" alt="Base plate" title="G-690-90st" class="min-h-12 max-h-16 w-auto sm:mr-3 mb-3 sm:mb-0 object-contain">    <div class="text-lg sm:ml-3 text-center sm:text-left">Base plate<br>        <span class="text-gray-400 text-sm font-semibold">1 per module</span>    </div></label></div></div><div class="border-t-4 border-[#fdb517] py-4"><h2 class="text-lg sm:text-2xl mb-0">Zubehör für Wechselrichter</span> <span class="font-bold">Solax G4 X3-Hybrid-5.0-D, CT, ohne WiFi 3.0</span></h2><h3 class="mb-6 text-gray-600"><i>Kapazität: 5.0 kW</i></h3><h4 class="text-lg sm:text-xl mb-2">Auswählen <span class="font-bold">Dongle</span>:</h2><div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4"><label for="dongle_B-210-1021" class="relative block border-2 rounded-lg p-4 transition cursor-pointer bg-white border-gray-200 hover:border-[#fdb517]" title="B-210-1021">  <div class="flex items-center flex-col sm:flex-row gap-4">    <input 
+                    type="radio" 
+                    id="dongle_B-210-1021" 
+                    name="dongle" 
+                    value="B-210-1021" 
+                    class="absolute right-3 top-2 size-4 appearance-none rounded-full border border-gray-300 bg-white 
+                           before:absolute before:inset-1 before:rounded-full before:bg-white 
+                           not-checked:before:hidden 
+                           checked:border-[#fdb517] checked:bg-[#fdb517] 
+                           focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#fdb517] 
+                           disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 
+                           forced-colors:appearance-auto forced-colors:before:hidden"
+                     
+                    required 
+                    >    <img src="img/accessory/dongle_4g.png" alt="Dongle 4G" title="B-210-1021" class="h-16 w-auto object-contain" loading="lazy" onerror="this.style.display='none'">
+    <div class="absolute top-[-5px] right-[-5px] group">
+        <button 
+            type="button" 
+            class="px-3 py-1.5 bg-gray-200 text-black text-xs font-semibold rounded-full border-2 border-gray-300 shadow-md hover:bg-gray-800 hover:text-white transition-all duration-300 ease-in-out cursor-help">
+            <i class="fa-solid fa-circle-info mr-1"></i>Info
+        </button>
+        <div 
+            class="absolute bottom-full text-left right-0 mb-2 w-auto whitespace-nowrap p-3 bg-gray-800 border border-black rounded-lg shadow-lg text-sm text-white opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-400 ease-in-out pointer-events-none z-10">
+            Dongle für SIM-Karte
+        </div>
+    </div>
+        <div class="flex flex-col justify-center text-center sm:text-left">        <div class="text-lg font-semibold text-gray-800">Dongle 4G</div>        <div class="text-gray-400 text-sm font-semibold text-center sm:text-left">Solax Pocket Dongle 4G 3.0</div>    </div>  </div></label><label for="dongle_B-210-1014" class="relative block border-2 rounded-lg p-4 transition cursor-pointer bg-white border-gray-200 hover:border-[#fdb517]" title="B-210-1014">  <div class="flex items-center flex-col sm:flex-row gap-4">    <input 
+                    type="radio" 
+                    id="dongle_B-210-1014" 
+                    name="dongle" 
+                    value="B-210-1014" 
+                    class="absolute right-3 top-2 size-4 appearance-none rounded-full border border-gray-300 bg-white 
+                           before:absolute before:inset-1 before:rounded-full before:bg-white 
+                           not-checked:before:hidden 
+                           checked:border-[#fdb517] checked:bg-[#fdb517] 
+                           focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#fdb517] 
+                           disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 
+                           forced-colors:appearance-auto forced-colors:before:hidden"
+                     
+                    required 
+                    >    <img src="img/accessory/SolaX Pocket WiFi Dongle V3.0-PLUS-10s.png" alt="Dongle WiFi 3.0" title="B-210-1014" class="h-16 w-auto object-contain" loading="lazy" onerror="this.style.display='none'">    <div class="flex flex-col justify-center text-center sm:text-left">        <div class="text-lg font-semibold text-gray-800">Dongle WiFi 3.0</div>        <div class="text-gray-400 text-sm font-semibold text-center sm:text-left">Solax Pocket Dongle WiFi 3.0</div>    </div>  </div></label><label for="dongle_B-210-1020" class="relative block border-2 rounded-lg p-4 transition cursor-pointer bg-white border-[#fdb517] hover:border-[#fdb517]" title="B-210-1020">  <div class="flex items-center flex-col sm:flex-row gap-4">    <input 
+                    type="radio" 
+                    id="dongle_B-210-1020" 
+                    name="dongle" 
+                    value="B-210-1020" 
+                    class="absolute right-3 top-2 size-4 appearance-none rounded-full border border-gray-300 bg-white 
+                           before:absolute before:inset-1 before:rounded-full before:bg-white 
+                           not-checked:before:hidden 
+                           checked:border-[#fdb517] checked:bg-[#fdb517] 
+                           focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#fdb517] 
+                           disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 
+                           forced-colors:appearance-auto forced-colors:before:hidden"
+                    checked="checked" 
+                    required 
+                    >    <img src="img/accessory/B-210-1020.png" alt="Dongle WiFi + LAN" title="B-210-1020" class="h-16 w-auto object-contain" loading="lazy" onerror="this.style.display='none'">
+    <div class="absolute top-[-5px] right-[-5px] group">
+        <button 
+            type="button" 
+            class="px-3 py-1.5 bg-gray-200 text-black text-xs font-semibold rounded-full border-2 border-gray-300 shadow-md hover:bg-gray-800 hover:text-white transition-all duration-300 ease-in-out cursor-help">
+            <i class="fa-solid fa-circle-info mr-1"></i>Info
+        </button>
+        <div 
+            class="absolute bottom-full text-left right-0 mb-2 w-auto whitespace-nowrap p-3 bg-gray-800 border border-black rounded-lg shadow-lg text-sm text-white opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-400 ease-in-out pointer-events-none z-10">
+            Beliebte Wahl: 10 Sek. Datenübertragung
+        </div>
+    </div>
+        <div class="flex flex-col justify-center text-center sm:text-left">        <div class="text-lg font-semibold text-gray-800">Dongle WiFi + LAN</div>        <div class="text-gray-400 text-sm font-semibold text-center sm:text-left">Solax Pocket Dongle WiFi+LAN 10s</div>    </div>  </div></label><label for="dongle_B-210-10s" class="relative block border-2 rounded-lg p-4 transition cursor-pointer bg-white border-gray-200 hover:border-[#fdb517]" title="B-210-10s">  <div class="flex items-center flex-col sm:flex-row gap-4">    <input 
+                    type="radio" 
+                    id="dongle_B-210-10s" 
+                    name="dongle" 
+                    value="B-210-10s" 
+                    class="absolute right-3 top-2 size-4 appearance-none rounded-full border border-gray-300 bg-white 
+                           before:absolute before:inset-1 before:rounded-full before:bg-white 
+                           not-checked:before:hidden 
+                           checked:border-[#fdb517] checked:bg-[#fdb517] 
+                           focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#fdb517] 
+                           disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 
+                           forced-colors:appearance-auto forced-colors:before:hidden"
+                     
+                    required 
+                    >    <img src="img/accessory/SolaX Pocket WiFi Dongle V3.0-PLUS-10s.png" alt="Dongle WiFi 3.0 Plus" title="B-210-10s" class="h-16 w-auto object-contain" loading="lazy" onerror="this.style.display='none'">
+    <div class="absolute top-[-5px] right-[-5px] group">
+        <button 
+            type="button" 
+            class="px-3 py-1.5 bg-gray-200 text-black text-xs font-semibold rounded-full border-2 border-gray-300 shadow-md hover:bg-gray-800 hover:text-white transition-all duration-300 ease-in-out cursor-help">
+            <i class="fa-solid fa-circle-info mr-1"></i>Info
+        </button>
+        <div 
+            class="absolute bottom-full text-left right-0 mb-2 w-auto whitespace-nowrap p-3 bg-gray-800 border border-black rounded-lg shadow-lg text-sm text-white opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-400 ease-in-out pointer-events-none z-10">
+            Erweiterte WiFi-Reichweite<br>Datenrate auf SolaX Cloud bei 10s
+        </div>
+    </div>
+        <div class="flex flex-col justify-center text-center sm:text-left">        <div class="text-lg font-semibold text-gray-800">Dongle WiFi 3.0 Plus</div>        <div class="text-gray-400 text-sm font-semibold text-center sm:text-left">Pocket WiFi Dongle V3.0 PLUS 10s</div>    </div>  </div></label><div class="flex flex-col justify-between text-center md:items-start md:text-left"><button type="button" class="mt-auto text-red-500 hover:text-white bg-white hover:bg-red-500 rounded px-2 py-2 text-xs font-semibold transition duration-200 cursor-pointer" onclick="resetAccessorySelection('dongle')"><i class="fa-solid fa-rotate-left mr-1"></i>Reset Dongle</button></div></div><h4 class="text-lg sm:text-xl mb-2 mt-6 font-bold">Andere:</h2><div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4"><label for="adapter_box_g2" class="relative checkbox-label relative flex w-full items-center p-4 font-semibold border-2 rounded-lg transition-all duration-300 ease-in-out flex-col sm:flex-row border-gray-300 hover:border-[#fdb517] hover:bg-gray-50 cursor-pointer" title="B-210-G210">    <input 
+                    id="adapter_box_g2" 
+                    name="adapter_box_g2" 
+                    type="checkbox" 
+                    value="B-210-G210" 
+                     
+                     
+                     
+                    class="hidden" 
+                    onchange="updateCheckboxState(this)">    <img src="img/accessory/B-210-G210.png" alt="Adapter Box G2" title="B-210-G210" class="min-h-12 max-h-16 w-auto sm:mr-3 mb-3 sm:mb-0 object-contain">    <div class="text-lg sm:ml-3 text-center sm:text-left">Adapter Box G2<br>        <span class="text-gray-400 text-sm font-semibold">B-210-G210</span>    </div>
+    <div class="absolute top-[-5px] right-[-5px] group">
+        <button 
+            type="button" 
+            class="px-3 py-1.5 bg-gray-200 text-black text-xs font-semibold rounded-full border-2 border-gray-300 shadow-md hover:bg-gray-800 hover:text-white transition-all duration-300 ease-in-out cursor-help">
+            <i class="fa-solid fa-circle-info mr-1"></i>Info
+        </button>
+        <div 
+            class="absolute bottom-full text-left right-0 mb-2 w-auto whitespace-nowrap p-3 bg-gray-800 border border-black rounded-lg shadow-lg text-sm text-white opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-400 ease-in-out pointer-events-none z-10">
+            Anschlussbox für Wärmepumpe, <br>SG Ready, Dry Contact, Analogsignal
+        </div>
+    </div>
+    </label><label for="solax_chint_wireless_bridge" class="relative checkbox-label relative flex w-full items-center p-4 font-semibold border-2 rounded-lg transition-all duration-300 ease-in-out flex-col sm:flex-row border-gray-300 hover:border-[#fdb517] hover:bg-gray-50 cursor-pointer" title="B-210-1005">    <input 
+                    id="solax_chint_wireless_bridge" 
+                    name="solax_chint_wireless_bridge" 
+                    type="checkbox" 
+                    value="B-210-1005" 
+                     
+                     
+                     
+                    class="hidden" 
+                    onchange="updateCheckboxState(this)">    <img src="img/accessory/B-210-1005.png" alt="Solax Chint Wireless Bridge" title="B-210-1005" class="min-h-12 max-h-16 w-auto sm:mr-3 mb-3 sm:mb-0 object-contain">    <div class="text-lg sm:ml-3 text-center sm:text-left">Solax Chint Wireless Bridge<br>        <span class="text-gray-400 text-sm font-semibold">B-210-1005</span>    </div>
+    <div class="absolute top-[-5px] right-[-5px] group">
+        <button 
+            type="button" 
+            class="px-3 py-1.5 bg-gray-200 text-black text-xs font-semibold rounded-full border-2 border-gray-300 shadow-md hover:bg-gray-800 hover:text-white transition-all duration-300 ease-in-out cursor-help">
+            <i class="fa-solid fa-circle-info mr-1"></i>Info
+        </button>
+        <div 
+            class="absolute bottom-full text-left right-0 mb-2 w-auto whitespace-nowrap p-3 bg-gray-800 border border-black rounded-lg shadow-lg text-sm text-white opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-400 ease-in-out pointer-events-none z-10">
+            Drahtlose Verbindung zwischen Smart Meter und Wechselrichter<br> und/oder Wallbox zum Wechselrichter
+        </div>
+    </div>
+    </label><label for="datahub" class="relative checkbox-label relative flex w-full items-center p-4 font-semibold border-2 rounded-lg transition-all duration-300 ease-in-out flex-col sm:flex-row border-gray-300 hover:border-[#fdb517] hover:bg-gray-50 cursor-pointer" title="B-210-1u15">    <input 
+                    id="datahub" 
+                    name="datahub" 
+                    type="checkbox" 
+                    value="B-210-1u15" 
+                     
+                     
+                     
+                    class="hidden" 
+                    onchange="updateCheckboxState(this)">    <img src="img/accessory/B-210-1u15.png" alt="DataHub" title="B-210-1u15" class="min-h-12 max-h-16 w-auto sm:mr-3 mb-3 sm:mb-0 object-contain">    <div class="text-lg sm:ml-3 text-center sm:text-left">DataHub<br>        <span class="text-gray-400 text-sm font-semibold">DataHub 1000</span>    </div></label><label for="pedestal" class="relative checkbox-label relative flex w-full items-center p-4 font-semibold border-2 rounded-lg transition-all duration-300 ease-in-out flex-col sm:flex-row border-gray-300 hover:border-[#fdb517] hover:bg-gray-50 cursor-pointer" title="EV-210-003">    <input 
+                    id="pedestal" 
+                    name="pedestal" 
+                    type="checkbox" 
+                    value="EV-210-003" 
+                     
+                     
+                     
+                    class="hidden" 
+                    onchange="updateCheckboxState(this)">    <img src="img/accessory/EV-210-003.png" alt="EVC Pedestal dual" title="EV-210-003" class="min-h-12 max-h-16 w-auto sm:mr-3 mb-3 sm:mb-0 object-contain">    <div class="text-lg sm:ml-3 text-center sm:text-left">EVC Pedestal dual<br>        <span class="text-gray-400 text-sm font-semibold">SolaX EVC Pedestal Dual</span>    </div></label><label for="xhub" class="relative checkbox-label relative flex w-full items-center p-4 font-semibold border-2 rounded-lg transition-all duration-300 ease-in-out flex-col sm:flex-row border-gray-300 opacity-30 cursor-not-allowed" title="1">    <input 
+                    id="xhub" 
+                    name="xhub" 
+                    type="checkbox" 
+                    value="1" 
+                     
+                    disabled 
+                     
+                    class="hidden" 
+                    onchange="updateCheckboxState(this)">    <img src="img/accessory/xhub.png" alt="Xhub" title="1" class="min-h-12 max-h-16 w-auto sm:mr-3 mb-3 sm:mb-0 object-contain">    <div class="text-lg sm:ml-3 text-center sm:text-left">Xhub<br>        <span class="text-gray-400 text-sm font-semibold">Coming soon ...</span>    </div></label></div><div class="my-8 border-t-4 border-[#fdb517] pt-8"><h2 class="text-lg sm:text-xl mb-2">Auswählen <span class="font-bold">Smart Meter</span>:</h2><div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4"><label for="smart_meter_B-210-1003" class="relative block border-2 rounded-lg p-4 transition cursor-pointer bg-white border-[#fdb517] hover:border-[#fdb517]" title="B-210-1003">  <div class="flex items-center flex-col sm:flex-row gap-4">    <input 
+                    type="radio" 
+                    id="smart_meter_B-210-1003" 
+                    name="smart_meter" 
+                    value="B-210-1003" 
+                    class="absolute right-3 top-2 size-4 appearance-none rounded-full border border-gray-300 bg-white 
+                           before:absolute before:inset-1 before:rounded-full before:bg-white 
+                           not-checked:before:hidden 
+                           checked:border-[#fdb517] checked:bg-[#fdb517] 
+                           focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#fdb517] 
+                           disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 
+                           forced-colors:appearance-auto forced-colors:before:hidden"
+                    checked="checked" 
+                    required 
+                    >    <img src="img/accessory/DTSU666-X3.png" alt="Solax Chint 3Ph Meter DTSU666" title="B-210-1003" class="h-16 w-auto object-contain" loading="lazy" onerror="this.style.display='none'">    <div class="flex flex-col justify-center text-center sm:text-left">        <div class="text-lg font-semibold text-gray-800">Solax Chint 3Ph Meter DTSU666</div>        <div class="text-gray-400 text-sm font-semibold text-center sm:text-left">X3</div>    </div>  </div></label></div></div></div>    <div class="flex justify-end mt-6 text-sm">
+        <input type="hidden" name="configurator" value="accessory">
+        <input type="hidden" name="configuratorNext" value="finish">
+        <button 
+            type="submit" 
+            class="px-6 py-2 bg-[#fdb517] text-black hover:bg-[#333132] hover:text-white font-semibold cursor-pointer">
+            Speichern & Fortfahren        </button>
+    </div>
+</form>
+
+<script>
+    function updateCheckboxState(input) { 
+        const label = input.closest('label');
+        if (input.checked) {
+            label.classList.remove('border-gray-300', 'hover:border-[#fdb517]', 'hover:bg-gray-50');
+            label.classList.add('border-green-500', 'bg-green-100', 'hover:bg-green-150');
+        } else {
+            label.classList.remove('border-green-500', 'bg-green-100', 'hover:bg-green-150');
+            label.classList.add('border-gray-300', 'hover:border-[#fdb517]', 'hover:bg-gray-50');
+        }
+    }
+
+    // Inicializace stavu při načtení
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.checkbox-label input[type="checkbox"]').forEach(input => {
+            updateCheckboxState(input);
+        });
+    });
+
+    // Funkce pro aktualizaci stavu radio boxu
+    function updateRadioBoxState(input) { 
+        const label = input.closest('label'); 
+        if (input.checked) {
+            label.classList.remove('border-gray-300', 'hover:border-[#fdb517]', 'hover:bg-gray-50', 'bg-white');
+            label.classList.add('border-green-500', 'bg-green-100', 'hover:bg-green-150');
+            input.classList.add('checked:border-green-500', 'checked:bg-green-500', );
+            // nejdeme vsechny radio buttony se stejným name a nastaveíme jim styl na opacity-30
+            document.querySelectorAll(`input[name="${input.name}"]`).forEach(radio => {
+                if (radio !== input) {
+                    label.classList.remove('opacity-30');
+                }
+            });
+        } else {
+            label.classList.remove('border-green-500', 'bg-green-100', 'hover:bg-green-150');
+            label.classList.add('border-gray-300', 'hover:border-[#fdb517]', 'hover:bg-gray-50', 'bg-white');
+            input.classList.remove('checked:border-green-500', 'checked:bg-green-500');
+            document.querySelectorAll(`input[name="${input.name}"]`).forEach(radio => {
+                if (radio !== input) {
+                    label.classList.add('opacity-30');
+                }
+            });
+        }
+    }
+
+    // Inicializace stavu radio boxů při načtení
+    document.addEventListener('DOMContentLoaded', () => {
+          
+        document.querySelectorAll('input[type="radio"]').forEach(input => {
+            // pokud je nějaky radio input checked, aktalizujeme všechny radio buttony ve skupině
+            if (input.checked) {
+                updateRadioBoxState(input);
+            }
+        });
+        
+        // Přidání event listeneru pro změnu stavu radio buttonů
+        document.querySelectorAll('input[type="radio"]').forEach(input => {
+            input.addEventListener('change', () => {
+                // Update all radio buttons in the same group
+                document.querySelectorAll(`input[name="${input.name}"]`).forEach(radio => {
+                    updateRadioBoxState(radio);
+                });
+            });
+        });
+    });
+
+    function resetAccessorySelection(name) {
+        // Reset všech hodnot pro danou skupinu
+        document.querySelectorAll(`input[name="${name}"]`).forEach(input => {
+            input.checked = false;
+            updateRadioBoxState(input);
+            // všem nadřazeným labelům odstraníme třídu opacity-30
+            const label = input.closest('label');
+            if (label) {
+                label.classList.remove('opacity-30');
+            }
+
+        });
+        console.log(`Selection for ${name} has been reset.`);
+    }
+
+    // pokud odešlu formulář a ve formuláři existuje input name="smart_meter" tak ověřím, zda je vybrán smart meter
+    document.querySelector('form').addEventListener('submit', function(event) {
+        
+        // Ověření povinného pole "smart_meter"
+        const smartMeterInput = document.querySelector('input[name="smart_meter"]');
+        if (smartMeterInput && smartMeterInput.value === 'None') {
+            event.preventDefault(); // Zabrání odeslání formuláře
+            alert('Please select a valid Smart Meter option.');
+            return;
+        }
+
+        // Ověření všech povinných polí
+        const requiredFields = document.querySelectorAll('input[required]');
+        let missingFields = [];
+        requiredFields.forEach(field => {
+            if (!field.checked && field.type === 'radio') {
+                missingFields.push(field.name);
+            } else if (!field.value.trim() && field.type !== 'radio') {
+                missingFields.push(field.name);
+            }
+        });
+
+        if (missingFields.length > 0) {
+            event.preventDefault(); // Zabrání odeslání formuláře
+            alert(`Please fill out the required fields: ${missingFields.join(', ')}`);
+        }
+    });
+
+</script>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center my-4">
+        <span class="text-xs text-gray-400">
+            Version: 1.8.1 - 13. 04. 2026        </span>
+    </footer>
+
+        <!-- Overlay -->
+    <div id="sidebarOverlay" class="fixed inset-0 z-50 bg-black/50 opacity-0 pointer-events-none transition-opacity duration-300 backdrop-blur-xs"></div>
+
+    <!-- Sidebar Panel -->
+    <div id="customSidebar" class="hidden fixed top-0 left-0 h-full w-full max-w sm:max-w-md z-50 bg-white transform -translate-x-full transition-transform duration-300 ease-in-out overflow-y-auto p-6 text-sm font-normal shadow-lg">
+        <div id="customSidebarContent">
+            <div class="absolute top-4 right-4">
+                <button onclick="closeSidebar()" class="text-gray-500 hover:text-white hover:bg-[#fdb517] focus:outline-none transition duration-300 p-2 cursor-pointer">
+                    <i class="fas fa-times"></i>
+                    <span class="sr-only">X</span>
+                </button>
+            </div>    
+            <div class="flex items-center justify-center mb-0">
+                <img src="https://www.gbc-solino.cz/media/images/logo-cs.svg?nocache=1749102786747" alt="SolaX Power Logo" class="h-16 sm:h-20 zoom-in">
+            </div>    
+            <div class="flex flex-col items-center justify-center mt-2 mb-6">  
+                <h1 class="text-xl text-gray-800">
+                    Bestellkonfigurator - Aktuelle Konfiguration                </h1>
+            </div>
+
+            <div id="sidebarContent" class="space-y-6">
+
+                                    <div>
+                        <h3 class="text-base font-semibold mb-2 text-blue-700 flex items-center gap-2">
+                            <i class="fas fa-bolt"></i> Wechselrichter                        </h3>
+                        
+                        <div class='flex justify-between items-center py-2 border-b border-dashed border-gray-300'>
+                            <span class='text-gray-700'>Wechselrichtertyp</span>
+                            <span class='text-gray-900 font-medium'>X3</span>
+                        </div>
+                                            
+                        <div class='flex justify-between items-center py-2 border-b border-dashed border-gray-300'>
+                            <span class='text-gray-700'>Leistung (kW)</span>
+                            <span class='text-gray-900 font-medium'>5.0 kW</span>
+                        </div>
+                                            
+                        <div class='flex justify-between items-center py-2 border-b border-dashed border-gray-300'>
+                            <span class='text-gray-700'>Konfiguration</span>
+                            <span class='text-gray-900 font-medium'>Solax G4 X3-Hybrid-5.0-D, CT, ohne WiFi 3.0</span>
+                        </div>
+                                        </div>
+                                    <div>
+                        <h3 class="text-base font-semibold mb-2 text-green-700 flex items-center gap-2">
+                            <i class="fas fa-battery-full"></i> Batterie                        </h3>
+                        <?//= renderItem('Battery type', htmlspecialchars($battery['battery_type'] ?? '')) ?>
+                        <?//= renderItem('Capacity (kWh)', htmlspecialchars($battery['battery_capacity'] ?? '')) ?>
+                        
+                        <div class='flex justify-between items-center py-2 border-b border-dashed border-gray-300'>
+                            <span class='text-gray-700'>Konfiguration</span>
+                            <span class='text-gray-900 font-medium'>Triple Power T58 - 11.5 kWh</span>
+                        </div>
+                                                                </div>
+                                    <div>
+                        <h3 class="text-base font-semibold mb-2 text-yellow-700 flex items-center gap-2">
+                            <i class="fas fa-plug"></i> Ersatzstromversorgung                        </h3>
+                        
+                        <div class='flex justify-between items-center py-2 border-b border-dashed border-gray-300'>
+                            <span class='text-gray-700'>Produkt</span>
+                            <span class='text-gray-900 font-medium'>null</span>
+                        </div>
+                                        </div>
+                                    <div>
+                        <h3 class="text-base font-semibold mb-2 text-indigo-700 flex items-center gap-2">
+                            <i class="fas fa-charging-station"></i> Wallbox                        </h3>
+                        
+                        <div class='flex justify-between items-center py-2 border-b border-dashed border-gray-300'>
+                            <span class='text-gray-700'>Produkt</span>
+                            <span class='text-gray-900 font-medium'>null</span>
+                        </div>
+                                        </div>
+                
+            </div>
+        </div>
+        <div class="mt-8 flex justify-between items-center">
+        <!--button onclick="printCustomSidebar()" class="px-6 py-2 hover:bg-[#fdb517] hover:text-white font-semibold cursor-pointer"><i class="fas fa-print mr-1"></i>Drucken</button-->    
+        <button onclick="closeSidebar()" class="ml-auto px-6 py-2 bg-[#333132] text-white hover:bg-[#fdb517] hover:text-white font-semibold cursor-pointer">Schließen</button>
+            
+        </div>
+    </div>
+
+    <script>
+        function openSidebar() {
+            const sidebar = document.getElementById('customSidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+
+            sidebar.classList.remove('hidden');
+            setTimeout(() => {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('opacity-0', 'pointer-events-none');
+            }, 10);
+        }
+
+        function closeSidebar() {
+            const sidebar = document.getElementById('customSidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('opacity-0', 'pointer-events-none');
+
+            setTimeout(() => {
+                sidebar.classList.add('hidden');
+            }, 300);
+        }
+
+        document.getElementById('currentSetup')?.addEventListener('click', openSidebar);
+        document.getElementById('sidebarOverlay')?.addEventListener('click', closeSidebar);
+
+        function printCustomSidebar() {
+            const sidebarContent = document.getElementById('customSidebarContent').innerHTML;
+            const printWindow = window.open('', '_blank', 'width=800,height=600');
+            printWindow.document.open();
+            printWindow.document.write(`
+            <html>
+                <head>
+                <title>Print Custom Sidebar</title>
+                <style>
+                    body { font-family: Arial, sans-serif; margin: 20px; }
+                </style>
+                </head>
+                <body>
+                ${sidebarContent}
+                </body>
+            </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
+        }
+    </script>
+</div>
+
+<!-- ============================================ -->
+<!-- JAVASCRIPT -->
+<!-- ============================================ -->
+
+<script>
+
+function toggleDropdown() {
+    const dropdown = document.getElementById('langDropdown');
+    
+    if (!dropdown) {
+        console.error('Language dropdown element not found');
+        return;
+    }
+    
+    dropdown.classList.toggle('hidden');
+    
+    // Použití weak reference pro lepší garbage collection
+    const closeHandler = function(e) {
+        if (!dropdown.contains(e.target) && !e.target.closest('button[onclick="toggleDropdown()"]')) {
+            dropdown.classList.add('hidden');
+            document.removeEventListener('click', closeHandler);
+        }
+    };
+    
+    // Přidání event listeneru s mírným zpožděním
+    setTimeout(() => {
+        document.addEventListener('click', closeHandler);
+    }, 10);
+}
+
+// Accessibility enhancement - keyboard support
+document.addEventListener('DOMContentLoaded', function() {
+    const dropdownButton = document.querySelector('button[onclick="toggleDropdown()"]');
+    
+    if (dropdownButton) {
+        dropdownButton.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleDropdown();
+            }
+        });
+    }
+});
+</script>
+<script>
+    let lastHeight = 0;
+    let isInitialized = false;
+    
+    function sendHeight() {
+        const height = document.body.scrollHeight;
+        
+        // Pošli výšku pouze pokud se změnila nebo je to první volání
+        if (height !== lastHeight || !isInitialized) {
+            lastHeight = height;
+            isInitialized = true;
+            console.log('Sending height to parent:', height);
+            window.parent.postMessage({ height: height }, "*");
+        }
+    }
+    
+    // Pošli výšku po načtení
+    window.addEventListener('load', sendHeight);
+    
+    // Debounce funkce pro resize
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(sendHeight, 250);
+    });
+    
+    // Debounce funkce pro mutation observer
+    let mutationTimeout;
+    const observer = new MutationObserver(function() {
+        clearTimeout(mutationTimeout);
+        mutationTimeout = setTimeout(sendHeight, 100);
+    });
+    observer.observe(document.body, { 
+        childList: true, 
+        subtree: true, 
+        attributes: true 
+    });
+    
+    // Poslouchej zprávy od parent okna
+    window.addEventListener('message', function(event) {
+        if (event.data === 'getHeight') {
+            sendHeight();
+        }
+    });
+</script>
+</body>
+</html>

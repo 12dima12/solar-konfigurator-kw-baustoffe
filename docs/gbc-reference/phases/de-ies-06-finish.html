@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SolaX Configurator</title>
+  <script src="https://unpkg.com/vue@3"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+  <link href="src/output.css" rel="stylesheet">
+  <!--script src="https://cdn.tailwindcss.com"></script-->
+  
+</head>
+<body class="">
+<!-- ============================================ -->
+<!-- HTML STRUKTURA -->
+<!-- ============================================ -->
+
+<div class="w-full max-w-[1600px] mx-auto relative overflow-hidden">
+    <div class="mb-4 bg-white">
+        <!-- Header -->
+        <div id="header" class="bg-white">
+            <!-- Language Selection Dropdown -->
+            <div class="absolute top-0 right-2 inline-block text-right z-15">
+                <button onclick="toggleDropdown()" 
+                        class="inline-flex items-center gap-2 rounded-md border border-gray-300 px-3 py-1.5 bg-white text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
+                    <img src="img/flags/flag_de.png" 
+                         alt="de" 
+                         class="w-5 h-5 rounded-sm">
+                    <span class="hidden sm:block uppercase">de</span>
+                    <svg class="hidden sm:block h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                
+                <div id="langDropdown" class="absolute right-0 mt-1 w-32 rounded-md shadow-lg bg-white border border-gray-200 hidden z-10"><ul class="py-1 text-sm text-gray-700"><li><a href="./?configuratorNext=finish&amp;lang=en" class="flex items-center px-4 py-2 hover:bg-gray-100 gap-2"><img src="img/flags/flag_en.png" alt="English" class="w-5 h-5 rounded-sm">English</a></li><li><a href="./?configuratorNext=finish&amp;lang=cs" class="flex items-center px-4 py-2 hover:bg-gray-100 gap-2"><img src="img/flags/flag_cs.png" alt="Čeština" class="w-5 h-5 rounded-sm">Čeština</a></li><li><a href="./?configuratorNext=finish&amp;lang=de" class="flex items-center px-4 py-2 hover:bg-gray-100 gap-2"><img src="img/flags/flag_de.png" alt="Deutsch" class="w-5 h-5 rounded-sm">Deutsch</a></li></ul></div>            </div>
+
+            <!-- Logo and Title -->
+            <div class="flex flex-row items-center px-4 ">
+                
+                <div class="w-full flex flex-col text-center items-center space-y-0">
+                    <h1 class="text-base sm:text-2xl text-gray-800 leading-snug px-2">
+                        <span class="animatedTitle">
+                            Bestellkonfigurator <span class="sm:inline-block hidden px-2"> - </span><span class="text-green-600 text-sm sm:text-xl sm:inline-block block">Neue Installation</span>                        </span>
+                    </h1>
+
+                                            <div class="flex items-center justify-center space-x-2">
+                            <button id="currentSetup" type="button" class="py-0 m-0 px-0 bg-transparent border-0 inline-block"><span class="text-xs text-blue-500 hover:text-blue-600 hover:bg-blue-200 py-0.5 px-2 font-semibold cursor-pointer transition">Aktuelles Setup</span></button>                            <form method="GET" action="./"><input type="hidden" name="reset" value="true"><input type="hidden" name="lang" value="de"><button type="submit" class="py-0 m-0 px-0 bg-transparent border-0 inline-block"><span class="text-xs text-red-500 hover:text-red-600 hover:bg-red-200 py-0.5 px-2 font-semibold cursor-pointer transition">Reset</span></button></form>                        </div>
+                                    </div>
+            </div>
+        </div>
+        
+        <div class="w-full flex justify-center py- my-4">
+  <nav aria-label="Progress" class="relative mb-12">
+    <ol role="list" class="flex items-center">
+      <li class="relative pr-[40px] sm:pr-[50px] md:pr-[80px] lg:pr-[140px]"><div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="h-0.5 w-full border-t-2 border-gray-200 border-dashed"></div>
+                </div><a href="?configuratorNext=inverter" class="group overflow-visible border-2 border-transparent relative flex items-center justify-center rounded-full bg-white w-12 h-12 sm:w-14 sm:h-14" aria-current="step"><img src="img/IES.png" alt="Completed" class="w-10 h-10 sm:w-12 sm:h-12 object-contain" /><div class="absolute top-0 left-1/2 -translate-x-1/2 px-3 py-1.5 text-xs text-white bg-black rounded shadow-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                          X3 IES
+                        </div><span class="sr-only">Step 1</span><span class="absolute step text-xs sm:text-lg font-semibold bottom-[-32px]">Wechselrichter</span></a></li><li class="relative pr-[40px] sm:pr-[50px] md:pr-[80px] lg:pr-[140px]"><div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="h-0.5 w-full border-t-2 border-gray-200 border-dashed"></div>
+                </div><a href="?configuratorNext=backup" class="group relative flex size-4 sm:size-8 items-center justify-center rounded-full text-gray-400 border-2 border-[#fdb517] bg-white hover:border-[#fdb517]"><span class="size-2.5 rounded-full bg-transparent group-hover:bg-gray-300" aria-hidden="true"></span><span class="absolute top-0 left-1/2 -translate-x-1/2 px-3 py-1.5 text-xs text-white bg-black rounded shadow-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                              null
+                            </span><span class="sr-only">Step 2</span><span class="absolute step text-xs sm:text-lg font-semibold bottom-[-48px] md:bottom-[-43px]">Ersatzstromversorgung</span></a></li><li class="relative pr-[40px] sm:pr-[50px] md:pr-[80px] lg:pr-[140px]"><div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="h-0.5 w-full border-t-2 border-gray-200 border-dashed"></div>
+                </div><a href="?configuratorNext=battery" class="group overflow-visible border-2 border-transparent relative flex items-center justify-center rounded-full bg-white w-12 h-12 sm:w-14 sm:h-14" aria-current="step"><img src="img/T58 master+slave_V2.png" alt="Completed" class="w-10 h-10 sm:w-12 sm:h-12 object-contain" /><div class="absolute top-0 left-1/2 -translate-x-1/2 px-3 py-1.5 text-xs text-white bg-black rounded shadow-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                          Triple Power T58
+                        </div><span class="sr-only">Step 3</span><span class="absolute step text-xs sm:text-lg font-semibold bottom-[-32px]">Batterie</span></a></li><li class="relative pr-[40px] sm:pr-[50px] md:pr-[80px] lg:pr-[140px]"><div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="h-0.5 w-full border-t-2 border-gray-200 border-dashed"></div>
+                </div><a href="?configuratorNext=wallbox" class="group relative flex size-4 sm:size-8 items-center justify-center rounded-full text-gray-400 border-2 border-[#fdb517] bg-white hover:border-[#fdb517]"><span class="size-2.5 rounded-full bg-transparent group-hover:bg-gray-300" aria-hidden="true"></span><span class="absolute top-0 left-1/2 -translate-x-1/2 px-3 py-1.5 text-xs text-white bg-black rounded shadow-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                              null
+                            </span><span class="sr-only">Step 4</span><span class="absolute step text-xs sm:text-lg font-semibold bottom-[-48px] md:bottom-[-43px]">Wallbox</span></a></li><li class="relative pr-[40px] sm:pr-[50px] md:pr-[80px] lg:pr-[140px]"><div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="h-0.5 w-full border-t-2 border-gray-200 border-dashed"></div>
+                </div><a href="?configuratorNext=accessory" class="group overflow-visible border-2 border-transparent relative flex items-center justify-center rounded-full bg-white w-12 h-12 sm:w-14 sm:h-14" aria-current="step"><img src="img/accessory/DTSU666.png" alt="Completed" class="w-10 h-10 sm:w-12 sm:h-12 object-contain" /><span class="sr-only">Step 5</span><span class="absolute step text-xs sm:text-lg font-semibold bottom-[-32px]">Zubehör</span></a></li><li class="relative "><div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="h-0.5 w-full border-t-2 border-gray-200 border-dashed"></div>
+                </div><a href="?configuratorNext=finish" class="group relative flex size-4 sm:size-8 items-center justify-center rounded-full border-2 border-[#fdb517] bg-white" aria-current="step"><span class="pulse-ring"></span><span class="size-2.5 rounded-full bg-[#fdb517] z-5" aria-hidden="true"></span><span class="sr-only">Step 6</span><span class="absolute step text-xs sm:text-lg font-semibold bottom-[-48px] md:bottom-[-43px]">Ende</span></a></li>    </ol>
+  </nav>
+</div></div>
+<div id="finishApp">
+    <div class="p-4">
+      <section class="space-y-4 text-center border-t-4 border-[#fdb517] pt-8 pb-4">
+        <h1 class="text-2xl font-medium tracking-tight">Wir sind fertig!</h1>
+        <h2 class="text-lg text-gray-700">Wir gratulieren! Sie haben Ihr Wunschprojekt erfolgreich zu Ende konfiguriert und erhalten hier den besten Lösungsvorschlag für Ihre Eingabe.</h2>
+
+        <div class="flex flex-col sm:flex-row justify-center gap-2 sm:gap-4">
+          <button @click="exportToCart"
+            class="w-full sm:w-auto px-6 py-2 bg-black text-white hover:bg-[#fdb517] hover:text-white font-semibold uppercase tracking-wide transition-colors duration-200 cursor-pointer flex items-center justify-center">
+            <i class="fas fa-cart-shopping mr-3"></i>In Artikelliste exportieren          </button>
+          <button @click="exportToPDF" 
+            :disabled="isGeneratingPDF"
+            :class="{ 'opacity-50 cursor-not-allowed': isGeneratingPDF }"
+            class="w-full sm:w-auto px-6 py-2 bg-black text-white hover:bg-[#fdb517] hover:text-white font-semibold uppercase tracking-wide transition-colors duration-200 cursor-pointer flex items-center justify-center">
+            <i :class="isGeneratingPDF ? 'fas fa-spinner fa-spin mr-3' : 'fas fa-file-pdf mr-3'"></i>
+            {{ pdfButtonText }}
+          </button>
+        </div>
+
+        <div class="text-xs text-gray-500">
+          <strong>Wichtiger Hinweis:</strong> Der Export löscht den aktuellen Warenkorb und fügt die Produkte aus Ihrer Konfiguration hinzu.        </div>
+      </section>
+    </div>
+
+    <!-- Modal Box -->
+    <div id="modalBox" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm items-center justify-center z-50 ">
+        <div class="relative z-60 w-full max-w-xl mx-4 p-6 bg-white rounded-2xl shadow-2xl transition-transform transform duration-300 ease-in-out scale-100">
+          <div class="flex items-start justify-between mb-4">
+            <h2 class="text-xl font-bold text-gray-800">Information</h2>
+            <button @click="closeModal" class="text-gray-400 hover:text-gray-700 cursor-pointer">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
+
+          <div class="text-gray-700 mb-6">Export abgeschlossen.<br><br>
+                                            <strong>Wichtiger Hinweis!</strong> Sie müssen im GBC Solino B2B-Portal angemeldet sein, um Artikel in Ihrem Warenkorb zu sehen.           </div>
+
+          <div class="flex justify-end">
+            <button @click="closeModal"
+              class="px-5 py-2 rounded-lg bg-yellow-400 text-black font-semibold hover:bg-gray-800 hover:text-white transition-colors duration-300 cursor-pointer"
+            >
+              Schließen            </button>
+          </div>
+        </div>
+    </div>
+
+    <!-- Battery Capacity: 11.5 -->
+    <!-- Configuration Summary  -->
+    <div class="printable-area w-full mx-auto p-4">
+        <div class="border border-gray-200 shadow-sm bg-white p-6 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-[#fdb517] pb-2 flex flex-col md:flex-row md:justify-between md:items-center gap-1">
+                <span>Konfigurationszusammenfassung</span>
+                <span class="text-sm font-medium text-gray-500">ID: SOLAX-20260421-225841-DE</span>
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">   
+                <!-- Configuration Details -->
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-700 mb-3">Konfigurationsdetails</h3>
+                    <div class="text-sm text-gray-700 divide-y divide-dashed divide-gray-300 space-y-2">
+                        <div class="flex justify-between">
+                            <span>Konfigurationsdatum</span>
+                            <span class="text-gray-900 font-medium">2026-04-21 22:58:41</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Installationsart</span>
+                            <span class="text-gray-900 font-medium">New</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Wechselrichtertyp</span>
+                            <span class="text-gray-900 font-medium">X3</span>
+                        </div>
+                                                <div class="flex justify-between">
+                            <span>Batteriemodell</span>
+                            <span class="text-gray-900 font-medium">T58</span>
+                        </div>
+                        <div class="flex justify-between border-b border-gray-300 border-dashed">
+                            <span>Batteriekapazität</span>
+                            <span class="text-gray-900 font-medium">11.5 kWh</span>
+                        </div>
+                                            </div>
+                </div>
+
+                <!-- Customer Information -->
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-700 mb-3">Kundeninformationen</h3>
+                    <div class="text-sm text-gray-700 divide-y divide-dashed divide-gray-300 space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span>Firma</span>
+                            <input 
+                                v-model="customerData.company"
+                                type="text" 
+                                placeholder="Firmenname eingeben"
+                                class="text-gray-900 font-medium bg-transparent border-none outline-none text-right placeholder-gray-400 focus:placeholder-gray-300 transition-colors"
+                                @input="saveCustomerData"
+                            />
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span>Ansprechpartner</span>
+                            <input 
+                                v-model="customerData.contact_person"
+                                type="text" 
+                                placeholder="Kontaktperson eingeben"
+                                class="text-gray-900 font-medium bg-transparent border-none outline-none text-right placeholder-gray-400 focus:placeholder-gray-300 transition-colors"
+                                @input="saveCustomerData"
+                            />
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span>Telefon</span>
+                            <input 
+                                v-model="customerData.phone"
+                                type="tel" 
+                                placeholder="Telefonnummer eingeben"
+                                class="text-gray-900 font-medium bg-transparent border-none outline-none text-right placeholder-gray-400 focus:placeholder-gray-300 transition-colors"
+                                @input="saveCustomerData"
+                            />
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span>E-Mail</span>
+                            <input 
+                                v-model="customerData.email"
+                                type="email" 
+                                placeholder="E-Mail-Adresse eingeben"
+                                class="text-gray-900 font-medium bg-transparent border-none outline-none text-right placeholder-gray-400 focus:placeholder-gray-300 transition-colors"
+                                @input="saveCustomerData"
+                            />
+                        </div>
+                        <div class="flex justify-between items-center border-b border-gray-300 border-dashed">
+                            <span>Projekt</span>
+                            <input 
+                                v-model="customerData.project"
+                                type="text" 
+                                placeholder="Projektname eingeben"
+                                class="text-gray-900 font-medium bg-transparent border-none outline-none text-right placeholder-gray-400 focus:placeholder-gray-300 transition-colors"
+                                @input="saveCustomerData"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+                    <!-- Products Table -->
+            <div class="overflow-x-auto">
+                <table class="w-full border-collapse border border-gray-300 text-sm">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="border border-gray-300 px-4 py-2 text-center font-semibold">Nr.</th>
+                            <th class="border border-gray-300 px-4 py-2 text-left font-semibold">Kategorie</th>
+                            <th class="border border-gray-300 px-4 py-2 text-left font-semibold">Produktname</th>
+                            <th class="border border-gray-300 px-4 py-2 text-left font-semibold">Artikelcode</th>
+                            <th class="border border-gray-300 px-4 py-2 text-center font-semibold">Anzahl [Stk]</th>
+                            <th class="border border-gray-300 px-4 py-2 text-left font-semibold">Beschreibung</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                                                    <tr class="bg-white">
+                                <td class="border border-gray-300 px-4 py-2 text-center">1</td>
+                                <td class="border border-gray-300 px-4 py-2">
+                                    <span class="inline-block px-2 py-1 text-xs font-medium rounded-full 
+                                        bg-blue-100 text-blue-800">
+                                        Wechselrichter                                    </span>
+                                </td>
+                                <td class="border border-gray-300 px-4 py-2 font-medium">Solax X3-IES-6.0K, AFCI, WiFi+LAN, CT</td>
+                                <td class="border border-gray-300 px-4 py-2 font-mono text-xs">G-21d-3I60a</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center font-semibold">1</td>
+                                <td class="border border-gray-300 px-4 py-2 text-gray-600">X3 IES</td>
+                            </tr>
+                                                    <tr class="bg-gray-50">
+                                <td class="border border-gray-300 px-4 py-2 text-center">2</td>
+                                <td class="border border-gray-300 px-4 py-2">
+                                    <span class="inline-block px-2 py-1 text-xs font-medium rounded-full 
+                                        bg-green-100 text-green-800">
+                                        Batteriekomponenten                                    </span>
+                                </td>
+                                <td class="border border-gray-300 px-4 py-2 font-medium">Master</td>
+                                <td class="border border-gray-300 px-4 py-2 font-mono text-xs">G-690-926m</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center font-semibold">1</td>
+                                <td class="border border-gray-300 px-4 py-2 text-gray-600">Battery T58 - master</td>
+                            </tr>
+                                                    <tr class="bg-white">
+                                <td class="border border-gray-300 px-4 py-2 text-center">3</td>
+                                <td class="border border-gray-300 px-4 py-2">
+                                    <span class="inline-block px-2 py-1 text-xs font-medium rounded-full 
+                                        bg-green-100 text-green-800">
+                                        Batteriekomponenten                                    </span>
+                                </td>
+                                <td class="border border-gray-300 px-4 py-2 font-medium">Slave</td>
+                                <td class="border border-gray-300 px-4 py-2 font-mono text-xs">G-690-926s</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center font-semibold">1</td>
+                                <td class="border border-gray-300 px-4 py-2 text-gray-600">Battery T58 - slave</td>
+                            </tr>
+                                            </tbody>
+                    <tfoot>
+                        <tr class="bg-gray-100 font-semibold">
+                            <td class="border border-gray-300 px-4 py-2 text-right" colspan="4">Artikel insgesamt:</td>
+                            <td class="border border-gray-300 px-4 py-2 text-center">3</td>
+                            <td class="border border-gray-300 px-4 py-2"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <!-- Configuration Statistics -->
+            <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
+                                
+                                    <div class="bg-gradient-to-b from-gray-50 to-white p-4 rounded-lg border border-gray-200">
+                                                <h3 class="text-base font-semibold mb-2flex items-center gap-2 text-blue-700"><i class="fas fa-bolt mr-2"></i>Wechselrichter</h3>
+                        <div class="text-sm text-gray-600">
+                            <div>Produkte: 1</div>
+                            <div>Artikel insgesamt: 1</div>
+                        </div>
+                    </div>
+                                    <div class="bg-gradient-to-b from-gray-50 to-white p-4 rounded-lg border border-gray-200">
+                                                <h3 class="text-base font-semibold mb-2flex items-center gap-2 text-green-700"><i class="fas fa-cogs mr-2"></i>Batteriekomponenten</h3>
+                        <div class="text-sm text-gray-600">
+                            <div>Produkte: 2</div>
+                            <div>Artikel insgesamt: 2</div>
+                        </div>
+                    </div>
+                            </div>
+
+            <!-- Notes Section -->
+            <div class="mt-6 p-4 bg-blue-50 border-l-4 border-blue-400 rounded-md shadow-sm">
+                <h3 class="text-base font-semibold text-blue-800 mb-3">
+                    Konfigurationsnotizen                </h3>
+                <ul class="list-disc list-inside text-sm text-blue-700 space-y-1">
+                    <li>Alle Mengen werden automatisch basierend auf den Systemanforderungen berechnet</li>
+                    <li>Produktcodes sind bereit für die direkte Bestellung</li>
+                    <li>Konfiguration validiert am 2026-04-21 22:58:41</li>
+                </ul>
+            </div>
+
+
+            </div>
+            </div>
+</div>
+
+
+<script>
+    const { createApp } = Vue;
+
+    createApp({
+        data() {
+            return {
+                isGeneratingPDF: false,
+                pdfButtonText: 'Als PDF exportieren',
+                customerData: {
+                    company: '',
+                    contact_person: '',
+                    phone: '',
+                    email: '',
+                    project: ''
+                }
+            }
+        },
+        methods: {
+            exportToCart() {
+                let data = [
+                    [
+                        //'clearBasket'
+                    ], // První příkaz: vymazání košíku
+                    [
+                        'addProductsToBasket',
+                        [
+                            {productCode: 'G-690-926m', quantity: 1},{productCode: 'G-690-926s', quantity: 1},{productCode: 'G-21d-3I60a', quantity: 1}                        ]
+                    ]
+                ];
+                window.parent.postMessage(data, '*');
+                
+                const modalBox = document.getElementById("modalBox");
+                modalBox.classList.remove("hidden");
+                modalBox.classList.add("flex");
+            },
+
+            async exportToPDF() {
+                if (this.isGeneratingPDF) return; // Zabránit duplikátním kliknutím
+
+                this.isGeneratingPDF = true;
+                this.pdfButtonText = 'PDF wird generiert...';
+
+                try {
+                    // Odešleme zákaznická data do session před generováním PDF
+                    await this.sendCustomerDataToSession();
+
+                    // Vytvoříme fetch request na PDF generátor
+                    const response = await fetch('export_pdf.php', {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/pdf',
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    // Získáme PDF jako blob
+                    const blob = await response.blob();
+                    
+                    // Vytvoříme URL pro blob
+                    const url = window.URL.createObjectURL(blob);
+                    
+                    // Vytvoříme temporary link element pro stažení
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    
+                    // Nastavíme název souboru
+                    const filename = `SOLAX-Configuration-20260421-225841-DE.pdf`;
+                    a.download = filename;
+                    
+                    // Přidáme do DOM, klikneme a odstraníme
+                    document.body.appendChild(a);
+                    a.click();
+                    
+                    // Cleanup
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+
+                } catch (error) {
+                    console.error('Error generating PDF:', error);
+                    
+                    // Zobrazíme specifickou chybovou zprávu podle status kódu
+                    let errorMessage = 'Fehler beim Generieren der PDF. Bitte versuchen Sie es erneut.';
+                    
+                    if (error.message.includes('429')) {
+                        errorMessage = 'Zu viele Anfragen. Bitte versuchen Sie es in einem Moment erneut.';
+                    } else if (error.message.includes('403')) {
+                        errorMessage = 'Zugriff verweigert. Bitte aktualisieren Sie die Seite.';
+                    } else if (error.message.includes('400')) {
+                        errorMessage = 'Ungültige Konfiguration. Bitte vervollständigen Sie alle Schritte.';
+                    }
+                    
+                    alert(errorMessage);
+                } finally {
+                    // Vrátíme tlačítko do původního stavu
+                    this.isGeneratingPDF = false;
+                    this.pdfButtonText = 'Als PDF exportieren';
+                }
+            },
+
+            async sendCustomerDataToSession() {
+                // Odešleme zákaznická data do session přes AJAX
+                try {
+                    const response = await fetch('save_customer_data.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(this.customerData)
+                    });
+                    
+                    if (!response.ok) {
+                        console.error('Failed to save customer data to session');
+                    }
+                } catch (error) {
+                    console.error('Error saving customer data:', error);
+                }
+            },
+
+            saveCustomerData() {
+                // Uložíme data do localStorage pro perzistenci
+                localStorage.setItem('solax_customer_data', JSON.stringify(this.customerData));
+            },
+
+            loadCustomerData() {
+                // Načteme data z localStorage při načtení stránky
+                const saved = localStorage.getItem('solax_customer_data');
+                if (saved) {
+                    try {
+                        this.customerData = JSON.parse(saved);
+                    } catch (error) {
+                        console.error('Error parsing saved customer data:', error);
+                    }
+                }
+            },
+
+            closeModal() {
+                const modalBox = document.getElementById("modalBox");
+                modalBox.classList.add("hidden");
+                modalBox.classList.remove("flex");
+            }
+        },
+
+        mounted() {
+            // Načteme uložená zákaznická data
+            this.loadCustomerData();
+
+            // Event listener pro zavření modalu kliknutím mimo
+            const modalBox = document.getElementById("modalBox");
+            modalBox.addEventListener("click", (event) => {
+                if (event.target === modalBox) {
+                    this.closeModal();
+                }
+            });
+
+            // Posloucháme zprávy z parent window
+            window.addEventListener('message', function(e) {
+                console.log('in-iframe', e.data);
+            });
+        }
+    }).mount('#finishApp');
+</script>    </div>
+
+    <!-- Footer -->
+    <footer class="text-center my-4">
+        <span class="text-xs text-gray-400">
+            Version: 1.8.1 - 13. 04. 2026        </span>
+    </footer>
+
+        <!-- Overlay -->
+    <div id="sidebarOverlay" class="fixed inset-0 z-50 bg-black/50 opacity-0 pointer-events-none transition-opacity duration-300 backdrop-blur-xs"></div>
+
+    <!-- Sidebar Panel -->
+    <div id="customSidebar" class="hidden fixed top-0 left-0 h-full w-full max-w sm:max-w-md z-50 bg-white transform -translate-x-full transition-transform duration-300 ease-in-out overflow-y-auto p-6 text-sm font-normal shadow-lg">
+        <div id="customSidebarContent">
+            <div class="absolute top-4 right-4">
+                <button onclick="closeSidebar()" class="text-gray-500 hover:text-white hover:bg-[#fdb517] focus:outline-none transition duration-300 p-2 cursor-pointer">
+                    <i class="fas fa-times"></i>
+                    <span class="sr-only">X</span>
+                </button>
+            </div>    
+            <div class="flex items-center justify-center mb-0">
+                <img src="https://www.gbc-solino.cz/media/images/logo-cs.svg?nocache=1749102786747" alt="SolaX Power Logo" class="h-16 sm:h-20 zoom-in">
+            </div>    
+            <div class="flex flex-col items-center justify-center mt-2 mb-6">  
+                <h1 class="text-xl text-gray-800">
+                    Bestellkonfigurator - Aktuelle Konfiguration                </h1>
+            </div>
+
+            <div id="sidebarContent" class="space-y-6">
+
+                                    <div>
+                        <h3 class="text-base font-semibold mb-2 text-blue-700 flex items-center gap-2">
+                            <i class="fas fa-bolt"></i> Wechselrichter                        </h3>
+                        
+                        <div class='flex justify-between items-center py-2 border-b border-dashed border-gray-300'>
+                            <span class='text-gray-700'>Wechselrichtertyp</span>
+                            <span class='text-gray-900 font-medium'>X3</span>
+                        </div>
+                                            
+                        <div class='flex justify-between items-center py-2 border-b border-dashed border-gray-300'>
+                            <span class='text-gray-700'>Leistung (kW)</span>
+                            <span class='text-gray-900 font-medium'>6.0 kW</span>
+                        </div>
+                                            
+                        <div class='flex justify-between items-center py-2 border-b border-dashed border-gray-300'>
+                            <span class='text-gray-700'>Konfiguration</span>
+                            <span class='text-gray-900 font-medium'>Solax X3-IES-6.0K, AFCI, WiFi+LAN, CT</span>
+                        </div>
+                                        </div>
+                                    <div>
+                        <h3 class="text-base font-semibold mb-2 text-green-700 flex items-center gap-2">
+                            <i class="fas fa-battery-full"></i> Batterie                        </h3>
+                        <?//= renderItem('Battery type', htmlspecialchars($battery['battery_type'] ?? '')) ?>
+                        <?//= renderItem('Capacity (kWh)', htmlspecialchars($battery['battery_capacity'] ?? '')) ?>
+                        
+                        <div class='flex justify-between items-center py-2 border-b border-dashed border-gray-300'>
+                            <span class='text-gray-700'>Konfiguration</span>
+                            <span class='text-gray-900 font-medium'>Triple Power T58 - 11.5 kWh</span>
+                        </div>
+                                                                </div>
+                                    <div>
+                        <h3 class="text-base font-semibold mb-2 text-yellow-700 flex items-center gap-2">
+                            <i class="fas fa-plug"></i> Ersatzstromversorgung                        </h3>
+                        
+                        <div class='flex justify-between items-center py-2 border-b border-dashed border-gray-300'>
+                            <span class='text-gray-700'>Produkt</span>
+                            <span class='text-gray-900 font-medium'>null</span>
+                        </div>
+                                        </div>
+                                    <div>
+                        <h3 class="text-base font-semibold mb-2 text-indigo-700 flex items-center gap-2">
+                            <i class="fas fa-charging-station"></i> Wallbox                        </h3>
+                        
+                        <div class='flex justify-between items-center py-2 border-b border-dashed border-gray-300'>
+                            <span class='text-gray-700'>Produkt</span>
+                            <span class='text-gray-900 font-medium'>null</span>
+                        </div>
+                                        </div>
+                                    <div>
+                        <h3 class="text-base font-semibold mb-2 text-purple-700 flex items-center gap-2">
+                            <i class="fas fa-tools"></i> Zubehör                        </h3>
+                        <p class="text-gray-500">Kein Zubehör ausgewählt.</p>                    </div>
+                
+            </div>
+        </div>
+        <div class="mt-8 flex justify-between items-center">
+        <!--button onclick="printCustomSidebar()" class="px-6 py-2 hover:bg-[#fdb517] hover:text-white font-semibold cursor-pointer"><i class="fas fa-print mr-1"></i>Drucken</button-->    
+        <button onclick="closeSidebar()" class="ml-auto px-6 py-2 bg-[#333132] text-white hover:bg-[#fdb517] hover:text-white font-semibold cursor-pointer">Schließen</button>
+            
+        </div>
+    </div>
+
+    <script>
+        function openSidebar() {
+            const sidebar = document.getElementById('customSidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+
+            sidebar.classList.remove('hidden');
+            setTimeout(() => {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('opacity-0', 'pointer-events-none');
+            }, 10);
+        }
+
+        function closeSidebar() {
+            const sidebar = document.getElementById('customSidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('opacity-0', 'pointer-events-none');
+
+            setTimeout(() => {
+                sidebar.classList.add('hidden');
+            }, 300);
+        }
+
+        document.getElementById('currentSetup')?.addEventListener('click', openSidebar);
+        document.getElementById('sidebarOverlay')?.addEventListener('click', closeSidebar);
+
+        function printCustomSidebar() {
+            const sidebarContent = document.getElementById('customSidebarContent').innerHTML;
+            const printWindow = window.open('', '_blank', 'width=800,height=600');
+            printWindow.document.open();
+            printWindow.document.write(`
+            <html>
+                <head>
+                <title>Print Custom Sidebar</title>
+                <style>
+                    body { font-family: Arial, sans-serif; margin: 20px; }
+                </style>
+                </head>
+                <body>
+                ${sidebarContent}
+                </body>
+            </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
+        }
+    </script>
+</div>
+
+<!-- ============================================ -->
+<!-- JAVASCRIPT -->
+<!-- ============================================ -->
+
+<script>
+
+function toggleDropdown() {
+    const dropdown = document.getElementById('langDropdown');
+    
+    if (!dropdown) {
+        console.error('Language dropdown element not found');
+        return;
+    }
+    
+    dropdown.classList.toggle('hidden');
+    
+    // Použití weak reference pro lepší garbage collection
+    const closeHandler = function(e) {
+        if (!dropdown.contains(e.target) && !e.target.closest('button[onclick="toggleDropdown()"]')) {
+            dropdown.classList.add('hidden');
+            document.removeEventListener('click', closeHandler);
+        }
+    };
+    
+    // Přidání event listeneru s mírným zpožděním
+    setTimeout(() => {
+        document.addEventListener('click', closeHandler);
+    }, 10);
+}
+
+// Accessibility enhancement - keyboard support
+document.addEventListener('DOMContentLoaded', function() {
+    const dropdownButton = document.querySelector('button[onclick="toggleDropdown()"]');
+    
+    if (dropdownButton) {
+        dropdownButton.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleDropdown();
+            }
+        });
+    }
+});
+</script>
+<script>
+    let lastHeight = 0;
+    let isInitialized = false;
+    
+    function sendHeight() {
+        const height = document.body.scrollHeight;
+        
+        // Pošli výšku pouze pokud se změnila nebo je to první volání
+        if (height !== lastHeight || !isInitialized) {
+            lastHeight = height;
+            isInitialized = true;
+            console.log('Sending height to parent:', height);
+            window.parent.postMessage({ height: height }, "*");
+        }
+    }
+    
+    // Pošli výšku po načtení
+    window.addEventListener('load', sendHeight);
+    
+    // Debounce funkce pro resize
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(sendHeight, 250);
+    });
+    
+    // Debounce funkce pro mutation observer
+    let mutationTimeout;
+    const observer = new MutationObserver(function() {
+        clearTimeout(mutationTimeout);
+        mutationTimeout = setTimeout(sendHeight, 100);
+    });
+    observer.observe(document.body, { 
+        childList: true, 
+        subtree: true, 
+        attributes: true 
+    });
+    
+    // Poslouchej zprávy od parent okna
+    window.addEventListener('message', function(event) {
+        if (event.data === 'getHeight') {
+            sendHeight();
+        }
+    });
+</script>
+</body>
+</html>

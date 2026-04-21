@@ -1,0 +1,718 @@
+{
+    "configuratorId": "inverter",
+    "configuratorNext": "backup",
+    "titlesByPath": {
+        "": "Montagetyp"
+    },
+    "tree": {
+        "Split System": {
+            "name": "split_system",
+            "label": "Klassisches System",
+            "value": "Split System",
+            "title": "Wechselrichtertyp auswählen",
+            "icon": null,
+            "description": null,
+            "image": null,
+            "cover": "img\/media\/cover-split-home.jpg",
+            "info": null,
+            "children": {
+                "Single-phase inverter X1": {
+                    "label": "Einphasen-Wechselrichter X1",
+                    "value": "Single-phase inverter X1",
+                    "title": "Einphasen-Wechselrichter Leistung auswählen",
+                    "icon": "fa-solid fa-bolt text-yellow-500",
+                    "description": null,
+                    "image": null,
+                    "info": null,
+                    "children": {
+                        "3.0 kW": {
+                            "priority": 100,
+                            "product_code": "G-21s-6304",
+                            "product_name": "Solax G4 X1-Hybrid-3.0-D, WiFi 3.0, CT",
+                            "type": "SolaX Hybrid G4",
+                            "label": "3.0 kW",
+                            "value": "X1 G4",
+                            "power": 3,
+                            "title": null,
+                            "icon": null,
+                            "description": "X1 Hybrid G4 3.0 kW",
+                            "image": "img\/X1 G4.png",
+                            "info": null,
+                            "stock": {
+                                "totalAvailable": 0,
+                                "totalOrdered": 0
+                            }
+                        },
+                        "3.7 kW": {
+                            "priority": 101,
+                            "product_code": "G-21s-6374",
+                            "product_name": "Solax G4 X1-Hybrid-3.7-D, WiFi 3.0, CT",
+                            "type": "SolaX Hybrid G4",
+                            "label": "3.7 kW",
+                            "value": "X1 G4",
+                            "power": 3.7,
+                            "title": null,
+                            "icon": null,
+                            "description": "X1 Hybrid G4 3.7 kW",
+                            "image": "img\/X1 G4.png",
+                            "info": null,
+                            "stock": {
+                                "totalAvailable": 0,
+                                "totalOrdered": 0
+                            }
+                        },
+                        "5.0 kW": {
+                            "priority": 102,
+                            "product_code": "G-21s-6504",
+                            "product_name": "Solax G4 X1-Hybrid-5.0-D, WiFi 3.0, CT",
+                            "type": "SolaX Hybrid G4",
+                            "label": "5.0 kW",
+                            "value": "X1 G4",
+                            "power": 5,
+                            "title": null,
+                            "icon": null,
+                            "description": "X1 Hybrid G4 5.0 kW",
+                            "image": "img\/X1 G4.png",
+                            "info": null,
+                            "stock": {
+                                "totalAvailable": 0,
+                                "totalOrdered": 0
+                            }
+                        }
+                    }
+                },
+                "Three-phase inverter X3": {
+                    "label": "Dreiphasen-Wechselrichter X3",
+                    "value": "Three-phase inverter X3",
+                    "title": "Dreiphasen-Wechselrichter Leistung auswählen",
+                    "icon": "fa-solid fa-bolt-lightning text-red-500",
+                    "description": null,
+                    "image": null,
+                    "info": null,
+                    "children": {
+                        "5.0 kW": {
+                            "label": "5.0 kW",
+                            "value": "5.0 kW",
+                            "title": "Wählen Sie die Mindestanzahl der Module pro String",
+                            "icon": null,
+                            "description": null,
+                            "image": null,
+                            "info": null,
+                            "children": {
+                                "G-21c-4205": {
+                                    "priority": 2,
+                                    "product_code": "G-21c-4205",
+                                    "product_name": "Solax G4 X3-Hybrid-5.0-D, CT, ohne WiFi 3.0",
+                                    "type": "SolaX Hybrid G4",
+                                    "label": "Mindestanzahl an Modulen: 7",
+                                    "value": "X3 G4",
+                                    "power": 5,
+                                    "title": null,
+                                    "icon": null,
+                                    "description": "X3 Hybrid G4 5.0 kW",
+                                    "image": "img\/X3 G4.png",
+                                    "info": "<h2 class='text-lg mb-4 pb-2 border-b-2 border-gray-500'>X3 G4 5.0 kW Technische Spezifikationen<\/h2>\r\n            <ul class='list-disc list-inside space-y-1 text-sm font-normal'>\r\n                <li>Solax G4 X3-Hybrid-5.0-D, CT, ohne WiFi 3.0<\/li>\r\n                <li><span class='font-medium'>MPPT:<\/span> 2 (1\/1)<\/li>\r\n                <li><span class='font-medium'>Max. Strom:<\/span> 20 A \/ 20 A<\/li>\r\n                <li><span class='font-medium'>Startspannung:<\/span> 180 V (Mindestanzahl an Modulen: 7)<\/li>\r\n                <li><span class='font-medium'>DC-Ausgang:<\/span> 1x<\/li>\r\n                <li>Genehmigt<\/li><li>Generator kompatibel<\/li>\r\n            <\/ul>",
+                                    "stock": {
+                                        "totalAvailable": 118,
+                                        "totalOrdered": 0
+                                    }
+                                },
+                                "G-21d-4P05": {
+                                    "priority": 3,
+                                    "product_code": "G-21d-4P05",
+                                    "product_name": "Solax G4 X3-HYB-5.0-P, WiFi+LAN",
+                                    "type": "SolaX Hybrid G4 PRO",
+                                    "label": "Mindestanzahl an Modulen: 4",
+                                    "value": "X3 G4 PRO",
+                                    "power": 5,
+                                    "title": null,
+                                    "icon": null,
+                                    "description": "X3 Hybrid G4 PRO 5.0 kW",
+                                    "image": "img\/X3 G4 PRO.png",
+                                    "info": "<h2 class='text-lg mb-4 pb-2 border-b-2 border-gray-500'>X3 G4 PRO 5.0 kW Technische Spezifikationen<\/h2>\r\n            <ul class='list-disc list-inside space-y-1 text-sm font-normal'>\r\n                <li>Solax G4 X3-HYB-5.0-P, WiFi+LAN<\/li>\r\n                <li><span class='font-medium'>MPPT:<\/span> 2 (1\/1)<\/li>\r\n                <li><span class='font-medium'>Max. Strom:<\/span> 25 A \/ 25 A<\/li>\r\n                <li><span class='font-medium'>Startspannung:<\/span> 120 V (Mindestanzahl an Modulen: 4)<\/li>\r\n                <li><span class='font-medium'>DC-Ausgang:<\/span> 2x<\/li>\r\n                <li>V2X Outlet \/ DC Charger ready<\/li><li>Multiple ports<\/li><li>Genehmigt<\/li><li>Generator kompatibel<\/li>\r\n            <\/ul>",
+                                    "stock": {
+                                        "totalAvailable": 117,
+                                        "totalOrdered": 0
+                                    }
+                                }
+                            }
+                        },
+                        "6.0 kW": {
+                            "label": "6.0 kW",
+                            "value": "6.0 kW",
+                            "title": "Wählen Sie die Mindestanzahl der Module pro String",
+                            "icon": null,
+                            "description": null,
+                            "image": null,
+                            "info": null,
+                            "children": {
+                                "G-21d-4206": {
+                                    "priority": 3,
+                                    "product_code": "G-21d-4206",
+                                    "product_name": "Solax G4 X3-Hybrid-6.0-D, WiFi+LAN, CT",
+                                    "type": "SolaX Hybrid G4",
+                                    "label": "Mindestanzahl an Modulen: 4",
+                                    "value": "X3 G4",
+                                    "power": 6,
+                                    "title": null,
+                                    "icon": null,
+                                    "description": "X3 Hybrid G4 6.0 kW",
+                                    "image": "img\/X3 G4.png",
+                                    "info": "<h2 class='text-lg mb-4 pb-2 border-b-2 border-gray-500'>X3 G4 6.0 kW Technische Spezifikationen<\/h2>\r\n            <ul class='list-disc list-inside space-y-1 text-sm font-normal'>\r\n                <li>Solax G4 X3-Hybrid-6.0-D, WiFi+LAN, CT<\/li>\r\n                <li><span class='font-medium'>MPPT:<\/span> 2 (1\/1)<\/li>\r\n                <li><span class='font-medium'>Max. Strom:<\/span> 20 A \/ 20 A<\/li>\r\n                <li><span class='font-medium'>Startspannung:<\/span> 180 V (Mindestanzahl an Modulen: 7)<\/li>\r\n                <li><span class='font-medium'>DC-Ausgang:<\/span> 1x<\/li>\r\n                <li>Genehmigt<\/li><li>Generator kompatibel<\/li>\r\n            <\/ul>",
+                                    "stock": {
+                                        "totalAvailable": 116,
+                                        "totalOrdered": 0
+                                    }
+                                },
+                                "G-21d-4P06": {
+                                    "priority": 103,
+                                    "product_code": "G-21d-4P06",
+                                    "product_name": "Solax G4 X3-HYB-6.0-P, WiFi+LAN",
+                                    "type": "SolaX Hybrid G4 PRO",
+                                    "label": "Mindestanzahl an Modulen: 4",
+                                    "value": "X3 G4 PRO",
+                                    "power": 6,
+                                    "title": null,
+                                    "icon": null,
+                                    "description": "X3 Hybrid G4 PRO 6.0 kW",
+                                    "image": "img\/X3 G4 PRO.png",
+                                    "info": "<h2 class='text-lg mb-4 pb-2 border-b-2 border-gray-500'>X3 G4 PRO 6.0 kW Technische Spezifikationen<\/h2>\r\n            <ul class='list-disc list-inside space-y-1 text-sm font-normal'>\r\n                <li>Solax G4 X3-HYB-6.0-P, WiFi+LAN<\/li>\r\n                <li><span class='font-medium'>MPPT:<\/span> 2 (1\/1)<\/li>\r\n                <li><span class='font-medium'>Max. Strom:<\/span> 25 A \/ 25 A<\/li>\r\n                <li><span class='font-medium'>Startspannung:<\/span> 120 V (Mindestanzahl an Modulen: 4)<\/li>\r\n                <li><span class='font-medium'>DC-Ausgang:<\/span> 2x<\/li>\r\n                <li>V2X Outlet \/ DC Charger ready<\/li><li>Multiple ports<\/li><li>Genehmigt<\/li><li>Generator kompatibel<\/li>\r\n            <\/ul>",
+                                    "stock": {
+                                        "totalAvailable": 0,
+                                        "totalOrdered": 75
+                                    }
+                                }
+                            }
+                        },
+                        "8.0 kW": {
+                            "label": "8.0 kW",
+                            "value": "8.0 kW",
+                            "title": "Benötigte Anzahl an MPP-Trackern (für z.B. unterschiedliche Dachausrichtungen)?",
+                            "icon": null,
+                            "description": null,
+                            "image": null,
+                            "info": null,
+                            "children": {
+                                "G-21c-4208": {
+                                    "priority": 2,
+                                    "product_code": "G-21c-4208",
+                                    "product_name": "Solax G4 X3-Hybrid-8.0-D, CT, ohne WiFi 3.0",
+                                    "type": "SolaX Hybrid G4",
+                                    "label": "MPPT <small class=\"text-gray-600\">(Strings)<\/small>: 2 <small class=\"text-gray-600\">(2\/1)<\/small>",
+                                    "value": "X3 G4",
+                                    "power": 8,
+                                    "title": null,
+                                    "icon": null,
+                                    "description": "X3 Hybrid G4 8.0 kW",
+                                    "image": "img\/X3 G4.png",
+                                    "info": "<h2 class='text-lg mb-4 pb-2 border-b-2 border-gray-500'>X3 G4 8.0 kW Technische Spezifikationen<\/h2>\r\n            <ul class='list-disc list-inside space-y-1 text-sm font-normal'>\r\n                <li>Solax G4 X3-Hybrid-8.0-D, CT, ohne WiFi 3.0<\/li>\r\n                <li><span class='font-medium'>MPPT:<\/span> 2 (2\/1)<\/li>\r\n                <li><span class='font-medium'>Max. Strom:<\/span> 35 A \/ 20 A<\/li>\r\n                <li><span class='font-medium'>Startspannung:<\/span> 180 V (Mindestanzahl an Modulen: 7)<\/li>\r\n                <li><span class='font-medium'>DC-Ausgang:<\/span> 1x<\/li>\r\n                <li>Genehmigt<\/li><li>Generator kompatibel<\/li>\r\n            <\/ul>",
+                                    "stock": {
+                                        "totalAvailable": 18,
+                                        "totalOrdered": 0
+                                    }
+                                },
+                                "G-21d-4P08": {
+                                    "priority": 4,
+                                    "product_code": "G-21d-4P08",
+                                    "product_name": "Solax G4 X3-HYB-8.0-P, WiFi+LAN",
+                                    "type": "SolaX Hybrid G4 PRO",
+                                    "label": "MPPT <small class=\"text-gray-600\">(Strings)<\/small>: 3 <small class=\"text-gray-600\">(1\/1\/1)<\/small>",
+                                    "value": "X3 G4 PRO",
+                                    "power": 8,
+                                    "title": null,
+                                    "icon": null,
+                                    "description": "X3 Hybrid G4 PRO 8.0 kW",
+                                    "image": "img\/X3 G4 PRO.png",
+                                    "info": "<h2 class='text-lg mb-4 pb-2 border-b-2 border-gray-500'>X3 G4 PRO 8.0 kW Technische Spezifikationen<\/h2>\r\n            <ul class='list-disc list-inside space-y-1 text-sm font-normal'>\r\n                <li>Solax G4 X3-HYB-8.0-P, WiFi+LAN<\/li>\r\n                <li><span class='font-medium'>MPPT:<\/span> 3 (1\/1\/1)<\/li>\r\n                <li><span class='font-medium'>Max. Strom:<\/span> 25 A \/ 25 A \/ 25 A<\/li>\r\n                <li><span class='font-medium'>Startspannung:<\/span> 120 V (Mindestanzahl an Modulen: 4)<\/li>\r\n                <li><span class='font-medium'>DC-Ausgang:<\/span> 2x<\/li>\r\n                <li>V2X Outlet \/ DC Charger ready<\/li><li>Multiple ports<\/li><li>Genehmigt<\/li><li>Generator kompatibel<\/li>\r\n            <\/ul>",
+                                    "stock": {
+                                        "totalAvailable": 228,
+                                        "totalOrdered": 0
+                                    }
+                                }
+                            }
+                        },
+                        "10.0 kW": {
+                            "label": "10.0 kW",
+                            "value": "10.0 kW",
+                            "title": "Benötigte Anzahl an MPP-Trackern (für z.B. unterschiedliche Dachausrichtungen)?",
+                            "icon": null,
+                            "description": null,
+                            "image": null,
+                            "info": null,
+                            "children": {
+                                "G-21s-4210": {
+                                    "priority": 1,
+                                    "product_code": "G-21s-4210",
+                                    "product_name": "Solax G4 X3-Hybrid-10.0-D, WiFi 3.0, CT",
+                                    "type": "SolaX Hybrid G4",
+                                    "label": "MPPT <small class=\"text-gray-600\">(Strings)<\/small>: 2 <small class=\"text-gray-600\">(2\/1)<\/small>",
+                                    "value": "X3 G4",
+                                    "power": 10,
+                                    "title": null,
+                                    "icon": null,
+                                    "description": "X3 Hybrid G4 10.0 kW",
+                                    "image": "img\/X3 G4.png",
+                                    "info": "<h2 class='text-lg mb-4 pb-2 border-b-2 border-gray-500'>X3 G4 10.0 kW Technische Spezifikationen<\/h2>\r\n            <ul class='list-disc list-inside space-y-1 text-sm font-normal'>\r\n                <li>Solax G4 X3-Hybrid-10.0-D, WiFi 3.0, CT<\/li>\r\n                <li><span class='font-medium'>MPPT:<\/span> 2 (2\/1)<\/li>\r\n                <li><span class='font-medium'>Max. Strom:<\/span> 35 A \/ 20 A<\/li>\r\n                <li><span class='font-medium'>Startspannung:<\/span> 180 V (Mindestanzahl an Modulen: 7)<\/li>\r\n                <li><span class='font-medium'>DC-Ausgang:<\/span> 1x<\/li>\r\n                <li>Genehmigt<\/li><li>Generator kompatibel<\/li>\r\n            <\/ul>",
+                                    "stock": {
+                                        "totalAvailable": 2038,
+                                        "totalOrdered": 0
+                                    }
+                                },
+                                "G-21d-4P10": {
+                                    "priority": 3,
+                                    "product_code": "G-21d-4P10",
+                                    "product_name": "Solax G4 X3-HYB-10.0-P, WiFi+LAN",
+                                    "type": "SolaX Hybrid G4 PRO",
+                                    "label": "MPPT <small class=\"text-gray-600\">(Strings)<\/small>: 3 <small class=\"text-gray-600\">(1\/1\/1)<\/small>",
+                                    "value": "X3 G4 PRO",
+                                    "power": 10,
+                                    "title": null,
+                                    "icon": null,
+                                    "description": "X3 Hybrid G4 PRO 10.0 kW",
+                                    "image": "img\/X3 G4 PRO.png",
+                                    "info": "<h2 class='text-lg mb-4 pb-2 border-b-2 border-gray-500'>X3 G4 PRO 10.0 kW Technische Spezifikationen<\/h2>\r\n            <ul class='list-disc list-inside space-y-1 text-sm font-normal'>\r\n                <li>Solax G4 X3-HYB-10.0-P, WiFi+LAN<\/li>\r\n                <li><span class='font-medium'>MPPT:<\/span> 3 (1\/1\/1)<\/li>\r\n                <li><span class='font-medium'>Max. Strom:<\/span> 25 A \/ 25 A \/ 25 A<\/li>\r\n                <li><span class='font-medium'>Startspannung:<\/span> 120 V (Mindestanzahl an Modulen: 4)<\/li>\r\n                <li><span class='font-medium'>DC-Ausgang:<\/span> 2x<\/li>\r\n                <li>V2X Outlet \/ DC Charger ready<\/li><li>Multiple ports<\/li><li>Genehmigt<\/li><li>Generator kompatibel<\/li>\r\n            <\/ul>",
+                                    "stock": {
+                                        "totalAvailable": 71,
+                                        "totalOrdered": 200
+                                    }
+                                }
+                            }
+                        },
+                        "12.0 kW": {
+                            "label": "12.0 kW",
+                            "value": "12.0 kW",
+                            "title": "Benötigte Anzahl an MPP-Trackern (für z.B. unterschiedliche Dachausrichtungen)?",
+                            "icon": null,
+                            "description": null,
+                            "image": null,
+                            "info": null,
+                            "children": {
+                                "G-21d-4P12": {
+                                    "priority": 2,
+                                    "product_code": "G-21d-4P12",
+                                    "product_name": "Solax G4 X3-HYB-12.0-P, WiFi+LAN",
+                                    "type": "SolaX Hybrid G4 PRO",
+                                    "label": "MPPT <small class=\"text-gray-600\">(Strings)<\/small>: 3 <small class=\"text-gray-600\">(1\/1\/1)<\/small>",
+                                    "value": "X3 G4 PRO",
+                                    "power": 12,
+                                    "title": null,
+                                    "icon": null,
+                                    "description": "X3 Hybrid G4 PRO 12.0 kW",
+                                    "image": "img\/X3 G4 PRO.png",
+                                    "info": "<h2 class='text-lg mb-4 pb-2 border-b-2 border-gray-500'>X3 G4 PRO 12.0 kW Technische Spezifikationen<\/h2>\r\n            <ul class='list-disc list-inside space-y-1 text-sm font-normal'>\r\n                <li>Solax G4 X3-HYB-12.0-P, WiFi+LAN<\/li>\r\n                <li><span class='font-medium'>MPPT:<\/span> 3 (1\/1\/1)<\/li>\r\n                <li><span class='font-medium'>Max. Strom:<\/span> 25 A \/ 25 A \/ 25 A<\/li>\r\n                <li><span class='font-medium'>Startspannung:<\/span> 120 V (Mindestanzahl an Modulen: 4)<\/li>\r\n                <li><span class='font-medium'>DC-Ausgang:<\/span> 2x<\/li>\r\n                <li>V2X Outlet \/ DC Charger ready<\/li><li>Multiple ports<\/li><li>Genehmigt<\/li><li>Generator kompatibel<\/li>\r\n            <\/ul>",
+                                    "stock": {
+                                        "totalAvailable": 9,
+                                        "totalOrdered": 0
+                                    }
+                                },
+                                "G-21d-4212": {
+                                    "priority": 3,
+                                    "product_code": "G-21d-4212",
+                                    "product_name": "Solax G4 X3-Hybrid-12.0-D, WiFi+LAN, CT",
+                                    "type": "SolaX Hybrid G4",
+                                    "label": "MPPT <small class=\"text-gray-600\">(Strings)<\/small>: 2 <small class=\"text-gray-600\">(2\/1)<\/small>",
+                                    "value": "X3 G4",
+                                    "power": 12,
+                                    "title": null,
+                                    "icon": null,
+                                    "description": "X3 Hybrid G4 12.0 kW",
+                                    "image": "img\/X3 G4.png",
+                                    "info": "<h2 class='text-lg mb-4 pb-2 border-b-2 border-gray-500'>X3 G4 12.0 kW Technische Spezifikationen<\/h2>\r\n            <ul class='list-disc list-inside space-y-1 text-sm font-normal'>\r\n                <li>Solax G4 X3-Hybrid-12.0-D, WiFi+LAN, CT<\/li>\r\n                <li><span class='font-medium'>MPPT:<\/span> 2 (2\/1)<\/li>\r\n                <li><span class='font-medium'>Max. Strom:<\/span> 35 A \/ 20 A<\/li>\r\n                <li><span class='font-medium'>Startspannung:<\/span> 180 V (Mindestanzahl an Modulen: 7)<\/li>\r\n                <li><span class='font-medium'>DC-Ausgang:<\/span> 1x<\/li>\r\n                <li>Genehmigt<\/li><li>Generator kompatibel<\/li>\r\n            <\/ul>",
+                                    "stock": {
+                                        "totalAvailable": 113,
+                                        "totalOrdered": 160
+                                    }
+                                }
+                            }
+                        },
+                        "15.0 kW": {
+                            "label": "15.0 kW",
+                            "value": "15.0 kW",
+                            "title": "Benötigte Anzahl an MPP-Trackern (für z.B. unterschiedliche Dachausrichtungen)?",
+                            "icon": null,
+                            "description": null,
+                            "image": null,
+                            "info": null,
+                            "children": {
+                                "G-21c-4215": {
+                                    "priority": 2,
+                                    "product_code": "G-21c-4215",
+                                    "product_name": "Solax G4 X3-Hybrid-15.0-D, CT, ohne WiFi 3.0",
+                                    "type": "SolaX Hybrid G4",
+                                    "group": "Solax Hybrid G4",
+                                    "label": "MPPT <small class=\"text-gray-600\">(Strings)<\/small>: 2 <small class=\"text-gray-600\">(2\/1)<\/small>",
+                                    "value": "X3 G4",
+                                    "power": 15,
+                                    "title": null,
+                                    "icon": null,
+                                    "description": "X3 Hybrid G4 15.0 kW",
+                                    "image": "img\/X3 G4.png",
+                                    "info": "<h2 class='text-lg mb-4 pb-2 border-b-2 border-gray-500'>X3 G4 15.0 kW Technische Spezifikationen<\/h2>\r\n            <ul class='list-disc list-inside space-y-1 text-sm font-normal'>\r\n                <li>Solax G4 X3-Hybrid-15.0-D, CT, ohne WiFi 3.0<\/li>\r\n                <li><span class='font-medium'>MPPT:<\/span> 2 (2\/1)<\/li>\r\n                <li><span class='font-medium'>Max. Strom:<\/span> 35 A \/ 20 A<\/li>\r\n                <li><span class='font-medium'>Startspannung:<\/span> 180 V (Mindestanzahl an Modulen: 7)<\/li>\r\n                <li><span class='font-medium'>DC-Ausgang:<\/span> 1x<\/li>\r\n                <li>Genehmigt<\/li><li>Generator kompatibel<\/li>\r\n            <\/ul>",
+                                    "stock": {
+                                        "totalAvailable": 2,
+                                        "totalOrdered": 0
+                                    }
+                                },
+                                "G-21d-4P15": {
+                                    "priority": 3,
+                                    "product_code": "G-21d-4P15",
+                                    "product_name": "Solax G4 X3-HYB-15.0-P, WiFi+LAN",
+                                    "type": "SolaX Hybrid G4 PRO",
+                                    "group": "Solax Hybrid G4",
+                                    "label": "MPPT <small class=\"text-gray-600\">(Strings)<\/small>: 3 <small class=\"text-gray-600\">(1\/1\/1)<\/small>",
+                                    "value": "X3 G4 PRO",
+                                    "power": 15,
+                                    "title": null,
+                                    "icon": null,
+                                    "description": "X3 Hybrid G4 PRO 15.0 kW",
+                                    "image": "img\/X3 G4 PRO.png",
+                                    "info": "<h2 class='text-lg mb-4 pb-2 border-b-2 border-gray-500'>X3 G4 PRO 15.0 kW Technische Spezifikationen<\/h2>\r\n            <ul class='list-disc list-inside space-y-1 text-sm font-normal'>\r\n                <li>Solax G4 X3-HYB-15.0-P, WiFi+LAN<\/li>\r\n                <li><span class='font-medium'>MPPT:<\/span> 3 (1\/1\/1)<\/li>\r\n                <li><span class='font-medium'>Max. Strom:<\/span> 25 A \/ 25 A \/ 25 A<\/li>\r\n                <li><span class='font-medium'>Startspannung:<\/span> 120 V (Mindestanzahl an Modulen: 4)<\/li>\r\n                <li><span class='font-medium'>DC-Ausgang:<\/span> 2x<\/li>\r\n                <li>V2X Outlet \/ DC Charger ready<\/li><li>Multiple ports<\/li><li>Genehmigt<\/li><li>Generator kompatibel<\/li>\r\n            <\/ul>",
+                                    "stock": {
+                                        "totalAvailable": 207,
+                                        "totalOrdered": 0
+                                    }
+                                },
+                                "2 (2\/2) AFCI": {
+                                    "priority": 4,
+                                    "product_code": "G-21s-3H15a",
+                                    "product_name": "Solax X3 ULT-15K, AFCI, WiFi+LAN, CT, (2xMPP)",
+                                    "type": "SolaX Hybrid Ultra AFCI",
+                                    "group": "SolaX Hybrid Ultra",
+                                    "label": "MPPT <small class=\"text-gray-600\">(Strings)<\/small>: 2 <small class=\"text-gray-600\">(2\/2)<\/small>",
+                                    "value": "X3 Ultra 15 K AFCI",
+                                    "power": 15,
+                                    "title": null,
+                                    "icon": null,
+                                    "description": "X3 Hybrid Ultra 15 K <span class='text-green-500'><br><i class='fa-solid fa-check text-green-500 mr-1'><\/i>AFCI<\/span>",
+                                    "image": "img\/X3 Ultra 15 K.png",
+                                    "info": "<h2 class='text-lg mb-4 pb-2 border-b-2 border-gray-500'>X3 Ultra 15 K AFCI Technische Spezifikationen<\/h2>\r\n            <ul class='list-disc list-inside space-y-1 text-sm font-normal'>\r\n                <li>Solax X3 ULT-15K, AFCI, WiFi+LAN, CT, (2xMPP)<\/li>\r\n                <li><span class='font-medium'>MPPT:<\/span> 2 (2\/2)<\/li>\r\n                <li><span class='font-medium'>Max. Strom:<\/span> 45 A \/ 45 A<\/li>\r\n                <li><span class='font-medium'>Startspannung:<\/span> 120 V (Mindestanzahl an Modulen: 4)<\/li>\r\n                <li><span class='font-medium'>DC-Ausgang:<\/span> 2x \/ DC Charger Ready<\/li>\r\n                <li>2x Com Ports<\/li><li>Genehmigt<\/li><li>Generator kompatibel<\/li>\r\n            <\/ul>",
+                                    "stock": {
+                                        "totalAvailable": 9,
+                                        "totalOrdered": 0
+                                    }
+                                },
+                                "2 (2\/2)": {
+                                    "priority": 102,
+                                    "product_code": "G-21s-3H15",
+                                    "product_name": "Solax X3 ULT-15K, WiFi+LAN, CT, (2xMPP)",
+                                    "type": "SolaX Hybrid Ultra",
+                                    "group": "SolaX Hybrid Ultra",
+                                    "label": "MPPT <small class=\"text-gray-600\">(Strings)<\/small>: 2 <small class=\"text-gray-600\">(2\/2)<\/small>",
+                                    "value": "X3 Ultra 15 K",
+                                    "power": 15,
+                                    "title": null,
+                                    "icon": null,
+                                    "description": "X3 Hybrid Ultra 15 K <span class='text-red-500'><br><i class='fa-solid fa-xmark text-red-500 mr-1'><\/i>AFCI<\/span>",
+                                    "image": "img\/X3 Ultra 15 K.png",
+                                    "info": "<h2 class='text-lg mb-4 pb-2 border-b-2 border-gray-500'>X3 Ultra 15 K Technische Spezifikationen<\/h2>\r\n            <ul class='list-disc list-inside space-y-1 text-sm font-normal'>\r\n                <li>Solax X3 ULT-15K, WiFi+LAN, CT, (2xMPP)<\/li>\r\n                <li><span class='font-medium'>MPPT:<\/span> 2 (2\/2)<\/li>\r\n                <li><span class='font-medium'>Max. Strom:<\/span> 45 A \/ 45 A<\/li>\r\n                <li><span class='font-medium'>Startspannung:<\/span> 120 V (Mindestanzahl an Modulen: 4)<\/li>\r\n                <li><span class='font-medium'>DC-Ausgang:<\/span> 2x \/ DC Charger Ready<\/li>\r\n                <li>2x Com Ports<\/li><li>Genehmigt<\/li><li>Generator kompatibel<\/li>\r\n            <\/ul>",
+                                    "stock": {
+                                        "totalAvailable": 0,
+                                        "totalOrdered": 0
+                                    }
+                                }
+                            }
+                        },
+                        "20.0 kW": {
+                            "label": "20.0 kW",
+                            "value": "20.0 kW",
+                            "title": "Benötigte Anzahl an MPP-Trackern (für z.B. unterschiedliche Dachausrichtungen)?",
+                            "icon": null,
+                            "description": null,
+                            "image": null,
+                            "info": null,
+                            "children": {
+                                "2 (2\/2) AFCI": {
+                                    "priority": 2,
+                                    "product_code": "G-21s-3H20a",
+                                    "product_name": "Solax X3 ULT-20K , AFCI, WiFi+LAN, CT, (2xMPP)",
+                                    "type": "SolaX Hybrid Ultra AFCI",
+                                    "label": "MPPT <small class=\"text-gray-600\">(Strings)<\/small>: 2 <small class=\"text-gray-600\">(2\/2)<\/small>",
+                                    "value": "X3 Ultra 20 K AFCI",
+                                    "power": 20,
+                                    "title": null,
+                                    "icon": null,
+                                    "description": "X3 Hybrid Ultra 20 K <span class='text-green-500'><br><i class='fa-solid fa-check text-green-500 mr-1'><\/i>AFCI<\/span>",
+                                    "image": "img\/X3 Ultra 20 K.png",
+                                    "info": "<h2 class='text-lg mb-4 pb-2 border-b-2 border-gray-500'>X3 Ultra 20 K AFCI Technische Spezifikationen<\/h2>\r\n            <ul class='list-disc list-inside space-y-1 text-sm font-normal'>\r\n                <li>Solax X3 ULT-20K , AFCI, WiFi+LAN, CT, (2xMPP)<\/li>\r\n                <li><span class='font-medium'>MPPT:<\/span> 2 (2\/2)<\/li>\r\n                <li><span class='font-medium'>Max. Strom:<\/span> 45 A \/ 45 A<\/li>\r\n                <li><span class='font-medium'>Startspannung:<\/span> 120 V (Mindestanzahl an Modulen: 4)<\/li>\r\n                <li><span class='font-medium'>DC-Ausgang:<\/span> 2x \/ DC Charger Ready<\/li>\r\n                <li>2x Com Ports<\/li><li>Genehmigt<\/li><li>Generator kompatibel<\/li>\r\n            <\/ul>",
+                                    "stock": {
+                                        "totalAvailable": 28,
+                                        "totalOrdered": 25
+                                    }
+                                },
+                                "2 (2\/2)": {
+                                    "priority": 100,
+                                    "product_code": "G-21s-3H20",
+                                    "product_name": "Solax X3 ULT-20K, WiFi+LAN, CT, (2xMPP)",
+                                    "type": "SolaX Hybrid Ultra",
+                                    "label": "MPPT <small class=\"text-gray-600\">(Strings)<\/small>: 2 <small class=\"text-gray-600\">(2\/2)<\/small>",
+                                    "value": "X3 Ultra 20 K",
+                                    "power": 20,
+                                    "title": null,
+                                    "icon": null,
+                                    "description": "X3 Hybrid Ultra 20 K <span class='text-red-500'><br><i class='fa-solid fa-xmark text-red-500 mr-1'><\/i>AFCI<\/span>",
+                                    "image": "img\/X3 Ultra 20 K.png",
+                                    "info": "<h2 class='text-lg mb-4 pb-2 border-b-2 border-gray-500'>X3 Ultra 20 K Technische Spezifikationen<\/h2>\r\n            <ul class='list-disc list-inside space-y-1 text-sm font-normal'>\r\n                <li>Solax X3 ULT-20K, WiFi+LAN, CT, (2xMPP)<\/li>\r\n                <li><span class='font-medium'>MPPT:<\/span> 2 (2\/2)<\/li>\r\n                <li><span class='font-medium'>Max. Strom:<\/span> 45 A \/ 45 A<\/li>\r\n                <li><span class='font-medium'>Startspannung:<\/span> 120 V (Mindestanzahl an Modulen: 4)<\/li>\r\n                <li><span class='font-medium'>DC-Ausgang:<\/span> 2x \/ DC Charger Ready<\/li>\r\n                <li>2x Com Ports<\/li><li>Genehmigt<\/li><li>Generator kompatibel<\/li>\r\n            <\/ul>",
+                                    "stock": {
+                                        "totalAvailable": 0,
+                                        "totalOrdered": 0
+                                    }
+                                }
+                            }
+                        },
+                        "25.0 kW": {
+                            "label": "25.0 kW",
+                            "value": "25.0 kW",
+                            "title": "Mit AFCI (Fehlerlichtbogen-Schutzschalter)?",
+                            "icon": null,
+                            "description": null,
+                            "image": null,
+                            "info": null,
+                            "children": {
+                                "X3 Ultra 3 MPPT AFCI": {
+                                    "priority": 2,
+                                    "product_code": "G-21s-3H25a",
+                                    "product_name": "Solax X3 ULT-25K , AFCI, WiFi+LAN, CT",
+                                    "type": "SolaX Hybrid Ultra AFCI",
+                                    "label": "X3 Ultra 3 MPPT",
+                                    "value": "X3 Ultra 3 MPPT AFCI",
+                                    "power": 25,
+                                    "title": null,
+                                    "icon": null,
+                                    "description": "<span class='text-green-500'><i class='fa-solid fa-check mr-1'><\/i>AFCI<\/span>",
+                                    "image": "img\/X3 Ultra 3 MPPT.png",
+                                    "info": "<h2 class='text-lg mb-4 pb-2 border-b-2 border-gray-500'>X3 Ultra 3 MPPT AFCI Technische Spezifikationen<\/h2>\r\n            <ul class='list-disc list-inside space-y-1 text-sm font-normal'>\r\n                <li>Solax X3 ULT-25K , AFCI, WiFi+LAN, CT<\/li>\r\n                <li><span class='font-medium'>MPPT:<\/span> 3 (2\/2\/2)<\/li>\r\n                <li><span class='font-medium'>Max. Strom:<\/span> 45 A \/ 45 A \/ 45 A<\/li>\r\n                <li><span class='font-medium'>Startspannung:<\/span> 120 V (Mindestanzahl an Modulen: 4)<\/li>\r\n                <li><span class='font-medium'>DC-Ausgang:<\/span> 2x \/ DC Charger Ready<\/li>\r\n                <li>2x Com Ports<\/li><li>Genehmigt<\/li><li>Generator kompatibel<\/li>\r\n            <\/ul>",
+                                    "stock": {
+                                        "totalAvailable": 227,
+                                        "totalOrdered": 0
+                                    }
+                                },
+                                "X3 Ultra 3 MPPT": {
+                                    "priority": 100,
+                                    "product_code": "G-21s-3H25",
+                                    "product_name": "Solax X3 ULT-25K, WiFi+LAN, CT",
+                                    "type": "SolaX Hybrid Ultra",
+                                    "label": "X3 Ultra 3 MPPT",
+                                    "value": "X3 Ultra 3 MPPT",
+                                    "power": 25,
+                                    "title": null,
+                                    "icon": null,
+                                    "description": "<span class='text-red-500'><i class='fa-solid fa-xmark mr-1'><\/i>AFCI<\/span>",
+                                    "image": "img\/X3 Ultra 3 MPPT.png",
+                                    "info": "<h2 class='text-lg mb-4 pb-2 border-b-2 border-gray-500'>X3 Ultra 3 MPPT Technische Spezifikationen<\/h2>\r\n            <ul class='list-disc list-inside space-y-1 text-sm font-normal'>\r\n                <li>Solax X3 ULT-25K, WiFi+LAN, CT<\/li>\r\n                <li><span class='font-medium'>MPPT:<\/span> 3 (2\/2\/2)<\/li>\r\n                <li><span class='font-medium'>Max. Strom:<\/span> 45 A \/ 45 A \/ 45 A<\/li>\r\n                <li><span class='font-medium'>Startspannung:<\/span> 120 V (Mindestanzahl an Modulen: 4)<\/li>\r\n                <li><span class='font-medium'>DC-Ausgang:<\/span> 2x \/ DC Charger Ready<\/li>\r\n                <li>2x Com Ports<\/li><li>Genehmigt<\/li><li>Generator kompatibel<\/li>\r\n            <\/ul>",
+                                    "stock": {
+                                        "totalAvailable": 0,
+                                        "totalOrdered": 0
+                                    }
+                                }
+                            }
+                        },
+                        "30.0 kW": {
+                            "label": "30.0 kW",
+                            "value": "30.0 kW",
+                            "title": "Mit AFCI (Fehlerlichtbogen-Schutzschalter)?",
+                            "icon": null,
+                            "description": null,
+                            "image": null,
+                            "info": null,
+                            "children": {
+                                "X3 Ultra 3 MPPT AFCI": {
+                                    "priority": 2,
+                                    "product_code": "G-21s-3H30a",
+                                    "product_name": "Solax X3 ULT-30K, AFCI, WiFi+LAN, CT",
+                                    "type": "SolaX Hybrid Ultra AFCI",
+                                    "label": "X3 Ultra 3 MPPT",
+                                    "value": "X3 Ultra 3 MPPT AFCI",
+                                    "power": 30,
+                                    "title": null,
+                                    "icon": null,
+                                    "description": "<span class='text-green-500'><i class='fa-solid fa-check mr-1'><\/i>AFCI<\/span>",
+                                    "image": "img\/X3 Ultra 3 MPPT.png",
+                                    "info": "<h2 class='text-lg mb-4 pb-2 border-b-2 border-gray-500'>X3 Ultra 3 MPPT AFCI Technische Spezifikationen<\/h2>\r\n            <ul class='list-disc list-inside space-y-1 text-sm font-normal'>\r\n                <li>Solax X3 ULT-30K, AFCI, WiFi+LAN, CT<\/li>\r\n                <li><span class='font-medium'>MPPT:<\/span> 3 (2\/2\/2)<\/li>\r\n                <li><span class='font-medium'>Max. Strom:<\/span> 45 A \/ 45 A \/ 45 A<\/li>\r\n                <li><span class='font-medium'>Startspannung:<\/span> 120 V (Mindestanzahl an Modulen: 4)<\/li>\r\n                <li><span class='font-medium'>DC-Ausgang:<\/span> 2x \/ DC Charger Ready<\/li>\r\n                <li>2x Com Ports<\/li><li>Genehmigt<\/li><li>Generator kompatibel<\/li>\r\n            <\/ul>",
+                                    "stock": {
+                                        "totalAvailable": 373,
+                                        "totalOrdered": 0
+                                    }
+                                },
+                                "X3 Ultra 3 MPPT": {
+                                    "priority": 100,
+                                    "product_code": "G-21s-3H30",
+                                    "product_name": "Solax X3 ULT-30K, WiFi+LAN, CT",
+                                    "type": "SolaX Hybrid Ultra",
+                                    "label": "X3 Ultra 3 MPPT",
+                                    "value": "X3 Ultra 3 MPPT",
+                                    "power": 30,
+                                    "title": null,
+                                    "icon": null,
+                                    "description": "<span class='text-red-500'><i class='fa-solid fa-xmark mr-1'><\/i>AFCI<\/span>",
+                                    "image": "img\/X3 Ultra 3 MPPT.png",
+                                    "info": "<h2 class='text-lg mb-4 pb-2 border-b-2 border-gray-500'>X3 Ultra 3 MPPT Technische Spezifikationen<\/h2>\r\n            <ul class='list-disc list-inside space-y-1 text-sm font-normal'>\r\n                <li>Solax X3 ULT-30K, WiFi+LAN, CT<\/li>\r\n                <li><span class='font-medium'>MPPT:<\/span> 3 (2\/2\/2)<\/li>\r\n                <li><span class='font-medium'>Max. Strom:<\/span> 45 A \/ 45 A \/ 45 A<\/li>\r\n                <li><span class='font-medium'>Startspannung:<\/span> 120 V (Mindestanzahl an Modulen: 4)<\/li>\r\n                <li><span class='font-medium'>DC-Ausgang:<\/span> 2x \/ DC Charger Ready<\/li>\r\n                <li>2x Com Ports<\/li><li>Genehmigt<\/li><li>Generator kompatibel<\/li>\r\n            <\/ul>",
+                                    "stock": {
+                                        "totalAvailable": 0,
+                                        "totalOrdered": 0
+                                    }
+                                }
+                            }
+                        },
+                        "> 30.0 kW": {
+                            "label": "> 30.0 kW",
+                            "value": "Bitte kontaktieren Sie Ihren Vertriebsmitarbeiter oder unseren Support. SolaX hat die Lösung.",
+                            "title": null,
+                            "icon": null,
+                            "description": null,
+                            "image": null,
+                            "info": "Bitte kontaktieren Sie Ihren Vertriebsmitarbeiter oder unseren Support. SolaX hat die Lösung."
+                        }
+                    }
+                }
+            }
+        },
+        "IES": {
+            "label": "Alles in Einem IES",
+            "value": "IES",
+            "title": null,
+            "icon": null,
+            "description": null,
+            "image": null,
+            "cover": "img\/media\/cover-ies-home.jpg",
+            "info": null,
+            "children": {
+                "4.0 kW": {
+                    "product_code": "G-21d-3I40a",
+                    "product_name": "Solax X3-IES-4.0K, AFCI, WiFi+LAN, CT",
+                    "label": "4.0 kW",
+                    "value": "IES 4.0 kW AFCI",
+                    "power": 4,
+                    "title": null,
+                    "icon": null,
+                    "description": "X3 IES 4K<span class='text-green-500'><i class='fa-solid fa-check mx-1'><\/i>AFCI<\/span>",
+                    "image": "img\/IES.png",
+                    "info": "",
+                    "stock": {
+                        "totalAvailable": 9,
+                        "totalOrdered": 0
+                    },
+                    "priority": 1
+                },
+                "5.0 kW": {
+                    "product_code": "G-21d-3I50a",
+                    "product_name": "Solax X3-IES-5.0K, AFCI, WiFi+LAN, CT",
+                    "label": "5.0 kW",
+                    "value": "IES 5.0 kW AFCI",
+                    "power": 5,
+                    "title": null,
+                    "icon": null,
+                    "description": "X3 IES 5K<span class='text-green-500'><i class='fa-solid fa-check mx-1'><\/i>AFCI<\/span>",
+                    "image": "img\/IES.png",
+                    "info": "",
+                    "stock": {
+                        "totalAvailable": 34,
+                        "totalOrdered": 0
+                    },
+                    "priority": 2
+                },
+                "6.0 kW AFCI": {
+                    "product_code": "G-21d-3I60a",
+                    "product_name": "Solax X3-IES-6.0K, AFCI, WiFi+LAN, CT",
+                    "label": "6.0 kW",
+                    "value": "IES 6.0 kW AFCI",
+                    "power": 6,
+                    "title": null,
+                    "icon": null,
+                    "description": "X3 IES 6K<span class='text-green-500'><i class='fa-solid fa-check mx-1'><\/i>AFCI<\/span>",
+                    "image": "img\/IES.png",
+                    "info": "",
+                    "stock": {
+                        "totalAvailable": 20,
+                        "totalOrdered": 0
+                    },
+                    "priority": 3
+                },
+                "6.0 kW": {
+                    "product_code": "G-21d-3I60",
+                    "product_name": "Solax X3-IES-6.0K, WiFi+LAN, CT",
+                    "label": "6.0 kW",
+                    "value": "IES 6.0 kW",
+                    "power": 6,
+                    "title": null,
+                    "icon": null,
+                    "description": "X3 IES 6K<span class='text-red-500'><i class='fa-solid fa-xmark mx-1'><\/i>AFCI<\/span>",
+                    "image": "img\/IES.png",
+                    "info": null,
+                    "stock": {
+                        "totalAvailable": 0,
+                        "totalOrdered": 0
+                    },
+                    "priority": 4
+                },
+                "8.0 kW": {
+                    "product_code": "G-21d-3I80a",
+                    "product_name": "Solax X3-IES-8.0K, AFCI, WiFi+LAN, CT",
+                    "label": "8.0 kW",
+                    "value": "IES 8.0 kW AFCI",
+                    "power": 8,
+                    "title": null,
+                    "icon": null,
+                    "description": "X3 IES 8K<span class='text-green-500'><i class='fa-solid fa-check mx-1'><\/i>AFCI<\/span>",
+                    "image": "img\/IES.png",
+                    "info": null,
+                    "stock": {
+                        "totalAvailable": 39,
+                        "totalOrdered": 0
+                    },
+                    "priority": 5
+                },
+                "10.0 kW": {
+                    "product_code": "G-21d-3I100a",
+                    "product_name": "Solax X3-IES-10.0K, AFCI, WiFi+LAN, CT",
+                    "label": "10.0 kW",
+                    "value": "IES 10.0 kW AFCI",
+                    "power": 10,
+                    "title": null,
+                    "icon": null,
+                    "description": "X3 IES 10K<span class='text-green-500'><i class='fa-solid fa-check mx-1'><\/i>AFCI<\/span>",
+                    "image": "img\/IES.png",
+                    "info": null,
+                    "stock": {
+                        "totalAvailable": 36,
+                        "totalOrdered": 0
+                    },
+                    "priority": 6
+                },
+                "12.0 kW": {
+                    "product_code": "G-21d-3I120a",
+                    "product_name": "Solax X3-IES-12.0K, AFCI, WiFi+LAN, CT",
+                    "label": "12.0 kW",
+                    "value": "IES 12.0 kW AFCI",
+                    "power": 12,
+                    "title": null,
+                    "icon": null,
+                    "description": "X3 IES 12K<span class='text-green-500'><i class='fa-solid fa-check mx-1'><\/i>AFCI<\/span>",
+                    "image": "img\/IES.png",
+                    "info": null,
+                    "stock": {
+                        "totalAvailable": 9,
+                        "totalOrdered": 0
+                    },
+                    "priority": 7
+                },
+                "15.0 kW": {
+                    "product_code": "G-21d-3I150a",
+                    "product_name": "Solax X3-IES-15.0K, AFCI, WiFi+LAN, CT",
+                    "label": "15.0 kW",
+                    "value": "IES 15.0 kW AFCI",
+                    "power": 15,
+                    "title": null,
+                    "icon": null,
+                    "description": "X3 IES 15K<span class='text-green-500'><i class='fa-solid fa-check mx-1'><\/i>AFCI<\/span>",
+                    "image": "img\/IES.png",
+                    "info": null,
+                    "stock": {
+                        "totalAvailable": 11,
+                        "totalOrdered": 0
+                    },
+                    "priority": 8
+                }
+            }
+        }
+    }
+}

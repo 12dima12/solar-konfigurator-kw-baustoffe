@@ -1,0 +1,382 @@
+
+<!-- Progress bar -->
+<div id="progress-bar" class="w-full bg-gray-200 rounded-full h-2 mb-4">
+    <div class="bg-[#fdb517] h-2 rounded-full progress-bar" style="width: 50%;"></div>
+</div>
+
+    <div class="battery-slider mb-6">
+        <h2 class="text-2xl font-bold mb-0">Triple Power T30</h2>
+        <h3 class="text-lg font-semibold mb-4 text-gray-500">Wechselrichter: -</h3>
+        <h3 class="text-lg font-semibold mb-4">Wählen Sie die Batteriekapazität:</h3>
+    </div>
+
+<!-- Slider -->
+<div class="slider-wrapper min-h-[150px]">
+    <button id="arrow-left" class="arrow" disabled><i class="fa-solid fa-minus"></i></button>
+    <div class="slider-track" id="slider-track">
+        <div class="slider-fill" id="slider-fill"></div>
+        <div class="ruler-points" id="ruler-points"></div>
+        <div class="thumb" id="thumb">
+            <div class="thumb-value" id="thumb-value">-</div>
+        </div>
+        <div class="slider-overlay" id="slider-overlay"></div>
+        <div class="scale" id="scale"></div>
+    </div>
+    <button id="arrow-right" class="arrow"><i class="fa-solid fa-plus"></i></button>
+</div>
+
+<div id="battery-info"></div>
+
+<!-- Navigace a skrytý formulář -->
+<div class="flex justify-between mt-6 text-sm">
+    <a href="?configuratorNext=battery" class="px-6 py-2 bg-[#333132] text-white hover:bg-[#fdb517] hover:text-white font-semibold">Zurück</a>
+    
+    <form method="POST" action="" class="ml-auto" id="battery-form">
+        <input type="hidden" name="battery_type" value="Triple Power T30">
+        <input type="hidden" name="battery_capacity" id="battery_capacity" value="">
+        <input type="hidden" name="battery_model" id="battery_model" value="">
+        <input type="hidden" name="configurator" value="battery">
+        <input type="hidden" name="configuratorNext" value="wallbox">
+        <input type="hidden" name="battery_variant" id="battery_variant" value="">
+    </form>
+
+    <div id="notification-container" class="fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6 pointer-events-none"></div>
+</div>
+
+Inverter not found in datafile.<script>const batteryData = {};</script><div class="text-center mt-4 mb-6 py-4"><img src="img/media/banner_G4-set-up-3-4-baterky2024.png" alt="Triple Power T30" class="w-full x-auto"></div>
+<script>
+const originalValues = [];
+// Odstranění duplicit pro slider
+const values = [...new Set(originalValues)];
+
+const maxValue = Math.ceil(Math.max(...values) / 5) * 5;
+const min = 0;
+const max = maxValue;
+
+const thumb = document.getElementById("thumb");
+const thumbValue = document.getElementById("thumb-value");
+const fill = document.getElementById("slider-fill");
+const overlay = document.getElementById("slider-overlay");
+const scale = document.getElementById("scale");
+const ruler = document.getElementById("ruler-points");
+const arrowLeft = document.getElementById("arrow-left");
+const arrowRight = document.getElementById("arrow-right");
+const batteryCapacityInput = document.getElementById("battery_capacity");
+const batteryInfoDiv = document.getElementById("battery-info");
+
+const getLeftPercent = (val) => ((val - min) / (max - min)) * 100;
+
+let currentIndex = 0;
+
+function updateThumb() {
+    const val = values[currentIndex];
+    const percent = getLeftPercent(val);
+    thumb.style.left = percent + "%";
+    thumbValue.textContent = val.toFixed(1) + " kWh";
+    batteryCapacityInput.value = val.toFixed(1);
+    fill.style.width = percent + "%";
+
+    arrowLeft.disabled = currentIndex === 0;
+    arrowRight.disabled = currentIndex === values.length - 1;
+
+    updateBatteryInfo();
+}
+
+function updateBatteryInfo() {
+    const selectedCapacity = parseFloat(batteryCapacityInput.value);
+    if (isNaN(selectedCapacity)) {
+        batteryInfoDiv.innerHTML = `
+            <div class="text-red-600 font-medium bg-red-100 border border-red-300 p-4 rounded-lg">
+                ⚠️ Please select battery capacity.
+            </div>`;
+        return;
+    }
+
+    const matchingEntries = [];
+    for (const model in batteryData) {
+        for (const entry of batteryData[model]) {
+            if (entry.kWh === selectedCapacity) {
+                matchingEntries.push({ model, ...entry });
+                console.log("Battery Model:", model);
+            }
+        }
+    }
+
+    if (matchingEntries.length === 0) {
+        batteryInfoDiv.innerHTML = `
+            <div class="text-red-600 font-medium bg-red-100 border border-red-300 p-4 rounded-lg">
+                ⚠️ No variants for this battery capacity.
+            </div>`;
+        return;
+    }
+
+    const batteryVariantInput = document.getElementById("battery_variant");
+    const batteryModelInput = document.getElementById("battery_model");
+
+    const renderHeader = (entry) => {
+        let modelText = ["HS25", "HS36"].includes(entry.model)
+            ? `<span class="text-gray-600 bg-gray-200 px-1">${entry.model}</span>`
+            : "";
+
+        return `
+            <div id="battery_capacity_info" class="flex items-center justify-center text-xl sm:text-2xl font-bold mb-8 gap-3">
+                <img src="img/battery_charge.png" class="h-6 sm:h-9 w-auto" alt="Battery Icon">
+                <span>${selectedCapacity.toFixed(2)} kWh Batterie ${modelText} Montage</span>
+            </div>`;
+    };
+
+    const getImgFile = (model, key) => {
+        const map = {
+            master: "battery_master.png",
+            slave: "battery_slave.png",
+            BMS_Paralell_Box_G1: "X3 EPS Parallel Box G2.png",
+            BMS_Paralell_Box_G2: "X3 EPS Parallel Box G2.png",
+            BMS: model === "T30" ? "T30_master_box_complete.png" :
+                 model === "HS50E-D" ? "IES_BMS.png" :
+                 "HS25_HS36_BMS.png",
+            BAT_BOX: model === "T30" ? "T30_BAT_BOX.png" :
+                     model === "HS50E-D" ? "IES_battery_box.png" :
+                     "HS25_HS36_battery_box_orizly.png",
+            Series_BOX: model === "HS50E-D" ? "IES_series_box.png" :
+                        "HS25_HS36_battery_box.png",
+        };
+        return map[key] || `${key}.png`;
+    };
+
+    const renderStackedImages = (imgFile, count) => {
+        const images = Array.from({ length: count }).map((_, i) => `
+            <img src="img/${imgFile}?1776805121" alt="" class="absolute left-1/2 -translate-x-1/2 h-24 w-auto object-contain" 
+                style="bottom: ${i * 20}px; z-index: ${10 + i};" loading="lazy" onerror="this.style.display='none'">`).join("");
+        const height = (count - 1) * 20 + 70;
+        return `<div class="relative w-auto min-w-[80px]" style="height: ${height}px;">${images}</div>`;
+    };
+
+    const renderComponentsBlock = (entry) => {
+        const imageKeys = ["BMS", "BAT_BOX", "BMS_Paralell_Box_G1", "BMS_Paralell_Box_G2", "master", "slave", "Series_BOX"];
+
+        return Object.entries(entry)
+            .filter(([key, val]) => val !== 0 && key !== "kWh" && imageKeys.includes(key))
+            .sort(([, a], [, b]) => a - b)
+            .map(([key, val]) => {
+                const imgFile = getImgFile(entry.model, key);
+                if (key === "BAT_BOX" && (entry.model !== "T30" || entry.model === "HS50E-D")) {
+                    const stackCounts = (() => {
+                        if (entry.model === "HS50E-D") {
+                            if (val === 4) {
+                                return [2, 2]; // Dva sloupce po 2
+                            } else if (val === 5) {
+                                return [3, 2]; // Jeden sloupec s 2 a druhý s 3
+                            } else if (val === 6) {
+                                return [3, 3]; // Dva sloupce po 3
+                            } else {
+                                return [val]; // Výchozí logika pro ostatní hodnoty
+                            }
+                        } else {
+                            return val <= 9 ? [val] : (() => {
+                                let first = Math.ceil(val / 2);
+                                if (val === 10) first = 5;
+                                if (val === 11 || val === 12) first = 6;
+                                if (val === 13) first = 7;
+                                return [first, val - first];
+                            })();
+                        }
+                    })();
+
+                    const blocks = stackCounts.map(count => renderStackedImages(imgFile, count)).join("");
+                    return `
+                        <div class="flex flex-col items-center justify-between w-full sm:w-auto bg-transparent">
+                            <div class="font-medium text-gray-700">${val}× <span class="capitalize">${key.replace(/_/g, " ")}</span></div>
+                            <div class="flex gap-4 mt-2">${blocks}</div>
+                        </div>`;
+                }
+
+
+                return `
+                    <div class="flex flex-col items-center justify-between w-full sm:w-auto bg-transparent">
+                        <div class="font-medium text-gray-700">${val}× <span class="capitalize">${key.replace(/_/g, " ")}</span></div>
+                        <div class="flex flex-wrap justify-center gap-1 mt-2">
+                            ${Array.from({ length: val }).map(() => `
+                                <img src="img/${imgFile}" alt="${key}" class="h-auto max-h-24 w-auto max-w-full object-contain" loading="lazy" onerror="this.style.display='none'">`).join("")}
+                        </div>
+                    </div>`;
+            }).join("");
+    };
+
+    // zobrazení informací o baterii
+
+    batteryVariantInput.value = "";
+    batteryModelInput.value = matchingEntries[0].model;
+
+    batteryInfoDiv.innerHTML = `
+        ${renderHeader(matchingEntries[0])}
+        <h4 class="text-xl font-semibold mb-4 bg-gradient-to-r from-gray-800 to-gray-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 shadow-md"><i class="fa-solid fa-circle-question text-amber-500"></i> Bitte wählen Sie die Batterie-Montagevariante:</h4>
+        <div class="flex flex-col gap-6">
+            ${matchingEntries.map((entry, index) => `
+                <label for="battery_variant_${index + 1}" class="relative group submitForm block border-2 border-gray-200 hover:border-[#fdb517] rounded-2xl p-5 shadow-sm hover:shadow-md transition hover:border-primary-500 cursor-pointer bg-white">
+                    <div class="flex items-center gap-4 mb-4">
+                        <input type="radio" id="battery_variant_${index + 1}" name="variant" value="${index + 1}" required class="absolute right-3 top-3 size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white not-checked:before:hidden checked:border-[#fdb517] checked:bg-[#fdb517] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#fdb517] disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden">
+                        <div class="text-lg font-semibold text-gray-800">
+                            <span class="capitalize">Montage</span> ${index + 1} <i class="fa-solid fa-arrow-right"></i> ${entry.model} - ${entry.kWh.toFixed(2)} kWh
+                        </div>
+                    </div>
+                    <div class="flex gap-4 items-start">
+                        ${renderComponentsBlock(entry)}
+                    </div>
+                </label>
+            `).join("")}
+        </div>`;
+}
+
+overlay.addEventListener("click", (e) => {
+    const rect = overlay.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const clickPercent = (clickX / rect.width) * 100;
+    currentIndex = findClosestIndex(clickPercent);
+    updateThumb();
+});
+
+arrowLeft.addEventListener("click", () => {
+    if (currentIndex > 0) {
+        currentIndex--;
+        updateThumb();
+    }
+});
+
+arrowRight.addEventListener("click", () => {
+    if (currentIndex < values.length - 1) {
+        currentIndex++;
+        updateThumb();
+    }
+});
+
+function findClosestIndex(percent) {
+    let closest = 0;
+    let minDiff = Infinity;
+    values.forEach((val, i) => {
+        const p = getLeftPercent(val);
+        const diff = Math.abs(percent - p);
+        if (diff < minDiff) {
+            minDiff = diff;
+            closest = i;
+        }
+    });
+    return closest;
+}
+
+// Body na pravítku (hodnoty z values)
+values.forEach(val => {
+    const point = document.createElement("div");
+    point.style.left = getLeftPercent(val) + "%";
+    ruler.appendChild(point);
+});
+
+// Měřítko od 0 do max po 5
+for (let tick = 0; tick <= max; tick += 5) {
+    const tickDiv = document.createElement("div");
+    tickDiv.className = "tick";
+    tickDiv.style.left = getLeftPercent(tick) + "%";
+
+    const bar = document.createElement("div");
+    bar.className = "bar";
+
+    const label = document.createElement("div");
+    label.className = "label";
+    label.textContent = tick;
+
+    tickDiv.appendChild(bar);
+    tickDiv.appendChild(label);
+    scale.appendChild(tickDiv);
+}
+
+updateThumb();
+</script>
+<script>
+let isDragging = false;
+
+thumb.addEventListener("mousedown", (e) => {
+    isDragging = true;
+    document.body.style.cursor = "grabbing";
+});
+
+document.addEventListener("mousemove", (e) => {
+    if (!isDragging) return;
+
+    const rect = overlay.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const percent = Math.max(0, Math.min((mouseX / rect.width) * 100, 100));
+    currentIndex = findClosestIndex(percent);
+    updateThumb();
+});
+
+document.addEventListener("mouseup", () => {
+    if (isDragging) {
+        isDragging = false;
+        document.body.style.cursor = "default";
+    }
+});
+
+// Přidání podpory pro dotykové ovládání
+thumb.addEventListener("touchstart", (e) => {
+    isDragging = true;
+    document.body.style.cursor = "grabbing";
+});
+
+document.addEventListener("touchmove", (e) => {
+    if (!isDragging) return;
+
+    const touch = e.touches[0];
+    const rect = overlay.getBoundingClientRect();
+    const touchX = touch.clientX - rect.left;
+    const percent = Math.max(0, Math.min((touchX / rect.width) * 100, 100));
+    currentIndex = findClosestIndex(percent);
+    updateThumb();
+});
+
+document.addEventListener("touchend", () => {
+    if (isDragging) {
+        isDragging = false;
+        document.body.style.cursor = "default";
+    }
+});
+
+document.getElementById("battery-form").addEventListener("submit", function (e) {
+    const batteryVariant = document.getElementById("battery_variant").value;
+    if (!batteryVariant) {
+        e.preventDefault(); // Zabrání odeslání formuláře   
+        alert("Please select a Battery Assembly variant before proceeding.");  
+    }
+});
+
+document.addEventListener('change', (event) => {
+    if (event.target.name === 'variant') {
+        // Nastavení hodnoty do skrytého inputu
+        const selectedValue = event.target.value;
+        const batteryVariantInput = document.getElementById("battery_variant");
+        batteryVariantInput.value = selectedValue;
+        console.log("Selected battery variant:", selectedValue);
+
+        // Zrušení zvýraznění u všech labelů
+        document.querySelectorAll('label[for^="battery_variant_"]').forEach(label => {
+            label.classList.remove('border-[#fdb517]');
+            label.classList.add('border-gray-200');
+        });
+
+        // Zvýraznění vybraného labelu
+        const selectedLabel = document.querySelector(`label[for="${event.target.id}"]`);
+        if (selectedLabel) {
+            selectedLabel.classList.remove('border-gray-200');
+            selectedLabel.classList.add('border-[#fdb517]');
+        }
+
+        const form = document.getElementById('battery-form');
+        if (form) {
+            form.submit();
+        }
+    }
+});
+
+</script>
+
+
+
+

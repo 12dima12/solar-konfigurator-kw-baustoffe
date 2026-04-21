@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SolaX Configurator</title>
+  <script src="https://unpkg.com/vue@3"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+  <link href="src/output.css" rel="stylesheet">
+  <!--script src="https://cdn.tailwindcss.com"></script-->
+  
+</head>
+<body class="">
+<!-- ============================================ -->
+<!-- HTML STRUKTURA -->
+<!-- ============================================ -->
+
+<div class="w-full max-w-[1600px] mx-auto relative overflow-hidden">
+    <div class="mb-4 bg-white">
+        <!-- Header -->
+        <div id="header" class="bg-white">
+            <!-- Language Selection Dropdown -->
+            <div class="absolute top-0 right-2 inline-block text-right z-15">
+                <button onclick="toggleDropdown()" 
+                        class="inline-flex items-center gap-2 rounded-md border border-gray-300 px-3 py-1.5 bg-white text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
+                    <img src="img/flags/flag_de.png" 
+                         alt="de" 
+                         class="w-5 h-5 rounded-sm">
+                    <span class="hidden sm:block uppercase">de</span>
+                    <svg class="hidden sm:block h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                
+                <div id="langDropdown" class="absolute right-0 mt-1 w-32 rounded-md shadow-lg bg-white border border-gray-200 hidden z-10"><ul class="py-1 text-sm text-gray-700"><li><a href="./?configuratorNext=battery&amp;lang=en" class="flex items-center px-4 py-2 hover:bg-gray-100 gap-2"><img src="img/flags/flag_en.png" alt="English" class="w-5 h-5 rounded-sm">English</a></li><li><a href="./?configuratorNext=battery&amp;lang=cs" class="flex items-center px-4 py-2 hover:bg-gray-100 gap-2"><img src="img/flags/flag_cs.png" alt="Čeština" class="w-5 h-5 rounded-sm">Čeština</a></li><li><a href="./?configuratorNext=battery&amp;lang=de" class="flex items-center px-4 py-2 hover:bg-gray-100 gap-2"><img src="img/flags/flag_de.png" alt="Deutsch" class="w-5 h-5 rounded-sm">Deutsch</a></li></ul></div>            </div>
+
+            <!-- Logo and Title -->
+            <div class="flex flex-row items-center px-4 ">
+                
+                <div class="w-full flex flex-col text-center items-center space-y-0">
+                    <h1 class="text-base sm:text-2xl text-gray-800 leading-snug px-2">
+                        <span class="animatedTitle">
+                            Bestellkonfigurator <span class="sm:inline-block hidden px-2"> - </span><span class="text-green-600 text-sm sm:text-xl sm:inline-block block">Neue Installation</span>                        </span>
+                    </h1>
+
+                                            <div class="flex items-center justify-center space-x-2">
+                            <button id="currentSetup" type="button" class="py-0 m-0 px-0 bg-transparent border-0 inline-block"><span class="text-xs text-blue-500 hover:text-blue-600 hover:bg-blue-200 py-0.5 px-2 font-semibold cursor-pointer transition">Aktuelles Setup</span></button>                            <form method="GET" action="./"><input type="hidden" name="reset" value="true"><input type="hidden" name="lang" value="de"><button type="submit" class="py-0 m-0 px-0 bg-transparent border-0 inline-block"><span class="text-xs text-red-500 hover:text-red-600 hover:bg-red-200 py-0.5 px-2 font-semibold cursor-pointer transition">Reset</span></button></form>                        </div>
+                                    </div>
+            </div>
+        </div>
+        
+        <div class="w-full flex justify-center py- my-4">
+  <nav aria-label="Progress" class="relative mb-12">
+    <ol role="list" class="flex items-center">
+      <li class="relative pr-[40px] sm:pr-[50px] md:pr-[80px] lg:pr-[140px]"><div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="h-0.5 w-full border-t-2 border-gray-200 border-dashed"></div>
+                </div><a href="?configuratorNext=inverter" class="group overflow-visible border-2 border-transparent relative flex items-center justify-center rounded-full bg-white w-12 h-12 sm:w-14 sm:h-14" aria-current="step"><img src="img/IES.png" alt="Completed" class="w-10 h-10 sm:w-12 sm:h-12 object-contain" /><div class="absolute top-0 left-1/2 -translate-x-1/2 px-3 py-1.5 text-xs text-white bg-black rounded shadow-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                          X3 IES
+                        </div><span class="sr-only">Step 1</span><span class="absolute step text-xs sm:text-lg font-semibold bottom-[-32px]">Wechselrichter</span></a></li><li class="relative pr-[40px] sm:pr-[50px] md:pr-[80px] lg:pr-[140px]"><div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="h-0.5 w-full border-t-2 border-gray-200 border-dashed"></div>
+                </div><a href="?configuratorNext=backup" class="group relative flex size-4 sm:size-8 items-center justify-center rounded-full text-gray-400 border-2 border-[#fdb517] bg-white hover:border-[#fdb517]"><span class="size-2.5 rounded-full bg-transparent group-hover:bg-gray-300" aria-hidden="true"></span><span class="absolute top-0 left-1/2 -translate-x-1/2 px-3 py-1.5 text-xs text-white bg-black rounded shadow-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                              null
+                            </span><span class="sr-only">Step 2</span><span class="absolute step text-xs sm:text-lg font-semibold bottom-[-48px] md:bottom-[-43px]">Ersatzstromversorgung</span></a></li><li class="relative pr-[40px] sm:pr-[50px] md:pr-[80px] lg:pr-[140px]"><div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="h-0.5 w-full border-t-2 border-gray-200 border-dashed"></div>
+                </div><a href="?configuratorNext=battery" class="group relative flex size-4 sm:size-8 items-center justify-center rounded-full border-2 border-[#fdb517] bg-white" aria-current="step"><span class="pulse-ring"></span><span class="size-2.5 rounded-full bg-[#fdb517] z-5" aria-hidden="true"></span><span class="sr-only">Step 3</span><span class="absolute step text-xs sm:text-lg font-semibold bottom-[-48px] md:bottom-[-43px]">Batterie</span></a></li><li class="relative pr-[40px] sm:pr-[50px] md:pr-[80px] lg:pr-[140px]"><div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="h-0.5 w-full border-t-2 border-gray-200 border-dashed"></div>
+                </div><a href="#" class="group relative flex size-4 sm:size-8 items-center justify-center rounded-full text-gray-400 border-2 border-gray-300 bg-white hover:border-gray-400 cursor-not-allowed">
+                      <span class="size-2.5 rounded-full bg-transparent group-hover:bg-gray-300" aria-hidden="true"></span>
+                      <span class="sr-only">Step 4</span>
+                    <span class="absolute step text-xs sm:text-lg font-semibold bottom-[-48px] md:bottom-[-43px]">Wallbox</span></a></li><li class="relative pr-[40px] sm:pr-[50px] md:pr-[80px] lg:pr-[140px]"><div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="h-0.5 w-full border-t-2 border-gray-200 border-dashed"></div>
+                </div><a href="#" class="group relative flex size-4 sm:size-8 items-center justify-center rounded-full text-gray-400 border-2 border-gray-300 bg-white hover:border-gray-400 cursor-not-allowed">
+                      <span class="size-2.5 rounded-full bg-transparent group-hover:bg-gray-300" aria-hidden="true"></span>
+                      <span class="sr-only">Step 5</span>
+                    <span class="absolute step text-xs sm:text-lg font-semibold bottom-[-48px] md:bottom-[-43px]">Zubehör</span></a></li><li class="relative "><div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="h-0.5 w-full border-t-2 border-gray-200 border-dashed"></div>
+                </div><a href="#" class="group relative flex size-4 sm:size-8 items-center justify-center rounded-full text-gray-400 border-2 border-gray-300 bg-white hover:border-gray-400 cursor-not-allowed">
+                      <span class="size-2.5 rounded-full bg-transparent group-hover:bg-gray-300" aria-hidden="true"></span>
+                      <span class="sr-only">Step 6</span>
+                    <span class="absolute step text-xs sm:text-lg font-semibold bottom-[-48px] md:bottom-[-43px]">Ende</span></a></li>    </ol>
+  </nav>
+</div></div>
+<div id="battery" class="relative h-auto transition-transform duration-500 min-h-[150px] p-4">
+    <!-- Progress bar -->
+    <div id="progress-bar" class="w-full bg-gray-200 rounded-full h-2 mb-4">
+        <div class="bg-blue-600 h-2 rounded-full progress-bar" style="width: 0%;"></div>
+    </div>
+
+    <div class="relative">
+        <div class="mb-6">
+            <h3 class="text-xl font-semibold mb-4">Wählen Sie eine Batterie</h3>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                                                                                                    <label class="relative flex items-end justify-center text-center min-h-[260px] border-2 border-gray-300 hover:border-[#fdb517] rounded-lg cursor-pointer hover:bg-gray-50 transition px-4 py-8 group">
+                        <input type="radio" name="battery_type" class="hidden" value="IES HS50E-D">
+                        <div class="flex flex-col items-center">
+                            <img src="img/IES_battery.png" alt="IES HS50E-D" class="max-h-32 w-auto mb-2 transition-transform duration-300 group-hover:scale-105">
+                            <span class="text-xl font-semibold">IES HS50E-D</span>
+                            <span class="text-md font-semibold text-gray-600">5,1 kWh je Modul</span>
+
+                            <div class="space-y-[1px] text-xs mt-8">
+                                                                    <div class="grid grid-cols-[150px_auto] items-center gap-0">
+                                        <div class="text-left"><span class="font-semibold whitespace-nowrap">Max Power</span></div>
+                                        <div class="flex space-x-[2px] space-y-[2px]">
+                                                                                                                                            <div class="w-4 h-4 bg-[#FFE079FF] animated-square" style="animation-delay: 0ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#ffd659] animated-square" style="animation-delay: 100ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#fcd252] animated-square" style="animation-delay: 200ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#f9cc46] animated-square" style="animation-delay: 300ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#FFCD37FF] animated-square" style="animation-delay: 400ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#FFC822FF] animated-square" style="animation-delay: 500ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#FFC413FF] animated-square" style="animation-delay: 600ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#FFBF00FF] animated-square" style="animation-delay: 700ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#ECB100FF] animated-square" style="animation-delay: 800ms;"></div>
+                                                                                    </div>
+                                    </div>
+                                                                    <div class="grid grid-cols-[150px_auto] items-center gap-0">
+                                        <div class="text-left"><span class="font-semibold whitespace-nowrap">Starting capacity</span></div>
+                                        <div class="flex space-x-[2px] space-y-[2px]">
+                                                                                                                                            <div class="w-4 h-4 bg-[#FFE079FF] animated-square" style="animation-delay: 0ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#ffd659] animated-square" style="animation-delay: 100ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#fcd252] animated-square" style="animation-delay: 200ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#f9cc46] animated-square" style="animation-delay: 300ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#FFCD37FF] animated-square" style="animation-delay: 400ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#FFC822FF] animated-square" style="animation-delay: 500ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-gray-100 animated-square" style="animation-delay: 600ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-gray-100 animated-square" style="animation-delay: 700ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-gray-100 animated-square" style="animation-delay: 800ms;"></div>
+                                                                                    </div>
+                                    </div>
+                                                                    <div class="grid grid-cols-[150px_auto] items-center gap-0">
+                                        <div class="text-left"><span class="font-semibold whitespace-nowrap">Instalation friendly</span></div>
+                                        <div class="flex space-x-[2px] space-y-[2px]">
+                                                                                                                                            <div class="w-4 h-4 bg-[#FFE079FF] animated-square" style="animation-delay: 0ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#ffd659] animated-square" style="animation-delay: 100ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#fcd252] animated-square" style="animation-delay: 200ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#f9cc46] animated-square" style="animation-delay: 300ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#FFCD37FF] animated-square" style="animation-delay: 400ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#FFC822FF] animated-square" style="animation-delay: 500ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#FFC413FF] animated-square" style="animation-delay: 600ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#FFBF00FF] animated-square" style="animation-delay: 700ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#ECB100FF] animated-square" style="animation-delay: 800ms;"></div>
+                                                                                    </div>
+                                    </div>
+                                                                    <div class="grid grid-cols-[150px_auto] items-center gap-0">
+                                        <div class="text-left"><span class="font-semibold whitespace-nowrap">Compact Design</span></div>
+                                        <div class="flex space-x-[2px] space-y-[2px]">
+                                                                                                                                            <div class="w-4 h-4 bg-[#FFE079FF] animated-square" style="animation-delay: 0ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#ffd659] animated-square" style="animation-delay: 100ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#fcd252] animated-square" style="animation-delay: 200ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#f9cc46] animated-square" style="animation-delay: 300ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#FFCD37FF] animated-square" style="animation-delay: 400ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#FFC822FF] animated-square" style="animation-delay: 500ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#FFC413FF] animated-square" style="animation-delay: 600ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-gray-100 animated-square" style="animation-delay: 700ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-gray-100 animated-square" style="animation-delay: 800ms;"></div>
+                                                                                    </div>
+                                    </div>
+                                                                    <div class="grid grid-cols-[150px_auto] items-center gap-0">
+                                        <div class="text-left"><span class="font-semibold whitespace-nowrap">Temperature Range</span></div>
+                                        <div class="flex space-x-[2px] space-y-[2px]">
+                                                                                                                                            <div class="w-4 h-4 bg-[#FFE079FF] animated-square" style="animation-delay: 0ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#ffd659] animated-square" style="animation-delay: 100ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#fcd252] animated-square" style="animation-delay: 200ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#f9cc46] animated-square" style="animation-delay: 300ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#FFCD37FF] animated-square" style="animation-delay: 400ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#FFC822FF] animated-square" style="animation-delay: 500ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#FFC413FF] animated-square" style="animation-delay: 600ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#FFBF00FF] animated-square" style="animation-delay: 700ms;"></div>
+                                                                                                                                            <div class="w-4 h-4 bg-[#ECB100FF] animated-square" style="animation-delay: 800ms;"></div>
+                                                                                    </div>
+                                    </div>
+                                                            </div>
+                        </div>
+                                            </label>
+                            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const batteryDiv = document.getElementById('battery');
+    const radioButtons = document.querySelectorAll('input[name="battery_type"]');
+
+    radioButtons.forEach(radio => {
+        radio.addEventListener('change', (event) => {
+            const selectedValue = event.target.value;
+
+            // Přidání třídy pro animaci odjezdu
+            batteryDiv.style.transform = 'translateX(-100%)';
+            batteryDiv.style.opacity = '0';
+
+            // Po dokončení animace načtení obsahu přes AJAX
+            setTimeout(() => {
+                fetch('inc/battery_slider.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `battery=${encodeURIComponent(selectedValue)}`
+                })
+                .then(response => response.text())
+                .then(data => {
+                    batteryDiv.innerHTML = data;
+                    batteryDiv.style.transform = 'translateX(0)';
+                    batteryDiv.style.opacity = '1';
+
+                    // Explicitní inicializace skriptů
+                    const scriptElements = batteryDiv.querySelectorAll('script');
+                    scriptElements.forEach(script => {
+                        const newScript = document.createElement('script');
+                        newScript.textContent = script.textContent;
+                        document.body.appendChild(newScript);
+                        document.body.removeChild(newScript);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+            }, 500); // Čas musí odpovídat délce animace
+        });
+    });
+});
+</script>    </div>
+
+    <!-- Footer -->
+    <footer class="text-center my-4">
+        <span class="text-xs text-gray-400">
+            Version: 1.8.1 - 13. 04. 2026        </span>
+    </footer>
+
+        <!-- Overlay -->
+    <div id="sidebarOverlay" class="fixed inset-0 z-50 bg-black/50 opacity-0 pointer-events-none transition-opacity duration-300 backdrop-blur-xs"></div>
+
+    <!-- Sidebar Panel -->
+    <div id="customSidebar" class="hidden fixed top-0 left-0 h-full w-full max-w sm:max-w-md z-50 bg-white transform -translate-x-full transition-transform duration-300 ease-in-out overflow-y-auto p-6 text-sm font-normal shadow-lg">
+        <div id="customSidebarContent">
+            <div class="absolute top-4 right-4">
+                <button onclick="closeSidebar()" class="text-gray-500 hover:text-white hover:bg-[#fdb517] focus:outline-none transition duration-300 p-2 cursor-pointer">
+                    <i class="fas fa-times"></i>
+                    <span class="sr-only">X</span>
+                </button>
+            </div>    
+            <div class="flex items-center justify-center mb-0">
+                <img src="https://www.gbc-solino.cz/media/images/logo-cs.svg?nocache=1749102786747" alt="SolaX Power Logo" class="h-16 sm:h-20 zoom-in">
+            </div>    
+            <div class="flex flex-col items-center justify-center mt-2 mb-6">  
+                <h1 class="text-xl text-gray-800">
+                    Bestellkonfigurator - Aktuelle Konfiguration                </h1>
+            </div>
+
+            <div id="sidebarContent" class="space-y-6">
+
+                                    <div>
+                        <h3 class="text-base font-semibold mb-2 text-blue-700 flex items-center gap-2">
+                            <i class="fas fa-bolt"></i> Wechselrichter                        </h3>
+                        
+                        <div class='flex justify-between items-center py-2 border-b border-dashed border-gray-300'>
+                            <span class='text-gray-700'>Wechselrichtertyp</span>
+                            <span class='text-gray-900 font-medium'>X3</span>
+                        </div>
+                                            
+                        <div class='flex justify-between items-center py-2 border-b border-dashed border-gray-300'>
+                            <span class='text-gray-700'>Leistung (kW)</span>
+                            <span class='text-gray-900 font-medium'>6.0 kW</span>
+                        </div>
+                                            
+                        <div class='flex justify-between items-center py-2 border-b border-dashed border-gray-300'>
+                            <span class='text-gray-700'>Konfiguration</span>
+                            <span class='text-gray-900 font-medium'>Solax X3-IES-6.0K, AFCI, WiFi+LAN, CT</span>
+                        </div>
+                                        </div>
+                                    <div>
+                        <h3 class="text-base font-semibold mb-2 text-yellow-700 flex items-center gap-2">
+                            <i class="fas fa-plug"></i> Ersatzstromversorgung                        </h3>
+                        
+                        <div class='flex justify-between items-center py-2 border-b border-dashed border-gray-300'>
+                            <span class='text-gray-700'>Produkt</span>
+                            <span class='text-gray-900 font-medium'>null</span>
+                        </div>
+                                        </div>
+                
+            </div>
+        </div>
+        <div class="mt-8 flex justify-between items-center">
+        <!--button onclick="printCustomSidebar()" class="px-6 py-2 hover:bg-[#fdb517] hover:text-white font-semibold cursor-pointer"><i class="fas fa-print mr-1"></i>Drucken</button-->    
+        <button onclick="closeSidebar()" class="ml-auto px-6 py-2 bg-[#333132] text-white hover:bg-[#fdb517] hover:text-white font-semibold cursor-pointer">Schließen</button>
+            
+        </div>
+    </div>
+
+    <script>
+        function openSidebar() {
+            const sidebar = document.getElementById('customSidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+
+            sidebar.classList.remove('hidden');
+            setTimeout(() => {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('opacity-0', 'pointer-events-none');
+            }, 10);
+        }
+
+        function closeSidebar() {
+            const sidebar = document.getElementById('customSidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('opacity-0', 'pointer-events-none');
+
+            setTimeout(() => {
+                sidebar.classList.add('hidden');
+            }, 300);
+        }
+
+        document.getElementById('currentSetup')?.addEventListener('click', openSidebar);
+        document.getElementById('sidebarOverlay')?.addEventListener('click', closeSidebar);
+
+        function printCustomSidebar() {
+            const sidebarContent = document.getElementById('customSidebarContent').innerHTML;
+            const printWindow = window.open('', '_blank', 'width=800,height=600');
+            printWindow.document.open();
+            printWindow.document.write(`
+            <html>
+                <head>
+                <title>Print Custom Sidebar</title>
+                <style>
+                    body { font-family: Arial, sans-serif; margin: 20px; }
+                </style>
+                </head>
+                <body>
+                ${sidebarContent}
+                </body>
+            </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
+        }
+    </script>
+</div>
+
+<!-- ============================================ -->
+<!-- JAVASCRIPT -->
+<!-- ============================================ -->
+
+<script>
+
+function toggleDropdown() {
+    const dropdown = document.getElementById('langDropdown');
+    
+    if (!dropdown) {
+        console.error('Language dropdown element not found');
+        return;
+    }
+    
+    dropdown.classList.toggle('hidden');
+    
+    // Použití weak reference pro lepší garbage collection
+    const closeHandler = function(e) {
+        if (!dropdown.contains(e.target) && !e.target.closest('button[onclick="toggleDropdown()"]')) {
+            dropdown.classList.add('hidden');
+            document.removeEventListener('click', closeHandler);
+        }
+    };
+    
+    // Přidání event listeneru s mírným zpožděním
+    setTimeout(() => {
+        document.addEventListener('click', closeHandler);
+    }, 10);
+}
+
+// Accessibility enhancement - keyboard support
+document.addEventListener('DOMContentLoaded', function() {
+    const dropdownButton = document.querySelector('button[onclick="toggleDropdown()"]');
+    
+    if (dropdownButton) {
+        dropdownButton.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleDropdown();
+            }
+        });
+    }
+});
+</script>
+<script>
+    let lastHeight = 0;
+    let isInitialized = false;
+    
+    function sendHeight() {
+        const height = document.body.scrollHeight;
+        
+        // Pošli výšku pouze pokud se změnila nebo je to první volání
+        if (height !== lastHeight || !isInitialized) {
+            lastHeight = height;
+            isInitialized = true;
+            console.log('Sending height to parent:', height);
+            window.parent.postMessage({ height: height }, "*");
+        }
+    }
+    
+    // Pošli výšku po načtení
+    window.addEventListener('load', sendHeight);
+    
+    // Debounce funkce pro resize
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(sendHeight, 250);
+    });
+    
+    // Debounce funkce pro mutation observer
+    let mutationTimeout;
+    const observer = new MutationObserver(function() {
+        clearTimeout(mutationTimeout);
+        mutationTimeout = setTimeout(sendHeight, 100);
+    });
+    observer.observe(document.body, { 
+        childList: true, 
+        subtree: true, 
+        attributes: true 
+    });
+    
+    // Poslouchej zprávy od parent okna
+    window.addEventListener('message', function(event) {
+        if (event.data === 'getHeight') {
+            sendHeight();
+        }
+    });
+</script>
+</body>
+</html>

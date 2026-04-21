@@ -1,0 +1,61 @@
+{
+    "configuratorId": "backup",
+    "configuratorNext": "battery",
+    "titlesByPath": {
+        "": "Benötigen Sie eine Ersatzstromversorgung mit automatischer Umschaltung?"
+    },
+    "tree": {
+        "Yes": {
+            "label": "Ja",
+            "value": "Yes",
+            "title": "Wählen Sie eine Option für die automatische Umschaltung",
+            "icon": "fa-solid fa-check text-green-500",
+            "description": null,
+            "image": null,
+            "info": null,
+            "children": {
+                "X3 EPS Box": {
+                    "product_code": "B-210-1006",
+                    "product_name": "Solax X3-EPS Box, 3*63 A",
+                    "label": "X3 EPS Box",
+                    "value": "X3 EPS Box",
+                    "title": null,
+                    "icon": null,
+                    "description": null,
+                    "image": "img\/X3 EPS Box 3D.png",
+                    "info": "<h2 class='text-lg mb-4 pb-2 border-b-2 border-gray-500'>X3 EPS BOX<\/h2><p>- Automatisierte Backup-Schaltbox<br>- Maximaler Strom 63 A<\/p>",
+                    "stock": {
+                        "totalAvailable": 2,
+                        "totalOrdered": 593
+                    },
+                    "priority": 999
+                },
+                "X3 Matebox Advanced": {
+                    "product_code": "G-210-405dd",
+                    "product_name": "Solax X3-Matebox Advanced, D, V1.4, WiFi 3.0P, denoise",
+                    "label": "X3 Matebox Advanced",
+                    "value": "X3 Matebox Advanced",
+                    "title": null,
+                    "icon": null,
+                    "description": null,
+                    "image": "img\/X3 Matebox Advanced.png",
+                    "info": "<h2 class='text-lg mb-4 pb-2 border-b-2 border-gray-500'>X3 Matebox Advanced<\/h2><p>- Vorinstalliert<br>-Automatisierte Backup-Schaltbox<br>- Maximaler Strom 63 A<br>>- Inklusive Smart Meter & Sicherheitsschalter<br>- Reduziert die Installationszeit um bis zu 1 Stunde<\/p>",
+                    "stock": {
+                        "totalAvailable": 99,
+                        "totalOrdered": 40
+                    },
+                    "priority": 999
+                }
+            }
+        },
+        "No": {
+            "label": "Nein",
+            "value": null,
+            "icon": "fa-solid fa-xmark text-red-500",
+            "title": null,
+            "image": null,
+            "description": "Notstromfunktion über integrierten EPS Ausgang ist ausreichend<ul><li>- 3 Phasen bei X3 und Ultra Wechselrichter<\/li><li>- Ausgangsleistung entsprechend der Wechselrichter-Nennleistung<\/li><\/ul>",
+            "info": null
+        }
+    }
+}

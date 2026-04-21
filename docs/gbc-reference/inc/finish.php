@@ -1,0 +1,1 @@
+<div class="p-4 text-center text-red-500">Please complete all steps before finishing the configuration.</div>

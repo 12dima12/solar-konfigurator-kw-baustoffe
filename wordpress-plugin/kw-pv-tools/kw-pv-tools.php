@@ -3,7 +3,7 @@
  * Plugin Name:       KW PV Tools
  * Plugin URI:        https://github.com/12dima12/solar-konfigurator-kw-baustoffe
  * Description:       PV-Werkzeuge für KW Baustoffe: Konfigurator, Solarrechner.
- * Version:           2.5.2
+ * Version:           2.5.3
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Author:            KW Baustoffe GmbH
@@ -14,7 +14,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'KW_PV_TOOLS_VERSION',  '2.5.2' );
+define( 'KW_PV_TOOLS_VERSION',  '2.5.3' );
 define( 'KW_PV_TOOLS_PATH',     plugin_dir_path( __FILE__ ) );
 define( 'KW_PV_TOOLS_URL',      plugin_dir_url( __FILE__ ) );
 define( 'KW_PV_TOOLS_BASENAME', plugin_basename( __FILE__ ) );
@@ -33,11 +33,12 @@ if ( file_exists( KW_PV_TOOLS_PATH . 'vendor/autoload.php' ) ) {
 // automatische Installation im Hintergrund. Ein Admin muss aktiv klicken.
 add_action( 'init', function () {
     if ( ! class_exists( '\YahnisElsts\PluginUpdateChecker\v5\PucFactory' ) ) return;
-    \YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
+    $updateChecker = \YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
         'https://github.com/12dima12/solar-konfigurator-kw-baustoffe',
         __FILE__,
         'kw-pv-tools'
     );
+    $updateChecker->getVcsApi()->enableReleaseAssets();
 } );
 
 // Blockiere WordPress-Auto-Updates für dieses Plugin, auch wenn der Admin

@@ -197,11 +197,23 @@ class Assets {
      * hrefs from Next.js — they are always under /_next/... and live in
      * the plugin's assets/konfigurator/ mirror). Non-absolute or external
      * URLs pass through unchanged.
+     *
+     * When built with NEXT_PUBLIC_ASSET_PREFIX, Next.js already embeds the
+     * full plugin-relative path (e.g. /wp-content/plugins/kw-pv-tools/
+     * assets/konfigurator/_next/…). In that case we must NOT double-prefix —
+     * just turn the root-relative path into an absolute URL via home_url().
      */
     private static function rewrite_asset_uri( string $uri ): string {
         if ( $uri === '' )                               return $uri;
         if ( $uri[0] !== '/' )                           return $uri;
         if ( isset( $uri[1] ) && $uri[1] === '/' )       return $uri; // protocol-relative
+
+        // assetPrefix case: path already contains the plugin directory.
+        $plugin_rel = rtrim( (string) wp_parse_url( KW_PV_TOOLS_URL, PHP_URL_PATH ), '/' );
+        if ( $plugin_rel !== '' && strpos( $uri, $plugin_rel . '/' ) === 0 ) {
+            return rtrim( home_url(), '/' ) . $uri;
+        }
+
         return KW_PV_TOOLS_URL . 'assets/konfigurator' . $uri;
     }
 

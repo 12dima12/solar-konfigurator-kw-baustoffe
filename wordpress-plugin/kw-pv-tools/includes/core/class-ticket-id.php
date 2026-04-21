@@ -5,58 +5,52 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * Generates sequential ticket reference IDs in the format KW-PV-YYYY-NNNNN.
- * Counter resets at the start of each new year.
  *
- * Atomicity: uses MySQL's LAST_INSERT_ID() trick — the UPDATE and the
- * returned value are both scoped to the current DB connection, so two
- * concurrent requests can never receive the same counter value.
+ * One counter option per calendar year (`kw_pv_tools_ticket_counter_2026`, …).
+ * No rollover logic → no race window around midnight on Jan 1.
+ *
+ * Atomicity within a year:
+ *   LAST_INSERT_ID(expr) is connection-scoped in MySQL, so concurrent
+ *   UPDATEs under PHP-FPM each receive a distinct incremented value
+ *   without needing an explicit transaction.
+ *
+ * Old storage (pre-B3):
+ *   `kw_pv_tools_ticket_counter` + `kw_pv_tools_ticket_year` (shared row).
+ *   Those options are left in place; uninstall.php will clean them up.
  */
 class TicketId {
 
-    const COUNTER_OPTION = 'kw_pv_tools_ticket_counter';
-    const YEAR_OPTION    = 'kw_pv_tools_ticket_year';
+    const COUNTER_OPTION_PREFIX = 'kw_pv_tools_ticket_counter_';
 
     public static function generate(): string {
         global $wpdb;
 
         $current_year = (int) date( 'Y' );
+        $opt_name     = self::COUNTER_OPTION_PREFIX . $current_year;
 
-        // Year-rollover: reset counter when the calendar year changes.
-        // Two simultaneous rollovers on Jan 1 are harmless — both write the
-        // same year and reset to 0; the subsequent atomic increment still
-        // yields unique values (1 and 2 respectively).
-        $stored_year = (int) get_option( self::YEAR_OPTION, 0 );
-        if ( $stored_year !== $current_year ) {
-            update_option( self::YEAR_OPTION, $current_year );
-            // Direct SQL so we can also reset autoload cache cleanly
-            $wpdb->update(
-                $wpdb->options,
-                [ 'option_value' => '0' ],
-                [ 'option_name'  => self::COUNTER_OPTION ]
-            );
-            wp_cache_delete( self::COUNTER_OPTION, 'options' );
+        // Ensure the counter row for this year exists before the atomic UPDATE.
+        // add_option() with autoload='no' is idempotent and safe under races —
+        // a concurrent request that also tries to add will simply fail silently
+        // and proceed to the UPDATE.
+        if ( false === get_option( $opt_name ) ) {
+            add_option( $opt_name, '0', '', 'no' );
         }
 
-        // Ensure the counter row exists before the atomic UPDATE
-        if ( false === get_option( self::COUNTER_OPTION ) ) {
-            add_option( self::COUNTER_OPTION, '0', '', 'no' );
-        }
-
-        // Atomic increment: LAST_INSERT_ID() is connection-scoped in MySQL.
-        // Even if another request runs the same UPDATE concurrently, each
-        // connection receives its own distinct incremented value.
+        // Atomic increment via LAST_INSERT_ID(expr). Each connection gets
+        // its own return value, so parallel requests receive 1, 2, 3, …
+        // with no duplicates.
         $wpdb->query( $wpdb->prepare(
             "UPDATE {$wpdb->options}
                 SET option_value = LAST_INSERT_ID( CAST(option_value AS UNSIGNED) + 1 )
               WHERE option_name = %s",
-            self::COUNTER_OPTION
+            $opt_name
         ) );
 
         $counter = (int) $wpdb->get_var( 'SELECT LAST_INSERT_ID()' );
 
-        // Keep WP's in-memory option cache in sync so the same request
-        // doesn't read a stale value later.
-        wp_cache_set( self::COUNTER_OPTION, (string) $counter, 'options' );
+        // Keep WP's in-memory option cache in sync so subsequent reads in
+        // the same request don't return a stale value.
+        wp_cache_set( $opt_name, (string) $counter, 'options' );
 
         return sprintf( 'KW-PV-%d-%05d', $current_year, $counter );
     }

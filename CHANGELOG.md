@@ -4,6 +4,24 @@ Format: [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+## [2.5.5] – Hotfix: Auto-Update-Install scheiterte mit "files could not be copied"
+
+### Fixed
+- WordPress's `copy_dir()` in `Plugin_Upgrader::install_package()` scheiterte
+  auf Shared Hosts, wenn bestehende Plugin-Dateien von einem anderen Linux-User
+  angelegt wurden als dem Webserver-User (klassisch: Plugin via FTP als
+  `ftpuser` hochgeladen, PHP-FPM läuft als `www-data`). Die Meldung "The update
+  cannot be installed because some files could not be copied" erschien, Update
+  brach ab.
+  Neue `UpgradeCleaner`-Klasse hooked sich in `upgrader_pre_install` ein und
+  löscht das `kw-pv-tools/`-Verzeichnis proaktiv — der Directory-Owner darf
+  auch fremdeigene Dateien darin löschen (Linux-Directory-Semantik), während
+  das Überschreiben scheiterte. WP's Install startet danach auf leerem
+  Verzeichnis und klappt.
+- **Wichtig:** Der Fix ist selbst Teil von v2.5.5 — das **erste** Update
+  auf v2.5.5 muss manuell via FTP oder WP-Admin "Plugin hochladen" passieren,
+  alle folgenden Updates funktionieren dann automatisch.
+
 ## [2.5.4] – Hotfix: konfigurator-Seiten Hydration
 
 ### Fixed

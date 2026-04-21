@@ -4,6 +4,17 @@ Format: [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+## [2.5.4] – Hotfix: konfigurator-Seiten Hydration
+
+### Fixed
+- CSP-Header wurde bei `send_headers` mit `script-src 'self'` ausgeliefert,
+  bevor der Shortcode-Render `CSP::allow_inline()` aufrufen konnte. Browser
+  blockierte alle `self.__next_f.push(…)` Next.js-RSC-Inline-Scripts, React
+  hydrierte nie → Buttons wie „Klassisches System" / „Alles in Einem IES"
+  waren nicht klickbar. `CSP::send_csp()` erkennt die Konfigurator-Seite
+  jetzt autark via `has_shortcode()` / `has_block()` auf dem Main-Post zum
+  richtigen Hook-Zeitpunkt.
+
 ### Changed (Batch A — review fix-up)
 - Provider-System für Captcha auf Altcha-only reduziert. hCaptcha und reCAPTCHA v3 entfernt inkl. PHP-Backend, Frontend-Widgets und NPM-Dependencies. Siehe `docs/DECISIONS.md` ADR-013.
 - Shortcode-Asset-Rewriting umfasst jetzt auch `<img>`/`<link>` im Body-Markup — Produktbilder laden endlich aus dem Plugin-URL (vorher 404).

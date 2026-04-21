@@ -4,7 +4,6 @@
   "type": "wordpress-plugin",
   "require": {
     "php": ">=7.4",
-    "altcha-org/altcha": "^1.0",
     "yahnis-elsts/plugin-update-checker": "^5.4"
   },
   "autoload": {

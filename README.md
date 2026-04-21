@@ -23,6 +23,9 @@ Lies in dieser Reihenfolge:
 - **`docs/SECURITY.md`** – Security-Maßnahmen
 - **`docs/DECISIONS.md`** – Warum dieser Stack, warum diese Patterns
 
+### Vor jedem Live-Deployment
+- **`docs/SMOKE_TEST.md`** – Manueller End-to-End-Check (~20 Min) gegen das Docker-Compose-Environment in `wordpress-plugin/dev/`. Nicht überspringen.
+
 ---
 
 ## Tech-Stack auf einen Blick

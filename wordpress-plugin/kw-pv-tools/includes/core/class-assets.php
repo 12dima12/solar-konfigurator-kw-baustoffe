@@ -45,9 +45,13 @@ class Assets {
             return [ 'error' => "Kein Eintrag für '{$entry_key}' im Manifest." ];
         }
 
-        $html_path = KW_PV_TOOLS_PATH . 'assets/konfigurator/' . $manifest['entries'][ $entry_key ];
-        if ( ! file_exists( $html_path ) ) {
-            return [ 'error' => "HTML-Datei nicht gefunden: {$html_path}" ];
+        // Path-Traversal-Schutz: sicherstellen, dass der Manifest-Eintrag das
+        // assets/konfigurator/-Verzeichnis nicht verlässt (z.B. ../../wp-config.php).
+        $base_dir  = realpath( KW_PV_TOOLS_PATH . 'assets/konfigurator' );
+        $html_path = realpath( KW_PV_TOOLS_PATH . 'assets/konfigurator/' . $manifest['entries'][ $entry_key ] );
+
+        if ( ! $html_path || ! $base_dir || strpos( $html_path, $base_dir . DIRECTORY_SEPARATOR ) !== 0 ) {
+            return [ 'error' => 'Ungültiger Manifest-Eintrag (path traversal attempt).' ];
         }
 
         $html = file_get_contents( $html_path );

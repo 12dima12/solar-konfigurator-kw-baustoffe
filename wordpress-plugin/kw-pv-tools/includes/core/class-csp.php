@@ -6,17 +6,21 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Content-Security-Policy für Frontend-Seiten mit dem Konfigurator-Shortcode.
  *
- * Bekannte Einschränkung: Next.js Static Export injiziert möglicherweise
- * Inline-Scripts für Hydration (z.B. __NEXT_DATA__). Falls der Konfigurator
- * nach Deployment mit CSP-Fehler bricht, Hashes der betroffenen Inline-Scripts
- * berechnen und in SCRIPT_HASHES eintragen (nach jedem Bundle-Build prüfen).
+ * SCRIPT_HASHES: SHA-256-Hashes von Inline-<script>-Blöcken, die Next.js
+ * möglicherweise in den Body injiziert (z.B. __NEXT_DATA__-Objekte).
+ * Nach jedem `pnpm build` prüfen ob neue Inline-Scripts entstanden sind.
  *
- * Hash berechnen: openssl dgst -sha256 -binary <<< "script-inhalt" | base64
+ * Hash berechnen: printf '%s' "script-inhalt" | openssl dgst -sha256 -binary | base64
+ *
+ * WICHTIG: 'strict-dynamic' wird NICHT verwendet. Es würde 'self' in modernen
+ * Browsern inoperativ machen und alle <script src> blockieren, sobald kein
+ * Nonce/Hash die externen Scripts explizit whitelisted — App wäre komplett kaputt.
+ * 'self' reicht: alle unsere Scripts sind externe Dateien von der eigenen Domain.
  */
 class CSP {
 
-    // SHA-256-Hashes bekannter Next.js-Inline-Scripts.
-    // Nach jedem Bundle-Build via `pnpm build` auf Aktualität prüfen.
+    // SHA-256-Hashes von Inline-<script>-Blöcken aus dem Next.js-Bundle.
+    // Leer = keine Inline-Scripts im Bundle (Normalfall nach unserer Refaktorierung).
     const SCRIPT_HASHES = [];
 
     public static function register(): void {
@@ -27,15 +31,13 @@ class CSP {
         // Nur auf öffentlichen Seiten setzen — WP-Admin hat eigene Anforderungen.
         if ( is_admin() ) return;
 
-        $hashes     = implode( ' ', array_map(
-            fn( $h ) => "'sha256-{$h}'",
-            self::SCRIPT_HASHES
-        ) );
-        $hash_part  = $hashes ? ' ' . $hashes : '';
-
-        // script-src ohne unsafe-inline/unsafe-eval.
-        // 'strict-dynamic' erlaubt von whitelisted Scripts geladene Sub-Scripts.
-        $script_src = "'self' 'strict-dynamic'" . $hash_part;
+        // Externe Scripts von der eigenen Domain erlauben.
+        // Inline-Script-Hashes nur anhängen wenn vorhanden (für Next.js __NEXT_DATA__ o.ä.).
+        $script_src = "'self'";
+        if ( ! empty( self::SCRIPT_HASHES ) ) {
+            $hashes     = implode( ' ', array_map( fn( $h ) => "'sha256-{$h}'", self::SCRIPT_HASHES ) );
+            $script_src .= ' ' . $hashes;
+        }
 
         $directives = [
             "default-src 'self'",

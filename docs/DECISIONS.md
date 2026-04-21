@@ -82,17 +82,24 @@ Format: Für jede wichtige Entscheidung Kontext + was wir gewählt haben + was w
 
 ---
 
-## ADR-005: In-Memory Rate-Limit statt Redis
+## ADR-005: Rate-Limiting via WordPress Transients (Phase 10, aktualisiert Phase 11)
 
-**Kontext:** Rate-Limiting auf `/api/submit`.
+**Kontext:** In Phase 6 wurde ein In-Memory Rate-Limiter in `src/lib/security/rate-limit.ts` implementiert.
+In Phase 10 (Static Export + WP-Plugin) wurden alle API-Routes entfernt. Die Datei wurde nie aufgerufen
+und war totes Leichen-Code. In Phase 11 wurde sie gelöscht (🟠-2 Security Audit).
 
-**Entscheidung:** In-Memory Map mit Sliding Window.
+**Entscheidung:** Rate-Limiting in `class-rate-limit.php` via WordPress Transients.
 
-**Alternativen verworfen (jetzt):**
-- **Upstash Redis:** Besser für Multi-Instance, aber Setup-Overhead
-- **Vercel KV:** Lock-in zu Vercel
+**Warum WP Transients statt Upstash Redis:**
+- WordPress läuft als dauerhafter PHP-FPM-Prozess — keine Instanz-Isolation wie Vercel-Lambdas
+- Transients nutzen automatisch Object-Cache (Redis/Memcached) wenn ein Cache-Plugin installiert ist
+- Kein zusätzlicher externer Service (Upstash) nötig; Komplexität bleibt im WP-Ökosystem
 
-**Trigger für Migration:** Wenn wir auf Multi-Region Vercel oder mehrere VPS-Instances gehen → Umstieg auf Upstash dokumentiert in `docs/SECURITY.md`.
+**IP-Extraktion:** Nur `CF-Connecting-IP` (Cloudflare) und `REMOTE_ADDR` — `X-Forwarded-For` und
+`X-Real-IP` sind client-spoofbar und werden nicht ausgewertet.
+
+**Upgrade-Pfad (falls nötig):** Object-Cache-Plugin (z.B. Redis Object Cache) installieren —
+dann werden Transient-Reads/-Writes automatisch atomar über Redis abgewickelt, ohne Code-Änderung.
 
 ---
 

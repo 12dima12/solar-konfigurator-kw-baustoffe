@@ -1,43 +1,75 @@
 # Security-Dokumentation
 
-## Status nach Phase 6
+## Status nach Phase 11
 
-| # | Blocker | Status | Details |
+| # | Befund | Status | Details |
 |---|---|---|---|
-| 1 | postMessage-Origin `"*"` | ✅ Behoben | ALLOWED_ORIGINS-Whitelist, getTargetOrigin() |
-| 2 | Rate-Limiting `/api/submit` | ✅ Behoben | In-Memory, 3 Req/Std/IP |
-| 3 | hCaptcha fehlt | ✅ Behoben | @hcaptcha/react-hcaptcha, Server-Verify |
-| 4 | CSP + X-Frame-Options | ✅ Behoben | Middleware setzt alle Header |
-| 5 | Input-Sanitization | ✅ Behoben | Strikte Zod-Schemas, escapeHtml() |
+| 1 | postMessage-Origin `"*"` | ✅ Behoben (Phase 6) | Architektur-Änderung: kein iFrame mehr |
+| 2 | Rate-Limiting | ✅ Behoben (Phase 10) | WP-Transients, 3 Req/Std/IP, Cloudflare-aware |
+| 3 | Captcha fehlt | ✅ Behoben (Phase 8) | Altcha (self-hosted HMAC, kein externer Service) |
+| 4 | CSP + Security-Header | ✅ Behoben (Phase 11) | `class-csp.php`, kein `unsafe-inline` |
+| 5 | Input-Sanitization | ✅ Behoben | Zod (Frontend) + `sanitize_text_field` (WP) |
 | 6 | Honeypot | ✅ Behoben | Unsichtbares `website`-Feld, silent reject |
-| 7 | Tests in CI | ✅ Behoben | GitHub Actions Workflow |
+| 7 | Atomic Ticket-IDs | ✅ Behoben (Phase 11) | MySQL `LAST_INSERT_ID()`, kein TOCTOU |
+| 8 | In-Memory Rate-Limit (dead code) | ✅ Behoben (Phase 11) | `src/lib/security/rate-limit.ts` gelöscht |
+| 9 | IP-Spoofing via X-Forwarded-For | ✅ Behoben (Phase 11) | `get_client_ip()` vertraut nur CF-Connecting-IP / REMOTE_ADDR |
+| 10 | XSS via `dangerouslySetInnerHTML` | ✅ Behoben (Phase 11) | InfoSpec-Migration, kein HTML mehr in Daten |
+| 11 | CSP `unsafe-inline` im Plugin | ✅ Behoben (Phase 11) | Bootstrap via `data-*`-Attribute + externes `init.js` |
+
+---
+
+## Architektur-Überblick (ab Phase 10)
+
+```
+Browser
+  └─► WordPress (kw-baustoffe.de)
+        ├─ Static Export (HTML/CSS/JS, via Shortcode eingebettet)
+        │    └─ React-Konfigurator (rein clientseitig)
+        └─ WP REST API (/wp-json/kw-pv-tools/v1)
+             ├─ Rate-Limiting     → class-rate-limit.php
+             ├─ Captcha-Verify    → class-captcha.php (Altcha HMAC)
+             ├─ Input-Validierung → class-submit-handler.php (Zod → PHP Sanitize)
+             └─ E-Mail-Versand    → class-mailer.php (WP Mail / SMTP)
+```
+
+Vercel wird **nicht** genutzt. Alle serverseitigen Sicherheitsmaßnahmen laufen im WP-Plugin.
 
 ---
 
 ## Security-Header
 
-Alle Header werden durch `src/middleware.ts` gesetzt.
+Gesetzt durch `class-csp.php` via WordPress `send_headers`-Hook (nur Frontend, nicht WP-Admin).
 
 | Header | Wert | Zweck |
 |---|---|---|
+| `Content-Security-Policy` | Siehe unten | XSS + Frame-Schutz |
+| `X-Frame-Options` | `SAMEORIGIN` | Clickjacking-Fallback für alte Browser |
 | `X-Content-Type-Options` | `nosniff` | MIME-Sniffing verhindern |
 | `Referrer-Policy` | `strict-origin-when-cross-origin` | Referrer-Leak minimieren |
-| `Permissions-Policy` | `camera=(), microphone=(), geolocation=()` | Browser-APIs sperren |
-| `X-Frame-Options` | `DENY` (reguläre Routen) | Clickjacking-Schutz |
-| `Content-Security-Policy` | Siehe unten | XSS + Frame-Schutz |
 
 ### CSP-Konfiguration
 
 ```
 default-src 'self'
-script-src 'self' 'unsafe-inline' 'unsafe-eval' https://hcaptcha.com https://*.hcaptcha.com
+script-src 'self' 'strict-dynamic'
 style-src 'self' 'unsafe-inline'
-img-src 'self' data: https:
-font-src 'self' data:
-connect-src 'self' https://hcaptcha.com https://*.hcaptcha.com
-frame-src https://hcaptcha.com https://*.hcaptcha.com
-frame-ancestors 'none'  (reguläre Routen)
-frame-ancestors https://www.kw-baustoffe.de https://kw-baustoffe.de https://kw-pv-solutions.de  (embed)
+img-src 'self' data: blob:
+font-src 'self'
+connect-src 'self'
+frame-src 'none'
+object-src 'none'
+base-uri 'self'
+form-action 'self'
+frame-ancestors 'self' https://www.kw-baustoffe.de https://kw-baustoffe.de
+```
+
+**`unsafe-inline` für Scripts:** Nicht gesetzt. Bootstrap-Daten laufen über `data-*`-Attribute auf dem Container-Element; `assets/shared/js/init.js` liest sie aus (externes Script, CSP-konform).
+
+**`style-src unsafe-inline`:** Bleibt, da Tailwind CSS Inline-Styles im Bundle erzeugt. Kein XSS-Risiko (Styles können keine Scripts ausführen).
+
+**Next.js Inline-Scripts nach Build-Update:** Falls `pnpm build` neue Inline-Scripts erzeugt (z.B. `__NEXT_DATA__`), SHA-256-Hashes berechnen und in `CSP::SCRIPT_HASHES` eintragen:
+```bash
+echo -n "script-inhalt" | openssl dgst -sha256 -binary | base64
 ```
 
 **Prüfen:** Nach Deploy mit https://securityheaders.com — Ziel: Grade A.
@@ -48,16 +80,15 @@ frame-ancestors https://www.kw-baustoffe.de https://kw-baustoffe.de https://kw-p
 
 **Konfiguration:** 3 Submits / Stunde / IP-Adresse
 
-**Implementierung:** In-Memory Sliding Window (`src/lib/security/rate-limit.ts`)
-- Für Single-Instance-Deployments (Vercel single region, ein VPS): ausreichend
-- Für Multi-Instance (mehrere Vercel-Regionen, Kubernetes): Upstash Redis als Upgrade
+**Implementierung:** `class-rate-limit.php` via WordPress Transients
+- Nutzt Object-Cache wenn verfügbar (Redis-Object-Cache, Memcached) → dann atomar + verteilt
+- Fallback: WordPress-Datenbank (Tabelle `wp_options`, Transients)
+- Keine serverlose Instanz-Isolation: WP läuft als dauerhafter PHP-Prozess (FPM/mod_php) oder teilt eine DB
 
-**Upgrade auf Upstash:**
-```bash
-pnpm add @upstash/ratelimit @upstash/redis
-```
-Dann in `rate-limit.ts` durch `@upstash/ratelimit` ersetzen.
-Env-Variablen: `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN`
+**IP-Extraktion:**
+- Primär: `CF-Connecting-IP` (gesetzt von Cloudflare, nicht client-spoofbar)
+- Fallback: `REMOTE_ADDR` (direkte TCP-Verbindung, immer vertrauenswürdig)
+- `X-Forwarded-For` und `X-Real-IP` werden **nicht** ausgewertet — beide sind client-spoofbar
 
 **Response bei Überschreitung:**
 ```
@@ -67,81 +98,61 @@ X-RateLimit-Remaining: 0
 Retry-After: <Sekunden bis Reset>
 ```
 
----
-
-## hCaptcha (Bot-Schutz)
-
-**Warum hCaptcha statt reCAPTCHA?** Datenschutzfreundlicher, DSGVO-konform ohne Einwilligung nötig, kein Google-Tracker.
-
-**Setup:**
-1. Account anlegen: https://dashboard.hcaptcha.com
-2. Site hinzufügen → Site Key + Secret Key notieren
-3. In Vercel/Server eintragen:
-   - `NEXT_PUBLIC_HCAPTCHA_SITE_KEY=...` (Public — Frontend)
-   - `HCAPTCHA_SECRET=...` (Secret — Backend only)
-
-**Test-Keys für Entwicklung:**
-- Site Key: `10000000-ffff-ffff-ffff-000000000001`
-- Secret: `0x0000000000000000000000000000000000000000`
-
-**Wenn HCAPTCHA_SECRET nicht gesetzt:** Im Dev-Mode wird Captcha-Check übersprungen (graceful fallback).
-
-**Captcha-Flow-Test:**
-1. Dev starten: `pnpm dev`
-2. Test-Site-Key in `.env.local` setzen
-3. Formular absenden — Captcha muss ausgefüllt sein
-4. Network-Tab: POST `/api/submit` mit `captchaToken`
+**Einstellbar** im WP-Admin unter „KW PV Tools → Einstellungen → Limit pro Stunde".
 
 ---
 
-## postMessage Origin
+## Captcha (Bot-Schutz)
 
-**Erlaubte Hosts** (in `src/hooks/useIframeResize.ts` und `src/middleware.ts`):
-- `https://www.kw-baustoffe.de`
-- `https://kw-baustoffe.de`
-- `https://kw-pv-solutions.de`
+**Provider:** Altcha (Standard) — self-hosted HMAC-SHA256, kein externer Service, DSGVO-konform.
 
-**Neue Domain einbetten:** In beiden Dateien in `ALLOWED_ORIGINS` / `EMBED_ALLOWED_HOSTS` ergänzen, dann neu deployen.
+**Alternative Provider:** hCaptcha, reCAPTCHA v3 (konfigurierbar im WP-Admin).
 
----
+**Captcha deaktivieren:** Im WP-Admin möglich (z.B. für interne Testsysteme). Produktion: immer aktiviert.
 
-## Honeypot-Feld
-
-Im Kontaktformular befindet sich ein unsichtbares `website`-Feld (`tabIndex={-1}`, `left: -9999px`).
-- Echte User sehen es nicht und füllen es nicht aus
-- Bots füllen alle Felder aus → Server erkennt es und gibt `200 OK` zurück (silent reject, kein Feedback für Bots)
+**Fail-closed:** Wenn HMAC-Key nicht konfiguriert ist, blockiert der Server die Submission (kein graceful fallback zu „kein Captcha"). Siehe ADR-009.
 
 ---
 
 ## Input-Sanitization
 
-Alle User-Inputs werden durch Zod validiert:
+**Frontend (Zod-Schema):**
 - `name`: max 100 Zeichen, `.trim()`
-- `email`: valid format, max 200, `.toLowerCase()`
+- `email`: RFC-konformes Format, max 200, `.toLowerCase()`
 - `phone`: max 30 Zeichen
 - `message`: max 2000 Zeichen
-- `manufacturer`: nur `[a-z0-9-]` erlaubt
+- `manufacturer`: nur `[a-z0-9-]`
 
-Im E-Mail-Template werden alle User-Inputs durch `escapeHtml()` geleitet (XSS-Schutz für HTML-Mails).
+**Backend (PHP):** Alle Felder durch `sanitize_text_field()` / `sanitize_email()` / `wp_kses_post()`.
+
+**E-Mail-Templates:** `esc_html()` auf alle User-Inputs (XSS-Schutz für HTML-Mails).
+
+---
+
+## Honeypot-Feld
+
+Im Kontaktformular ein unsichtbares `website`-Feld (`tabIndex={-1}`, `left: -9999px`).
+- Echte User sehen es nicht und füllen es nicht aus
+- Bots füllen alle Felder aus → Server gibt `200 OK` zurück (silent reject, kein Feedback für Bots)
 
 ---
 
 ## Incident Response
 
-**Spam-Angriff auf /api/submit:**
-1. Rate-Limit prüfen: Logs zeigen `429`-Responses?
-2. Falls In-Memory überläuft: Upstash Redis aktivieren
-3. Notfall: Route temporär in `middleware.ts` sperren
-4. hCaptcha-Score-Threshold erhöhen (Enterprise-Feature)
+**Spam-Angriff auf `/wp-json/kw-pv-tools/v1/submit`:**
+1. Rate-Limit prüfen: WP-Logs / Hosting-Panel auf 429-Responses prüfen
+2. Limit temporär auf 1/Stunde reduzieren (WP-Admin → Einstellungen)
+3. IP blockieren: Cloudflare Firewall Rule oder `.htaccess`
+4. Captcha-Komplexität erhöhen (WP-Admin → Altcha-Einstellungen)
 
 **Verdächtige Aktivität:**
-- Logs unter Vercel → Funktions-Logs → `/api/submit` filtern
-- Auf ungewöhnliche IPs, hohe Frequenz prüfen
+- WP-Debug-Log: `wp-content/debug.log`
+- Submission-Log: WP-Admin → „KW PV Tools → Submission-Log" (30-Tage-Retention)
 
 ---
 
-## Offene Punkte (nach Phase 6)
+## Offene Punkte
 
-- [ ] `unsafe-inline` + `unsafe-eval` in CSP schärfen (erfordert Nonce-Implementierung in Next.js)
+- [ ] Object-Cache-Plugin installieren (z.B. Redis Object Cache) für atomares Multi-Process Rate-Limiting
 - [ ] Sentry für Error-Tracking in Produktion
-- [ ] Upstash Redis wenn Vercel auf mehrere Regionen skaliert
+- [ ] Nach jedem `pnpm build`: Next.js Inline-Script-Hashes in `CSP::SCRIPT_HASHES` prüfen

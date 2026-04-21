@@ -43,23 +43,15 @@ class RateLimit {
     }
 
     public static function get_client_ip(): string {
-        $candidates = [
-            'HTTP_CF_CONNECTING_IP', // Cloudflare
-            'HTTP_X_REAL_IP',
-            'HTTP_X_FORWARDED_FOR',
-            'REMOTE_ADDR',
-        ];
-
-        foreach ( $candidates as $header ) {
-            if ( ! empty( $_SERVER[ $header ] ) ) {
-                $ip = explode( ',', $_SERVER[ $header ] )[0];
-                $ip = trim( $ip );
-                if ( filter_var( $ip, FILTER_VALIDATE_IP ) ) {
-                    return $ip;
-                }
-            }
+        // CF-Connecting-IP is set by Cloudflare and overrides the client-supplied X-Forwarded-For.
+        // X-Forwarded-For and X-Real-IP are client-spoofable — never trust them for rate-limiting.
+        $cf = $_SERVER['HTTP_CF_CONNECTING_IP'] ?? '';
+        if ( $cf ) {
+            $cf = trim( $cf );
+            if ( filter_var( $cf, FILTER_VALIDATE_IP ) ) return $cf;
         }
 
-        return '0.0.0.0';
+        $remote = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
+        return filter_var( $remote, FILTER_VALIDATE_IP ) ? $remote : '0.0.0.0';
     }
 }

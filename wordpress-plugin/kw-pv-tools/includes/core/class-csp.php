@@ -10,14 +10,13 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Content-Security-Policy für Frontend-Seiten mit dem Konfigurator-Shortcode.
  *
  * Hook-Timing (wichtig für das Opt-In):
- *   init → send_headers → parse_query → template_redirect → the_content
- *          ↑ CSP-Header                                      ↑ Shortcode rendert
+ *   init → send_headers → query_posts → wp → template_redirect → the_content
+ *                                        ↑ CSP-Header            ↑ Shortcode rendert
  *
- * Die CSP wird bei `send_headers` geschrieben — VOR dem Shortcode-Render.
- * Ein Opt-In "setze flag beim Rendern" kommt zu spät; der Header ist zu
- * dem Zeitpunkt schon raus. Wir detecten deshalb direkt im Post-Content
- * via has_shortcode/has_block — get_queried_object() ist bei send_headers
- * bereits aufgelöst (Main-Query lief vorher).
+ * Die CSP wird beim `wp`-Action geschrieben — nach query_posts(), aber vor
+ * jeglichem Template-Output. get_queried_object() ist dort korrekt befüllt,
+ * so dass has_shortcode/has_block den Post-Content prüfen können.
+ * (send_headers feuert VOR query_posts → get_queried_object() = null dort.)
  *
  * SCRIPT_HASHES: leer, solange Konfigurator-Seiten 'unsafe-inline' nutzen.
  * Next.js RSC emittiert mehrere `self.__next_f.push(...)` Inline-Blöcke
@@ -44,7 +43,11 @@ class CSP {
     }
 
     public static function register(): void {
-        add_action( 'send_headers', [ __CLASS__, 'send_csp' ] );
+        // 'wp' fires after WP::query_posts() so get_queried_object() is populated.
+        // 'send_headers' fires before the DB query — get_queried_object() returns
+        // null there, causing has_shortcode() to miss the konfigurator page.
+        // header() calls work fine here: no template output has started yet.
+        add_action( 'wp', [ __CLASS__, 'send_csp' ] );
     }
 
     public static function send_csp(): void {

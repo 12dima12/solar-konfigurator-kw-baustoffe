@@ -8,6 +8,9 @@ A: `docs/ONBOARDING.md`
 **F: Wie füge ich einen neuen Hersteller hinzu?**  
 A: `docs/ADD_MANUFACTURER.md`
 
+**F: Wie teste ich den kompletten Flow vor einem Deploy?**  
+A: `docs/SMOKE_TEST.md` — Docker-Compose-Stack unter `wordpress-plugin/dev/` hochfahren, `./setup.sh` laufen lassen, Runbook-Checkliste durchgehen. Dauert ~20 Minuten.
+
 **F: Wie teste ich den iFrame-Modus lokal?**  
 A: `pnpm dev` starten, dann `tests/iframe-host.html` in einem zweiten Browser öffnen (via VSCode Live Server oder `python3 -m http.server`).
 

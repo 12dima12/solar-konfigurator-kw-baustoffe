@@ -23,16 +23,17 @@ const schema = z.object({
 });
 type FormData = z.infer<typeof schema>;
 
-const UI: Record<Lang, { title: string; submit: string; success: string; reset: string; name: string; email: string; phone: string; message: string }> = {
-  de: { title: "Ihre Konfiguration", submit: "Zur Anfrage", success: "Anfrage gesendet! Wir melden uns bei Ihnen.", reset: "Neue Konfiguration", name: "Name", email: "E-Mail", phone: "Telefon (optional)", message: "Nachricht (optional)" },
-  en: { title: "Your Configuration", submit: "Send Request", success: "Request sent! We will contact you.", reset: "New Configuration", name: "Name", email: "Email", phone: "Phone (optional)", message: "Message (optional)" },
-  cs: { title: "Vaše konfigurace", submit: "Odeslat poptávku", success: "Poptávka odeslána! Ozveme se vám.", reset: "Nová konfigurace", name: "Jméno", email: "E-mail", phone: "Telefon (volitelné)", message: "Zpráva (volitelné)" },
+const UI: Record<Lang, { title: string; submit: string; success: string; reset: string; name: string; email: string; phone: string; message: string; error: string }> = {
+  de: { title: "Ihre Konfiguration", submit: "Zur Anfrage", success: "Anfrage gesendet! Wir melden uns bei Ihnen.", reset: "Neue Konfiguration", name: "Name", email: "E-Mail", phone: "Telefon (optional)", message: "Nachricht (optional)", error: "Fehler beim Senden. Bitte versuche es erneut." },
+  en: { title: "Your Configuration", submit: "Send Request", success: "Request sent! We will contact you.", reset: "New Configuration", name: "Name", email: "Email", phone: "Phone (optional)", message: "Message (optional)", error: "Failed to send. Please try again." },
+  cs: { title: "Vaše konfigurace", submit: "Odeslat poptávku", success: "Poptávka odeslána! Ozveme se vám.", reset: "Nová konfigurace", name: "Jméno", email: "E-mail", phone: "Telefon (volitelné)", message: "Zpráva (volitelné)", error: "Chyba při odesílání. Zkuste to prosím znovu." },
 };
 
 export function SubmitSummary() {
   const { selections, lang, reset } = useConfigStore();
   const manufacturer = useManufacturer();
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const t = UI[lang] ?? UI.de;
   const filled = selections.filter((s) => s.selectedProduct);
@@ -43,20 +44,30 @@ export function SubmitSummary() {
 
   const onSubmit = async (data: FormData) => {
     if (data.website) return; // honeypot
+    setSubmitError(null);
 
-    await fetch(route("submit"), {
-      method: "POST",
-      headers: getApiHeaders(),
-      body: JSON.stringify({
-        manufacturer: manufacturer.meta.slug,
-        selections: filled,
-        contact: { name: data.name, email: data.email, phone: data.phone, message: data.message },
-        lang,
-        captchaToken: captchaToken ?? "",
-      }),
-    });
-
-    setSubmitted(true);
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 10_000);
+    try {
+      const resp = await fetch(route("submit"), {
+        method: "POST",
+        headers: getApiHeaders(),
+        signal: ctrl.signal,
+        body: JSON.stringify({
+          manufacturer: manufacturer.meta.slug,
+          selections: filled,
+          contact: { name: data.name, email: data.email, phone: data.phone, message: data.message },
+          lang,
+          captchaToken: captchaToken ?? "",
+        }),
+      });
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      setSubmitted(true);
+    } catch {
+      setSubmitError(t.error);
+    } finally {
+      clearTimeout(timer);
+    }
   };
 
   if (submitted) {
@@ -138,6 +149,10 @@ export function SubmitSummary() {
         >
           {t.submit}
         </Button>
+
+        {submitError && (
+          <p className="text-sm text-destructive text-center">{submitError}</p>
+        )}
       </form>
     </div>
   );

@@ -12,14 +12,23 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *
  * Attribute:
  *   manufacturer   solax (default)
- *   route          embed | configurator (default: embed)
+ *   route          embed | configurator (default: configurator)
  *   lang           de | en | cs
  *   preset_kwp     float – Vorauswahl kWp (für Event-Bus / Phase 11)
  *   preset_battery float – Vorauswahl Batterie kWh
  *   privacy_url    optionaler Override; Default: get_privacy_policy_url()
  *
  * Beispiel:
- *   [kw_pv_konfigurator manufacturer="solax" route="embed"]
+ *   [kw_pv_konfigurator manufacturer="solax"]
+ *
+ * Route-Unterschied:
+ *   configurator → reiner React-Component, für inline-Einbettung in WP-Seiten
+ *   embed        → mit eigenem <html>/<body>-Wrapper, nur für iframe-Einbettung
+ *
+ * Default ist "configurator" weil der Shortcode inline in eine WP-Seite
+ * gerendert wird. Der "embed"-Entry würde zusätzlich <html>/<body>-Tags
+ * rendern → React kann im verschachtelten DOM nicht hydraten, Event-Handler
+ * attachen nie, Buttons werden tot.
  */
 class Shortcode {
 
@@ -32,7 +41,7 @@ class Shortcode {
     public static function render( $atts = [] ): string {
         $atts = shortcode_atts( [
             'manufacturer'   => 'solax',
-            'route'          => 'embed',
+            'route'          => 'configurator',
             'lang'           => Settings::get( 'default_lang', 'de' ),
             'preset_kwp'     => '',
             'preset_battery' => '',
@@ -41,7 +50,7 @@ class Shortcode {
 
         $manufacturer = sanitize_key( $atts['manufacturer'] );
         $lang         = in_array( $atts['lang'], [ 'de', 'en', 'cs' ], true ) ? $atts['lang'] : 'de';
-        $route        = in_array( $atts['route'], [ 'embed', 'configurator' ], true ) ? $atts['route'] : 'embed';
+        $route        = in_array( $atts['route'], [ 'embed', 'configurator' ], true ) ? $atts['route'] : 'configurator';
 
         // DSGVO Art. 13: der Datenschutz-Hinweis muss vor der Datenerhebung
         // sichtbar sein. Quelle-Priorität: Shortcode-Attribut → WP-Privacy-Page.

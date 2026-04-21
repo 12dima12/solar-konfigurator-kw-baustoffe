@@ -4,7 +4,7 @@ Tags: solar, pv, konfigurator, photovoltaik
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.5.5
+Stable tag: 2.6.2
 License: Proprietary
 
 PV-Werkzeuge für KW Baustoffe: PV-Konfigurator und Solarrechner als WordPress-Plugin.
@@ -19,6 +19,19 @@ keine externe Datenweitergabe). Rate-Limiting, Honeypot, Ticket-IDs und Submissi
 Shortcode: [kw_pv_konfigurator]
 
 == Changelog ==
+
+= 2.6.2 =
+* fix: composer.lock neu generiert und mpdf-Constraint auf ~8.1.0 gepinnt,
+  damit das CI-ZIP mpdf mitbringt und zukünftige Updates den PHP-7.4-Support
+  nicht brechen.
+* fix: UpgradeCleaner wieder registriert — die upgrader_pre_install-Hook war
+  in v2.5.8 versehentlich mit dem Asset-Prefix-Fix rausgeflogen, dadurch
+  brach Auto-Update auf Shared Hosts wieder mit "files could not be copied".
+* fix: Der "Konfiguration als PDF"-Button erzeugte bei jedem Klick eine
+  echte Ticket-ID via TicketId::generate() und inkrementierte damit den
+  persistenten Zähler. Preview-PDFs tragen jetzt eine ephemere
+  PV-PREVIEW-YYYYMMDD-<hex>-ID; der Submission-Counter zählt erst beim
+  echten Absenden.
 
 = 2.5.5 =
 * fix: Auto-Update-Installation scheiterte auf Shared Hosts mit "files could not

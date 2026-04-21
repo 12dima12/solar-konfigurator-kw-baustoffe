@@ -4,6 +4,34 @@ Format: [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+## [2.6.2] – Hotfix: composer.lock, UpgradeCleaner, Preview-Ticket-ID
+
+### Fixed
+- `composer.lock` war nicht synchron mit `composer.json`: der mpdf-Eintrag
+  fehlte vollständig, `composer install --no-dev` verweigerte deshalb die
+  Auflösung und das CI-Build-ZIP von v2.6.0 wurde ohne mpdf ausgeliefert —
+  das PDF-Feature (Headline von v2.6.0) warf zur Laufzeit
+  `RuntimeException('mpdf nicht verfügbar')`. Lockfile jetzt regeneriert;
+  `mpdf/mpdf`-Constraint gleichzeitig von `^8.1` auf `~8.1.0` verschärft,
+  damit `composer update` in Zukunft nur Patch-Releases innerhalb der
+  8.1.x-Serie zieht und nicht versehentlich auf 8.2+ springt (was PHP-
+  7.4-Hosts brechen würde).
+- `UpgradeCleaner` (eingeführt in v2.5.5 gegen das "files could not be
+  copied"-Problem auf Shared Hosts mit gemischten Linux-User-Ownern) war
+  seit Commit `a769b91` (v2.5.8) versehentlich nicht mehr registriert —
+  die Klassendatei blieb im Tree, aber weder `require_once` noch
+  `UpgradeCleaner::register()` wurden ausgeführt. Auto-Update auf v2.6.0
+  schlug auf betroffenen Hosts identisch fehl wie vor v2.5.5. Registrierung
+  wiederhergestellt.
+- PDF-Endpoint (`class-pdf-endpoint.php`) rief bei jedem "Konfiguration als
+  PDF"-Klick `TicketId::generate()` auf und inkrementierte damit den
+  persistenten Zähler in `wp_options`. Ein User, der 10× das PDF öffnete
+  und anschließend submittete, bekam Ticket #11 statt #1 — jede Annahme
+  "Ticket N = N-te Submission" driftete stumm. Preview-PDFs tragen jetzt
+  eine ephemere `PV-PREVIEW-YYYYMMDD-<hex>`-ID aus `random_bytes(3)`, die
+  nie persistiert oder wiederverwendet wird. Echte Submissions nutzen
+  weiterhin unverändert `TicketId::generate()` via `SubmitHandler`.
+
 ## [2.5.5] – Hotfix: Auto-Update-Install scheiterte mit "files could not be copied"
 
 ### Fixed

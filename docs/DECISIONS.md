@@ -63,22 +63,13 @@ Format: Für jede wichtige Entscheidung Kontext + was wir gewählt haben + was w
 
 ---
 
-## ADR-004: hCaptcha statt reCAPTCHA
+## ADR-004: hCaptcha statt reCAPTCHA (**ABGELÖST** durch ADR-008)
 
-**Kontext:** Bot-Schutz am Submit-Formular.
+**Kontext:** Bot-Schutz am Submit-Formular. Ursprüngliche Entscheidung in Phase 6.
 
-**Entscheidung:** hCaptcha.
+**Entscheidung (ursprünglich):** hCaptcha als fest verdrahteter Provider.
 
-**Alternativen verworfen:**
-- **Google reCAPTCHA:** Tracker, DSGVO-Einwilligung nötig
-- **Cloudflare Turnstile:** Hervorragend, aber CF-Account nötig
-- **Nur Honeypot:** Nicht ausreichend gegen gezielten Spam
-
-**Konsequenzen:**
-+ DSGVO-konform ohne Cookie-Banner-Erweiterung
-+ Gleiche UX wie reCAPTCHA
-− Etwas weniger weit verbreitet
-− Eigenes Konto bei hCaptcha nötig
+**Abgelöst:** ADR-008 führte das modulare Provider-System ein (Phase 8) mit Altcha als Default. In Batch A (v2.2.0) wurden hCaptcha und reCAPTCHA vollständig entfernt — siehe ADR-013 unten. Dieser ADR bleibt als Historie; er beschreibt nicht mehr den aktuellen Zustand.
 
 ---
 
@@ -224,3 +215,29 @@ dann werden Transient-Reads/-Writes automatisch atomar über Redis abgewickelt, 
 + Keine Third-Party-Cookie-Problematik
 + Kein Credential im Client-seitigen Cookie
 + Static Export (Phase 9) macht serverseitige Middleware ohnehin unmöglich — die Entscheidung ist architektonisch verankert
+
+---
+
+## ADR-013: hCaptcha und reCAPTCHA v3 entfernt — Altcha-only (Batch A, v2.2.0)
+
+**Kontext:** ADR-008 hatte ein modulares Provider-System mit Altcha als Default und hCaptcha/reCAPTCHA v3 als optionalen Adaptern eingeführt. In der Praxis haben sich drei Probleme gezeigt:
+
+1. **CSP-Kollision:** Die gehärtete CSP (`class-csp.php`, nach Batch A in `eca38d1` verschärft) erlaubt `script-src 'self'`, `connect-src 'self'`, `frame-src 'none'`. hCaptcha und reCAPTCHA benötigen Origins auf `hcaptcha.com` bzw. `www.google.com` / `www.gstatic.com` — ohne Whitelisting laden weder Widget noch Challenge-iframes. Die Default-CSP hat diese Origins nicht freigegeben, die Docs auch nicht. Ein Admin, der im Dropdown einen externen Provider wählt, bekommt ein stumm kaputtes Formular ohne Fehlermeldung.
+
+2. **Datenschutz-Implikationen:** Beide Dienste sind externe US-Anbieter (Cloudflare-Tochter bei hCaptcha, Google bei reCAPTCHA) mit eigenen Tracker-/Fingerprinting-Mechanismen. Für ein DSGVO-kritisches Lead-Formular (Name, E-Mail, Telefon, Nachricht) eine Auftragsverarbeitungs-Erweiterung, die wir nicht wollen.
+
+3. **Keine Testabdeckung:** hCaptcha und reCAPTCHA waren in keinem lokalen Dev-Flow testbar (keine Test-Keys in CI, kein Account bei den Diensten als Standard-Setup). Die Code-Pfade waren effektiv ungetestet.
+
+**Entscheidung:** Altcha ist der einzige produktive Provider. `none` bleibt als Escape-Hatch für interne Testsysteme. Beide externen Provider wurden entfernt:
+
+- PHP: `class-captcha.php` — `verify_hcaptcha()` und `verify_recaptcha()` gelöscht; `rest_get_config()` vereinfacht.
+- Settings: Provider-Whitelist auf `['altcha', 'none']` reduziert; die 4 Secret/Sitekey-Options aus Activation-Defaults und Admin-Form entfernt.
+- Frontend: `HCaptchaWidget.tsx`, `RecaptchaWidget.tsx`, `providers/*.ts` (allesamt Dead Code nach Phase 9) gelöscht; `captcha/client/index.tsx` auf 2 Cases reduziert; `CaptchaProviderId`-Type von 4 auf 2 Werte.
+- Dependencies: `@hcaptcha/react-hcaptcha` und `react-google-recaptcha-v3` aus `package.json`.
+
+**Konsequenzen:**
++ Kein stumm-kaputter Provider mehr im Admin-Dropdown.
++ CSP bleibt strikt (`'self'`-only für Scripts) ohne Sonderlocken.
++ Keine externe Datenweitergabe aus dem Formular — DSGVO-Auditing einfacher.
++ Kleineres Client-Bundle (~30 KB weniger gemessen nach `pnpm build`).
+− Wenn in Zukunft ein Bedarf für einen externen Provider entsteht (z.B. stark geladene Systeme), muss er explizit wieder eingebaut werden — inklusive CSP-Anpassung.

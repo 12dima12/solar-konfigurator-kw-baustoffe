@@ -27,10 +27,11 @@ Das Plugin stellt unter **WP-Admin → Einstellungen** vier Unterseiten bereit:
 | Feld | Beschreibung |
 |---|---|
 | Captcha aktiviert | Globaler Ein/Aus-Schalter |
-| Provider | Altcha (Standard, kostenlos) / hCaptcha / reCAPTCHA v3 / Kein Captcha |
+| Provider | Altcha (Standard, self-hosted PoW) oder „Kein Captcha" (nur für interne Tests) |
 | Altcha HMAC-Key | Wird bei Aktivierung automatisch generiert. Geheim halten. |
 | Altcha Komplexität | Empfohlen: 50.000–200.000 |
-| hCaptcha / reCAPTCHA Keys | Nur ausfüllen wenn der entsprechende Provider gewählt ist |
+
+hCaptcha und reCAPTCHA v3 wurden in v2.2.0 entfernt — siehe `docs/DECISIONS.md` ADR-013.
 
 ### Sicherheit & Allgemein
 

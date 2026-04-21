@@ -1,4 +1,4 @@
-export type CaptchaProviderId = "altcha" | "hcaptcha" | "recaptcha" | "none";
+export type CaptchaProviderId = "altcha" | "none";
 
 export interface VerifyResult {
   success: boolean;
@@ -14,6 +14,4 @@ export interface PublicCaptchaConfig {
   provider: CaptchaProviderId;
   /** Only set for altcha: the challenge URL the widget must call */
   challengeUrl?: string;
-  /** Only set for hcaptcha/recaptcha: the public site key */
-  siteKey?: string;
 }

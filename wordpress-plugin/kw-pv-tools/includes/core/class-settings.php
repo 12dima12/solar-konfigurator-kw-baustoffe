@@ -27,7 +27,7 @@ class Settings {
     public static function get_captcha_provider_effective(): string {
         if ( ! self::get_captcha_enabled() ) return 'none';
         $provider = self::get( 'captcha_provider', 'altcha' );
-        $valid    = [ 'altcha', 'hcaptcha', 'recaptcha', 'none' ];
+        $valid    = [ 'altcha', 'none' ];
         return in_array( $provider, $valid, true ) ? $provider : 'altcha';
     }
 

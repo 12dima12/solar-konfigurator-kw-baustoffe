@@ -13,8 +13,8 @@ PV-Werkzeuge für KW Baustoffe: PV-Konfigurator und Solarrechner als WordPress-P
 
 KW PV Tools stellt den SolaX PV-Konfigurator als WordPress-Shortcode/Gutenberg-Block bereit.
 Interessenten wählen ihre PV-Anlage Schritt für Schritt zusammen; die Konfiguration wird
-per E-Mail an den Vertrieb übermittelt. Spam-Schutz durch Altcha (PoW-Captcha, keine Kosten),
-hCaptcha oder reCAPTCHA v3. Rate-Limiting, Honeypot, Ticket-IDs und Submission-Log inklusive.
+per E-Mail an den Vertrieb übermittelt. Spam-Schutz durch Altcha (self-hosted PoW-Captcha,
+keine externe Datenweitergabe). Rate-Limiting, Honeypot, Ticket-IDs und Submission-Log inklusive.
 
 Shortcode: [kw_pv_konfigurator]
 

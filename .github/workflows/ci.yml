@@ -45,3 +45,45 @@ jobs:
           test -f out/kw-pv-tools-manifest.json || (echo "Missing manifest" && exit 1)
           echo "Export output OK"
         working-directory: ./app
+
+  # PHP 7.4 compatibility gate for the WordPress plugin.
+  # The plugin declares `Requires PHP: 7.4` — this job enforces it so that
+  # accidental usage of PHP 8+ functions (e.g. str_contains, match, readonly)
+  # fails CI instead of surfacing as a fatal error on a customer's shared host.
+  php-compat:
+    name: PHP 7.4 compatibility (wordpress-plugin)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP 7.4
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "7.4"
+          coverage: none
+          tools: composer:v2
+
+      - name: Syntax lint against PHP 7.4
+        run: |
+          find wordpress-plugin -name "*.php" -not -path "*/vendor/*" -print0 \
+            | xargs -0 -n1 -P4 php -l
+          echo "PHP 7.4 syntax lint passed."
+
+      - name: Install PHPCompatibility
+        run: |
+          composer global config --no-interaction --no-plugins \
+            allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
+          composer global require --no-interaction --no-progress \
+            squizlabs/php_codesniffer \
+            phpcompatibility/php-compatibility \
+            dealerdirect/phpcodesniffer-composer-installer
+          echo "$HOME/.composer/vendor/bin" >> "$GITHUB_PATH"
+
+      - name: Scan plugin for PHP 8+ function / syntax usage
+        run: |
+          phpcs -p \
+            --standard=PHPCompatibility \
+            --runtime-set testVersion 7.4- \
+            --extensions=php \
+            --ignore="*/vendor/*" \
+            wordpress-plugin/kw-pv-tools

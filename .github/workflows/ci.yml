@@ -2,7 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main, feat/phase-9]
+    branches: [main]
+    tags:
+      - "v*"
   pull_request:
     branches: [main]
 
@@ -87,3 +89,88 @@ jobs:
             --extensions=php \
             --ignore="*/vendor/*" \
             wordpress-plugin/kw-pv-tools
+
+  # Build a fully installable kw-pv-tools-v<VERSION>.zip exactly as package.sh
+  # would produce locally, and upload it as a GitHub Actions artifact so
+  # reviewers / Dima can pull a working plugin from any PR or main commit
+  # without running the build locally.
+  #
+  # Needs both test + php-compat to pass first: no point packaging a build
+  # that fails its own compatibility gate.
+  plugin-build:
+    name: Build plugin ZIP
+    needs: [test, php-compat]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+          cache-dependency-path: app/pnpm-lock.yaml
+
+      - name: Setup PHP 7.4 + Composer
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "7.4"
+          coverage: none
+          tools: composer:v2
+
+      - name: Install Node dependencies
+        working-directory: ./app
+        run: pnpm install --frozen-lockfile
+
+      - name: Sync Next.js export into plugin
+        run: ./wordpress-plugin/build/sync-konfigurator.sh
+
+      - name: Package plugin ZIP
+        run: ./wordpress-plugin/build/package.sh
+
+      - name: Resolve ZIP path
+        id: zip
+        run: |
+          ZIP=$(ls wordpress-plugin/builds/kw-pv-tools-v*.zip | head -1)
+          echo "path=$ZIP"       >> "$GITHUB_OUTPUT"
+          echo "name=$(basename "$ZIP")" >> "$GITHUB_OUTPUT"
+          ls -lh wordpress-plugin/builds/
+
+      - name: Upload plugin artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.zip.outputs.name }}
+          path: ${{ steps.zip.outputs.path }}
+          if-no-files-found: error
+          retention-days: 14
+
+  # Attach the plugin ZIP to a GitHub Release whenever a v* tag is pushed.
+  # Creates the release if it doesn't yet exist; updates it (overwrites the
+  # asset) if the tag was re-pushed. The plugin-update-checker consumes
+  # these releases to surface "Aktualisierung verfügbar" in WP-Admin.
+  release:
+    name: GitHub Release
+    needs: [plugin-build]
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download plugin ZIP
+        uses: actions/download-artifact@v4
+        with:
+          pattern: kw-pv-tools-v*.zip
+          merge-multiple: true
+          path: ./release-asset
+
+      - name: Create / update GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release-asset/kw-pv-tools-v*.zip
+          generate_release_notes: true
+          fail_on_unmatched_files: true

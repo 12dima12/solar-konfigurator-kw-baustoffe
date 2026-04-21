@@ -24,7 +24,13 @@ if ( file_exists( KW_PV_TOOLS_PATH . 'vendor/autoload.php' ) ) {
     require_once KW_PV_TOOLS_PATH . 'vendor/autoload.php';
 }
 
-// GitHub-Auto-Update via YahnisElsts/plugin-update-checker
+// GitHub-Update-Benachrichtigung via YahnisElsts/plugin-update-checker.
+//
+// Das Plugin wird aus einem öffentlichen Repo bezogen. Ein kompromittierter
+// Commit auf main oder ein gefälschtes Release würde bei eingeschaltetem
+// WP-Auto-Update sofort auf jeder Installation landen. Daher: wir geben
+// dem Admin nur den "Update verfügbar"-Hinweis, erlauben aber keine
+// automatische Installation im Hintergrund. Ein Admin muss aktiv klicken.
 add_action( 'init', function () {
     if ( ! class_exists( '\YahnisElsts\PluginUpdateChecker\v5\PucFactory' ) ) return;
     \YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
@@ -33,6 +39,17 @@ add_action( 'init', function () {
         'kw-pv-tools'
     );
 } );
+
+// Blockiere WordPress-Auto-Updates für dieses Plugin, auch wenn der Admin
+// "Enable auto-updates" in der Plugin-Liste aktiviert hat. Der Update-
+// Checker oben zeigt trotzdem "Update verfügbar" an; die Installation
+// passiert ausschließlich über einen expliziten Klick.
+// Siehe docs/DECISIONS.md — ADR-014.
+add_filter( 'auto_update_plugin', function ( $update, $item ) {
+    $plugin = is_object( $item ) && isset( $item->plugin ) ? $item->plugin : '';
+    if ( $plugin === KW_PV_TOOLS_BASENAME ) return false;
+    return $update;
+}, 10, 2 );
 
 // Core
 require_once KW_PV_TOOLS_PATH . 'includes/core/class-dependency-check.php';

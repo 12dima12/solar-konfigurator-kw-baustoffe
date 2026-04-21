@@ -139,6 +139,57 @@ Im Kontaktformular ein unsichtbares `website`-Feld (`tabIndex={-1}`, `left: -999
 
 ---
 
+## Trust Boundary: Plugin-Assets-Ordner
+
+`class-shortcode.php` gibt Scripts, Styles und den Body-HTML-Block aus
+`assets/konfigurator/` **unescaped** aus (siehe PHPCS-ignore-Kommentare im
+Shortcode-Template). Das ist absichtlich — Next.js liefert pre-rendered
+HTML inklusive React-Hydration-Kommentaren, Font-Preloads und CSS-
+Precedence-Markern, die `esc_html()` oder `wp_kses_post()` zerstören
+würden.
+
+**Die Sicherheit dieses Outputs hängt daran, dass der Inhalt von
+`assets/konfigurator/` vertrauenswürdig ist.**
+
+**Vertrauensquelle.** Der Ordner wird **nicht** zur Laufzeit beschrieben.
+Ausschließliche Schreib-Wege:
+
+1. `./wordpress-plugin/build/sync-konfigurator.sh` — baut den Next.js-
+   Static-Export und kopiert das Ergebnis.
+2. Das Plugin-ZIP aus dem CI-Artefakt (`plugin-build`-Job in
+   `.github/workflows/ci.yml`), das beim Upload in WP-Admin entpackt wird.
+3. Ein GitHub-Release, das der `release`-Job aus genau demselben ZIP
+   erzeugt; der Plugin-Update-Checker zieht daraus — aber
+   **automatische** Installation ist per `auto_update_plugin`-Filter
+   geblockt (ADR-014), der Admin muss klicken.
+
+Alle drei Wege führen zurück auf `main` im Git-Repo. Ein Angreifer, der
+den Inhalt ändern will, muss entweder Push-Rechte auf `main` erlangen
+oder physischen Write-Zugriff auf den Plugin-Ordner auf dem Hoster.
+Beides fällt unter die Standard-WP-Hardening-Annahmen (SSH/SFTP-Security,
+GitHub-Account-2FA).
+
+**Was KEIN Teil der Trust Boundary ist.** User-kontrollierter Input —
+Formular-Felder, Query-Parameter, Captcha-Tokens — wird weiterhin durch
+Zod (Frontend), `sanitize_text_field` / `esc_html` (Backend) geleitet.
+Der Trust-Sprung gilt ausschließlich für die Bundle-Artefakte, nicht für
+Request-Daten.
+
+**Was passiert beim XSS-Test.** Das Bundle enthält (nach der
+Entfernung von HTML-`info`-Feldern in Batch A) keine durch User-Daten
+generierten Strings. Die einzigen variablen Teile des Bodies sind
+React-Hydration-Marker und statisch gebündelte Asset-Pfade. Der
+DOMDocument-Parser in Batch D1 stellt zusätzlich sicher, dass nur
+`src`/`href`/`poster`/`data-src` manipuliert werden — `innerHTML`-
+oder `outerHTML`-artige Reflektion findet nicht statt.
+
+**Monitoring.** Der `plugin-build`-CI-Job läuft auf jedem PR und Push,
+und ein Diff im ZIP-SHA vs. Vorgänger-Release ist nachvollziehbar. Wer
+einen kompromittierten Bundle-Push vermutet, kann das ZIP-Artefakt
+herunterladen und mit einem sauberen lokalen Build vergleichen.
+
+---
+
 ## Incident Response
 
 **Spam-Angriff auf `/wp-json/kw-pv-tools/v1/submit`:**

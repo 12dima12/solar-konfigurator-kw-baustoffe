@@ -119,6 +119,11 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: "7.4"
+          # mpdf requires gd + mbstring + zlib + xml. shivammathur's runner
+          # ships a minimal PHP, so we have to ask for them explicitly —
+          # otherwise `composer install` inside package.sh aborts with
+          # "ext-gd * -> it is missing from your system".
+          extensions: mbstring, gd, zlib, xml, bcmath, iconv
           coverage: none
           tools: composer:v2
 

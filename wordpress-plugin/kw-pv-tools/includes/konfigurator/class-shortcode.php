@@ -2,6 +2,7 @@
 namespace KW_PV_Tools\Konfigurator;
 
 use KW_PV_Tools\Core\Assets;
+use KW_PV_Tools\Core\CSP;
 use KW_PV_Tools\Core\Settings;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -48,6 +49,10 @@ class Shortcode {
         $privacy_url     = $privacy_url_raw !== ''
             ? esc_url_raw( $privacy_url_raw )
             : (string) get_privacy_policy_url();
+
+        // Next.js RSC emits inline <script> blocks (self.__next_f.push) for React
+        // hydration. Allow 'unsafe-inline' in script-src on this page only.
+        CSP::allow_inline();
 
         $assets = Assets::extract_asset_tags( $manufacturer, $route );
 

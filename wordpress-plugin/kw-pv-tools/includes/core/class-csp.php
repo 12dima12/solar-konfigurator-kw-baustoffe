@@ -23,6 +23,16 @@ class CSP {
     // Leer = keine Inline-Scripts im Bundle (Normalfall nach unserer Refaktorierung).
     const SCRIPT_HASHES = [];
 
+    // Gesetzt durch den Shortcode/Block wenn der Konfigurator auf der Seite gerendert wird.
+    // Next.js RSC injiziert mehrere Inline-<script>-Blöcke (self.__next_f.push(...)) die
+    // für die React-Hydration zwingend ausgeführt werden müssen. 'unsafe-inline' wird daher
+    // nur auf Konfigurator-Seiten aktiviert, nicht global.
+    private static bool $needs_inline = false;
+
+    public static function allow_inline(): void {
+        self::$needs_inline = true;
+    }
+
     public static function register(): void {
         add_action( 'send_headers', [ __CLASS__, 'send_csp' ] );
     }
@@ -32,9 +42,11 @@ class CSP {
         if ( is_admin() ) return;
 
         // Externe Scripts von der eigenen Domain erlauben.
-        // Inline-Script-Hashes nur anhängen wenn vorhanden (für Next.js __NEXT_DATA__ o.ä.).
+        // Konfigurator-Seiten brauchen zusätzlich 'unsafe-inline' für Next.js RSC-Flight-Data.
         $script_src = "'self'";
-        if ( ! empty( self::SCRIPT_HASHES ) ) {
+        if ( self::$needs_inline ) {
+            $script_src .= " 'unsafe-inline'";
+        } elseif ( ! empty( self::SCRIPT_HASHES ) ) {
             $hashes     = implode( ' ', array_map( fn( $h ) => "'sha256-{$h}'", self::SCRIPT_HASHES ) );
             $script_src .= ' ' . $hashes;
         }

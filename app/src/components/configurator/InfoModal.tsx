@@ -1,31 +1,17 @@
 "use client";
-import { useState, useMemo } from "react";
-import DOMPurify from "dompurify";
+import { useState } from "react";
 import { Info } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-
-// Tags and attributes present in catalog.json info fields — nothing else allowed.
-const PURIFY_CONFIG = {
-  ALLOWED_TAGS: ["h2", "h3", "ul", "ol", "li", "span", "strong", "em", "p", "br"],
-  ALLOWED_ATTR: ["class"],
-};
+import type { InfoSpec } from "@/data/types";
 
 interface Props {
   title: string;
-  html: string;
+  spec: InfoSpec;
 }
 
-export function InfoModal({ title, html }: Props) {
+export function InfoModal({ title, spec }: Props) {
   const [open, setOpen] = useState(false);
-
-  // SSG pass runs in Node.js where window/document don't exist — catalog.json
-  // is trusted build-time data so falling back to the raw string is safe there.
-  // The client hydration always sanitizes before inserting into the DOM.
-  const safeHtml = useMemo(() => {
-    if (typeof window === "undefined") return html;
-    return DOMPurify.sanitize(html, PURIFY_CONFIG);
-  }, [html]);
 
   return (
     <>
@@ -46,10 +32,17 @@ export function InfoModal({ title, html }: Props) {
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
           </DialogHeader>
-          <div
-            className="prose prose-sm max-w-none text-sm text-muted-foreground"
-            dangerouslySetInnerHTML={{ __html: safeHtml }}
-          />
+          <div className="text-sm text-muted-foreground">
+            <p className="font-semibold mb-3 pb-2 border-b border-gray-200">{spec.title}</p>
+            <ul className="space-y-1 list-disc list-inside">
+              {spec.specs.map((item, i) => (
+                <li key={i}>
+                  {item.label && <span className="font-medium">{item.label}: </span>}
+                  {item.value}
+                </li>
+              ))}
+            </ul>
+          </div>
         </DialogContent>
       </Dialog>
     </>

@@ -81,7 +81,7 @@ export function OptionCard({ nodeKey, node, locale, onClick, disabled }: Props) 
       </div>
 
       {showInfo && node.info && (
-        <InfoModal title={label} html={node.info} />
+        <InfoModal title={label} spec={node.info} />
       )}
     </button>
   );

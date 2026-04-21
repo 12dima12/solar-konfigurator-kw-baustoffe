@@ -1,4 +1,9 @@
 export type ConfigPhase = "inverter" | "backup" | "battery" | "wallbox" | "accessory" | "finish";
+
+export interface InfoSpec {
+  title: string;
+  specs: Array<{ label?: string; value: string }>;
+}
 export type Lang = "de" | "en" | "cs";
 
 export interface StockInfo {
@@ -14,7 +19,7 @@ export interface ConfigNode {
   description?: string | null;
   image?: string | null;
   cover?: string | null;
-  info?: string | null;
+  info?: InfoSpec | null;
   product_code?: string;
   product_name?: string;
   stock?: StockInfo;
@@ -56,7 +61,7 @@ export interface FlatProduct {
   label: string;
   description?: string | null;
   image?: string | null;
-  info?: string | null;
+  info?: InfoSpec | null;
   stock?: StockInfo;
   priority?: number;
   power?: number;

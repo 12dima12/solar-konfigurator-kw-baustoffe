@@ -90,6 +90,10 @@ class Shortcode {
     var d = e.data;
     if (d && d.type === 'kw-configurator-resize' && typeof d.height === 'number') {
       iframe.style.height = Math.max(600, Math.ceil(d.height)) + 'px';
+    } else if (d && d.type === 'kw-configurator-scroll-to-top') {
+      // Nach Auswahl: iframe-Top in den Viewport — der User hatte den
+      // iframe womöglich weit nach unten gescrollt.
+      iframe.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   });
 })();

@@ -1,6 +1,7 @@
 "use client";
 import { useConfigStore } from "@/store/configStore";
 import { resolveNode, getChildrenSorted, isLeafNode, getPhaseTree, ACTIVE_PHASES } from "@/lib/navigation";
+import { scrollToTop } from "@/lib/scroll-to-top";
 import type { ConfigNode } from "@/data/types";
 
 export function useConfigState(catalog: Record<string, unknown>) {
@@ -32,6 +33,7 @@ export function useConfigState(catalog: Record<string, unknown>) {
     } else {
       selectOption(key);
     }
+    scrollToTop();
   };
 
   return {

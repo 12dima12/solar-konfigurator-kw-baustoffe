@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { InfoModal } from "./InfoModal";
 import type { ConfigNode } from "@/data/types";
 import { publicAsset } from "@/lib/public-asset";
+import { renderFormattedLabel } from "@/lib/formatted-label";
 
 interface Props {
   nodeKey: string;
@@ -59,11 +60,11 @@ export function OptionCard({ nodeKey, node, onClick, disabled }: Props) {
         )}
 
         <div className={cn("font-semibold text-sm leading-tight", hasCover && "text-white")}>
-          {label}
+          {renderFormattedLabel(label)}
         </div>
 
         {node.description && !hasCover && (
-          <p className="mt-1 text-xs text-muted-foreground line-clamp-2">{node.description}</p>
+          <p className="mt-1 text-xs text-muted-foreground line-clamp-2">{renderFormattedLabel(node.description)}</p>
         )}
 
         {node.product_name && (

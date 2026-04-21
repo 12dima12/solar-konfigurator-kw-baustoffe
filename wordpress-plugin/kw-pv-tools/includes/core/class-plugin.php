@@ -10,6 +10,7 @@ use KW_PV_Tools\Core\SubmissionsLog;
 use KW_PV_Tools\Core\SystemCheck;
 use KW_PV_Tools\Core\TestMail;
 use KW_PV_Tools\Core\MailPreview;
+use KW_PV_Tools\Core\UpgradeCleaner;
 use KW_PV_Tools\Konfigurator\Shortcode;
 use KW_PV_Tools\Konfigurator\Block;
 
@@ -43,6 +44,7 @@ class Plugin {
         EventBus::register();
         Shortcode::register();
         Block::register();
+        UpgradeCleaner::register();
 
         if ( is_admin() ) {
             Admin::register();

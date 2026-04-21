@@ -70,6 +70,7 @@ require_once KW_PV_TOOLS_PATH . 'includes/core/class-event-bus.php';
 require_once KW_PV_TOOLS_PATH . 'includes/core/class-csp.php';
 require_once KW_PV_TOOLS_PATH . 'includes/core/class-article-codes.php';
 require_once KW_PV_TOOLS_PATH . 'includes/core/class-pdf-generator.php';
+require_once KW_PV_TOOLS_PATH . 'includes/core/class-upgrade-cleaner.php';
 require_once KW_PV_TOOLS_PATH . 'includes/core/class-plugin.php';
 
 // Konfigurator-Modul

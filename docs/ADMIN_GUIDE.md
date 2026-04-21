@@ -88,11 +88,25 @@ Er schickt eine Dummy-Konfiguration an alle konfigurierten Vertriebs-Empfänger.
 
 ---
 
-## Auto-Update
+## Update-Hinweis (kein Auto-Update)
 
-Das Plugin bezieht Updates direkt aus GitHub-Releases des Repositorys
-`12dima12/solar-konfigurator-kw-baustoffe`. Sobald ein neues Release-Tag
-(z.B. `v2.1.1`) gepusht wird, erscheint der Update-Hinweis im WP-Admin.
+Das Plugin prüft bei GitHub-Releases von `12dima12/solar-konfigurator-kw-baustoffe`
+auf neue Versionen. Sobald ein neues Release-Tag (z.B. `v2.3.1`) gepusht wird,
+erscheint im WP-Admin unter **Plugins → KW PV Tools** der Hinweis
+„Aktualisierung verfügbar".
+
+**Wichtig:** Automatische Updates im Hintergrund sind für dieses Plugin
+bewusst deaktiviert (siehe `docs/DECISIONS.md` → ADR-014). Auch wenn du
+unter „Automatische Updates aktivieren" den Toggle setzt, wird das Plugin
+**nicht** ohne dein Klicken aktualisiert. So stellen wir sicher, dass ein
+versehentlich veröffentlichtes oder kompromittiertes Release nicht ohne
+Prüfung in die Produktion gelangt.
+
+**Update-Workflow:**
+1. Hinweis „Aktualisierung verfügbar" erscheint.
+2. Release-Notes auf GitHub lesen: https://github.com/12dima12/solar-konfigurator-kw-baustoffe/releases
+3. Auf einem Staging-System (oder mit Backup) den „Aktualisieren"-Link klicken.
+4. Smoke-Test durchlaufen (`docs/SMOKE_TEST.md`).
 
 Voraussetzung: `yahnis-elsts/plugin-update-checker` via Composer installiert.
 

@@ -241,3 +241,30 @@ dann werden Transient-Reads/-Writes automatisch atomar über Redis abgewickelt, 
 + Keine externe Datenweitergabe aus dem Formular — DSGVO-Auditing einfacher.
 + Kleineres Client-Bundle (~30 KB weniger gemessen nach `pnpm build`).
 − Wenn in Zukunft ein Bedarf für einen externen Provider entsteht (z.B. stark geladene Systeme), muss er explizit wieder eingebaut werden — inklusive CSP-Anpassung.
+
+---
+
+## ADR-014: WordPress-Auto-Updates für das Plugin deaktiviert (Batch C, v2.4.0)
+
+**Kontext:** Das Plugin bezieht Updates aus GitHub-Releases via `YahnisElsts/plugin-update-checker`. WordPress zeigt dadurch im Plugin-Dashboard „Update verfügbar". Solange der Admin manuell klickt, ist das eine bewusste Entscheidung.
+
+**Problem:** Aktiviert der Admin **WordPress-Auto-Updates für dieses Plugin** (seit WP 5.5 per Checkbox in der Plugin-Liste möglich), wird jede neue Release-Version **lautlos** installiert — ohne Review, ohne Staging-Test, ohne Changelog-Lesen. Zwei Risikoszenarien:
+
+1. **GitHub-Kompromittierung.** Wer Push-Zugriff auf das Repo erlangt (oder Force-Push auf `main`, oder ein gefälschtes Release-Tag veröffentlicht), bekommt sofortigen Code-Execution-Zugriff mit Admin-Rechten auf jeder WP-Installation, die das Plugin einsetzt und Auto-Update aktiviert hat.
+2. **Versehentlich veröffentlichte Breaking-Changes.** Ein fehlerhafter Release, den wir selbst pushen (schiefgegangener Merge, unfertiges Feature, fehlgeschlagener Smoke-Test), würde auf allen Live-Seiten innerhalb weniger Minuten laufen. Manual-Confirmation gibt uns ein Zeitfenster, um einen Rückzieher zu machen.
+
+Für ein Plugin mit Zugriff auf Kontaktformular-Daten (DSGVO-sensibel) und auf `manage_options`-Admin-Endpoints ist das Auto-Update-Risiko nicht vertretbar.
+
+**Entscheidung:** Ein `auto_update_plugin`-Filter returnt für `kw-pv-tools.php` hart `false`. WordPress zeigt dadurch den Auto-Update-Toggle zwar weiter an, nimmt ihn aber nicht mehr als „mach's automatisch" — die Installation passiert ausschließlich über den expliziten „Aktualisieren"-Klick in der Plugin-Liste.
+
+Alternativen verworfen:
+
+- **Code-Signing / Checksum im Update-Checker:** Richtig, aber implementierungs-aufwändig (GPG-Sign-Pipeline, Public-Key-Distribution) und für einen proprietären Ein-Kunden-Build übertrieben.
+- **Update-Checker ganz deaktivieren:** Wir brauchen den „Update verfügbar"-Hinweis, damit Dima Updates überhaupt mitbekommt. Nur die automatische Installation ist der Angriffsvektor, nicht der Hinweis.
+- **Private Release-Channel (GitHub Private Repo + Deploy-Key):** Wäre die sauberste Defense-in-Depth, erfordert aber Re-Authentifizierung des Plugin-Update-Checkers pro Installation. Offen für später — siehe Batch D-Follow-up.
+
+**Konsequenzen:**
++ Kompromittiertes Release-Tag installiert sich nicht lautlos.
++ Versehentlich veröffentlichte Breaking-Changes geben dem Admin ein Check-Fenster.
++ Kein zusätzlicher Setup-Aufwand auf Kundenseite.
+− Update-Rhythmus hängt von Dimas manueller Klick-Disziplin ab. Das ADMIN_GUIDE.md erwähnt den Auto-Update-Zustand explizit.

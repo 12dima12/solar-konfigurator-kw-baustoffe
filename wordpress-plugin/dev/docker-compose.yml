@@ -1,0 +1,89 @@
+# KW PV Tools — local dev stack for the smoke test runbook.
+#
+# Purpose: give a reviewer a reproducible WordPress + MailHog environment
+# into which the plugin is mounted live, so docs/SMOKE_TEST.md can be
+# walked through in ~20 minutes.
+#
+# Target PHP version is 7.4 on purpose — that's the minimum the plugin
+# declares via `Requires PHP: 7.4`. Running the runbook here catches
+# compatibility regressions locally before they hit a customer's shared
+# host.
+#
+# Usage:
+#   cd wordpress-plugin/dev
+#   docker compose up -d
+#   ./setup.sh
+#   open http://localhost:8080/wp-admin          (admin / admin)
+#   open http://localhost:8025                   (MailHog inbox)
+#
+# Teardown:
+#   docker compose down -v      # -v also drops DB volume for a clean reset
+
+services:
+  db:
+    image: mysql:5.7
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+    volumes:
+      - db_data:/var/lib/mysql
+    # MySQL 5.7 matches what many shared hosts still serve.
+    # Override to mysql:8.0 via env if needed.
+
+  wordpress:
+    image: wordpress:6.8-php7.4-apache
+    restart: unless-stopped
+    depends_on:
+      - db
+      - mailhog
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DEBUG: "1"
+      # Route wp_mail through MailHog via the MU-plugin below.
+      # Everything sent via wp_mail() will land in the MailHog inbox
+      # instead of disappearing into a non-existent SMTP server.
+      WORDPRESS_CONFIG_EXTRA: |
+        define('WP_DEBUG_LOG', true);
+        define('WP_DEBUG_DISPLAY', false);
+        define('SCRIPT_DEBUG', true);
+    volumes:
+      - wp_data:/var/www/html
+      # Live-mount the plugin — edits on the host are visible immediately
+      # inside the WP container without a rebuild.
+      - ../kw-pv-tools:/var/www/html/wp-content/plugins/kw-pv-tools
+      # MU-plugins are auto-loaded on every request, no activation needed.
+      - ./mu-plugins:/var/www/html/wp-content/mu-plugins
+
+  wpcli:
+    image: wordpress:cli-php7.4
+    depends_on:
+      - wordpress
+      - db
+    volumes:
+      - wp_data:/var/www/html
+      - ../kw-pv-tools:/var/www/html/wp-content/plugins/kw-pv-tools
+      - ./mu-plugins:/var/www/html/wp-content/mu-plugins
+    # WP-CLI as the apache `www-data` user avoids file-ownership mismatches
+    # when it writes wp-config.php / settings into the shared volume.
+    user: "33:33"
+    # Idle by default; setup.sh execs commands against it on demand.
+    entrypoint: ["tail", "-f", "/dev/null"]
+
+  mailhog:
+    image: mailhog/mailhog
+    restart: unless-stopped
+    ports:
+      - "8025:8025"   # Web UI
+      - "1025:1025"   # SMTP (used by the MU-plugin)
+
+volumes:
+  db_data:
+  wp_data:

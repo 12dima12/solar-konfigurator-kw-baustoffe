@@ -2,9 +2,33 @@
 
 Dieses Dokument beschreibt, was du selbst ohne Entwickler-Hilfe tun kannst.
 
+Der Konfigurator läuft als WordPress-Plugin (`kw-pv-tools`) auf deiner WordPress-Installation.
+Alle Einstellungen findest du unter **WP-Admin → Einstellungen → KW PV Tools**.
+
 ---
 
 ## Häufige Aufgaben
+
+### E-Mail-Empfänger ändern
+
+1. WP-Admin → Einstellungen → KW PV Tools
+2. Feld **Vertriebs-E-Mail (Empfänger)** bearbeiten
+3. Mehrere Adressen kommasepariert: `vertrieb@kw-baustoffe.de, chef@kw-baustoffe.de`
+4. **Einstellungen speichern** klicken
+
+Kein Deployment, kein Code-Zugriff nötig.
+
+### E-Mail-Versand testen
+
+1. WP-Admin → Einstellungen → KW PV Tools
+2. Ganz unten: **Test-E-Mail senden**
+3. Eine Dummy-Konfiguration geht an `info@kw-baustoffe.de`
+
+### Captcha aktivieren / deaktivieren
+
+1. WP-Admin → Einstellungen → KW PV Tools → Abschnitt **Captcha**
+2. Checkbox **Captcha aktiviert** setzen oder entfernen
+3. Einstellungen speichern
 
 ### Produktdaten aktualisieren (SolaX)
 
@@ -13,19 +37,14 @@ SolaX-Produktdaten kommen vom GBC-Solino-Konfigurator. Wenn dort neue Produkte a
 1. Terminal im Projekt-Ordner öffnen (oder Entwickler bitten)
 2. Ausführen: `./scripts/refresh-solax.sh`
 3. Das Skript lädt die neuen Daten und zeigt dir die Änderungen (Diff)
-4. Falls alles gut aussieht: `git add . && git commit -m "chore: solax catalog update"`
-5. `git push` – deployted automatisch (ca. 2–3 Minuten)
+4. Falls alles gut aussieht: die Schritte im Skript-Output ausführen
+5. `./wordpress-plugin/build/sync-konfigurator.sh` → baut neues Bundle
+6. `./wordpress-plugin/build/package.sh` → erzeugt ZIP
+7. ZIP in WP-Admin hochladen: Plugins → Plugin aktualisieren
 
 ### Neue Hersteller anbinden (Fronius, Huawei)
 
 Das ist eine Entwickler-Aufgabe. Gib dem Entwickler `docs/ADD_MANUFACTURER.md` als Briefing.
-
-### E-Mail-Empfänger ändern
-
-1. Vercel-Konsole öffnen: https://vercel.com/dashboard
-2. Projekt auswählen → Settings → Environment Variables
-3. `RESEND_TO_ADDRESS` bearbeiten
-4. "Redeploy" klicken
 
 ### Texte ändern (Headlines, Buttons, etc.)
 
@@ -40,16 +59,15 @@ Das ist eine Entwickler-Aufgabe. Die Farben sind in `app/src/app/globals.css` al
 1. Neues Bild vorbereiten (am besten WebP, max. 800×800px)
 2. Datei unter `app/public/products/` ersetzen (gleicher Dateiname)
 3. Falls Dateiname sich ändert: catalog.json anpassen (Entwickler)
-4. Commit + Push
+4. Bundle neu bauen (siehe „Produktdaten aktualisieren")
 
 ---
 
 ## Was du NICHT selbst tun solltest
 
-- Code-Dateien (`.ts`, `.tsx`) bearbeiten
-- `package.json` ändern
-- `next.config.ts` ändern
-- `.env`-Dateien committen (echte Secrets nie ins Git!)
+- Code-Dateien (`.ts`, `.tsx`, `.php`) bearbeiten
+- `package.json` oder `composer.json` ändern
+- WordPress-Datenbank direkt bearbeiten
 
 Diese Dinge brauchen einen Entwickler.
 
@@ -57,36 +75,26 @@ Diese Dinge brauchen einen Entwickler.
 
 ## Monitoring
 
-### Wie sehe ich, wie viele Anfragen reinkommen?
-- Vercel Dashboard → Analytics
-- E-Mails kommen in dein `vertrieb@kw-baustoffe.de` Postfach
+### Wie sehe ich eingegangene Anfragen?
+
+WP-Admin → Einstellungen → PV-Anfragen — alle Submissions der letzten 30 Tage.
 
 ### Wie sehe ich, ob etwas kaputt ist?
-- Vercel Dashboard → Deployments (rot/grün)
-- Sentry Dashboard (falls konfiguriert) → Fehler-Liste
 
-### Kosten-Monitoring
-- **Vercel:** Settings → Billing (Hobby-Tier kostenlos bis 100k Besucher/Monat)
-- **Resend:** Dashboard → Usage (Free Tier: 3.000 E-Mails/Monat)
-- **hCaptcha:** Dashboard → Usage (Free Tier: 1M Requests/Monat)
+WP-Admin → Einstellungen → PV-System — zeigt grüne/rote Checks für alle Systemkomponenten.
+
+### E-Mails kommen nicht an
+
+1. WP-Admin → Einstellungen → PV-System prüfen (WP Mail SMTP-Status)
+2. WP-Admin → Einstellungen → KW PV Tools → Test-E-Mail senden
+3. Falls fehlgeschlagen: WP Mail SMTP Plugin konfigurieren (SMTP-Zugangsdaten vom Hoster)
 
 ---
 
 ## Support
 
 Wenn etwas kaputt ist und du nicht weißt, was zu tun ist:
-1. Vercel-Deployment rückgängig machen: Dashboard → Deployments → Previous → "Promote to Production"
-2. Entwickler kontaktieren
 
----
-
-## Konfiguration (ab Phase 9: WordPress-Plugin)
-
-Ab Phase 9 gibt es keine Vercel-Deployment mehr. Alle serverseitigen Einstellungen
-(E-Mail, Captcha, Rate-Limiting) werden im WP-Admin unter **KW PV Tools → Einstellungen** konfiguriert.
-
-**Build-Variable:**
-
-| Variable | Wert | Beschreibung |
-|---|---|---|
-| `NEXT_PUBLIC_API_BASE` | `/wp-json/kw-pv-tools/v1` | API-Basis (Same-Origin in Produktion) |
+1. WP-Admin → Einstellungen → PV-System — dort steht was fehlt
+2. Plugin deaktivieren und reaktivieren (WP-Admin → Plugins)
+3. Entwickler kontaktieren

@@ -12,7 +12,7 @@ A: `docs/ADD_MANUFACTURER.md`
 A: `pnpm dev` starten, dann `tests/iframe-host.html` in einem zweiten Browser öffnen (via VSCode Live Server oder `python3 -m http.server`).
 
 **F: Tests laufen lokal, aber CI schlägt fehl. Warum?**  
-A: Häufige Ursache: Env-Variablen fehlen. Die CI setzt Dummy-Keys, aber falls ein Test echte Keys braucht, muss er gegen Dummy-Values resilient sein.
+A: Häufige Ursache: Env-Variablen fehlen. Für den Static-Export-Build wird nur `NEXT_PUBLIC_API_BASE` und `CAPTCHA_PROVIDER=none` benötigt — beides ist in `.github/workflows/ci.yml` gesetzt.
 
 **F: Build schlägt fehl mit "Manufacturer validation failed". Was tun?**  
 A: `node scripts/validate-manufacturers.mjs` direkt ausführen – zeigt exakt, welche Datei/Feld fehlt.
@@ -20,11 +20,8 @@ A: `node scripts/validate-manufacturers.mjs` direkt ausführen – zeigt exakt, 
 **F: Warum funktioniert die Sprachumschaltung nicht?**  
 A: Prüfe, dass der Key in allen 3 Sprachdateien (`de/en/cs.json`) existiert.
 
-**F: Wie füge ich einen neuen Text hinzu?**  
-A: In `src/messages/{de,en,cs}.json` eintragen. Falls der Text direkt in einer Komponente ist (z.B. `ConfiguratorShell`), dort im `PHASE_TITLES`-Objekt ergänzen.
-
 **F: TypeScript-Fehler bei `as any` — darf ich das?**  
-A: Nur an den zwei dokumentierten Stellen in `api/submit/route.ts` (react-pdf Typ-Konflikt). Überall sonst: nein.
+A: An keiner Stelle. Die früheren `as any`-Ausnahmen in `api/submit/route.ts` existieren nicht mehr (Route in Phase 9 entfernt).
 
 ---
 
@@ -33,17 +30,14 @@ A: Nur an den zwei dokumentierten Stellen in `api/submit/route.ts` (react-pdf Ty
 **F: Kann ich selbst Produkte hinzufügen?**  
 A: Per Commit in `src/manufacturers/solax/catalog.json` theoretisch ja – aber lass das einen Entwickler machen, damit der Build nicht fehlschlägt.
 
-**F: Wie lange dauert ein Deployment?**  
-A: Ungefähr 2–3 Minuten nach `git push`.
-
-**F: Muss ich Vercel bezahlen?**  
-A: Hobby-Tier reicht für < 100k Besucher/Monat. Bei mehr: Pro-Plan für 20€/Monat.
-
-**F: Was passiert, wenn Resend oder hCaptcha down ist?**  
-A: Resend down → Anfragen werden nicht versendet (der Kunde sieht Fehler). hCaptcha down → Kunde kann nicht submitten. Beide Services haben ≥99.9% Uptime.
+**F: Wie lange dauert ein Plugin-Update?**  
+A: Bundle bauen (~2 Min), ZIP hochladen und in WP aktivieren (~1 Min). Insgesamt ca. 5 Minuten.
 
 **F: Wie ändere ich den E-Mail-Empfänger?**  
-A: Vercel-Dashboard → Settings → Environment Variables → `RESEND_TO_ADDRESS` bearbeiten → Redeploy.
+A: WP-Admin → Einstellungen → KW PV Tools → Feld **Vertriebs-E-Mail** → Speichern. Kein Deployment nötig.
+
+**F: Was passiert, wenn der E-Mail-Versand nicht funktioniert?**  
+A: WP-Admin → Einstellungen → KW PV Tools → **Test-E-Mail senden**. Falls fehlgeschlagen: WP Mail SMTP Plugin prüfen (WP-Admin → Einstellungen → PV-System zeigt den Status). Anfragen landen trotzdem im Submissions-Log (WP-Admin → Einstellungen → PV-Anfragen) — kein Lead geht verloren.
 
 **F: Wie tausche ich ein Produktbild aus?**  
 A: Neues Bild (WebP, max. 800×800px) unter `app/public/products/` ersetzen. Falls Dateiname sich ändert: Entwickler kontaktieren für catalog.json-Anpassung.
@@ -62,4 +56,4 @@ A: Als SolaX-Lizenzhändler ja. Siehe `docs/LEGAL.md` + Lizenzvertrag bei Dima.
 A: Unsere Daten sind Snapshots in `catalog.json`. Solange wir sie pflegen, sind wir unabhängig. Das Refresh-Skript könnte kaputtgehen – dann manuell Produktdaten pflegen.
 
 **F: Kann der Konfigurator in andere Websites eingebettet werden?**  
-A: Ja, aber nur Domains, die in `EMBED_ALLOWED_HOSTS` (Middleware) und `ALLOWED_ORIGINS` (useIframeResize) eingetragen sind. Neuen Host → Entwickler fragen.
+A: Ja. Da der Konfigurator als WordPress-Plugin auf derselben Domain läuft, gibt es keine Cross-Origin-Restriktionen. iFrame-Einbindung via `[kw_pv_konfigurator route="embed"]` Shortcode.

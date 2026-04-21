@@ -1,37 +1,35 @@
 # Captcha Provider System
 
-Swappable captcha via `CAPTCHA_PROVIDER` env variable. Default: `altcha`.
+Captcha-Verifikation läuft serverseitig im WordPress-Plugin `kw-pv-tools`
+(siehe `wordpress-plugin/kw-pv-tools/includes/core/class-captcha.php`).
 
-## Providers
+## Aktive Provider
 
-| ID | Library | External? | Phase 10 PHP |
+| ID | Library | Extern? | PHP-Verify |
 |---|---|---|---|
-| `altcha` | altcha-lib (MIT) | No | altcha-org/altcha |
-| `hcaptcha` | @hcaptcha/react-hcaptcha | hcaptcha.com | native |
-| `recaptcha` | react-google-recaptcha-v3 | google.com | native |
-| `none` | — | No | always pass |
+| `altcha` (Default) | `altcha` (MIT), PoW | Nein (self-hosted HMAC) | `altcha-org/altcha` |
+| `none` | — | — | immer `success: true` |
 
-## Configuration
+Der Provider wird im WP-Admin unter **Einstellungen → KW PV Tools → Captcha**
+gewählt. `none` ist ausschließlich für interne Testsysteme gedacht.
 
-```env
-CAPTCHA_PROVIDER=altcha           # or hcaptcha / recaptcha / none
-ALTCHA_HMAC_KEY=<openssl rand -hex 32>
-
-# hCaptcha
-# HCAPTCHA_SECRET=0x...
-# NEXT_PUBLIC_HCAPTCHA_SITE_KEY=...
-
-# reCAPTCHA v3
-# RECAPTCHA_SECRET_KEY=6Lc...
-# NEXT_PUBLIC_RECAPTCHA_SITE_KEY=6Lc...
-```
-
-## Architecture
+## Architektur
 
 ```
-/api/captcha/config          → returns PublicCaptchaConfig (provider + siteKey/challengeUrl)
-/api/captcha/altcha/challenge → returns Altcha challenge for widget
-/api/submit                  → calls getActiveCaptchaProvider().verify(token)
+GET  /wp-json/kw-pv-tools/v1/captcha/config             → { provider, challengeUrl? }
+GET  /wp-json/kw-pv-tools/v1/captcha/altcha/challenge   → Altcha PoW-Challenge
+POST /wp-json/kw-pv-tools/v1/submit                     → Captcha::verify() + Replay-Schutz
 
-Client: <CaptchaWidget onVerify={...} />  fetches /api/captcha/config, renders correct widget
+Client: <CaptchaWidget onVerify={…} /> fragt /captcha/config,
+        rendert AltchaWidget oder NoCaptchaWidget.
 ```
+
+## Entfernt in Batch A (v2.2.0)
+
+hCaptcha und reCAPTCHA v3 wurden aus dem Plugin entfernt:
+
+- Beide sind externe Dienste mit Datenschutz-Implikationen (DSGVO-Aufwand, Tracking).
+- Beide wären ohne CSP-Whitelisting ihrer Origins nicht lauffähig gewesen — die Default-CSP erlaubt nur `'self'` für `script-src`/`connect-src`/`frame-src`.
+- Beide waren im Repo nicht getestet; der Admin-Dropdown bot sie als "funktionierende" Option an, was in Produktion zu einer stillen Kaputt-Konfiguration geführt hätte.
+
+Siehe `docs/DECISIONS.md`, ADR-004 (Historisch) und ADR-008 (Altcha als alleiniger Provider).

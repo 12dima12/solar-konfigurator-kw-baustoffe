@@ -74,11 +74,65 @@ class Assets {
         preg_match( '/<body[^>]*>(.*?)<\/body>/is', $html, $body_match );
         $body = $body_match[1] ?? '<div id="__next"></div>';
 
+        // Asset-Pfade im Body umschreiben (Bilder, inline link/script):
+        // Next.js rendert absolute Root-Pfade (/products/..., /_next/...),
+        // die im WP-Kontext ohne Rewrite zu 404 führen.
+        $body = self::rewrite_body_asset_paths( $body );
+
         return [
             'scripts' => array_map( [ __CLASS__, 'rewrite_asset_uri' ], $script_matches[1] ?? [] ),
             'styles'  => array_map( [ __CLASS__, 'rewrite_asset_uri' ], $style_matches[1] ?? [] ),
             'body'    => $body,
         ];
+    }
+
+    /**
+     * Rewrites root-absolute asset paths in attribute values inside the body markup.
+     * Covered attributes: src, href, srcset, poster, data-src.
+     *
+     * A root-absolute path starts with a single `/` and is NOT protocol-relative (`//`).
+     * Only paths starting with `/_next/`, `/products/`, `/flags/` or other known
+     * asset roots are rewritten — arbitrary site paths like `/impressum` stay intact.
+     */
+    private static function rewrite_body_asset_paths( string $body ): string {
+        $asset_prefixes = [ '/_next/', '/products/', '/media/', '/flags/', '/favicon' ];
+
+        // Match src="..." / href="..." / srcset="..." etc.
+        $pattern = '/(\s(?:src|href|srcset|poster|data-src)=)(["\'])([^"\']+)\2/i';
+
+        return preg_replace_callback( $pattern, function ( $m ) use ( $asset_prefixes ) {
+            $attr  = $m[1];
+            $quote = $m[2];
+            $value = $m[3];
+
+            // srcset can contain comma-separated URL+descriptor pairs
+            if ( strpos( strtolower( $attr ), 'srcset' ) !== false ) {
+                $parts = array_map( function ( $part ) use ( $asset_prefixes ) {
+                    $part  = trim( $part );
+                    $split = preg_split( '/\s+/', $part, 2 );
+                    $url   = $split[0] ?? '';
+                    $desc  = isset( $split[1] ) ? ' ' . $split[1] : '';
+                    return self::maybe_rewrite_asset_path( $url, $asset_prefixes ) . $desc;
+                }, explode( ',', $value ) );
+                return $attr . $quote . implode( ', ', $parts ) . $quote;
+            }
+
+            return $attr . $quote . self::maybe_rewrite_asset_path( $value, $asset_prefixes ) . $quote;
+        }, $body );
+    }
+
+    private static function maybe_rewrite_asset_path( string $url, array $asset_prefixes ): string {
+        if ( $url === '' ) return $url;
+        // Skip protocol-relative, absolute URLs, data-URIs, fragment, anchor
+        if ( $url[0] !== '/' )           return $url;
+        if ( isset( $url[1] ) && $url[1] === '/' ) return $url;
+
+        foreach ( $asset_prefixes as $prefix ) {
+            if ( strpos( $url, $prefix ) === 0 ) {
+                return KW_PV_TOOLS_URL . 'assets/konfigurator' . $url;
+            }
+        }
+        return $url;
     }
 
     /**

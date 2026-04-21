@@ -1,6 +1,6 @@
 # KW PV Solutions – Hersteller-Konfigurator
 
-Web-basierter Produktkonfigurator für PV-Anlagen. Kunden wählen Schritt für Schritt Wechselrichter, Batterie, Wallbox und Zubehör – am Ende erhalten sie (und unser Vertrieb) ein PDF mit der Konfiguration.
+Web-basierter Produktkonfigurator für PV-Anlagen. Kunden wählen Schritt für Schritt Wechselrichter, Batterie, Wallbox und Zubehör – am Ende wird die Konfiguration als HTML-E-Mail an den Vertrieb (`vertrieb@kw-baustoffe.de`) und an den Kunden (Bestätigung mit Ticket-Referenz) versandt.
 
 **Aktuell integrierte Hersteller:** SolaX Power  
 **Erweiterbar um:** Fronius, Huawei, GoodWe, Sungrow, … (Architektur ist Multi-Hersteller)

@@ -33,7 +33,7 @@ class Admin {
 
     public static function sanitize( array $input ): array {
         $current         = Settings::all();
-        $valid_providers = [ 'altcha', 'hcaptcha', 'recaptcha', 'none' ];
+        $valid_providers = [ 'altcha', 'none' ];
 
         // sales_email: allow comma-separated list; sanitize each address
         $sales_raw    = $input['sales_email'] ?? get_option( 'admin_email' );
@@ -44,19 +44,15 @@ class Admin {
         $sales_email  = implode( ', ', $sales_emails ) ?: sanitize_email( get_option( 'admin_email' ) );
 
         return [
-            'captcha_enabled'           => ! empty( $input['captcha_enabled'] ),
-            'captcha_provider'          => in_array( $input['captcha_provider'] ?? '', $valid_providers, true )
+            'captcha_enabled'     => ! empty( $input['captcha_enabled'] ),
+            'captcha_provider'    => in_array( $input['captcha_provider'] ?? '', $valid_providers, true )
                 ? $input['captcha_provider'] : 'altcha',
-            'altcha_hmac_key'           => sanitize_text_field( $input['altcha_hmac_key'] ?? ( $current['altcha_hmac_key'] ?? '' ) ),
-            'altcha_complexity'         => max( 1000, min( 1000000, (int) ( $input['altcha_complexity'] ?? 100000 ) ) ),
-            'captcha_hcaptcha_secret'   => sanitize_text_field( $input['captcha_hcaptcha_secret'] ?? '' ),
-            'captcha_hcaptcha_sitekey'  => sanitize_text_field( $input['captcha_hcaptcha_sitekey'] ?? '' ),
-            'captcha_recaptcha_secret'  => sanitize_text_field( $input['captcha_recaptcha_secret'] ?? '' ),
-            'captcha_recaptcha_sitekey' => sanitize_text_field( $input['captcha_recaptcha_sitekey'] ?? '' ),
-            'sales_email'               => $sales_email,
-            'from_email'                => sanitize_email( $input['from_email'] ?? get_option( 'admin_email' ) ),
-            'rate_limit_per_hour'       => max( 1, min( 100, (int) ( $input['rate_limit_per_hour'] ?? 3 ) ) ),
-            'default_lang'              => in_array( $input['default_lang'] ?? '', [ 'de', 'en', 'cs' ], true )
+            'altcha_hmac_key'     => sanitize_text_field( $input['altcha_hmac_key'] ?? ( $current['altcha_hmac_key'] ?? '' ) ),
+            'altcha_complexity'   => max( 1000, min( 1000000, (int) ( $input['altcha_complexity'] ?? 100000 ) ) ),
+            'sales_email'         => $sales_email,
+            'from_email'          => sanitize_email( $input['from_email'] ?? get_option( 'admin_email' ) ),
+            'rate_limit_per_hour' => max( 1, min( 100, (int) ( $input['rate_limit_per_hour'] ?? 3 ) ) ),
+            'default_lang'        => in_array( $input['default_lang'] ?? '', [ 'de', 'en', 'cs' ], true )
                 ? $input['default_lang'] : 'de',
         ];
     }
@@ -120,7 +116,7 @@ class Admin {
                         <th scope="row"><label for="captcha_provider"><?php _e( 'Provider', 'kw-pv-tools' ); ?></label></th>
                         <td>
                             <select id="captcha_provider" name="kw_pv_tools_settings[captcha_provider]">
-                                <?php foreach ( [ 'altcha' => 'Altcha (Standard, keine Kosten)', 'hcaptcha' => 'hCaptcha', 'recaptcha' => 'reCAPTCHA v3 (Google)', 'none' => 'Kein Captcha (nicht empfohlen)' ] as $val => $label ): ?>
+                                <?php foreach ( [ 'altcha' => 'Altcha (Standard, self-hosted PoW)', 'none' => 'Kein Captcha (nur für interne Tests)' ] as $val => $label ): ?>
                                     <option value="<?php echo esc_attr( $val ); ?>" <?php selected( $s['captcha_provider'] ?? 'altcha', $val ); ?>>
                                         <?php echo esc_html( $label ); ?>
                                     </option>
@@ -142,26 +138,6 @@ class Admin {
                                 value="<?php echo esc_attr( $s['altcha_complexity'] ?? 100000 ); ?>" min="1000" max="1000000">
                             <p class="description"><?php _e( 'Höher = schwieriger (empfohlen: 50000–200000).', 'kw-pv-tools' ); ?></p>
                         </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="captcha_hcaptcha_secret"><?php _e( 'hCaptcha Secret Key', 'kw-pv-tools' ); ?></label></th>
-                        <td><input type="text" id="captcha_hcaptcha_secret" name="kw_pv_tools_settings[captcha_hcaptcha_secret]"
-                                value="<?php echo esc_attr( $s['captcha_hcaptcha_secret'] ?? '' ); ?>" class="regular-text"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="captcha_hcaptcha_sitekey"><?php _e( 'hCaptcha Site Key', 'kw-pv-tools' ); ?></label></th>
-                        <td><input type="text" id="captcha_hcaptcha_sitekey" name="kw_pv_tools_settings[captcha_hcaptcha_sitekey]"
-                                value="<?php echo esc_attr( $s['captcha_hcaptcha_sitekey'] ?? '' ); ?>" class="regular-text"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="captcha_recaptcha_secret"><?php _e( 'reCAPTCHA Secret Key', 'kw-pv-tools' ); ?></label></th>
-                        <td><input type="text" id="captcha_recaptcha_secret" name="kw_pv_tools_settings[captcha_recaptcha_secret]"
-                                value="<?php echo esc_attr( $s['captcha_recaptcha_secret'] ?? '' ); ?>" class="regular-text"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="captcha_recaptcha_sitekey"><?php _e( 'reCAPTCHA Site Key', 'kw-pv-tools' ); ?></label></th>
-                        <td><input type="text" id="captcha_recaptcha_sitekey" name="kw_pv_tools_settings[captcha_recaptcha_sitekey]"
-                                value="<?php echo esc_attr( $s['captcha_recaptcha_sitekey'] ?? '' ); ?>" class="regular-text"></td>
                     </tr>
                 </table>
 

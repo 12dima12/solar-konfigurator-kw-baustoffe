@@ -12,8 +12,7 @@
 | Produktdaten-Extraktion (Phase 1) | ✓ vollständig |
 | Datenmodell + Business Rules (Phase 2) | ✓ vollständig |
 | Next.js Konfigurator-App (Phase 3) | ✓ baut fehlerfrei |
-| PDF-Export (A4, KW-Branding) | ✓ implementiert |
-| E-Mail via Resend (mit PDF-Anhang) | ✓ implementiert, Resend-API-Key fehlt |
+| E-Mail an Vertrieb + Kunden-Bestätigung (wp_mail) | ✓ im WP-Plugin (Phase 10+) |
 | Submit-Formular (Name, E-Mail, Telefon) | ✓ vollständig |
 | iFrame-Resize postMessage | ✓ vollständig |
 | Mehrsprachigkeit DE/EN/CS | ✓ vollständig |

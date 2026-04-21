@@ -64,18 +64,14 @@ add_action( 'plugins_loaded', function () {
 
 register_activation_hook( __FILE__, function () {
     $defaults = [
-        'captcha_enabled'           => true,
-        'captcha_provider'          => 'altcha',
-        'altcha_hmac_key'           => wp_generate_password( 32, false ),
-        'altcha_complexity'         => 100000,
-        'captcha_hcaptcha_secret'   => '',
-        'captcha_hcaptcha_sitekey'  => '',
-        'captcha_recaptcha_secret'  => '',
-        'captcha_recaptcha_sitekey' => '',
-        'sales_email'               => get_option( 'admin_email' ),
-        'from_email'                => get_option( 'admin_email' ),
-        'rate_limit_per_hour'       => 3,
-        'default_lang'              => 'de',
+        'captcha_enabled'     => true,
+        'captcha_provider'    => 'altcha',
+        'altcha_hmac_key'     => wp_generate_password( 32, false ),
+        'altcha_complexity'   => 100000,
+        'sales_email'         => get_option( 'admin_email' ),
+        'from_email'          => get_option( 'admin_email' ),
+        'rate_limit_per_hour' => 3,
+        'default_lang'        => 'de',
     ];
     add_option( 'kw_pv_tools_settings', $defaults );
 } );

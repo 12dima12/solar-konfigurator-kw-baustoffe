@@ -104,13 +104,15 @@ Retry-After: <Sekunden bis Reset>
 
 ## Captcha (Bot-Schutz)
 
-**Provider:** Altcha (Standard) — self-hosted HMAC-SHA256, kein externer Service, DSGVO-konform.
+**Provider:** Altcha (einziger produktiver Provider) — self-hosted HMAC-SHA256, kein externer Service, DSGVO-konform.
 
-**Alternative Provider:** hCaptcha, reCAPTCHA v3 (konfigurierbar im WP-Admin).
+**Modus `none`:** Nur für interne Testsysteme gedacht. Produktion: immer Altcha.
 
-**Captcha deaktivieren:** Im WP-Admin möglich (z.B. für interne Testsysteme). Produktion: immer aktiviert.
+**hCaptcha / reCAPTCHA:** In Batch A (v2.2.0) entfernt. Beide Dienste sind extern (Datenschutz-Implikationen) und waren ohne CSP-Whitelisting ihrer Origins nicht lauffähig — siehe ADR-004 (historisch) und ADR-008.
 
 **Fail-closed:** Wenn HMAC-Key nicht konfiguriert ist, blockiert der Server die Submission (kein graceful fallback zu „kein Captcha"). Siehe ADR-009.
+
+**Replay-Schutz:** Gelöste Altcha-Tokens werden server-seitig als Fingerprint (`kw_pv_altcha_<sha256>`) im Transient-Store gespeichert (24 h TTL) — Wiederverwendung liefert HTTP 403 `reason=replay`. Siehe `class-captcha.php::verify_altcha()`.
 
 ---
 

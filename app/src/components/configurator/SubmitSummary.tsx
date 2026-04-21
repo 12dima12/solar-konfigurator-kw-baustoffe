@@ -185,7 +185,19 @@ export function SubmitSummary() {
               if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
               const blob = await resp.blob();
               const url = URL.createObjectURL(blob);
-              window.open(url, "_blank", "noopener,noreferrer");
+              // Use a synthetic <a download> click instead of window.open —
+              // iOS Safari and most mobile browsers block window.open calls
+              // from iframes as popups, so the PDF just disappeared. A click
+              // on an <a> with the download attribute is treated as a user-
+              // initiated download and always goes through.
+              const a = document.createElement("a");
+              a.href = url;
+              a.download = "kw-pv-konfiguration.pdf";
+              a.rel = "noopener";
+              a.target = "_blank";
+              document.body.appendChild(a);
+              a.click();
+              a.remove();
               setTimeout(() => URL.revokeObjectURL(url), 60_000);
             } catch (e) {
               console.error("PDF open failed:", e);

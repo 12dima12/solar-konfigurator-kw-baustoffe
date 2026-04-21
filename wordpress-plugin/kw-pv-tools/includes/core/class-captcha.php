@@ -73,6 +73,12 @@ class Captcha {
      * Protokoll: challenge = sha256(salt + secretNumber), signature = hmac-sha256(key, challenge).
      * Der Client löst das PoW, indem er number = 0..maxNumber durchsucht bis
      * sha256(salt + number) === challenge.
+     *
+     * Format: altcha.js ≥3.x erwartet die v1-Struktur mit `_version`, `parameters`
+     * und separater `signature`. Das frühere flache Format (algorithm/challenge/
+     * salt/signature/maxNumber nebeneinander) liefert bei altcha 3.x
+     * `challenge.parameters.algorithm === undefined` → Widget wirft
+     * "Unsupported algorithm undefined." und zeigt "Verification failed".
      */
     private static function create_challenge( string $hmac_key, int $max_number ): array {
         $salt          = bin2hex( random_bytes( 12 ) );
@@ -81,11 +87,14 @@ class Captcha {
         $signature     = hash_hmac( 'sha256', $challenge, $hmac_key );
 
         return [
-            'algorithm' => 'SHA-256',
-            'challenge' => $challenge,
-            'maxNumber' => $max_number,
-            'salt'      => $salt,
-            'signature' => $signature,
+            '_version'   => 1,
+            'parameters' => [
+                'algorithm' => 'SHA-256',
+                'challenge' => $challenge,
+                'maxNumber' => $max_number,
+                'salt'      => $salt,
+            ],
+            'signature'  => $signature,
         ];
     }
 
@@ -114,15 +123,26 @@ class Captcha {
         $decoded = json_decode( base64_decode( $payload ), true );
         if ( ! is_array( $decoded ) ) return [ 'success' => false, 'reason' => 'parse-error' ];
 
-        $algorithm = strtolower( str_replace( '-', '', $decoded['algorithm'] ?? '' ) );
+        // altcha 3.x sendet { challenge: { parameters: {...}, signature: "..." }, solution: N }.
+        // Legacy-Clients (altcha 2.x, inline) sendeten das flache Format.
+        if ( isset( $decoded['challenge'] ) && is_array( $decoded['challenge'] ) ) {
+            $params    = is_array( $decoded['challenge']['parameters'] ?? null ) ? $decoded['challenge']['parameters'] : [];
+            $algorithm = strtolower( str_replace( '-', '', (string) ( $params['algorithm'] ?? '' ) ) );
+            $challenge = (string) ( $params['challenge'] ?? '' );
+            $salt      = (string) ( $params['salt']      ?? '' );
+            $signature = (string) ( $decoded['challenge']['signature'] ?? '' );
+            $number    = (string) ( $decoded['solution']  ?? '' );
+        } else {
+            $algorithm = strtolower( str_replace( '-', '', (string) ( $decoded['algorithm'] ?? '' ) ) );
+            $challenge = (string) ( $decoded['challenge'] ?? '' );
+            $salt      = (string) ( $decoded['salt']      ?? '' );
+            $number    = (string) ( $decoded['number']    ?? '' );
+            $signature = (string) ( $decoded['signature'] ?? '' );
+        }
+
         if ( $algorithm !== 'sha256' ) {
             return [ 'success' => false, 'reason' => 'unsupported-algorithm' ];
         }
-
-        $challenge = (string) ( $decoded['challenge'] ?? '' );
-        $salt      = (string) ( $decoded['salt']      ?? '' );
-        $number    = (string) ( $decoded['number']    ?? '' );
-        $signature = (string) ( $decoded['signature'] ?? '' );
 
         // 1. HMAC-Signatur validieren
         $expected_sig = hash_hmac( 'sha256', $challenge, $hmac );

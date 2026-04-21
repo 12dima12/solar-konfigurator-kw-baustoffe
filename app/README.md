@@ -1,24 +1,27 @@
 # KW PV Solutions – Konfigurator (App)
 
-Next.js-App des PV-Konfigurators. Für Projekt-Übersicht, Architektur und Deployment
-→ siehe Dokumentation im **Repo-Root** (`../docs/`).
+Next.js-App des PV-Konfigurators. Wird als **Static Export** gebaut und vom
+WordPress-Plugin `kw-pv-tools` ausgeliefert. Für Projekt-Übersicht, Architektur
+und Deployment → siehe Dokumentation im **Repo-Root** (`../docs/`).
 
 ## Lokale Entwicklung
 
 ```bash
-cp .env.example .env.local   # Keys eintragen
+cp .env.example .env.local   # bei Bedarf anpassen (Defaults reichen für lokale Entwicklung)
 pnpm install
 pnpm dev                     # http://localhost:3000 → /solax/configurator
 ```
 
-Env-Variablen: **`../docs/USER_MANUAL.md`** (vollständige Liste + wo die Keys zu holen sind).
+`.env.example` ist die einzige authoritative Quelle für Env-Variablen des Builds.
+Laufzeit-Einstellungen (E-Mail, Captcha, Rate-Limit) werden im WP-Admin konfiguriert.
 
-## Build
+## Build (Static Export)
 
 ```bash
-pnpm build   # Prebuild validiert Hersteller-Daten, dann Next.js Build
-pnpm start
+pnpm build   # Prebuild validiert Hersteller-Daten, dann Next.js Static Export → out/
 ```
+
+Danach `../wordpress-plugin/build/sync-konfigurator.sh` um das Bundle ins Plugin zu kopieren.
 
 ## Routen
 
@@ -26,12 +29,11 @@ pnpm start
 |---|---|
 | `/solax/configurator` | Konfigurator (Vollseite) |
 | `/solax/embed` | iFrame-optimierte Variante |
-| `/api/submit` | POST-Endpoint (Rate-Limit + Captcha + E-Mail + PDF) |
 
 ## iFrame-Einbindung
 
 ```html
-<iframe src="https://konfigurator.kw-baustoffe.de/solax/embed"
+<iframe src="https://www.kw-baustoffe.de/pv-konfigurator/?route=embed"
   id="kw-konfigurator" style="width:100%;border:none;"></iframe>
 <script>
 window.addEventListener("message", (e) => {
@@ -50,5 +52,6 @@ window.addEventListener("message", (e) => {
 | `../docs/ARCHITECTURE.md` | Architektur + Datenfluss |
 | `../docs/ADD_MANUFACTURER.md` | Neuen Hersteller integrieren |
 | `../docs/SECURITY.md` | Security-Maßnahmen |
-| `../docs/DEPLOY.md` | Vercel + eigener Server |
-| `../docs/USER_MANUAL.md` | Für Dima: Env-Variablen, Monitoring |
+| `../docs/DEPLOY.md` | Deployment-Workflow |
+| `../docs/USER_MANUAL.md` | Für Dima: Einstellungen, Monitoring |
+| `../docs/WORDPRESS.md` | WordPress-Plugin-Architektur |

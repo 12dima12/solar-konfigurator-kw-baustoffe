@@ -91,6 +91,20 @@ WP-Admin → Einstellungen → PV-System — zeigt grüne/rote Checks für alle 
 
 ---
 
+## Build-Variablen (für Entwickler)
+
+Die einzige authoritative Quelle für Next.js-Env-Variablen ist **`app/.env.example`**.
+Dort sind alle vom Build tatsächlich gelesenen Variablen mit Standardwerten dokumentiert.
+
+```bash
+cp app/.env.example app/.env.local  # für lokale Entwicklung
+```
+
+Laufzeit-Einstellungen (E-Mail-Adresse, Captcha, Rate-Limit) werden **nicht** per
+Env-Var gesteuert — sie sind im WP-Admin unter Einstellungen → KW PV Tools konfiguriert.
+
+---
+
 ## Support
 
 Wenn etwas kaputt ist und du nicht weißt, was zu tun ist:

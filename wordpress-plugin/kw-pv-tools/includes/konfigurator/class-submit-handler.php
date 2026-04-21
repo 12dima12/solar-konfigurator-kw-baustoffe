@@ -60,20 +60,36 @@ class SubmitHandler {
         SubmissionsLog::save( $validated );
 
         // 7. Benachrichtigung an Vertrieb
-        $sent = self::send_notification( $validated );
-        if ( ! $sent ) {
-            error_log( '[kw-pv-tools] wp_mail() failed for ticket ' . $ticket_id );
+        $notification_ok = self::send_notification( $validated );
+        if ( ! $notification_ok ) {
+            // Submission ist im Log gespeichert — kein 500 (würde Retry + Duplikat auslösen).
+            // Admin muss Submissions-Log prüfen.
+            error_log( sprintf(
+                '[kw-pv-tools] Vertriebsmail fehlgeschlagen — Ticket %s, Empfänger: %s. Submission im Log vorhanden.',
+                $ticket_id,
+                implode( ', ', Settings::get_sales_emails() )
+            ) );
         }
 
         // 8. Kundenbestätigung
         if ( ! empty( $validated['contact']['email'] ) ) {
-            self::send_confirmation( $validated );
+            $confirmation_ok = self::send_confirmation( $validated );
+            if ( ! $confirmation_ok ) {
+                error_log( sprintf(
+                    '[kw-pv-tools] Bestätigungsmail fehlgeschlagen — Ticket %s, Kunde: %s.',
+                    $ticket_id,
+                    $validated['contact']['email']
+                ) );
+            }
         }
 
-        return new WP_REST_Response(
-            [ 'success' => true, 'id' => $ticket_id ],
-            200
-        );
+        $response = [ 'success' => true, 'id' => $ticket_id ];
+        if ( ! $notification_ok ) {
+            // Internes Flag — nicht im Frontend anzeigen, aber für Monitoring nutzbar.
+            $response['mail_status'] = 'notification_failed';
+        }
+
+        return new WP_REST_Response( $response, 200 );
     }
 
     private static function validate( array $data ): array {

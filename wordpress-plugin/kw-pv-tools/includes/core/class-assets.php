@@ -8,6 +8,19 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *
  * Das Bundle liegt unter /assets/konfigurator/ und wurde von
  * `pnpm build` + sync-konfigurator.sh erzeugt.
+ *
+ * Parsing-Strategie (seit D1): DOMDocument statt Regex.
+ * Gründe:
+ *   - Attribute wie `async`, `defer`, `type="module"`, `integrity`,
+ *     `crossorigin`, `noModule` bleiben erhalten. Die alte Regex-Logik
+ *     hat nur `src`/`href` extrahiert und beim Wiederausgeben die
+ *     restlichen Attribute verworfen → falsche Ladereihenfolge und
+ *     kaputte Module-Scripts nach dem Shortcode-Render.
+ *   - Body-Asset-Rewrite basiert auf "existiert die Datei im Bundle?",
+ *     nicht mehr auf einer Hardcoded-Prefix-Liste. So wird auch
+ *     `/kw-logo.svg` (oder jedes andere File unter public/) erfasst,
+ *     ohne den Prefix-Array nachpflegen zu müssen.
+ *   - Kein Mid-Tag-Splitting bei geschachtelten Quotes in Attributen.
  */
 class Assets {
 
@@ -25,11 +38,14 @@ class Assets {
     }
 
     /**
-     * Liest die HTML-Entry-Datei für manufacturer+route und extrahiert
-     * alle <script src> und <link rel="stylesheet"> Tags plus den Body-Inhalt.
+     * Parst die Next.js-Entry-HTML und trennt sie in drei Output-Blöcke:
+     *   - styles  : komplette <link rel="stylesheet"> Tags
+     *   - scripts : komplette <script src="..."> Tags
+     *   - body    : Body-innerHTML, alle Asset-Attribute auf Plugin-URL umgeschrieben
      *
-     * Next.js erzeugt für jede Seite eine index.html mit allen Asset-Referenzen.
-     * Wir parsen diese, um sie im WP-Kontext korrekt auszugeben.
+     * Inline-<script> (ohne src-Attribut) bleiben Teil des body; sie werden
+     * nicht zu scripts[] extrahiert, weil sie gegen CSP::SCRIPT_HASHES
+     * gehasht sein müssen.
      *
      * @return array{ scripts: string[], styles: string[], body: string }|array{ error: string }
      */
@@ -55,105 +71,175 @@ class Assets {
         }
 
         $html = file_get_contents( $html_path );
+        if ( $html === false || $html === '' ) {
+            return [ 'error' => 'Entry-HTML ist leer.' ];
+        }
 
-        // <script src="..."> Tags extrahieren
-        preg_match_all(
-            '/<script[^>]+src=["\']([^"\']+)["\'][^>]*><\/script>/i',
-            $html,
-            $script_matches
-        );
+        $doc = new \DOMDocument();
+        // HTML5-Inhalt erzeugt Parser-Warnings (z.B. "Tag section invalid"),
+        // die im Error-Log landen würden — wir fangen sie ab, der Parser
+        // liefert trotzdem ein brauchbares DOM.
+        $prev = libxml_use_internal_errors( true );
+        // Der XML-Encoding-Prefix zwingt DOMDocument zu UTF-8; ohne den
+        // würden Umlaute in Alt-Texten o.ä. als mojibake serialisiert.
+        $loaded = $doc->loadHTML( '<?xml encoding="UTF-8">' . $html );
+        libxml_clear_errors();
+        libxml_use_internal_errors( $prev );
 
-        // <link rel="stylesheet" href="..."> Tags extrahieren
-        preg_match_all(
-            '/<link[^>]+rel=["\']stylesheet["\'][^>]+href=["\']([^"\']+)["\'][^>]*\/?>/i',
-            $html,
-            $style_matches
-        );
+        if ( ! $loaded ) {
+            return [ 'error' => 'Konnte Entry-HTML nicht parsen.' ];
+        }
 
-        // Body-Inhalt extrahieren
-        preg_match( '/<body[^>]*>(.*?)<\/body>/is', $html, $body_match );
-        $body = $body_match[1] ?? '<div id="__next"></div>';
+        $scripts = self::extract_script_tags( $doc );
+        $styles  = self::extract_stylesheet_tags( $doc );
 
-        // Asset-Pfade im Body umschreiben (Bilder, inline link/script):
-        // Next.js rendert absolute Root-Pfade (/products/..., /_next/...),
-        // die im WP-Kontext ohne Rewrite zu 404 führen.
-        $body = self::rewrite_body_asset_paths( $body );
+        $body_node = $doc->getElementsByTagName( 'body' )->item( 0 );
+        if ( ! $body_node ) {
+            return [ 'error' => 'Kein <body>-Tag im Entry-HTML gefunden.' ];
+        }
+
+        self::rewrite_body_assets( $body_node );
+        $body = self::serialize_children( $doc, $body_node );
 
         return [
-            'scripts' => array_map( [ __CLASS__, 'rewrite_asset_uri' ], $script_matches[1] ?? [] ),
-            'styles'  => array_map( [ __CLASS__, 'rewrite_asset_uri' ], $style_matches[1] ?? [] ),
+            'scripts' => $scripts,
+            'styles'  => $styles,
             'body'    => $body,
         ];
     }
 
     /**
-     * Rewrites root-absolute asset paths in attribute values inside the body markup.
-     * Covered attributes: src, href, srcset, poster, data-src.
+     * Sammelt alle <script src="..."> Tags im DOM (head und body).
+     * Inline-Scripts (ohne src) werden übersprungen — sie bleiben im body.
      *
-     * A root-absolute path starts with a single `/` and is NOT protocol-relative (`//`).
-     * Only paths starting with `/_next/`, `/products/`, `/flags/` or other known
-     * asset roots are rewritten — arbitrary site paths like `/impressum` stay intact.
+     * @return string[] komplette Script-Tags inkl. async/defer/type/integrity/…
      */
-    private static function rewrite_body_asset_paths( string $body ): string {
-        $asset_prefixes = [ '/_next/', '/products/', '/media/', '/flags/', '/favicon' ];
+    private static function extract_script_tags( \DOMDocument $doc ): array {
+        $out      = [];
+        $elements = $doc->getElementsByTagName( 'script' );
+        // DOMNodeList ist live — beim Löschen im Loop verschiebt sich der
+        // Index. Snapshot in ein statisches Array bevor wir modifizieren.
+        $snapshot = [];
+        foreach ( $elements as $el ) $snapshot[] = $el;
 
-        // Match src="..." / href="..." / srcset="..." etc.
-        $pattern = '/(\s(?:src|href|srcset|poster|data-src)=)(["\'])([^"\']+)\2/i';
+        foreach ( $snapshot as $el ) {
+            $src = $el->getAttribute( 'src' );
+            if ( $src === '' ) continue;
 
-        return preg_replace_callback( $pattern, function ( $m ) use ( $asset_prefixes ) {
-            $attr  = $m[1];
-            $quote = $m[2];
-            $value = $m[3];
-
-            // srcset can contain comma-separated URL+descriptor pairs
-            if ( strpos( strtolower( $attr ), 'srcset' ) !== false ) {
-                $parts = array_map( function ( $part ) use ( $asset_prefixes ) {
-                    $part  = trim( $part );
-                    $split = preg_split( '/\s+/', $part, 2 );
-                    $url   = $split[0] ?? '';
-                    $desc  = isset( $split[1] ) ? ' ' . $split[1] : '';
-                    return self::maybe_rewrite_asset_path( $url, $asset_prefixes ) . $desc;
-                }, explode( ',', $value ) );
-                return $attr . $quote . implode( ', ', $parts ) . $quote;
-            }
-
-            return $attr . $quote . self::maybe_rewrite_asset_path( $value, $asset_prefixes ) . $quote;
-        }, $body );
-    }
-
-    private static function maybe_rewrite_asset_path( string $url, array $asset_prefixes ): string {
-        if ( $url === '' ) return $url;
-        // Skip protocol-relative, absolute URLs, data-URIs, fragment, anchor
-        if ( $url[0] !== '/' )           return $url;
-        if ( isset( $url[1] ) && $url[1] === '/' ) return $url;
-
-        foreach ( $asset_prefixes as $prefix ) {
-            if ( strpos( $url, $prefix ) === 0 ) {
-                return KW_PV_TOOLS_URL . 'assets/konfigurator' . $url;
-            }
+            $el->setAttribute( 'src', self::rewrite_asset_uri( $src ) );
+            $out[] = $doc->saveHTML( $el );
+            // Aus dem body entfernen, damit Scripts nicht doppelt erscheinen
+            // wenn Next.js welche direkt ins body injiziert hat.
+            if ( $el->parentNode ) $el->parentNode->removeChild( $el );
         }
-        return $url;
+        return $out;
     }
 
     /**
-     * Next.js erzeugt absolute Pfade wie /_next/static/...
-     * Diese werden auf den Plugin-Asset-URL umgeschrieben.
+     * Sammelt alle <link rel="stylesheet" href="..."> Tags.
+     *
+     * @return string[]
+     */
+    private static function extract_stylesheet_tags( \DOMDocument $doc ): array {
+        $out      = [];
+        $elements = $doc->getElementsByTagName( 'link' );
+        $snapshot = [];
+        foreach ( $elements as $el ) $snapshot[] = $el;
+
+        foreach ( $snapshot as $el ) {
+            if ( strtolower( $el->getAttribute( 'rel' ) ) !== 'stylesheet' ) continue;
+            $href = $el->getAttribute( 'href' );
+            if ( $href === '' ) continue;
+
+            $el->setAttribute( 'href', self::rewrite_asset_uri( $href ) );
+            $out[] = $doc->saveHTML( $el );
+            if ( $el->parentNode ) $el->parentNode->removeChild( $el );
+        }
+        return $out;
+    }
+
+    /**
+     * Walk body and rewrite every asset-bearing attribute. Covered:
+     *   src, href, srcset, poster, data-src.
+     */
+    private static function rewrite_body_assets( \DOMNode $node ): void {
+        if ( $node instanceof \DOMElement ) {
+            foreach ( [ 'src', 'href', 'poster', 'data-src' ] as $attr ) {
+                if ( ! $node->hasAttribute( $attr ) ) continue;
+                $value      = $node->getAttribute( $attr );
+                $rewritten  = self::rewrite_asset_uri_if_available( $value );
+                if ( $rewritten !== $value ) $node->setAttribute( $attr, $rewritten );
+            }
+            if ( $node->hasAttribute( 'srcset' ) ) {
+                $node->setAttribute( 'srcset', self::rewrite_srcset( $node->getAttribute( 'srcset' ) ) );
+            }
+        }
+
+        foreach ( $node->childNodes as $child ) {
+            self::rewrite_body_assets( $child );
+        }
+    }
+
+    /**
+     * Serialize a DOMElement's children back to HTML without the wrapping
+     * element itself — equivalent to `element.innerHTML`.
+     */
+    private static function serialize_children( \DOMDocument $doc, \DOMElement $element ): string {
+        $out = '';
+        foreach ( $element->childNodes as $child ) {
+            $out .= $doc->saveHTML( $child );
+        }
+        return $out;
+    }
+
+    /**
+     * Rewrites the root-absolute URL of a bundle-owned asset (script/style
+     * hrefs from Next.js — they are always under /_next/... and live in
+     * the plugin's assets/konfigurator/ mirror). Non-absolute or external
+     * URLs pass through unchanged.
      */
     private static function rewrite_asset_uri( string $uri ): string {
-        if ( strpos( $uri, '/_next/' ) === 0 ) {
-            return KW_PV_TOOLS_URL . 'assets/konfigurator' . $uri;
-        }
-        // Relative Pfade (z.B. /products/...) → Plugin-Assets
-        if ( strpos( $uri, '/' ) === 0 && strpos( $uri, '//' ) !== 0 ) {
-            return KW_PV_TOOLS_URL . 'assets/konfigurator' . $uri;
-        }
-        return $uri;
+        if ( $uri === '' )                               return $uri;
+        if ( $uri[0] !== '/' )                           return $uri;
+        if ( isset( $uri[1] ) && $uri[1] === '/' )       return $uri; // protocol-relative
+        return KW_PV_TOOLS_URL . 'assets/konfigurator' . $uri;
     }
 
     /**
-     * JavaScript-Globals für die React-App.
-     * Muss vor dem App-Script-Tag geladen werden.
+     * Rewrites a root-absolute URL only if the target exists inside
+     * the plugin's assets/konfigurator/ folder. Leaves paths like
+     * /impressum or /datenschutz alone — those point to real WP pages,
+     * not bundle assets. Query string / fragment are stripped for the
+     * filesystem lookup but preserved in the returned URL.
      */
+    private static function rewrite_asset_uri_if_available( string $uri ): string {
+        if ( $uri === '' )                               return $uri;
+        if ( $uri[0] !== '/' )                           return $uri;
+        if ( isset( $uri[1] ) && $uri[1] === '/' )       return $uri;
+
+        $path_only = (string) strtok( $uri, '?#' );
+        $fs_path   = KW_PV_TOOLS_PATH . 'assets/konfigurator' . $path_only;
+        if ( ! is_file( $fs_path ) ) return $uri;
+
+        return KW_PV_TOOLS_URL . 'assets/konfigurator' . $uri;
+    }
+
+    /**
+     * srcset holds comma-separated "url descriptor" pairs.
+     * Each URL is checked via rewrite_asset_uri_if_available individually.
+     */
+    private static function rewrite_srcset( string $value ): string {
+        $parts = array_map( function ( $part ) {
+            $part  = trim( $part );
+            if ( $part === '' ) return $part;
+            $split = preg_split( '/\s+/', $part, 2 );
+            $url   = $split[0] ?? '';
+            $desc  = isset( $split[1] ) ? ' ' . $split[1] : '';
+            return self::rewrite_asset_uri_if_available( $url ) . $desc;
+        }, explode( ',', $value ) );
+        return implode( ', ', $parts );
+    }
+
     /**
      * Returns bootstrap data as a plain array.
      * Consumed via data-* attributes on the container — no inline script needed.

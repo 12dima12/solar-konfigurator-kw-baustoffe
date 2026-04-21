@@ -5,7 +5,7 @@
 
 Produktnummern, Leistungswerte, Kompatibilitäten und technische Spezifikationen sind Fakten und nicht urheberrechtlich geschützt (§§ 2, 4 UrhG). Die Extraktion zu Interoperabilitätszwecken ist nach § 69e UrhG zulässig.
 
-Dateien: `analysis/catalog.json`, `analysis/products.json`, `app/src/data/`
+Dateien: `analysis/catalog.json`, `analysis/products.json`, `app/src/manufacturers/<slug>/catalog.json`
 
 ## Quellcode (UI, Logik, Styling)
 **Status: Komplett neu — kein Original-Code verwendet**

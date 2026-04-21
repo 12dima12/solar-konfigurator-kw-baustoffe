@@ -210,9 +210,17 @@ export function SubmitSummary() {
           </p>
         )}
 
+        {/*
+         * Submit stays disabled until the captcha widget has supplied a
+         * token. NoCaptchaWidget (provider=none) calls onVerify("no-captcha")
+         * on mount, so the button enables immediately when captcha is off.
+         * AltchaWidget only fires after the PoW challenge resolves, so the
+         * button enables exactly when the user finishes verifying — no more
+         * 403-reasons=no-payload bounces on premature clicks.
+         */}
         <Button
           type="submit"
-          disabled={isSubmitting}
+          disabled={isSubmitting || !captchaToken}
           className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
         >
           {t.submit}

@@ -83,14 +83,14 @@ class Shortcode {
      <?php if ( $privacy_url ): ?>data-kw-privacy-url="<?php echo esc_attr( $privacy_url ); ?>"<?php endif; ?>
      <?php if ( $presets ): ?>data-kw-presets="<?php echo esc_attr( wp_json_encode( $presets ) ); ?>"<?php endif; ?>>
 
-<?php foreach ( $assets['styles'] as $href ) : ?>
-<link rel="stylesheet" href="<?php echo esc_url( $href ); ?>">
+<?php foreach ( $assets['styles'] as $tag ) : ?>
+<?php echo $tag; // phpcs:ignore WordPress.Security.EscapeOutput — pre-rendered <link> markup from the bundle, already built through DOMDocument::saveHTML ?>
 <?php endforeach; ?>
 
 <?php echo $assets['body']; // phpcs:ignore WordPress.Security.EscapeOutput — pre-rendered React HTML ?>
 
-<?php foreach ( $assets['scripts'] as $src ) : ?>
-<script src="<?php echo esc_url( $src ); ?>" defer></script>
+<?php foreach ( $assets['scripts'] as $tag ) : ?>
+<?php echo $tag; // phpcs:ignore WordPress.Security.EscapeOutput — pre-rendered <script> markup from the bundle (preserves async/defer/type/integrity/crossorigin) ?>
 <?php endforeach; ?>
 
 </div>

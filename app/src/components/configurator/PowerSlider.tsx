@@ -12,7 +12,7 @@ interface Props {
   lang: Lang;
   steps: string[];
   onSelect: (key: string, node: ConfigNode) => void;
-  catalog?: Record<string, unknown> | null;
+  catalog: Record<string, unknown>;
 }
 
 export function PowerSlider({ lang, steps, onSelect, catalog }: Props) {

@@ -5,6 +5,7 @@ use KW_PV_Tools\Core\Settings;
 use KW_PV_Tools\Core\Captcha;
 use KW_PV_Tools\Core\RateLimit;
 use KW_PV_Tools\Core\Mailer;
+use KW_PV_Tools\Core\PdfGenerator;
 use KW_PV_Tools\Core\TicketId;
 use KW_PV_Tools\Core\SubmissionsLog;
 use WP_REST_Request;
@@ -61,8 +62,14 @@ class SubmitHandler {
         // 7. Im Log speichern
         SubmissionsLog::save( $validated );
 
+        // 7b. Konfigurations-PDF rendern und als tmp-Datei für die Mail-
+        //     Anhänge ablegen. Fehlschläge werden still ignoriert —
+        //     Mails gehen dann ohne Anhang raus statt die Submission zu
+        //     blockieren.
+        $pdf_attachment = self::render_pdf_attachment( $validated );
+
         // 8. Benachrichtigung an Vertrieb
-        $notification_ok = self::send_notification( $validated );
+        $notification_ok = self::send_notification( $validated, $pdf_attachment );
         if ( ! $notification_ok ) {
             // Submission ist im Log gespeichert — kein 500 (würde Retry + Duplikat auslösen).
             // Admin muss Submissions-Log prüfen.
@@ -75,7 +82,7 @@ class SubmitHandler {
 
         // 9. Kundenbestätigung
         if ( ! empty( $validated['contact']['email'] ) ) {
-            $confirmation_ok = self::send_confirmation( $validated );
+            $confirmation_ok = self::send_confirmation( $validated, $pdf_attachment );
             if ( ! $confirmation_ok ) {
                 error_log( sprintf(
                     '[kw-pv-tools] Bestätigungsmail fehlgeschlagen — Ticket %s, Kunde: %s.',
@@ -85,6 +92,11 @@ class SubmitHandler {
             }
         }
 
+        // 10. Aufräumen — tmp-PDF-Datei nach dem Mailversand löschen.
+        if ( $pdf_attachment && file_exists( $pdf_attachment ) ) {
+            @unlink( $pdf_attachment );
+        }
+
         $response = [ 'success' => true, 'id' => $ticket_id ];
         if ( ! $notification_ok ) {
             // Internes Flag — nicht im Frontend anzeigen, aber für Monitoring nutzbar.
@@ -92,6 +104,24 @@ class SubmitHandler {
         }
 
         return new WP_REST_Response( $response, 200 );
+    }
+
+    /**
+     * Writes the configuration PDF to a temp file and returns the path.
+     * Returns null on any failure so the caller falls back to mail-without-
+     * attachment instead of crashing the whole submit flow.
+     */
+    private static function render_pdf_attachment( array $data ): ?string {
+        try {
+            $bytes = PdfGenerator::generate( $data );
+        } catch ( \Throwable $e ) {
+            error_log( '[kw-pv-tools] PDF attachment render failed: ' . $e->getMessage() );
+            return null;
+        }
+        $ticket = preg_replace( '/[^A-Za-z0-9_-]/', '', (string) ( $data['ticket'] ?? 'unknown' ) );
+        $path   = sys_get_temp_dir() . "/kw-pv-konfiguration-{$ticket}.pdf";
+        if ( file_put_contents( $path, $bytes ) === false ) return null;
+        return $path;
     }
 
     // Hard upper bounds enforced on the server regardless of what the
@@ -160,10 +190,37 @@ class SubmitHandler {
 
             $product = null;
             if ( isset( $s['selectedProduct'] ) && is_array( $s['selectedProduct'] ) ) {
+                $sp      = $s['selectedProduct'];
                 $product = [
-                    'product_name' => sanitize_text_field( self::cap( $s['selectedProduct']['product_name'] ?? '', self::MAX_PRODUCT_FIELD ) ),
-                    'value'        => sanitize_text_field( self::cap( $s['selectedProduct']['value']        ?? '', self::MAX_PRODUCT_FIELD ) ),
+                    'product_name' => sanitize_text_field( self::cap( $sp['product_name'] ?? '', self::MAX_PRODUCT_FIELD ) ),
+                    'value'        => sanitize_text_field( self::cap( $sp['value']        ?? '', self::MAX_PRODUCT_FIELD ) ),
                 ];
+                // Optional battery metadata (written by the battery phase) —
+                // needed server-side so the PDF generator can derive the
+                // BMS/BAT-BOX/Master/Slave row counts without reparsing labels.
+                if ( isset( $sp['batteryMeta'] ) && is_array( $sp['batteryMeta'] ) ) {
+                    $bm                       = $sp['batteryMeta'];
+                    $product['batteryMeta']   = [
+                        'seriesKey'   => sanitize_key( (string) ( $bm['seriesKey']   ?? '' ) ),
+                        'seriesLabel' => sanitize_text_field( self::cap( (string) ( $bm['seriesLabel'] ?? '' ), self::MAX_PRODUCT_FIELD ) ),
+                        'kwh'         => (float) ( $bm['kwh']         ?? 0 ),
+                        'moduleCount' => max( 0, (int) ( $bm['moduleCount'] ?? 0 ) ),
+                        'model'       => sanitize_text_field( self::cap( (string) ( $bm['model']       ?? '' ), 50 ) ),
+                    ];
+                }
+                // Structured accessory line items (see AccessoryConfigurator).
+                if ( isset( $sp['items'] ) && is_array( $sp['items'] ) ) {
+                    $items = [];
+                    foreach ( array_slice( $sp['items'], 0, 30 ) as $row ) {
+                        if ( ! is_array( $row ) ) continue;
+                        $items[] = [
+                            'name'     => sanitize_text_field( self::cap( (string) ( $row['name']     ?? '' ), self::MAX_PRODUCT_FIELD ) ),
+                            'qty'      => max( 1, (int) ( $row['qty']      ?? 1 ) ),
+                            'category' => sanitize_text_field( self::cap( (string) ( $row['category'] ?? '' ), 80 ) ),
+                        ];
+                    }
+                    $product['items'] = $items;
+                }
             }
 
             $steps_raw = is_array( $s['steps'] ?? null ) ? $s['steps'] : [];
@@ -208,7 +265,7 @@ class SubmitHandler {
         return self::cap( $raw, self::MAX_CAPTCHA_TOKEN );
     }
 
-    private static function send_notification( array $data ): bool {
+    private static function send_notification( array $data, ?string $pdf_path = null ): bool {
         $recipients = Settings::get_sales_emails();
         if ( empty( $recipients ) ) {
             $recipients = [ get_option( 'admin_email' ) ];
@@ -219,21 +276,23 @@ class SubmitHandler {
             $data['contact']['name'],
             date_i18n( 'd.m.Y' )
         );
-        $html    = self::build_notification_html( $data );
-        $all_ok  = true;
+        $html        = self::build_notification_html( $data );
+        $attachments = $pdf_path ? [ $pdf_path ] : [];
+        $all_ok      = true;
         foreach ( $recipients as $email ) {
-            if ( ! Mailer::send( $email, $subject, $html ) ) {
+            if ( ! Mailer::send( $email, $subject, $html, $attachments ) ) {
                 $all_ok = false;
             }
         }
         return $all_ok;
     }
 
-    private static function send_confirmation( array $data ): bool {
+    private static function send_confirmation( array $data, ?string $pdf_path = null ): bool {
         return Mailer::send(
             $data['contact']['email'],
             'Ihre PV-Konfiguration bei KW PV Solutions',
-            self::build_confirmation_html( $data )
+            self::build_confirmation_html( $data ),
+            $pdf_path ? [ $pdf_path ] : []
         );
     }
 

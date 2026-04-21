@@ -12,7 +12,7 @@ import { useConfigStore } from "@/store/configStore";
 import { useManufacturer } from "@/lib/manufacturer-context";
 import { PHASE_LABELS } from "@/lib/constants";
 import type { Lang } from "@/data/types";
-import { CheckCircle, RotateCcw } from "lucide-react";
+import { CheckCircle, RotateCcw, FileText } from "lucide-react";
 import { publicAsset } from "@/lib/public-asset";
 
 const schema = z.object({
@@ -36,6 +36,8 @@ interface UiCopy {
   error: string;
   privacyNotice: string;
   privacyLink: string;
+  pdfButton: string;
+  pdfHint: string;
 }
 
 const UI: Record<Lang, UiCopy> = {
@@ -52,6 +54,8 @@ const UI: Record<Lang, UiCopy> = {
     privacyNotice:
       "Mit dem Absenden stimmen Sie der Verarbeitung Ihrer Daten zur Bearbeitung Ihrer Anfrage zu.",
     privacyLink: "Datenschutzerklärung",
+    pdfButton: "Konfiguration als PDF",
+    pdfHint: "Öffnet die komplette Konfiguration zum Drucken oder Speichern — keine Kontaktdaten nötig.",
   },
   en: {
     title: "Your Configuration",
@@ -66,6 +70,8 @@ const UI: Record<Lang, UiCopy> = {
     privacyNotice:
       "By sending, you consent to the processing of your data for handling your request.",
     privacyLink: "Privacy Policy",
+    pdfButton: "Configuration as PDF",
+    pdfHint: "Opens the full configuration for printing or saving — no contact details needed.",
   },
   cs: {
     title: "Vaše konfigurace",
@@ -80,6 +86,8 @@ const UI: Record<Lang, UiCopy> = {
     privacyNotice:
       "Odesláním souhlasíte se zpracováním vašich údajů pro vyřízení poptávky.",
     privacyLink: "Zásady ochrany osobních údajů",
+    pdfButton: "Konfigurace jako PDF",
+    pdfHint: "Otevře kompletní konfiguraci k tisku nebo uložení — bez kontaktních údajů.",
   },
 };
 
@@ -160,6 +168,34 @@ export function SubmitSummary() {
             </div>
           </Card>
         ))}
+      </div>
+
+      <div className="border-t pt-4">
+        <Button
+          type="button"
+          variant="outline"
+          className="gap-2 w-full sm:w-auto"
+          onClick={async () => {
+            try {
+              const resp = await fetch(route("configurator/pdf"), {
+                method: "POST",
+                headers: { ...getApiHeaders(), "Content-Type": "application/json" },
+                body: JSON.stringify({ manufacturer: manufacturer.meta.slug, selections: filled }),
+              });
+              if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+              const blob = await resp.blob();
+              const url = URL.createObjectURL(blob);
+              window.open(url, "_blank", "noopener,noreferrer");
+              setTimeout(() => URL.revokeObjectURL(url), 60_000);
+            } catch (e) {
+              console.error("PDF open failed:", e);
+            }
+          }}
+        >
+          <FileText className="h-4 w-4" />
+          {t.pdfButton}
+        </Button>
+        <p className="text-xs text-muted-foreground mt-2">{t.pdfHint}</p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 border-t pt-6">

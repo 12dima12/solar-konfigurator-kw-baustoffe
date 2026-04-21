@@ -23,6 +23,12 @@ export interface PhaseSelection {
       moduleCount: number;
       model: string;
     };
+    /**
+     * Optional structured line items. Written by the accessory phase so the
+     * server can build the PDF order list without parsing product_name.
+     * Every entry is one row on the invoice / PDF product table.
+     */
+    items?: Array<{ name: string; qty: number; category?: string }>;
   };
 }
 

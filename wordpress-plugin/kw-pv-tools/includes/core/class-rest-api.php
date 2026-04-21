@@ -37,6 +37,16 @@ class RestApi {
             'callback'            => [ 'KW_PV_Tools\\Konfigurator\\SubmitHandler', 'handle' ],
             'permission_callback' => [ __CLASS__, 'submit_permission' ],
         ] );
+
+        // Configuration PDF — streamt das PDF für den "Drucken"-Button ohne
+        // Kontaktdaten. Kein Captcha, aber per-IP-Rate-Limit + Origin-Check:
+        // der Endpoint verarbeitet keine Lead-Daten, das einzige Missbrauchs-
+        // risiko ist CPU-Last durch wiederholte mpdf-Rendering-Aufrufe.
+        register_rest_route( self::NAMESPACE, '/configurator/pdf', [
+            'methods'             => 'POST',
+            'callback'            => [ 'KW_PV_Tools\\Konfigurator\\PdfEndpoint', 'handle' ],
+            'permission_callback' => [ __CLASS__, 'submit_permission' ],
+        ] );
     }
 
     /**

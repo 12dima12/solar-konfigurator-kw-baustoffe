@@ -103,6 +103,7 @@ export function ConfiguratorShell() {
       product_name: payload.productListMulti || "Kein Zubehör",
       value: payload.summary,
       image: null,
+      items: payload.items,
     });
     if (!isFinalPhase) store.skipPhase();
     scrollToTop();

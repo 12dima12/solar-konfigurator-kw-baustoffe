@@ -22,6 +22,7 @@ export const API_ROUTES = {
   submit: `${API_BASE}/submit`,
   captchaConfig: `${API_BASE}/captcha/config`,
   captchaChallenge: `${API_BASE}/captcha/altcha/challenge`,
+  "configurator/pdf": `${API_BASE}/configurator/pdf`,
 } as const;
 
 /**

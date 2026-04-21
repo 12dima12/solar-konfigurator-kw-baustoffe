@@ -16,7 +16,8 @@ import { Check, Battery, Radio, Package, Gauge } from "lucide-react";
 
 export interface AccessorySelection {
   summary: string;          // short breadcrumb text
-  productListMulti: string; // newline-separated list for the sales email
+  productListMulti: string; // " · "-separated list for the sales email
+  items: Array<{ name: string; qty: number; category: string }>;
 }
 
 interface Props {
@@ -105,14 +106,17 @@ export function AccessoryConfigurator({ lang, onConfirm, onBack }: Props) {
   const submit = () => {
     const lines: string[] = [];
     const summaryBits: string[] = [];
+    const items: AccessorySelection["items"] = [];
 
     if (batteryAcc.brackets > 0) {
       lines.push(`${batteryAcc.brackets}× ${BATTERY_HOLDING_BRACKET.productName}`);
       summaryBits.push(`${batteryAcc.brackets}× Bracket`);
+      items.push({ name: BATTERY_HOLDING_BRACKET.productName, qty: batteryAcc.brackets, category: "Batteriekomponenten" });
     }
     if (batteryAcc.basePlates > 0) {
       lines.push(`${batteryAcc.basePlates}× ${BATTERY_BASE_PLATE.productName}`);
       summaryBits.push(`${batteryAcc.basePlates}× Base Plate`);
+      items.push({ name: BATTERY_BASE_PLATE.productName, qty: batteryAcc.basePlates, category: "Batteriekomponenten" });
     }
 
     if (dongleKey) {
@@ -120,14 +124,23 @@ export function AccessoryConfigurator({ lang, onConfirm, onBack }: Props) {
       if (d) {
         lines.push(`1× ${d.productName}`);
         summaryBits.push(d.label);
+        items.push({ name: d.productName, qty: 1, category: "Zubehör" });
       }
     }
 
     for (const k of otherKeys) {
       const o = SOLAX_OTHER_ACCESSORIES.find((x) => x.key === k);
       if (o && !o.comingSoon) {
-        lines.push(`1× ${o.productName} (${o.code})`);
+        lines.push(`1× ${o.productName}`);
         summaryBits.push(o.label);
+        items.push({
+          name: o.productName,
+          qty: 1,
+          category: /DataHub/i.test(o.label) ? "Datenverwaltung"
+            : /Wireless Bridge/i.test(o.label) ? "Überwachung"
+            : /Adapter/i.test(o.label) ? "Adapter"
+            : "Zubehör",
+        });
       }
     }
 
@@ -136,12 +149,14 @@ export function AccessoryConfigurator({ lang, onConfirm, onBack }: Props) {
       if (m) {
         lines.push(`1× ${m.productName}`);
         summaryBits.push(m.label.replace("Solax Chint ", ""));
+        items.push({ name: m.productName, qty: 1, category: "Überwachung" });
       }
     }
 
     onConfirm({
       summary: summaryBits.length === 0 ? "Kein Zubehör" : `${summaryBits.length} Positionen`,
       productListMulti: lines.join(" · "),
+      items,
     });
   };
 

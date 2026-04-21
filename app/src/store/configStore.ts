@@ -34,7 +34,6 @@ interface ConfigState {
   selectOption: (key: string) => void;
   goBack: () => void;
   goToPhase: (index: number) => void;
-  setLang: (l: Lang) => void;
   reset: () => void;
   confirmProduct: (product: PhaseSelection["selectedProduct"]) => void;
   skipPhase: () => void;
@@ -101,8 +100,6 @@ export const useConfigStore = create<ConfigState>()(
         });
         set({ currentPhaseIndex: index, selections: updated });
       },
-
-      setLang: (lang) => set({ lang }),
 
       reset: () =>
         set({ currentPhaseIndex: 0, selections: initialSelections() }),

@@ -9,7 +9,6 @@ import { BatteryConfigurator } from "./BatteryConfigurator";
 import { AccessoryConfigurator, type AccessorySelection } from "./AccessoryConfigurator";
 import { SubmitSummary } from "./SubmitSummary";
 import { CurrentSetupSidebar } from "./CurrentSetupSidebar";
-import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useConfigState } from "@/hooks/useConfigState";
 import { useConfigStore } from "@/store/configStore";
 import { useIframeResize } from "@/hooks/useIframeResize";
@@ -184,7 +183,6 @@ function Header({
       <div className="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
         <Image src={publicAsset(logoUrl)} alt="KW PV Solutions" width={140} height={32} priority />
         <div className="flex items-center gap-2">
-          <LanguageSwitcher />
           <CurrentSetupSidebar selections={selections} lang={lang} />
           <Button variant="ghost" size="icon" onClick={onReset} aria-label="Zurücksetzen" className="text-muted-foreground">
             <RotateCcw className="h-4 w-4" />

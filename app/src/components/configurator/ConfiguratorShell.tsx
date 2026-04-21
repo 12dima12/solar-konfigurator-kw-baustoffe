@@ -5,15 +5,17 @@ import { Progress } from "@/components/ui/progress";
 import { StepIndicator } from "./StepIndicator";
 import { OptionGrid } from "./OptionGrid";
 import { PowerSlider } from "./PowerSlider";
+import { BatteryConfigurator } from "./BatteryConfigurator";
 import { SubmitSummary } from "./SubmitSummary";
 import { CurrentSetupSidebar } from "./CurrentSetupSidebar";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useConfigState } from "@/hooks/useConfigState";
+import { useConfigStore } from "@/store/configStore";
 import { useIframeResize } from "@/hooks/useIframeResize";
 import { ACTIVE_PHASES } from "@/lib/navigation";
+import { scrollToTop } from "@/lib/scroll-to-top";
 import { useManufacturer } from "@/lib/manufacturer-context";
 import { ChevronLeft, RotateCcw } from "lucide-react";
-import { getPhaseTree } from "@/lib/navigation";
 import { publicAsset } from "@/lib/public-asset";
 import type { Lang } from "@/data/types";
 
@@ -55,9 +57,20 @@ export function ConfiguratorShell() {
 
   const phaseTitle = PHASE_TITLES[phase]?.[lang] ?? phase;
 
-  // Battery phase: flat tree (Record<string, string>)
-  const batteryTree = isBattery ? getPhaseTree("battery", lang, manufacturer.catalog) : null;
-  const batteryKeys = batteryTree ? Object.keys(batteryTree) : [];
+  // Battery phase uses a dedicated configurator (series card → capacity slider
+  // → live montage preview) instead of the generic option grid. The selected
+  // configuration is committed via the same store.confirmProduct path as every
+  // other phase.
+  const confirmBattery = (payload: { key: string; label: string; value: string; kwh: number; model: string }) => {
+    const store = useConfigStore.getState();
+    store.confirmProduct({
+      product_name: `${payload.label} · ${payload.model}`,
+      value: payload.value,
+      image: null,
+    });
+    if (!isFinalPhase) store.skipPhase();
+    scrollToTop();
+  };
 
   if (isFinalStep) {
     return (
@@ -107,17 +120,7 @@ export function ConfiguratorShell() {
         {isX3 ? (
           <PowerSlider lang={lang} steps={steps} onSelect={handleSelect} catalog={manufacturer.catalog} />
         ) : isBattery ? (
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {batteryKeys.map((key) => (
-              <button
-                key={key}
-                onClick={() => handleSelect(key, { value: key, label: key })}
-                className="rounded-xl border-2 border-border hover:border-primary p-6 text-center font-semibold text-sm transition-all hover:shadow-md cursor-pointer bg-card"
-              >
-                {key}
-              </button>
-            ))}
-          </div>
+          <BatteryConfigurator lang={lang} onConfirm={confirmBattery} />
         ) : (
           <OptionGrid children={children} onSelect={handleSelect} />
         )}

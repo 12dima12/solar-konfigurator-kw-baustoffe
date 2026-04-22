@@ -20,6 +20,7 @@ export interface ConfigNode {
   power?: number;
   type?: string;
   group?: string | null;
+  compatibility?: Array<"new" | "ac-coupling">;
   children?: Record<string, ConfigNode>;
 }
 

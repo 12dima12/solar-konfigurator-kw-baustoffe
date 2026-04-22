@@ -47,7 +47,7 @@ export function ConfiguratorShell() {
   // Apply manufacturer rules — e.g. for SolaX hide X1 backup units when an
   // X3 inverter was picked (and vice versa) so only electrically compatible
   // options show up in the grid.
-  const children = manufacturer.rules.filterOptions(phase, lang, rawChildren, selections);
+  const children = manufacturer.rules.filterOptions(phase, lang, rawChildren, selections, installationType);
 
   const isX3 =
     phase === "inverter" &&

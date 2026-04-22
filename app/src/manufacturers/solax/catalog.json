@@ -3954,6 +3954,7 @@
         "Yes": {
           "label": "Ja",
           "value": "Yes",
+          "compatibility": ["new"],
           "title": "Wählen Sie eine Option für die automatische Umschaltung",
           "icon": "fa-solid fa-check text-green-500",
           "description": null,
@@ -4025,6 +4026,7 @@
         "No": {
           "label": "Nein",
           "value": null,
+          "compatibility": ["new", "ac-coupling"],
           "icon": "fa-solid fa-xmark text-red-500",
           "title": null,
           "image": null,
@@ -4043,6 +4045,7 @@
         "Yes": {
           "label": "Yes",
           "value": "Yes",
+          "compatibility": ["new"],
           "title": "Select Backup Option",
           "icon": "fa-solid fa-check text-green-500",
           "description": null,
@@ -4114,6 +4117,7 @@
         "No": {
           "label": "No",
           "value": null,
+          "compatibility": ["new", "ac-coupling"],
           "icon": "fa-solid fa-xmark text-red-500",
           "title": null,
           "image": null,
@@ -4132,6 +4136,7 @@
         "Yes": {
           "label": "Ano",
           "value": "Yes",
+          "compatibility": ["new"],
           "title": "Vyberte zálohovací zařízení",
           "icon": "fa-solid fa-check text-green-500",
           "description": null,
@@ -4203,6 +4208,7 @@
         "No": {
           "label": "Ne",
           "value": null,
+          "compatibility": ["new", "ac-coupling"],
           "icon": "fa-solid fa-xmark text-red-500",
           "title": null,
           "image": null,

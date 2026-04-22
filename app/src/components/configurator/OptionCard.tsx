@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { InfoModal } from "./InfoModal";
 import type { ConfigNode } from "@/data/types";
 import { publicAsset } from "@/lib/public-asset";
-import { renderFormattedLabel } from "@/lib/formatted-label";
+import { renderFormattedLabel, plainText } from "@/lib/formatted-label";
 
 interface Props {
   nodeKey: string;
@@ -17,6 +17,7 @@ export function OptionCard({ nodeKey, node, onClick, disabled }: Props) {
   const hasImage = !!node.image;
   const hasCover = !!node.cover;
   const label = node.label ?? node.value ?? nodeKey;
+  const plainLabel = plainText(label);
   const showInfo = !!node.info;
 
   return (
@@ -31,13 +32,13 @@ export function OptionCard({ nodeKey, node, onClick, disabled }: Props) {
           : "border-border hover:border-primary hover:shadow-md cursor-pointer bg-card",
         hasCover && "overflow-hidden min-h-[160px]"
       )}
-      aria-label={label}
+      aria-label={plainLabel}
     >
       {hasCover && (
         <div className="absolute inset-0">
           <Image
             src={publicAsset(`/products/media/${node.cover!.replace("img/media/", "")}`)}
-            alt={label}
+            alt={plainLabel}
             fill
             className="object-cover opacity-30 group-hover:opacity-40 transition-opacity"
             sizes="(max-width: 768px) 100vw, 33vw"
@@ -51,7 +52,7 @@ export function OptionCard({ nodeKey, node, onClick, disabled }: Props) {
           <div className="mb-3 flex justify-center">
             <Image
               src={publicAsset(`/products/${node.image!.replace("img/", "")}`)}
-              alt={label}
+              alt={plainLabel}
               width={80}
               height={80}
               className="object-contain"
@@ -73,7 +74,7 @@ export function OptionCard({ nodeKey, node, onClick, disabled }: Props) {
       </div>
 
       {showInfo && node.info && (
-        <InfoModal title={label} spec={node.info} />
+        <InfoModal title={plainLabel} spec={node.info} />
       )}
     </button>
   );

@@ -1,6 +1,6 @@
 import type { ManufacturerRules } from "../types";
 import type { ConfigNode, ConfigPhase, Lang } from "@/data/types";
-import type { PhaseSelection } from "@/store/configStore";
+import type { InstallationType, PhaseSelection } from "@/store/configStore";
 
 function isX1Selected(selections: PhaseSelection[]): boolean {
   const inverter = selections.find((s) => s.phase === "inverter");
@@ -35,13 +35,49 @@ function isPhaseTaggedProduct(key: string, node: ConfigNode): boolean {
   return productName.includes("X1") || productName.includes("X3");
 }
 
+function supportsInstallationType(
+  key: string,
+  node: ConfigNode,
+  installationType: InstallationType,
+): boolean {
+  if (node.compatibility?.includes(installationType)) return true;
+  if (node.children) {
+    return Object.entries(node.children).some(([childKey, childNode]) =>
+      supportsInstallationType(childKey, childNode, installationType)
+    );
+  }
+
+  // Fallback heuristics for legacy catalog entries that are not yet tagged.
+  if (installationType === "ac-coupling") {
+    const haystack = `${key} ${node.product_name ?? ""} ${node.value ?? ""} ${node.description ?? ""}`.toLowerCase();
+    return haystack.includes("hac") || haystack.includes("retrofit");
+  }
+
+  return true;
+}
+
 const rules: ManufacturerRules = {
   filterOptions(
     phase: ConfigPhase,
     _lang: Lang,
     options: Array<[string, ConfigNode]>,
     selections: PhaseSelection[],
+    installationType: InstallationType | null,
   ): Array<[string, ConfigNode]> {
+    let filtered = options;
+
+    // AC-coupling mode exposes only explicitly compatible paths.
+    // As a migration fallback we keep the original list if nothing matches
+    // yet (so partially tagged trees stay usable while data is being enriched).
+    if (installationType === "ac-coupling") {
+      const acCompatible = options.filter(([key, node]) =>
+        supportsInstallationType(key, node, "ac-coupling")
+      );
+      if (acCompatible.length > 0) {
+        filtered = acCompatible;
+      }
+    }
+
     // Backup / Ersatzstromversorgung: a 3-phase inverter (X3) can only run
     // a 3-phase backup unit and vice versa. Hide phase-incompatible entries
     // entirely so the user can't pick them. Non-phase-tagged options
@@ -49,14 +85,14 @@ const rules: ManufacturerRules = {
     if (phase === "backup") {
       const x1 = isX1Selected(selections);
       const x3 = isX3Selected(selections);
-      if (!x1 && !x3) return options;
+      if (!x1 && !x3) return filtered;
       const keep: "X1" | "X3" = x3 ? "X3" : "X1";
-      return options.filter(([key, node]) => {
+      return filtered.filter(([key, node]) => {
         if (!isPhaseTaggedProduct(key, node)) return true;
         return nameMatchesPhaseCount(key, node, keep);
       });
     }
-    return options;
+    return filtered;
   },
 
   validateCombination(selections: PhaseSelection[]): { valid: boolean; reason?: string } {

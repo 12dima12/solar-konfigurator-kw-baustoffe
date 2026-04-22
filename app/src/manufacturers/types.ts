@@ -1,6 +1,6 @@
 import { z } from "zod";
 import type { ConfigNode, ConfigPhase, Lang } from "@/data/types";
-import type { PhaseSelection } from "@/store/configStore";
+import type { InstallationType, PhaseSelection } from "@/store/configStore";
 
 export const ManufacturerMetaSchema = z.object({
   slug: z.string().min(1),
@@ -24,7 +24,8 @@ export interface ManufacturerRules {
     phase: ConfigPhase,
     lang: Lang,
     options: Array<[string, ConfigNode]>,
-    selections: PhaseSelection[]
+    selections: PhaseSelection[],
+    installationType: InstallationType | null
   ): Array<[string, ConfigNode]>;
   validateCombination(selections: PhaseSelection[]): { valid: boolean; reason?: string };
 }

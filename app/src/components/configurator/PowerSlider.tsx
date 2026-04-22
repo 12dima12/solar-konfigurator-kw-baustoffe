@@ -36,10 +36,31 @@ export function PowerSlider({ lang, steps, onSelect, catalog }: Props) {
 
   const powerChildren = powerNode ? getChildrenSorted(powerNode) : [];
 
-  const labels: Record<string, { title: string; unit: string; contact: string }> = {
-    de: { title: "Benötigte Leistung auswählen", unit: "kW", contact: "Bitte kontaktieren Sie unseren Vertrieb für Leistungen über 30 kW." },
-    en: { title: "Select required power", unit: "kW", contact: "Please contact our sales team for power above 30 kW." },
-    cs: { title: "Vyberte požadovaný výkon", unit: "kW", contact: "Pro výkony nad 30 kW prosím kontaktujte náš prodejní tým." },
+  const labels: Record<string, { title: string; unit: string; contact: string; request: string; ariaPower: string; noProducts: string }> = {
+    de: {
+      title: "Benötigte Leistung auswählen",
+      unit: "kW",
+      contact: "Bitte kontaktieren Sie unseren Vertrieb für Leistungen über 30 kW.",
+      request: "Anfrage senden",
+      ariaPower: "Leistung",
+      noProducts: `Für ${selectedKw} kW keine Produkte verfügbar.`,
+    },
+    en: {
+      title: "Select required power",
+      unit: "kW",
+      contact: "Please contact our sales team for power above 30 kW.",
+      request: "Send request",
+      ariaPower: "Power",
+      noProducts: `No products available for ${selectedKw} kW.`,
+    },
+    cs: {
+      title: "Vyberte požadovaný výkon",
+      unit: "kW",
+      contact: "Pro výkony nad 30 kW prosím kontaktujte náš prodejní tým.",
+      request: "Odeslat poptávku",
+      ariaPower: "Výkon",
+      noProducts: `Pro ${selectedKw} kW nejsou dostupné žádné produkty.`,
+    },
   };
   const l = labels[lang] ?? labels.de;
 
@@ -61,7 +82,7 @@ export function PowerSlider({ lang, steps, onSelect, catalog }: Props) {
           value={[sliderIndex]}
           onValueChange={(vals) => setSliderIndex(Array.isArray(vals) ? vals[0] : vals)}
           className="my-4"
-          aria-label="Leistung"
+          aria-label={l.ariaPower}
         />
 
         <div className="flex justify-between text-xs text-muted-foreground px-1">
@@ -77,7 +98,7 @@ export function PowerSlider({ lang, steps, onSelect, catalog }: Props) {
           <Phone className="mx-auto h-8 w-8 text-primary" />
           <p className="text-sm font-medium text-primary">{l.contact}</p>
           <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-white">
-            Anfrage senden
+            {l.request}
           </Button>
         </div>
       ) : powerChildren.length > 0 ? (
@@ -89,11 +110,11 @@ export function PowerSlider({ lang, steps, onSelect, catalog }: Props) {
           {powerNode?.title && (
             <h4 className="text-sm font-semibold mb-3">{powerNode.title}</h4>
           )}
-          <OptionGrid children={powerChildren} onSelect={onSelect} />
+          <OptionGrid lang={lang} children={powerChildren} onSelect={onSelect} />
         </>
       ) : (
         <div className="text-center text-muted-foreground text-sm py-8">
-          Für {selectedKw} kW keine Produkte verfügbar.
+          {l.noProducts}
         </div>
       )}
     </div>

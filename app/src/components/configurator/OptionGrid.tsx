@@ -1,17 +1,26 @@
 "use client";
 import { OptionCard } from "./OptionCard";
-import type { ConfigNode } from "@/data/types";
+import type { ConfigNode, Lang } from "@/data/types";
 
 interface Props {
+  lang: Lang;
   children: Array<[string, ConfigNode]>;
   onSelect: (key: string, node: ConfigNode) => void;
 }
 
-export function OptionGrid({ children, onSelect }: Props) {
+const UI: Record<Lang, { empty: string }> = {
+  de: { empty: "Keine Optionen verfügbar." },
+  en: { empty: "No options available." },
+  cs: { empty: "Žádné možnosti nejsou k dispozici." },
+};
+
+export function OptionGrid({ lang, children, onSelect }: Props) {
+  const t = UI[lang] ?? UI.de;
+
   if (children.length === 0) {
     return (
       <div className="text-center text-muted-foreground py-12">
-        Keine Optionen verfügbar.
+        {t.empty}
       </div>
     );
   }

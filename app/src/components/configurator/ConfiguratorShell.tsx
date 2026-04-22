@@ -34,6 +34,12 @@ const BACK_LABELS: Record<Lang, string> = {
   cs: "Zpět",
 };
 
+const ACCESSORY_EMPTY_FALLBACK: Record<Lang, string> = {
+  de: "Kein Zubehör",
+  en: "No accessories",
+  cs: "Žádné příslušenství",
+};
+
 export function ConfiguratorShell() {
   useIframeResize();
   const manufacturer = useManufacturer();
@@ -106,7 +112,7 @@ export function ConfiguratorShell() {
   const confirmAccessory = (payload: AccessorySelection) => {
     const store = useConfigStore.getState();
     store.confirmProduct({
-      product_name: payload.productListMulti || "Kein Zubehör",
+      product_name: payload.productListMulti || ACCESSORY_EMPTY_FALLBACK[lang],
       value: payload.summary,
       image: null,
       items: payload.items,
@@ -220,7 +226,7 @@ export function ConfiguratorShell() {
         ) : isAccessory ? (
           <AccessoryConfigurator lang={lang} onConfirm={confirmAccessory} onBack={goBack} />
         ) : (
-          <OptionGrid children={children} onSelect={handleSelect} />
+          <OptionGrid lang={lang} children={children} onSelect={handleSelect} />
         )}
       </main>
     </div>

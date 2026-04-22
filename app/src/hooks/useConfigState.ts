@@ -26,6 +26,7 @@ export function useConfigState(catalog: Record<string, unknown>) {
         product_name: node.product_name ?? key,
         value: node.value ?? key,
         image: node.image,
+        phaseType: node.phaseType,
       });
       if (!isFinalPhase) {
         useConfigStore.getState().skipPhase();

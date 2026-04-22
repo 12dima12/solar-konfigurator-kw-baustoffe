@@ -59,7 +59,17 @@ export function CurrentSetupSidebar({ selections, lang }: Props) {
                   <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
                     {(PHASE_LABELS as Record<string, Record<string, string>>)[s.phase]?.[lang] ?? s.phase}
                   </p>
+                  {/* For the inverter phase the displayed value is just "5.0 kW";
+                      prefix it with "Leistung (kW)" for parity with the GBC sidebar. */}
+                  {s.phase === "inverter" && s.selectedProduct?.value && (
+                    <p className="text-[10px] text-muted-foreground uppercase tracking-wide">
+                      {lang === "de" ? "Leistung (kW)" : lang === "en" ? "Power (kW)" : "Výkon (kW)"}
+                    </p>
+                  )}
                   <p className="text-sm font-semibold truncate">{s.selectedProduct?.value}</p>
+                  {s.selectedProduct?.product_name && s.phase === "inverter" && (
+                    <p className="text-xs text-muted-foreground truncate">{s.selectedProduct.product_name}</p>
+                  )}
                 </div>
               </div>
             ))

@@ -11,6 +11,7 @@ import type { Lang } from "@/data/types";
 import { Battery, Check } from "lucide-react";
 import Image from "next/image";
 import { publicAsset } from "@/lib/public-asset";
+import { BatteryPartStack } from "./BatteryPartStack";
 
 const RATING_LABELS = {
   de: {
@@ -205,17 +206,19 @@ export function BatteryConfigurator({ lang, onConfirm }: Props) {
                   active ? "border-primary bg-primary/5" : "border-border hover:border-primary/50",
                 ].join(" ")}
               >
-                <p className="font-semibold text-sm mb-2">
+                <p className="font-semibold text-sm mb-3">
                   {t.montageLabel} {i + 1} → {v.model} · {v.kwh.toFixed(2)} kWh
                 </p>
-                <ul className="flex flex-wrap gap-x-6 gap-y-1 text-sm">
+                <div className="flex flex-wrap items-end gap-6">
                   {v.parts.map((p) => (
-                    <li key={p.label} className="flex items-center gap-1.5">
-                      <span className="font-semibold tabular-nums">{p.count}×</span>
-                      <span>{p.label}</span>
-                    </li>
+                    <BatteryPartStack
+                      key={p.label}
+                      model={v.model}
+                      partLabel={p.label}
+                      count={p.count}
+                    />
                   ))}
-                </ul>
+                </div>
               </button>
             );
           })}

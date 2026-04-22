@@ -81,7 +81,16 @@ export function PowerSlider({ lang, steps, onSelect, catalog }: Props) {
           </Button>
         </div>
       ) : powerChildren.length > 0 ? (
-        <OptionGrid children={powerChildren} onSelect={onSelect} />
+        <>
+          {/* The power-stage nodes in catalog.json carry a question title
+              like "Benötigte Anzahl an MPP-Trackern?" (8–20 kW) or
+              "Mit AFCI?" (25/30 kW). Surface it above the options grid so
+              the user knows what they're picking between. */}
+          {powerNode?.title && (
+            <h4 className="text-sm font-semibold mb-3">{powerNode.title}</h4>
+          )}
+          <OptionGrid children={powerChildren} onSelect={onSelect} />
+        </>
       ) : (
         <div className="text-center text-muted-foreground text-sm py-8">
           Für {selectedKw} kW keine Produkte verfügbar.

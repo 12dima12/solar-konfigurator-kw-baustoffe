@@ -12,7 +12,7 @@ import {
 } from "@/manufacturers/solax/accessory-catalog";
 import { computeBatteryAccessories } from "@/lib/battery-accessory";
 import type { Lang } from "@/data/types";
-import { Check, Battery, Radio, Package, Gauge } from "lucide-react";
+import { Check, Battery, Radio, Package, Gauge, RotateCcw } from "lucide-react";
 
 export interface AccessorySelection {
   summary: string;          // short breadcrumb text
@@ -38,6 +38,7 @@ const UI = {
     noMeter: "Kein Smart Meter",
     confirm: "Zubehör übernehmen",
     back: "Zurück",
+    reset: "Zurücksetzen",
     popular: "Beliebte Wahl",
     comingSoon: "Demnächst verfügbar",
     module: "Modul",
@@ -54,6 +55,7 @@ const UI = {
     noMeter: "No meter",
     confirm: "Confirm accessories",
     back: "Back",
+    reset: "Reset",
     popular: "Popular choice",
     comingSoon: "Coming soon",
     module: "module",
@@ -70,6 +72,7 @@ const UI = {
     noMeter: "Bez meteru",
     confirm: "Potvrdit příslušenství",
     back: "Zpět",
+    reset: "Resetovat",
     popular: "Oblíbená volba",
     comingSoon: "Již brzy",
     module: "modul",
@@ -193,6 +196,15 @@ export function AccessoryConfigurator({ lang, onConfirm, onBack }: Props) {
         <div className="flex items-center gap-2 mb-3">
           <Radio className="h-4 w-4 text-primary" />
           <h3 className="font-semibold text-sm">{t.selectDongle}</h3>
+          {dongleKey && (
+            <button
+              type="button"
+              onClick={() => setDongleKey(null)}
+              className="ml-auto text-xs text-muted-foreground hover:text-primary inline-flex items-center gap-1"
+            >
+              <RotateCcw className="h-3 w-3" /> {t.reset}
+            </button>
+          )}
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           <button
@@ -225,6 +237,15 @@ export function AccessoryConfigurator({ lang, onConfirm, onBack }: Props) {
         <div className="flex items-center gap-2 mb-3">
           <Package className="h-4 w-4 text-primary" />
           <h3 className="font-semibold text-sm">{t.others}</h3>
+          {otherKeys.size > 0 && (
+            <button
+              type="button"
+              onClick={() => setOtherKeys(new Set())}
+              className="ml-auto text-xs text-muted-foreground hover:text-primary inline-flex items-center gap-1"
+            >
+              <RotateCcw className="h-3 w-3" /> {t.reset}
+            </button>
+          )}
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {SOLAX_OTHER_ACCESSORIES.map((o) => {
@@ -262,6 +283,15 @@ export function AccessoryConfigurator({ lang, onConfirm, onBack }: Props) {
         <div className="flex items-center gap-2 mb-3">
           <Gauge className="h-4 w-4 text-primary" />
           <h3 className="font-semibold text-sm">{t.smartMeter}</h3>
+          {meterKey && (
+            <button
+              type="button"
+              onClick={() => setMeterKey(null)}
+              className="ml-auto text-xs text-muted-foreground hover:text-primary inline-flex items-center gap-1"
+            >
+              <RotateCcw className="h-3 w-3" /> {t.reset}
+            </button>
+          )}
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           <button

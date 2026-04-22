@@ -160,6 +160,21 @@ export function ConfiguratorShell() {
 
         <Progress value={progress} className="mb-6 h-1.5" />
 
+        {installationType === "ac-coupling" && (
+          <div className="mb-6 rounded-lg border-2 border-amber-300 bg-amber-50 p-4 text-sm">
+            <p className="font-semibold text-amber-900 mb-1">
+              {lang === "de" ? "Wichtiger Hinweis — AC-Kopplung" : lang === "en" ? "Important note — AC Coupling" : "Důležité upozornění — AC Coupling"}
+            </p>
+            <p className="text-amber-800">
+              {lang === "de"
+                ? "Sie ergänzen eine bestehende PV-Anlage um einen Batteriespeicher. Die Produktauswahl ist auf Retrofit-kompatible Komponenten eingeschränkt. Bei Fragen zur Kompatibilität kontaktieren Sie bitte unseren Vertrieb."
+                : lang === "en"
+                ? "You are retrofitting an existing PV system with battery storage. The product selection is limited to retrofit-compatible components. For compatibility questions please contact our sales team."
+                : "Doplňujete stávající fotovoltaický systém o baterii. Výběr produktů je omezen na komponenty kompatibilní s dovybavením. V případě dotazů kontaktujte prodejní tým."}
+            </p>
+          </div>
+        )}
+
         <div className="flex items-center justify-between mb-6">
           <div>
             <h2 className="text-xl font-bold text-primary">{phaseTitle}</h2>
@@ -167,6 +182,14 @@ export function ConfiguratorShell() {
               <p className="text-sm text-muted-foreground mt-0.5">
                 {steps.map((s) => <span key={s} className="after:content-['_›_'] last:after:content-[''] after:mx-1">{s}</span>)}
               </p>
+            )}
+            {/* Node-level question title (e.g. "Benötigte Anzahl an MPP-Trackern?"
+                at the 8-kW branch, or "Mit AFCI?" at the 25-/30-kW branches).
+                Taken straight from catalog.json's `title` field on the node we
+                just descended into, so every intermediate step gets its proper
+                question instead of a silent grid. */}
+            {currentNode?.title && (
+              <p className="text-sm font-medium mt-2">{currentNode.title}</p>
             )}
           </div>
           <Button

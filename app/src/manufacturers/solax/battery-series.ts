@@ -48,6 +48,8 @@ export interface BatterySeries {
   ratings: SeriesRatings;
   entries: MontageEntry[];
   sliderStops: number[];
+  /** 'split' = only offered with Split-System inverters. 'ies' = only IES. */
+  scope: "split" | "ies";
 }
 
 const T58_ENTRIES: MontageEntry[] = [
@@ -94,6 +96,17 @@ const T30_ENTRIES: MontageEntry[] = [
   { kwh: 24, model: "T30", moduleKwh: 3.1, minModules: 2, parts: { BMS: 1, BAT_BOX: 8, BMS_Paralell_Box_G2: 1 } },
 ];
 
+// IES HS50E-D — extracted from inc/battery_slider.php with body "battery=IES HS50E-D"
+// (accessed via a session that had IES selected as inverter). 5.1 kWh per module.
+// Series BOX is required from 20.4 kWh upward (4th module onwards).
+const HS50E_ENTRIES: MontageEntry[] = [
+  { kwh: 10.2, model: "HS50E-D", moduleKwh: 5.1, minModules: 2, parts: { BMS: 1, BAT_BOX: 2 } },
+  { kwh: 15.3, model: "HS50E-D", moduleKwh: 5.1, minModules: 2, parts: { BMS: 1, BAT_BOX: 3 } },
+  { kwh: 20.4, model: "HS50E-D", moduleKwh: 5.1, minModules: 2, parts: { BMS: 1, BAT_BOX: 4, Series_BOX: 1 } },
+  { kwh: 25.6, model: "HS50E-D", moduleKwh: 5.1, minModules: 2, parts: { BMS: 1, BAT_BOX: 5, Series_BOX: 1 } },
+  { kwh: 30.7, model: "HS50E-D", moduleKwh: 5.1, minModules: 2, parts: { BMS: 1, BAT_BOX: 6, Series_BOX: 1 } },
+];
+
 function stops(entries: MontageEntry[]): number[] {
   return [...new Set(entries.map((e) => e.kwh))].sort((a, b) => a - b);
 }
@@ -109,6 +122,7 @@ export const SOLAX_BATTERY_SERIES: BatterySeries[] = [
     ratings: { maxPower: 9, startingCapacity: 7, installationFriendly: 9, compactDesign: 9, temperatureRange: 9 },
     entries: S_ENTRIES,
     sliderStops: stops(S_ENTRIES),
+    scope: "split",
   },
   {
     key: "t58",
@@ -119,6 +133,7 @@ export const SOLAX_BATTERY_SERIES: BatterySeries[] = [
     ratings: { maxPower: 6, startingCapacity: 5, installationFriendly: 5, compactDesign: 7, temperatureRange: 6 },
     entries: T58_ENTRIES,
     sliderStops: stops(T58_ENTRIES),
+    scope: "split",
   },
   {
     key: "t30",
@@ -128,6 +143,18 @@ export const SOLAX_BATTERY_SERIES: BatterySeries[] = [
     ratings: { maxPower: 8, startingCapacity: 9, installationFriendly: 7, compactDesign: 8, temperatureRange: 9 },
     entries: T30_ENTRIES,
     sliderStops: stops(T30_ENTRIES),
+    scope: "split",
+  },
+  {
+    key: "ies-hs50e",
+    label: "IES HS50E-D",
+    moduleLabel: "5,1 kWh je Modul",
+    image: "/products/batteries/hs50e.png",
+    // Ratings guessed parity with HS25/HS36 family; user can correct.
+    ratings: { maxPower: 9, startingCapacity: 8, installationFriendly: 9, compactDesign: 9, temperatureRange: 9 },
+    entries: HS50E_ENTRIES,
+    sliderStops: stops(HS50E_ENTRIES),
+    scope: "ies",
   },
 ];
 

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { BatteryCapacitySlider } from "./BatteryCapacitySlider";
 import { SOLAX_BATTERY_SERIES, type BatterySeries } from "@/manufacturers/solax/battery-series";
+import { useConfigStore } from "@/store/configStore";
 import { montagesForKwh, type BatteryMontage } from "@/lib/battery-montage";
 import { countBatteryModules } from "@/lib/battery-accessory";
 import type { Lang } from "@/data/types";
@@ -100,11 +101,22 @@ export function BatteryConfigurator({ lang, onConfirm }: Props) {
   const [variantIdx, setVariantIdx] = useState<number>(0);
   const t = UI[lang];
 
+  // IES inverters require the HS50E-D battery series; Split-System uses the
+  // three Triple Power series. Scope is derived from the inverter steps the
+  // user committed so the series grid only shows electrically valid choices.
+  const inverterSteps = useConfigStore(
+    (s) => s.selections.find((sel) => sel.phase === "inverter")?.steps ?? [],
+  );
+  const isIES = inverterSteps.includes("IES");
+  const availableSeries = SOLAX_BATTERY_SERIES.filter((s) =>
+    isIES ? s.scope === "ies" : s.scope === "split",
+  );
+
   if (!series) {
     const labels = RATING_LABELS[lang];
     return (
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {SOLAX_BATTERY_SERIES.map((s) => (
+        {availableSeries.map((s) => (
           <button
             key={s.key}
             onClick={() => {

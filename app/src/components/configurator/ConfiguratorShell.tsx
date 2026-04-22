@@ -7,6 +7,7 @@ import { OptionGrid } from "./OptionGrid";
 import { PowerSlider } from "./PowerSlider";
 import { BatteryConfigurator } from "./BatteryConfigurator";
 import { AccessoryConfigurator, type AccessorySelection } from "./AccessoryConfigurator";
+import { InstallationTypePicker } from "./InstallationTypePicker";
 import { SubmitSummary } from "./SubmitSummary";
 import { CurrentSetupSidebar } from "./CurrentSetupSidebar";
 import { useConfigState } from "@/hooks/useConfigState";
@@ -36,6 +37,9 @@ const BACK_LABELS: Record<Lang, string> = {
 export function ConfiguratorShell() {
   useIframeResize();
   const manufacturer = useManufacturer();
+  const installationType = useConfigStore((s) => s.installationType);
+  const setInstallationType = useConfigStore((s) => s.setInstallationType);
+  const clearInstallationType = useConfigStore((s) => s.clearInstallationType);
 
   const { phase, lang, steps, currentNode, children: rawChildren, isFinalPhase, currentPhaseIndex, selections, handleSelect, goBack, goToPhase, reset } =
     useConfigState(manufacturer.catalog);
@@ -122,6 +126,26 @@ export function ConfiguratorShell() {
     );
   }
 
+  // Prologue screen — installation type picker (Neuinstallation / AC-Kopplung).
+  // Mirrors the GBC reference: the wizard proper only starts after the user
+  // has committed to one of those two modes.
+  if (!installationType) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header lang={lang} selections={selections} onReset={reset} logoUrl={manufacturer.meta.logoUrl} />
+        <main className="max-w-3xl mx-auto px-4 py-8">
+          <InstallationTypePicker
+            lang={lang}
+            onPick={(t) => {
+              setInstallationType(t);
+              scrollToTop();
+            }}
+          />
+        </main>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <Header lang={lang} selections={selections} onReset={reset} logoUrl={manufacturer.meta.logoUrl} />
@@ -148,7 +172,17 @@ export function ConfiguratorShell() {
           <Button
             variant="ghost"
             size="sm"
-            onClick={goBack}
+            onClick={() => {
+              // Walking back past the first step / first phase reopens the
+              // installation-type picker so the user can switch between
+              // "Neuinstallation" and "AC-Kopplung".
+              if (currentPhaseIndex === 0 && steps.length === 0) {
+                clearInstallationType();
+                scrollToTop();
+              } else {
+                goBack();
+              }
+            }}
             className="text-muted-foreground hover:text-primary"
           >
             <ChevronLeft className="h-4 w-4 mr-1" />

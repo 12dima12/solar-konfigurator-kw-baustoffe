@@ -63,7 +63,12 @@ export function getChildrenSorted(node: ConfigNode): Array<[string, ConfigNode]>
 }
 
 export function isLeafNode(node: ConfigNode): boolean {
-  return !node.children && node.value !== null;
+  // A node is a leaf iff it has no children tree to descend into. Some leaves
+  // carry `value: null` on purpose — they are "opt-out" choices ("Nein", "Kein
+  // Ladegerät", "No charger") that must still commit a selectedProduct so
+  // skipPhase() can advance the wizard. Previously this branch wrongly treated
+  // null-valued leaves as non-leaf, leaving the user stuck.
+  return !node.children;
 }
 
 export function getNextPhase(

@@ -33,10 +33,13 @@ export interface PhaseSelection {
   };
 }
 
+export type InstallationType = "new" | "ac-coupling";
+
 interface ConfigState {
   currentPhaseIndex: number;
   selections: PhaseSelection[];
   lang: Lang;
+  installationType: InstallationType | null;
 
   selectOption: (key: string) => void;
   goBack: () => void;
@@ -44,6 +47,8 @@ interface ConfigState {
   reset: () => void;
   confirmProduct: (product: PhaseSelection["selectedProduct"]) => void;
   skipPhase: () => void;
+  setInstallationType: (t: InstallationType) => void;
+  clearInstallationType: () => void;
 }
 
 const initialSelections = (): PhaseSelection[] =>
@@ -55,6 +60,10 @@ export const useConfigStore = create<ConfigState>()(
       currentPhaseIndex: 0,
       selections: initialSelections(),
       lang: "de",
+      installationType: null,
+
+      setInstallationType: (t) => set({ installationType: t }),
+      clearInstallationType: () => set({ installationType: null, currentPhaseIndex: 0, selections: initialSelections() }),
 
       selectOption: (key) => {
         const { currentPhaseIndex, selections } = get();
@@ -109,11 +118,11 @@ export const useConfigStore = create<ConfigState>()(
       },
 
       reset: () =>
-        set({ currentPhaseIndex: 0, selections: initialSelections() }),
+        set({ currentPhaseIndex: 0, selections: initialSelections(), installationType: null }),
     }),
-    // Key is suffixed with a phase-count version so the schema bump (adding
-    // the accessory phase) invalidates stale persisted 4-phase states
-    // instead of leaving selections[4] undefined.
-    { name: "kw-pv-configurator-v2" }
+    // Key is suffixed with a schema version so persisted state from an
+    // older schema (missing installationType, fewer phases, …) is invalidated
+    // instead of leaving undefined slots.
+    { name: "kw-pv-configurator-v3" }
   )
 );

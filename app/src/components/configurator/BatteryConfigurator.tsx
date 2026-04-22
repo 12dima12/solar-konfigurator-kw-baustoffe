@@ -8,6 +8,50 @@ import { montagesForKwh, type BatteryMontage } from "@/lib/battery-montage";
 import { countBatteryModules } from "@/lib/battery-accessory";
 import type { Lang } from "@/data/types";
 import { Battery, Check } from "lucide-react";
+import Image from "next/image";
+import { publicAsset } from "@/lib/public-asset";
+
+const RATING_LABELS = {
+  de: {
+    maxPower: "Max Power",
+    startingCapacity: "Starting capacity",
+    installationFriendly: "Instalation friendly",
+    compactDesign: "Compact Design",
+    temperatureRange: "Temperature Range",
+  },
+  en: {
+    maxPower: "Max Power",
+    startingCapacity: "Starting capacity",
+    installationFriendly: "Installation friendly",
+    compactDesign: "Compact Design",
+    temperatureRange: "Temperature Range",
+  },
+  cs: {
+    maxPower: "Max. výkon",
+    startingCapacity: "Startovací kapacita",
+    installationFriendly: "Snadná instalace",
+    compactDesign: "Kompaktní design",
+    temperatureRange: "Teplotní rozsah",
+  },
+} as const;
+
+const RATING_MAX = 10;
+
+function RatingBar({ value }: { value: number }) {
+  return (
+    <div className="flex gap-[2px]">
+      {Array.from({ length: RATING_MAX }, (_, i) => (
+        <span
+          key={i}
+          className={[
+            "h-3 w-3 rounded-sm",
+            i < value ? "bg-primary" : "bg-muted",
+          ].join(" ")}
+        />
+      ))}
+    </div>
+  );
+}
 
 interface Props {
   lang: Lang;
@@ -57,6 +101,7 @@ export function BatteryConfigurator({ lang, onConfirm }: Props) {
   const t = UI[lang];
 
   if (!series) {
+    const labels = RATING_LABELS[lang];
     return (
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {SOLAX_BATTERY_SERIES.map((s) => (
@@ -67,10 +112,33 @@ export function BatteryConfigurator({ lang, onConfirm }: Props) {
               setKwh(s.sliderStops[0] ?? 0);
               setVariantIdx(0);
             }}
-            className="group rounded-xl border-2 border-border hover:border-primary p-5 text-left transition-all hover:shadow-md cursor-pointer bg-card flex flex-col gap-2"
+            className="group rounded-xl border-2 border-border hover:border-primary p-4 text-left transition-all hover:shadow-md cursor-pointer bg-card flex flex-col gap-3"
           >
-            <div className="font-semibold text-base leading-tight">{s.label}</div>
-            <div className="text-xs text-muted-foreground">{s.moduleLabel}</div>
+            <div className="flex justify-center">
+              <Image
+                src={publicAsset(s.image)}
+                alt={s.label}
+                width={140}
+                height={140}
+                className="h-32 w-auto object-contain"
+              />
+            </div>
+            <div>
+              <div className="font-semibold text-base leading-tight text-center">{s.label}</div>
+              <div className="text-xs text-muted-foreground text-center">{s.moduleLabel}</div>
+            </div>
+            <dl className="grid grid-cols-[auto_1fr] gap-x-2 gap-y-1 text-[11px]">
+              <dt className="font-medium whitespace-nowrap">{labels.maxPower}</dt>
+              <dd><RatingBar value={s.ratings.maxPower} /></dd>
+              <dt className="font-medium whitespace-nowrap">{labels.startingCapacity}</dt>
+              <dd><RatingBar value={s.ratings.startingCapacity} /></dd>
+              <dt className="font-medium whitespace-nowrap">{labels.installationFriendly}</dt>
+              <dd><RatingBar value={s.ratings.installationFriendly} /></dd>
+              <dt className="font-medium whitespace-nowrap">{labels.compactDesign}</dt>
+              <dd><RatingBar value={s.ratings.compactDesign} /></dd>
+              <dt className="font-medium whitespace-nowrap">{labels.temperatureRange}</dt>
+              <dd><RatingBar value={s.ratings.temperatureRange} /></dd>
+            </dl>
             {s.hint && <div className="mt-auto text-xs font-medium text-primary">{s.hint}</div>}
           </button>
         ))}

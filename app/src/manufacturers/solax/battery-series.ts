@@ -31,11 +31,21 @@ export interface MontageEntry {
   parts: MontageParts;
 }
 
+export interface SeriesRatings {
+  maxPower: number;
+  startingCapacity: number;
+  installationFriendly: number;
+  compactDesign: number;
+  temperatureRange: number;
+}
+
 export interface BatterySeries {
   key: string;
   label: string;
   moduleLabel: string;
   hint?: string;
+  image: string;
+  ratings: SeriesRatings;
   entries: MontageEntry[];
   sliderStops: number[];
 }
@@ -88,11 +98,15 @@ function stops(entries: MontageEntry[]): number[] {
   return [...new Set(entries.map((e) => e.kwh))].sort((a, b) => a - b);
 }
 
+// Ratings are on a 0..10 scale (exactly as counted from GBC's animated-square
+// divs: the DOM renders one <div class="animated-square"> per point).
 export const SOLAX_BATTERY_SERIES: BatterySeries[] = [
   {
     key: "s25-s36",
     label: "Triple Power S 25/S 36",
     moduleLabel: "2,5 / 3,6 kWh je Modul",
+    image: "/products/batteries/s25-s36.png",
+    ratings: { maxPower: 9, startingCapacity: 7, installationFriendly: 9, compactDesign: 9, temperatureRange: 9 },
     entries: S_ENTRIES,
     sliderStops: stops(S_ENTRIES),
   },
@@ -101,6 +115,8 @@ export const SOLAX_BATTERY_SERIES: BatterySeries[] = [
     label: "Triple Power T58",
     moduleLabel: "5,8 kWh je Modul",
     hint: "TIPP: Bestes Preis/kWh Verhältnis",
+    image: "/products/batteries/t58.png",
+    ratings: { maxPower: 6, startingCapacity: 5, installationFriendly: 5, compactDesign: 7, temperatureRange: 6 },
     entries: T58_ENTRIES,
     sliderStops: stops(T58_ENTRIES),
   },
@@ -108,6 +124,8 @@ export const SOLAX_BATTERY_SERIES: BatterySeries[] = [
     key: "t30",
     label: "Triple Power T30",
     moduleLabel: "3,1 kWh je Modul",
+    image: "/products/batteries/t30.png",
+    ratings: { maxPower: 8, startingCapacity: 9, installationFriendly: 7, compactDesign: 8, temperatureRange: 9 },
     entries: T30_ENTRIES,
     sliderStops: stops(T30_ENTRIES),
   },

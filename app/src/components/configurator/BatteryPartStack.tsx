@@ -87,7 +87,7 @@ export function BatteryPartStack({ model, partLabel, count }: Props) {
       <div className="text-xs font-medium text-muted-foreground">
         {count}× {partLabel}
       </div>
-      <div className="flex items-end gap-2">
+      <div className="flex flex-wrap items-end justify-center gap-2">
         {stacks.map((n, i) => (
           <StackedColumn key={i} src={src} n={n} />
         ))}

@@ -43,6 +43,9 @@ const UI = {
     comingSoon: "Demnächst verfügbar",
     module: "Modul",
     modules: "Module",
+    noAccessories: "Kein Zubehör",
+    item: "Position",
+    items: "Positionen",
   },
   en: {
     title: "Select accessories",
@@ -60,6 +63,9 @@ const UI = {
     comingSoon: "Coming soon",
     module: "module",
     modules: "modules",
+    noAccessories: "No accessories",
+    item: "item",
+    items: "items",
   },
   cs: {
     title: "Vyberte příslušenství",
@@ -77,6 +83,9 @@ const UI = {
     comingSoon: "Již brzy",
     module: "modul",
     modules: "moduly",
+    noAccessories: "Žádné příslušenství",
+    item: "položka",
+    items: "položek",
   },
 } satisfies Record<Lang, Record<string, string>>;
 
@@ -157,7 +166,10 @@ export function AccessoryConfigurator({ lang, onConfirm, onBack }: Props) {
     }
 
     onConfirm({
-      summary: summaryBits.length === 0 ? "Kein Zubehör" : `${summaryBits.length} Positionen`,
+      summary:
+        summaryBits.length === 0
+          ? t.noAccessories
+          : `${summaryBits.length} ${summaryBits.length === 1 ? t.item : t.items}`,
       productListMulti: lines.join(" · "),
       items,
     });

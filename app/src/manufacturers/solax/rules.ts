@@ -1,5 +1,5 @@
 import type { ManufacturerRules } from "../types";
-import type { ConfigNode, ConfigPhase, Lang } from "@/data/types";
+import type { ConfigNode, ConfigPhase, Lang, PhaseType } from "@/data/types";
 import type { InstallationType, PhaseSelection } from "@/store/configStore";
 
 function isX1Selected(selections: PhaseSelection[]): boolean {
@@ -20,19 +20,16 @@ function isX3Selected(selections: PhaseSelection[]): boolean {
   );
 }
 
-// Option key starts with "X1 …" or "X3 …"; anything else (section headings
-// like "Yes"/"No") passes through.
-function nameMatchesPhaseCount(key: string, node: ConfigNode, prefix: "X1" | "X3"): boolean {
-  if (key.startsWith(prefix + " ")) return true;
-  const productName = node.product_name ?? "";
-  if (productName.includes(prefix)) return true;
-  return false;
-}
+const warnedMissingPhaseTag = new Set<string>();
 
-function isPhaseTaggedProduct(key: string, node: ConfigNode): boolean {
-  if (key.startsWith("X1 ") || key.startsWith("X3 ")) return true;
-  const productName = node.product_name ?? "";
-  return productName.includes("X1") || productName.includes("X3");
+function warnMissingPhaseTag(phase: ConfigPhase, key: string, node: ConfigNode): void {
+  if (process.env.NODE_ENV === "production") return;
+  const warningKey = `${phase}:${key}:${node.product_name ?? ""}`;
+  if (warnedMissingPhaseTag.has(warningKey)) return;
+  warnedMissingPhaseTag.add(warningKey);
+  console.warn(
+    `[solax rules] Missing phaseType tag on backup option "${key}" (${node.product_name ?? "unknown product_name"}). Passing through by fallback.`,
+  );
 }
 
 function supportsInstallationType(
@@ -78,18 +75,21 @@ const rules: ManufacturerRules = {
       }
     }
 
-    // Backup / Ersatzstromversorgung: a 3-phase inverter (X3) can only run
-    // a 3-phase backup unit and vice versa. Hide phase-incompatible entries
-    // entirely so the user can't pick them. Non-phase-tagged options
-    // (e.g. "Yes"/"No" top-level choices) pass through unchanged.
+    // Backup / Ersatzstromversorgung: an X1 inverter needs an X1 backup unit
+    // and vice versa. Phase compatibility comes from explicit node.phaseType
+    // tags; untagged nodes (e.g. "Yes"/"No" section headings) pass through
+    // intentionally, with a dev warning when a leaf is missing the tag.
     if (phase === "backup") {
       const x1 = isX1Selected(selections);
       const x3 = isX3Selected(selections);
       if (!x1 && !x3) return filtered;
-      const keep: "X1" | "X3" = x3 ? "X3" : "X1";
+      const keep: PhaseType = x3 ? "x3" : "x1";
       return filtered.filter(([key, node]) => {
-        if (!isPhaseTaggedProduct(key, node)) return true;
-        return nameMatchesPhaseCount(key, node, keep);
+        if (!node.phaseType) {
+          warnMissingPhaseTag(phase, key, node);
+          return true;
+        }
+        return node.phaseType === keep;
       });
     }
     return filtered;
@@ -101,9 +101,9 @@ const rules: ManufacturerRules = {
     const backup = selections.find((s) => s.phase === "backup");
 
     if (backup?.selectedProduct) {
-      const productName = backup.selectedProduct.product_name ?? "";
-      const isX1Backup = productName.includes("X1");
-      const isX3Backup = productName.includes("X3");
+      const backupPhaseType = backup.selectedProduct.phaseType;
+      const isX1Backup = backupPhaseType === "x1";
+      const isX3Backup = backupPhaseType === "x3";
 
       if (x1 && isX3Backup) {
         return { valid: false, reason: "X1 inverter requires X1 backup unit" };

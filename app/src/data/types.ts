@@ -1,4 +1,5 @@
 export type ConfigPhase = "inverter" | "backup" | "battery" | "wallbox" | "accessory" | "finish";
+export type PhaseType = "x1" | "x3";
 
 export interface InfoSpec {
   title: string;
@@ -21,6 +22,7 @@ export interface ConfigNode {
   type?: string;
   group?: string | null;
   compatibility?: Array<"new" | "ac-coupling">;
+  phaseType?: PhaseType;
   children?: Record<string, ConfigNode>;
 }
 
@@ -59,5 +61,6 @@ export interface FlatProduct {
   power?: number;
   type?: string;
   group?: string | null;
+  phaseType?: PhaseType;
   available_in_langs: Lang[];
 }

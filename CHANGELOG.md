@@ -4,6 +4,42 @@ Format: [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+## [2.7.0] – 2026-04-23 – Installations-Modus, i18n-Vervollständigung, phaseType-Refactor
+
+### Added
+- **Installations-Modus**: Konfigurator unterscheidet jetzt zwischen Neuanlage
+  und AC-Kopplung/Retrofit. SolaX-Regel (`filterOptions`) erhält den neuen
+  fünften Parameter `installationType` und filtert bei AC-Kopplung die
+  Backup-Optionen auf die explizit kompatiblen Pfade (`compatibility: ["new"]`
+  vs. `["new", "ac-coupling"]` am Katalogknoten). Ein Migrations-Fallback
+  behält nicht-annotierte Pfade sichtbar, solange noch keine `compatibility`-
+  Markierung vorliegt. Heuristik erkennt Legacy-Einträge mit "hac"/"retrofit"
+  im Namen. (PR #1)
+- **Strukturierte phaseType-Tags** (`"x1"` / `"x3"`) am `ConfigNode` ersetzen
+  das bisherige Substring-Matching auf `product_name` für die X1/X3-Backup-
+  Kompatibilität. Robuster gegen Produktumbenennungen. Fehlende Tags an
+  Leaf-Produkten lösen eine dev-only `console.warn`-Meldung aus, statt still
+  zu versagen. SolaX-Backup-Katalog ist in de/en/cs mit `phaseType: "x3"`
+  annotiert. (PR #3)
+
+### Changed
+- **Vollständige i18n** für Konfigurator-UI in de/en/cs: `OptionGrid`-Leer-
+  zustand, Zubehör-Summary (Singular/Plural), PowerSlider (Titel, Kontakt-CTA,
+  ARIA-Label, "keine Produkte"-Fallback), `ConfiguratorShell` Accessory-
+  Fallback. Keine deutschen Festtexte mehr im englischen oder tschechischen
+  Locale. (PR #2)
+
+### Fixed
+- Mobile-Layout: Batterie-Slider-Labels und die stacked Part-Images
+  überlappten sich auf schmalen Viewports. Slider-Labels wurden neu
+  positioniert; Stacks bekommen adäquaten Abstand.
+
+### Infrastructure
+- `next.config.ts` setzt `experimental.cpus = 1`, damit der Static-Export-
+  Build auf Umgebungen mit harter `numproc`-Begrenzung (OpenVZ-Container)
+  nicht an EAGAIN bei `spawn` scheitert. Auf Hosts ohne Limit nur marginal
+  langsamer.
+
 ## [2.6.2] – Hotfix: composer.lock, UpgradeCleaner, Preview-Ticket-ID
 
 ### Fixed

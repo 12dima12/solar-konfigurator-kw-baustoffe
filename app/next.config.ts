@@ -15,6 +15,12 @@ const nextConfig: NextConfig = {
   // Produce `solax/configurator/index.html` instead of `solax/configurator.html`
   // so the plugin's manifest lookup points at a directory.
   trailingSlash: true,
+  // Cap static-export worker pool to 1 — OpenVZ container has a hard
+  // numproc=1100 limit and the default of 4+ jest-workers triggers EAGAIN
+  // on `spawn` during "Collecting page data". Slower build, same output.
+  experimental: {
+    cpus: 1,
+  },
 };
 
 export default nextConfig;

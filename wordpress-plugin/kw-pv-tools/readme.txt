@@ -4,7 +4,7 @@ Tags: solar, pv, konfigurator, photovoltaik
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.6.2
+Stable tag: 2.7.0
 License: Proprietary
 
 PV-Werkzeuge für KW Baustoffe: PV-Konfigurator und Solarrechner als WordPress-Plugin.
@@ -19,6 +19,20 @@ keine externe Datenweitergabe). Rate-Limiting, Honeypot, Ticket-IDs und Submissi
 Shortcode: [kw_pv_konfigurator]
 
 == Changelog ==
+
+= 2.7.0 =
+* feat: Installations-Modus im Konfigurator (Neuanlage vs. AC-Kopplung/Retrofit).
+  SolaX-Regel filtert die Backup-Optionen bei AC-Kopplung auf explizit
+  freigegebene Pfade; untagged Katalog-Einträge bleiben bis zur vollständigen
+  Annotierung als Migrations-Fallback sichtbar.
+* feat: Vollständige i18n (de/en/cs) für Zubehör-Summary, OptionGrid-Leerzustand
+  und PowerSlider — keine festverdrahteten deutschen Fallback-Texte mehr im
+  englischen oder tschechischen Locale.
+* refactor: Backup-Phasen-Kompatibilität (X1/X3) läuft jetzt über strukturierte
+  `phaseType`-Tags im Katalog statt Produktname-Substring-Matching. Robuster
+  gegenüber Umbenennungen; Dev-Warnung bei fehlenden Tags.
+* fix: Mobile-Layout der Batterie-Slider-Labels und der Teil-Stacks — Labels
+  und Icons überlappen nicht mehr auf schmalen Viewports.
 
 = 2.6.2 =
 * fix: composer.lock neu generiert und mpdf-Constraint auf ~8.1.0 gepinnt,

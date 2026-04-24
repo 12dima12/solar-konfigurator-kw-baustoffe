@@ -4,7 +4,7 @@ Tags: solar, pv, konfigurator, photovoltaik
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.7.13
+Stable tag: 2.7.14
 License: Proprietary
 
 PV-Werkzeuge für KW Baustoffe: PV-Konfigurator und Solarrechner als WordPress-Plugin.
@@ -19,6 +19,20 @@ keine externe Datenweitergabe). Rate-Limiting, Honeypot, Ticket-IDs und Submissi
 Shortcode: [kw_pv_konfigurator]
 
 == Changelog ==
+
+= 2.7.14 =
+* feat: AC-Kopplung-Flow auf Wunsch angepasst: Reihenfolge jetzt
+  Batterie → Notstrom → Wallbox → Zubehör (statt vorher
+  Batterie → Wallbox → Zubehör ohne Notstrom-Schritt). Der Notstrom-
+  Schritt bietet dem Retrofit-Kunden weiterhin die Auswahl
+  AC-kompatible Optionen (der compatibility-Filter zeigt bei
+  AC-Kopplung praktisch die "Kein Notstrom"-Option).
+* feat: Batterieauswahl bei AC-Kopplung zeigt jetzt auch die
+  IES-Batterie (HS50E-D) neben den drei Triple-Power-Serien. Bisher
+  war IES auf Neuinstallationen mit IES-Wechselrichter begrenzt; in
+  AC-Kopplung (Retrofit) wird jetzt das volle Serien-Sortiment
+  angeboten, damit Kunden mit bestehender IES-Anlage auch den
+  passenden Speicher nachrüsten können.
 
 = 2.7.13 =
 * feat: AC-Kopplung (Retrofit) 1:1 nach GBC-Referenz. Wer den Installations-

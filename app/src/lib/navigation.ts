@@ -82,12 +82,14 @@ export function getNextPhase(
 
 /**
  * Für die reguläre "Neue Installation" gilt die komplette Phasenkette
- * Inverter → Backup → Batterie → Wallbox → Zubehör. AC-Kopplung
- * (Retrofit) überspringt Inverter und Backup — der Kunde hat die
- * bestehende PV-Anlage bereits, er rüstet nur einen Batteriespeicher
- * samt Wallbox/Zubehör nach. So verhält es sich auch im Original-GBC-
- * Konfigurator: nach dem Picker landet AC-Kopplung direkt auf
- * `configuratorNext=battery`, es gibt keinen Backup-Schritt.
+ * Inverter → Backup → Batterie → Wallbox → Zubehör.
+ * AC-Kopplung (Retrofit) überspringt den Inverter-Schritt (die PV-Anlage
+ * ist schon da), bietet dem Kunden aber weiterhin Batterie → Backup →
+ * Wallbox → Zubehör an. Die Batterie steht bewusst VOR dem Backup, weil
+ * beim Retrofit die Speicherwahl die zentrale Kauf-Entscheidung ist;
+ * ein optionales Notstromgerät kommt im Anschluss (die Backup-Phase
+ * filtert auf AC-kompatible Optionen, praktisch bleibt hier "Kein
+ * Notstrom" übrig).
  */
 export const DEFAULT_ACTIVE_PHASES: ConfigPhase[] = [
   "inverter",
@@ -97,7 +99,12 @@ export const DEFAULT_ACTIVE_PHASES: ConfigPhase[] = [
   "accessory",
 ];
 
-export const AC_COUPLING_PHASES: ConfigPhase[] = ["battery", "wallbox", "accessory"];
+export const AC_COUPLING_PHASES: ConfigPhase[] = [
+  "battery",
+  "backup",
+  "wallbox",
+  "accessory",
+];
 
 export function getActivePhases(
   installationType: "new" | "ac-coupling" | null | undefined,

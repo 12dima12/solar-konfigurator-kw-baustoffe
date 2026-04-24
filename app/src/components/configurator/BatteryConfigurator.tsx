@@ -62,18 +62,25 @@ const UI = {
 export function BatteryConfigurator({ lang, onConfirm }: Props) {
   const t = UI[lang];
 
-  // IES inverters require the HS50E-D battery series; Split-System uses the
-  // drei Triple-Power-Serien. Scope is derived from the inverter steps the
-  // user committed so die Thumbnail-Row nur elektrisch passende Produkte
-  // anbietet. `displaySeries` enthält auch noch nicht bestellbare Teaser
-  // ("Bald verfügbar"), `selectable` nur die aktiv wählbaren.
+  // Scope-Filter für die Batterieserien:
+  //   - Neue Installation + IES-Inverter → nur IES-HS50E-D (scope=ies)
+  //   - Neue Installation + Split-System → nur Triple-Power (scope=split)
+  //   - AC-Kopplung (Retrofit) → beide, weil hier kein Wechselrichter
+  //     gewählt wurde und beide Batterie-Familien als Ergänzung zur
+  //     bestehenden PV-Anlage denkbar sind (IES-HS50E-D passt an
+  //     SolaX-IES-Systeme, Triple-Power an Split-System-Hybride).
+  //     Der Kunde entscheidet via Thumbnail-Row, welche Serie zu seiner
+  //     vorhandenen Anlage passt.
+  const installationType = useConfigStore((s) => s.installationType);
   const inverterSteps = useConfigStore(
     (s) => s.selections.find((sel) => sel.phase === "inverter")?.steps ?? [],
   );
   const isIES = inverterSteps.includes("IES");
-  const displaySeries = SOLAX_BATTERY_SERIES.filter((s) =>
-    isIES ? s.scope === "ies" : s.scope === "split",
-  );
+  const isACCoupling = installationType === "ac-coupling";
+  const displaySeries = SOLAX_BATTERY_SERIES.filter((s) => {
+    if (isACCoupling) return true;
+    return isIES ? s.scope === "ies" : s.scope === "split";
+  });
   const selectableSeries = displaySeries.filter((s) => !s.comingSoon);
 
   // Default: erste wählbare Serie, sodass der User sofort den Slider sieht
@@ -85,14 +92,17 @@ export function BatteryConfigurator({ lang, onConfirm }: Props) {
   const [variantIdx, setVariantIdx] = useState<number>(0);
 
   // Wenn sich die verfügbaren Serien ändern (z. B. bei einem Back-Button-Flow,
-  // der den Inverter von Split auf IES wechselt), auf die jetzt gültige
-  // Default-Serie zurückfallen, damit die Auswahl konsistent bleibt.
-  // Dep-List nutzt `isIES` + `series?.key` als Primitive, sonst würde der
-  // Effect bei jedem Render feuern (displaySeries ist ein neues Array).
+  // der den Inverter von Split auf IES wechselt oder den Modus auf
+  // AC-Kopplung umstellt), auf die jetzt gültige Default-Serie zurückfallen,
+  // damit die Auswahl konsistent bleibt. Dep-List nutzt Primitive, sonst
+  // würde der Effect bei jedem Render feuern (displaySeries ist ein
+  // neues Array pro Render).
   useEffect(() => {
-    const nextSelectable = SOLAX_BATTERY_SERIES.filter(
-      (s) => !s.comingSoon && (isIES ? s.scope === "ies" : s.scope === "split"),
-    );
+    const nextSelectable = SOLAX_BATTERY_SERIES.filter((s) => {
+      if (s.comingSoon) return false;
+      if (isACCoupling) return true;
+      return isIES ? s.scope === "ies" : s.scope === "split";
+    });
     if (!series && nextSelectable[0]) {
       setSeries(nextSelectable[0]);
       setKwh(nextSelectable[0].sliderStops[0] ?? 0);
@@ -103,7 +113,7 @@ export function BatteryConfigurator({ lang, onConfirm }: Props) {
       setKwh(next?.sliderStops[0] ?? 0);
       setVariantIdx(0);
     }
-  }, [isIES, series]);
+  }, [isIES, isACCoupling, series]);
 
   if (!series) {
     return (

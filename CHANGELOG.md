@@ -4,6 +4,24 @@ Format: [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+## [2.7.14] – 2026-04-24 – AC-Kopplung: Reihenfolge mit Backup + IES-Batterie
+
+### Changed
+- **AC_COUPLING_PHASES** von `["battery","wallbox","accessory"]` auf
+  `["battery","backup","wallbox","accessory"]` erweitert. Der Backup-
+  Schritt wird wieder gezeigt, steht aber hinter der Batterie (beim
+  Retrofit ist die Speicherwahl die zentrale Kauf-Entscheidung; der
+  Notstrom-Optionstyp kommt nachgelagert). Der existierende
+  `compatibility`-Filter in `solax/rules.ts` schränkt die Optionen
+  in AC-Kopplung weiter auf "Kein Notstrom" ein.
+- **`BatteryConfigurator` im AC-Kopplung-Modus zeigt alle Serien**
+  (IES HS50E-D + Triple Power S2.5/S3.6/T30/T58), nicht mehr nur
+  die Split-scope. Der `isIES`-Check bestimmt den Default nur bei
+  Neuinstallationen; bei AC-Kopplung legen Kunden mit bestehender
+  IES-Anlage jetzt einen HS50E-D-Speicher drauf. Der useEffect hat
+  `isACCoupling` in der Dep-List, damit Mode-Switches den Default
+  korrekt neu berechnen.
+
 ## [2.7.13] – 2026-04-24 – AC-Kopplung 1:1 nach GBC-Referenz (kein Inverter/Backup)
 
 ### Added

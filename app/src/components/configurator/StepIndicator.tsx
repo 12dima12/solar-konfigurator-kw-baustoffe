@@ -1,8 +1,8 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { PHASE_LABELS } from "@/lib/constants";
-import { ACTIVE_PHASES } from "@/lib/navigation";
-import type { Lang } from "@/data/types";
+import { DEFAULT_ACTIVE_PHASES } from "@/lib/navigation";
+import type { ConfigPhase, Lang } from "@/data/types";
 import { Check } from "lucide-react";
 
 interface Props {
@@ -10,13 +10,19 @@ interface Props {
   lang: Lang;
   onStepClick: (index: number) => void;
   completedPhases: number[];
+  /**
+   * Welche Phasen im Indicator gezeigt werden sollen. Bei AC-Kopplung ist
+   * die Kette kürzer (nur Batterie/Wallbox/Zubehör). Default ist die
+   * vollständige "Neue Installation"-Kette für Backward-Compat.
+   */
+  phases?: ConfigPhase[];
 }
 
-export function StepIndicator({ currentPhaseIndex, lang, onStepClick, completedPhases }: Props) {
+export function StepIndicator({ currentPhaseIndex, lang, onStepClick, completedPhases, phases = DEFAULT_ACTIVE_PHASES }: Props) {
   return (
     <nav aria-label="Konfigurations-Fortschritt" className="mb-8">
       <ol className="flex items-center gap-0">
-        {ACTIVE_PHASES.map((phase, i) => {
+        {phases.map((phase, i) => {
           const isDone = completedPhases.includes(i);
           const isCurrent = i === currentPhaseIndex;
           const isClickable = isDone && !isCurrent;
@@ -52,7 +58,7 @@ export function StepIndicator({ currentPhaseIndex, lang, onStepClick, completedP
                 </span>
               </button>
 
-              {i < ACTIVE_PHASES.length - 1 && (
+              {i < phases.length - 1 && (
                 <div
                   className={cn(
                     "h-0.5 flex-1 mx-1 transition-colors duration-300",

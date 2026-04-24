@@ -4,7 +4,7 @@ Tags: solar, pv, konfigurator, photovoltaik
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.7.12
+Stable tag: 2.7.13
 License: Proprietary
 
 PV-Werkzeuge für KW Baustoffe: PV-Konfigurator und Solarrechner als WordPress-Plugin.
@@ -19,6 +19,15 @@ keine externe Datenweitergabe). Rate-Limiting, Honeypot, Ticket-IDs und Submissi
 Shortcode: [kw_pv_konfigurator]
 
 == Changelog ==
+
+= 2.7.13 =
+* feat: AC-Kopplung (Retrofit) 1:1 nach GBC-Referenz. Wer den Installations-
+  modus "AC-Kopplung" wählt, überspringt Wechselrichter- und Notstrom-
+  Phase komplett und landet direkt bei der Batterie-Auswahl, danach
+  Wallbox und Zubehör. Die StepIndicator-Nummerierung und der
+  Fortschrittsbalken passen sich dynamisch an (3 Schritte statt 5).
+  Rückweg: Back-Button aus Batterie-Schritt 0 → öffnet wieder den
+  Picker "Neue Installation / AC-Kopplung".
 
 = 2.7.12 =
 * fix: Captcha-Widget ging in den Fehler-Zustand ("Captcha konnte nicht

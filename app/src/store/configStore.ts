@@ -2,7 +2,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { ConfigPhase, Lang, PhaseType } from "@/data/types";
-import { ACTIVE_PHASES } from "@/lib/navigation";
+import { getActivePhases } from "@/lib/navigation";
 
 export interface PhaseSelection {
   phase: ConfigPhase;
@@ -52,23 +52,39 @@ interface ConfigState {
   clearInstallationType: () => void;
 }
 
-const initialSelections = (): PhaseSelection[] =>
-  ACTIVE_PHASES.map((phase) => ({ phase, steps: [] }));
+// Selections-Array passt sich an die aktive Phasenliste an — bei AC-Kopplung
+// nur 3 Slots (battery/wallbox/accessory), bei Neuer Installation 5 Slots.
+// So bleibt `currentPhaseIndex` immer ein gültiger Index in der Liste und
+// die StepIndicator-Zählung stimmt ohne Sonderfälle.
+const initialSelections = (
+  installationType: InstallationType | null,
+): PhaseSelection[] =>
+  getActivePhases(installationType).map((phase) => ({ phase, steps: [] }));
 
 export const useConfigStore = create<ConfigState>()(
   persist(
     (set, get) => ({
       currentPhaseIndex: 0,
-      selections: initialSelections(),
+      selections: initialSelections(null),
       lang: "de",
       installationType: null,
 
-      setInstallationType: (t) => set({ installationType: t }),
+      // setInstallationType resettet Selections + Index, weil sich die
+      // aktive Phasenkette ändert (Neue Installation: 5 Phasen, AC-Kopplung:
+      // 3 Phasen). Andernfalls zeigt StepIndicator falsche Zählung und
+      // currentPhaseIndex liefe möglicherweise out-of-bounds.
+      setInstallationType: (t) =>
+        set({
+          installationType: t,
+          currentPhaseIndex: 0,
+          selections: initialSelections(t),
+        }),
       // Setzt installationType zurück und wickelt dabei den Wizard auf die
       // erste Phase ohne Selektionen zurück. Sprache (`lang`) bleibt
       // erhalten, damit ein Sprachwechsel des Users beim Mode-Umschalten
       // nicht verlorengeht.
-      clearInstallationType: () => set({ installationType: null, currentPhaseIndex: 0, selections: initialSelections() }),
+      clearInstallationType: () =>
+        set({ installationType: null, currentPhaseIndex: 0, selections: initialSelections(null) }),
 
       selectOption: (key) => {
         const { currentPhaseIndex, selections } = get();
@@ -107,8 +123,9 @@ export const useConfigStore = create<ConfigState>()(
       },
 
       skipPhase: () => {
-        const { currentPhaseIndex } = get();
-        if (currentPhaseIndex < ACTIVE_PHASES.length - 1) {
+        const { currentPhaseIndex, installationType } = get();
+        const maxIdx = getActivePhases(installationType).length - 1;
+        if (currentPhaseIndex < maxIdx) {
           set({ currentPhaseIndex: currentPhaseIndex + 1 });
         }
       },
@@ -123,7 +140,7 @@ export const useConfigStore = create<ConfigState>()(
       },
 
       reset: () =>
-        set({ currentPhaseIndex: 0, selections: initialSelections(), installationType: null }),
+        set({ currentPhaseIndex: 0, selections: initialSelections(null), installationType: null }),
     }),
     // Key is suffixed with a schema version so persisted state from an
     // older schema (missing installationType, fewer phases, …) is invalidated

@@ -13,7 +13,7 @@ import { CurrentSetupSidebar } from "./CurrentSetupSidebar";
 import { useConfigState } from "@/hooks/useConfigState";
 import { useConfigStore } from "@/store/configStore";
 import { useIframeResize } from "@/hooks/useIframeResize";
-import { ACTIVE_PHASES, resolveStepLabels } from "@/lib/navigation";
+import { resolveStepLabels } from "@/lib/navigation";
 import { scrollToTop } from "@/lib/scroll-to-top";
 import { useManufacturer } from "@/lib/manufacturer-context";
 import { ChevronLeft, RotateCcw } from "lucide-react";
@@ -68,7 +68,7 @@ export function ConfiguratorShell() {
   const setInstallationType = useConfigStore((s) => s.setInstallationType);
   const clearInstallationType = useConfigStore((s) => s.clearInstallationType);
 
-  const { phase, lang, steps, currentNode, children: rawChildren, isFinalPhase, currentPhaseIndex, selections, handleSelect, goBack, goToPhase, reset } =
+  const { phase, activePhases, lang, steps, currentNode, children: rawChildren, isFinalPhase, currentPhaseIndex, selections, handleSelect, goBack, goToPhase, reset } =
     useConfigState(manufacturer.catalog);
 
   // Apply manufacturer rules — e.g. for SolaX hide X1 backup units when an
@@ -91,9 +91,9 @@ export function ConfiguratorShell() {
     .filter((i) => i >= 0);
 
   const totalDepth = isBattery ? 1 : (children.length === 0 ? 1 : 4);
-  const progress = Math.round(((currentPhaseIndex + steps.length / Math.max(totalDepth, 1)) / ACTIVE_PHASES.length) * 100);
+  const progress = Math.round(((currentPhaseIndex + steps.length / Math.max(totalDepth, 1)) / activePhases.length) * 100);
 
-  const phaseTitle = PHASE_TITLES[phase]?.[lang] ?? phase;
+  const phaseTitle = phase ? (PHASE_TITLES[phase]?.[lang] ?? phase) : "";
 
   // Battery phase uses a dedicated configurator (series card → capacity slider
   // → live montage preview) instead of the generic option grid. The selected
@@ -183,6 +183,7 @@ export function ConfiguratorShell() {
           lang={lang}
           onStepClick={goToPhase}
           completedPhases={completedPhases}
+          phases={activePhases}
         />
 
         <Progress value={progress} className="mb-6 h-1.5" />
@@ -197,7 +198,7 @@ export function ConfiguratorShell() {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h2 className="text-xl font-bold text-primary">{phaseTitle}</h2>
-            {steps.length > 0 && (
+            {phase && steps.length > 0 && (
               <p className="text-sm text-muted-foreground mt-0.5">
                 {resolveStepLabels(phase, lang, steps, manufacturer.catalog).map((label, i) => (
                   <span

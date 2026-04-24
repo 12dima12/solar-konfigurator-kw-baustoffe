@@ -4,6 +4,49 @@ Format: [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+## [2.7.13] – 2026-04-24 – AC-Kopplung 1:1 nach GBC-Referenz (kein Inverter/Backup)
+
+### Added
+- **Dynamische Phasenkette je Installationsmodus** — Neuer Helper
+  `getActivePhases(installationType)` in `navigation.ts`. Für
+  `"ac-coupling"` liefert er `["battery","wallbox","accessory"]`, für
+  `"new"` (bzw. `null`) die volle Kette
+  `["inverter","backup","battery","wallbox","accessory"]`. Die AC-
+  Kopplung-Reihenfolge orientiert sich exakt am GBC-Referenz-Flow:
+  Nach dem Installationstyp-Picker springt das Original per
+  `?configuratorNext=battery&installation_type=ac_coupling` direkt
+  zur Batterie-Wahl; einen Backup-Schritt gibt es dort nicht.
+- **`StepIndicator` respektiert `phases`-Prop** — Wenn AC-Kopplung
+  aktiv ist, erscheinen im Fortschritts-Indikator nur 3 Kreise
+  (Batterie → Wallbox → Zubehör) statt 5. Der Fortschrittsbalken
+  teilt ebenfalls durch die passende Anzahl.
+
+### Changed
+- **`setInstallationType` resettet jetzt `selections` + `currentPhaseIndex`**.
+  Vorher blieb das Selections-Array auf 5 Slots fixiert, auch nach
+  einem Switch auf AC-Kopplung — der `currentPhaseIndex` wäre damit
+  fehlerhaft ausgerichtet (Index 0 hätte "inverter" getroffen statt
+  "battery"). Jetzt werden `selections` gemäß `getActivePhases()`
+  neu aufgebaut.
+- **`useConfigState` leitet `phase` aus `activePhases[currentPhaseIndex]`
+  ab** und gibt `activePhases` mit in das Consumer-Objekt.
+  `ConfiguratorShell` nutzt das für Progress-Berechnung und
+  Step-Indicator-Prop.
+- **`phase` darf jetzt `undefined` sein** (wenn `currentPhaseIndex`
+  einmal außerhalb des Arrays liegt). `resolveStepLabels`-Aufruf,
+  `currentNode`- und `phaseTree`-Ableitung sowie `phaseTitle` sind
+  entsprechend guarded.
+- **`ACTIVE_PHASES` ist jetzt ein Back-Compat-Alias** auf
+  `DEFAULT_ACTIVE_PHASES`; Legacy-Importer brechen nicht, neue Aufrufer
+  sollten `getActivePhases(installationType)` nutzen.
+
+### Fixed
+- **Back-Button aus dem ersten Batterie-Schritt** bei AC-Kopplung
+  öffnet wieder den Installationstyp-Picker (unveränderter
+  ConfiguratorShell-Code, profitiert jetzt aber von der korrekten
+  Phasenkette — der Back-Handler hatte vorher keine saubere
+  Rückkehr-Position).
+
 ## [2.7.12] – 2026-04-24 – Captcha-Challenge-Format zurück auf flaches v2
 
 ### Fixed

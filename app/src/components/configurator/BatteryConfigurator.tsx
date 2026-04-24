@@ -84,6 +84,13 @@ export function BatteryConfigurator({ lang, onConfirm }: Props) {
   const inverterSteps = useConfigStore(
     (s) => s.selections.find((sel) => sel.phase === "inverter")?.steps ?? EMPTY_STEPS,
   );
+  // Produktname des bestätigten Wechselrichter-Leafs (z.B.
+  // "Solax G4 X3-Hybrid-5.0-D, CT, ohne WiFi 3.0"). Wird nur in der
+  // Battery-Phase angezeigt und ist nur in "Neuinstallation" gesetzt —
+  // in AC-Kopplung gibt es keinen Inverter-Slot → Produktname bleibt leer.
+  const inverterProductName = useConfigStore(
+    (s) => s.selections.find((sel) => sel.phase === "inverter")?.selectedProduct?.product_name,
+  );
   const isIES = inverterSteps.includes("IES");
   const isACCoupling = installationType === "ac-coupling";
   const displaySeries = SOLAX_BATTERY_SERIES.filter((s) => {
@@ -135,7 +142,12 @@ export function BatteryConfigurator({ lang, onConfirm }: Props) {
   const variants = montagesForKwh(series, kwh);
   const selected = variants[Math.min(variantIdx, Math.max(0, variants.length - 1))];
   const displayKwh = selected?.kwh ?? kwh;
-  const inverterName = inverterSteps[inverterSteps.length - 1] ?? "";
+  // Wechselrichter-Kontext: zeigt den bestätigten Produktnamen. Wenn
+  // (noch) keine Inverter-Phase bestätigt ist — z.B. mitten in einer
+  // Session — fallen wir auf den letzten Step-Key zurück (reicht für
+  // Debug). Bei AC-Kopplung gibt es keinen Inverter → leer, die Zeile
+  // wird via Conditional-Rendering komplett ausgeblendet.
+  const inverterName = inverterProductName || inverterSteps[inverterSteps.length - 1] || "";
 
   return (
     <div className="space-y-6">
@@ -143,7 +155,7 @@ export function BatteryConfigurator({ lang, onConfirm }: Props) {
       <div>
         <h3 className="text-xl font-bold text-primary">{series.label}</h3>
         {inverterName && (
-          <p className="text-sm text-muted-foreground mt-0.5">
+          <p className="text-sm text-muted-foreground mt-0.5 break-words">
             Wechselrichter: {inverterName}
           </p>
         )}

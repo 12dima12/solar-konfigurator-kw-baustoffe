@@ -4,7 +4,7 @@ Tags: solar, pv, konfigurator, photovoltaik
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.7.20
+Stable tag: 2.7.21
 License: Proprietary
 
 PV-Werkzeuge für KW Baustoffe: PV-Konfigurator und Solarrechner als WordPress-Plugin.
@@ -19,6 +19,27 @@ keine externe Datenweitergabe). Rate-Limiting, Honeypot, Ticket-IDs und Submissi
 Shortcode: [kw_pv_konfigurator]
 
 == Changelog ==
+
+= 2.7.21 =
+* fix: "Meine Auswahl"-Panel (CurrentSetupSidebar) hatte auf Mobile
+  verrutschtes Padding — Items klebten am Rand, Text-Spalten und
+  Produktbilder überlappten mit dem transparenten Overlay. Jetzt
+  sauber gerahmt mit `px-5 py-4`-Padding, Produktbild hat eine feste
+  48×48 Kachel mit hellem Hintergrund, Text wird bei Bedarf
+  umgebrochen (`break-words`) statt abgeschnitten.
+* fix: Mobile-Breite des Panels war auf 75% Viewport fixiert
+  (`w-3/4`), das wirkte zu schmal. Jetzt `w-full` auf Mobile, bleibt
+  ab sm-Breakpoint bei `max-w-sm` kompakt auf Desktop.
+* fix: Beim Öffnen der "Meine Auswahl"-Ansicht springt der Parent
+  jetzt per postMessage an den iframe-Anfang. User, die weiter unten
+  gescrollt waren, müssen nicht erst manuell hochscrollen um das
+  Panel oben im Viewport zu sehen.
+* fix: Batterie-Menü zeigte als Wechselrichter-Kontext den internen
+  Step-Key ("Three-phase inverter X3") statt des tatsächlich
+  ausgewählten Produktnamens. Jetzt steht hier der Produktname aus
+  `selectedProduct.product_name` (z.B. "Solax G4 X3-Hybrid-5.0-D, CT,
+  ohne WiFi 3.0"). Bei AC-Kopplung bleibt die Zeile ausgeblendet
+  (kein Wechselrichter gewählt).
 
 = 2.7.20 =
 * chore: Wallbox-Root-Option "Eine" in "X3-HAC 11/22 kW" umbenannt

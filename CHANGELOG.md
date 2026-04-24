@@ -4,6 +4,32 @@ Format: [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+## [2.7.21] – 2026-04-24 – "Meine Auswahl"-Panel UX + Inverter-Name im Battery-Header
+
+### Fixed
+- **"Meine Auswahl"-Panel Mobile-Padding**: Das Slide-Out-Panel
+  (`CurrentSetupSidebar`) hatte horizontal kein Padding, Items
+  klebten am Rand und überlappten mit dem 25 %-breiten transparenten
+  Overlay links. Jetzt `px-5 py-4`-Innenabstand, Produktbild in
+  48×48-Kachel mit hellem Hintergrund, Textspalten mit `break-words`
+  statt `truncate` (auf Mobile sehen wir den ganzen Produktnamen).
+- **Mobile-Breite**: Vorher `w-3/4` (75 %), jetzt `w-full` bis zum
+  sm-Breakpoint, ab `sm` die bisherige `max-w-sm`-Begrenzung. Mobile
+  füllt das Panel die volle Breite; Desktop bleibt wie gehabt.
+- **Desktop-Scroll**: Beim Klick auf "Meine Auswahl" wird `scrollToTop()`
+  abgefeuert → der Parent scrollt den iframe in den Viewport.
+  Vorher: Panel öffnete, aber wer weiter unten im Theme gescrollt
+  war, sah es nicht ohne selbst hochzuscrollen.
+- **Batterie-Menü-Kopf zeigte Step-Key statt Produktname**. Der
+  "Wechselrichter: …"-Zusatz las bisher `inverterSteps[last]`, was
+  für eine Split-X3-Auswahl z.B. "Three-phase inverter X3" lieferte
+  (interner Katalog-Key, kein Produktname). Jetzt primär
+  `selections.inverter.selectedProduct.product_name` (echte
+  Produktbezeichnung wie "Solax G4 X3-Hybrid-5.0-D, CT, ohne WiFi 3.0"),
+  mit Step-Key als letzter Fallback. Bei AC-Kopplung bleibt die Zeile
+  ausgeblendet, weil dort kein Inverter-Slot existiert.
+  (`BatteryConfigurator.tsx:90-97,139-150`)
+
 ## [2.7.20] – 2026-04-24 – Wallbox-Rename + Deutsch-Sprach-Sweep
 
 ### Changed

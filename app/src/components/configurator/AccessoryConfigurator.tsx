@@ -274,24 +274,32 @@ export function AccessoryConfigurator({ lang, onConfirm, onBack }: Props) {
           <button
             onClick={() => setDongleKey(null)}
             className={[
-              "rounded-lg border-2 px-3 py-2 text-left text-sm transition-colors",
+              "rounded-lg border-2 px-3 py-3 text-left text-sm transition-colors flex items-center gap-3 min-h-[64px]",
               dongleKey === null ? "border-primary bg-primary/5" : "border-border hover:border-primary/50",
             ].join(" ")}
           >
-            {t.noDongle}
+            <div className="shrink-0 inline-flex h-8 w-8 items-center justify-center rounded-md bg-muted/40">
+              <Radio className="h-5 w-5 text-muted-foreground" />
+            </div>
+            <span className="font-semibold">{t.noDongle}</span>
           </button>
           {SOLAX_DONGLES.map((d) => (
             <button
               key={d.key}
               onClick={() => setDongleKey(d.key)}
               className={[
-                "rounded-lg border-2 px-3 py-2 text-left text-sm transition-colors",
+                "rounded-lg border-2 px-3 py-3 text-left text-sm transition-colors flex items-center gap-3 min-h-[64px]",
                 dongleKey === d.key ? "border-primary bg-primary/5" : "border-border hover:border-primary/50",
               ].join(" ")}
             >
-              <div className="font-semibold">{d.label}</div>
-              <div className="text-xs text-muted-foreground truncate">{d.productName}</div>
-              {d.hint && <div className="text-xs text-primary mt-0.5">{d.hint}</div>}
+              <div className="shrink-0 inline-flex h-8 w-8 items-center justify-center rounded-md bg-primary/10">
+                <Radio className="h-5 w-5 text-primary" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="font-semibold break-words">{d.label}</div>
+                <div className="text-xs text-muted-foreground break-words">{d.productName}</div>
+                {d.hint && <div className="text-xs text-primary mt-0.5">{d.hint}</div>}
+              </div>
             </button>
           ))}
         </div>
@@ -361,23 +369,34 @@ export function AccessoryConfigurator({ lang, onConfirm, onBack }: Props) {
           <button
             onClick={() => setMeterKey(null)}
             className={[
-              "rounded-lg border-2 px-3 py-2 text-left text-sm transition-colors",
+              "rounded-lg border-2 px-3 py-3 text-left text-sm transition-colors flex items-center gap-3 min-h-[64px]",
               meterKey === null ? "border-primary bg-primary/5" : "border-border hover:border-primary/50",
             ].join(" ")}
           >
-            {t.noMeter}
+            <div className="shrink-0 inline-flex h-8 w-8 items-center justify-center rounded-md bg-muted/40">
+              <Gauge className="h-5 w-5 text-muted-foreground" />
+            </div>
+            <span className="font-semibold">{t.noMeter}</span>
           </button>
           {availableMeters.map((m) => (
             <button
               key={m.key}
               onClick={() => setMeterKey(m.key)}
               className={[
-                "rounded-lg border-2 px-3 py-2 text-left text-sm transition-colors",
+                "rounded-lg border-2 px-3 py-3 text-left text-sm transition-colors flex items-center gap-3 min-h-[64px]",
                 meterKey === m.key ? "border-primary bg-primary/5" : "border-border hover:border-primary/50",
               ].join(" ")}
             >
-              <div className="font-semibold">{m.label}</div>
-              <div className="text-xs text-muted-foreground">{m.phase}</div>
+              {/* Icon-Kachel verhindert Clipping bei langen Produktnamen
+                  und gibt der Karte vertikales Gewicht (gleiche min-h für
+                  alle Varianten inkl. "Kein Meter"). */}
+              <div className="shrink-0 inline-flex h-8 w-8 items-center justify-center rounded-md bg-primary/10">
+                <Gauge className="h-5 w-5 text-primary" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="font-semibold break-words">{m.label}</div>
+                <div className="text-xs text-muted-foreground">{m.phase}</div>
+              </div>
             </button>
           ))}
         </div>

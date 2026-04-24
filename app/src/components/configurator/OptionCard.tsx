@@ -42,6 +42,7 @@ export function OptionCard({ nodeKey, node, onClick, disabled }: Props) {
             fill
             className="object-cover opacity-30 group-hover:opacity-40 transition-opacity"
             sizes="(max-width: 768px) 100vw, 33vw"
+            priority
           />
           <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-primary/20" />
         </div>
@@ -50,12 +51,17 @@ export function OptionCard({ nodeKey, node, onClick, disabled }: Props) {
       <div className={cn("relative p-4", hasCover && "flex flex-col justify-end min-h-[160px]")}>
         {hasImage && !hasCover && (
           <div className="mb-3 flex justify-center">
+            {/* `priority` erzwingt eager-loading + injects <link rel="preload">.
+                Die OptionCards in der aktuellen Phase sind oberhalb des Folds
+                — bei Lazy-Loading erscheinen sie sonst mit einem sichtbaren
+                Reflow nachdem der User zur Phase wechselt. */}
             <Image
               src={publicAsset(`/products/${node.image!.replace("img/", "")}`)}
               alt={plainLabel}
               width={80}
               height={80}
               className="object-contain"
+              priority
             />
           </div>
         )}

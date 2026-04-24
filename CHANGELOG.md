@@ -4,6 +4,27 @@ Format: [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+## [2.7.22] – 2026-04-25 – Zubehör-Karten mit Icons + Image-Preload
+
+### Fixed
+- **Smart-Meter- und Dongle-Karten ohne Icon** waren visuell flach und
+  bei langen Produktnamen ("Solax Chint 3Ph Meter DTSU666") rutschte der
+  Text über den Kartenrand. Jetzt links eine 32×32-Icon-Kachel
+  (`Gauge` für Smart Meter, `Radio` für Dongle) mit primärer
+  Akzent-Farbe für aktive Optionen und gedämpftem Grau für die
+  "Kein …"-Opt-out-Karte. Karten-`min-h: 64px` für gleiche Höhen,
+  Text bricht via `break-words`.
+- **Produktbilder luden zu langsam.** Next.js Image nutzt per Default
+  Lazy-Loading; auf einer Phase mit ~10 Cards bedeutete das ein
+  sichtbares Reflow nach Phase-Wechsel. `priority` an den Bildern
+  oberhalb des Folds:
+  - `InstallationTypePicker.tsx` (zwei Cover-Bilder)
+  - `BatteryConfigurator.tsx` (Serien-Thumbnails am Fuß)
+  - `OptionCard.tsx` (jede Produkt-/Cover-Card im Grid)
+  Next.js injiziert dadurch `<link rel="preload" as="image">` im Head
+  und überspringt Lazy-Loading. Bei mobilen Verbindungen merkt der
+  User: Phasenwechsel → Bilder sind sofort da.
+
 ## [2.7.21] – 2026-04-24 – "Meine Auswahl"-Panel UX + Inverter-Name im Battery-Header
 
 ### Fixed

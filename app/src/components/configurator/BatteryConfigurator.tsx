@@ -308,6 +308,7 @@ export function BatteryConfigurator({ lang, onConfirm }: Props) {
                       "h-16 w-16 sm:h-20 sm:w-20 object-contain",
                       soon ? "opacity-40 grayscale" : "",
                     ].join(" ")}
+                    priority
                   />
                   <span
                     className={[

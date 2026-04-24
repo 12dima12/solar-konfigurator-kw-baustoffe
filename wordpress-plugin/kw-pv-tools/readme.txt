@@ -4,7 +4,7 @@ Tags: solar, pv, konfigurator, photovoltaik
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.7.21
+Stable tag: 2.7.22
 License: Proprietary
 
 PV-Werkzeuge für KW Baustoffe: PV-Konfigurator und Solarrechner als WordPress-Plugin.
@@ -19,6 +19,22 @@ keine externe Datenweitergabe). Rate-Limiting, Honeypot, Ticket-IDs und Submissi
 Shortcode: [kw_pv_konfigurator]
 
 == Changelog ==
+
+= 2.7.22 =
+* fix: Smart-Meter- und Dongle-Karten in der Zubehör-Phase haben jetzt
+  ein Icon-Quadrat (Gauge / Radio in einer 32×32-Kachel) auf der
+  linken Kartenseite. Vorher rutschten lange Produktnamen
+  ("Solax Chint 3Ph Meter DTSU666") über den Kartenrand und das
+  Icon im Section-Header wirkte abgehackt. Karten haben jetzt
+  einheitliche min-h von 64 px, Text bricht statt zu kappen.
+* fix: Produktbilder im Konfigurator laden jetzt eager statt lazy.
+  `priority` ist gesetzt auf:
+  - InstallationTypePicker (zwei großen Cover-Bilder, sofort sichtbar)
+  - BatteryConfigurator-Serien-Thumbnails (Footer der Battery-Phase)
+  - OptionCard (alle Produkt-Cards im Inverter/Backup/Wallbox-Grid)
+  Next.js fügt damit `<link rel="preload">`-Tags in den Head ein und
+  überspringt Lazy-Loading. Beim Phase-Wechsel ist das Bild sofort
+  da statt mit Reflow nachzuladen.
 
 = 2.7.21 =
 * fix: "Meine Auswahl"-Panel (CurrentSetupSidebar) hatte auf Mobile

@@ -48,6 +48,7 @@ export function InstallationTypePicker({ lang, onPick }: Props) {
             alt={t.new}
             fill
             className="object-cover opacity-60 group-hover:opacity-70 transition-opacity"
+            priority
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
           <div className="relative h-full flex flex-col justify-end p-4 text-white">
@@ -64,6 +65,7 @@ export function InstallationTypePicker({ lang, onPick }: Props) {
             alt={t.ac}
             fill
             className="object-cover opacity-60 group-hover:opacity-70 transition-opacity"
+            priority
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
           <div className="relative h-full flex flex-col justify-end p-4 text-white">

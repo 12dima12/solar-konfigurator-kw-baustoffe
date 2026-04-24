@@ -4,7 +4,7 @@ Tags: solar, pv, konfigurator, photovoltaik
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.7.4
+Stable tag: 2.7.5
 License: Proprietary
 
 PV-Werkzeuge für KW Baustoffe: PV-Konfigurator und Solarrechner als WordPress-Plugin.
@@ -19,6 +19,15 @@ keine externe Datenweitergabe). Rate-Limiting, Honeypot, Ticket-IDs und Submissi
 Shortcode: [kw_pv_konfigurator]
 
 == Changelog ==
+
+= 2.7.5 =
+* fix: Captcha funktionierte nicht. altcha v3.x hat das Attribut von
+  `challengeurl` (v2.x) auf `challenge` umbenannt — der Konfigurator
+  schrieb noch das alte, das Widget ignoriert und nie eine Challenge
+  fetched → der Submit-Button blieb ewig disabled. Jetzt `challenge`
+  gesetzt. Zusätzlich sichtbare Fehler-UI (Netzwerk-/Load-/Timeout-
+  Fehler werden dem User angezeigt statt silent zu verschwinden),
+  10-s-Timeout mit Reload-Button, Dev-Logs für State-Changes.
 
 = 2.7.4 =
 * fix: "CSS gesprengt" auf Konfigurator-Seiten — die CSP auf der Parent-Seite

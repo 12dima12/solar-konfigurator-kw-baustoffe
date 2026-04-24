@@ -4,6 +4,44 @@ Format: [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+## [2.7.5] – 2026-04-24 – Captcha-Fix: altcha v3 erwartet `challenge` statt `challengeurl`
+
+### Fixed
+- **Captcha blieb stumm**: Der Submit-Button im Konfigurator blieb dauerhaft
+  disabled, weil das Altcha-Widget nie eine Challenge gefetcht und nie
+  verifiziert hat. Ursache: **altcha v3.x hat das Attribut umbenannt**.
+  In v2.x hieß es `challengeurl`, in v3.x ist es `challenge` (die
+  Property akzeptiert sowohl ein vorberechnetes Challenge-Objekt als auch
+  einen URL-String). Das hat wir v2.0+ nie gefixt, weil beim Upgrade
+  `altcha@^3.0.4` das Widget-API still geändert wurde und die
+  `props_definition` in `dist/main/altcha.js` (Zeile 7036ff.) kein
+  `challengeurl` mehr observed. Ergebnis: das Attribut wurde beim Render
+  zwar auf dem DOM-Element gesetzt, aber vom Custom-Element komplett
+  ignoriert → kein Fetch zur Challenge-URL → kein PoW → kein payload →
+  Submit-Button ewig disabled.
+  Jetzt setzt `AltchaWidget` das Attribut `challenge={challengeUrl}`.
+  (`AltchaWidget.tsx:112`)
+
+### Added
+- **Sichtbare Captcha-Fehler-UI**: Wenn der altcha-Modul-Import fehlschlägt,
+  der `/wp-json/.../captcha/config`-Endpoint einen HTTP-Fehler zurückgibt,
+  oder das Widget nach 10 Sekunden nicht anspringt, zeigt der Konfigurator
+  jetzt eine sichtbare Fehlermeldung mit Reload-Button und dem
+  Fehler-Detail. Vorher sah der User nur ein leeres Feld ohne zu wissen,
+  warum der Submit-Button disabled blieb. (`AltchaWidget.tsx`,
+  `captcha/client/index.tsx`)
+- **Dev-Logs**: `console.log("[captcha] statechange", detail)` bei
+  `NODE_ENV !== "production"` erleichtert künftige Diagnosen ohne zweites
+  Build. Errors im Config-Fetch und Modul-Import gehen immer ins
+  `console.error`.
+
+### Notes
+- Der Backend-Teil (`class-captcha.php`) war schon korrekt — das
+  v1-Envelope-Format `{ _version, parameters, signature }` wurde bereits
+  in `ad97b57` für v2.6.2 geliefert. Der v3-Migrationsschritt für den
+  Backend-Payload war damals vollständig, aber die Widget-Attribut-
+  Umbenennung ist erst jetzt aufgefallen.
+
 ## [2.7.4] – 2026-04-24 – CSP minimal gehalten (Theme-CSS nicht mehr kaputt)
 
 ### Fixed

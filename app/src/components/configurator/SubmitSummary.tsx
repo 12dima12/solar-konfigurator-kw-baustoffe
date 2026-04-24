@@ -242,7 +242,7 @@ export function SubmitSummary() {
           <textarea {...register("message")} rows={3} className="w-full rounded-md border border-input px-3 py-2 text-sm bg-background resize-none" />
         </div>
 
-        <CaptchaWidget onVerify={setCaptchaToken} />
+        <CaptchaWidget lang={lang} onVerify={setCaptchaToken} />
 
         {privacyUrl && (
           <p className="text-xs text-muted-foreground">

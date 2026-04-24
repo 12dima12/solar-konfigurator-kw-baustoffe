@@ -35,6 +35,7 @@ const UI = {
     montageLabel: "Montage",
     confirm: "Batterie übernehmen",
     back: "Zurück",
+    comingSoon: "Bald verfügbar",
   },
   en: {
     chooseCapacity: "Select battery capacity:",
@@ -44,6 +45,7 @@ const UI = {
     montageLabel: "Mounting",
     confirm: "Confirm battery",
     back: "Back",
+    comingSoon: "Coming soon",
   },
   cs: {
     chooseCapacity: "Vyberte kapacitu baterie:",
@@ -53,6 +55,7 @@ const UI = {
     montageLabel: "Montáž",
     confirm: "Potvrdit baterii",
     back: "Zpět",
+    comingSoon: "Již brzy",
   },
 } satisfies Record<Lang, Record<string, string>>;
 
@@ -60,20 +63,23 @@ export function BatteryConfigurator({ lang, onConfirm }: Props) {
   const t = UI[lang];
 
   // IES inverters require the HS50E-D battery series; Split-System uses the
-  // three Triple Power series. Scope is derived from the inverter steps the
-  // user committed so the series grid only shows electrically valid choices.
+  // drei Triple-Power-Serien. Scope is derived from the inverter steps the
+  // user committed so die Thumbnail-Row nur elektrisch passende Produkte
+  // anbietet. `displaySeries` enthält auch noch nicht bestellbare Teaser
+  // ("Bald verfügbar"), `selectable` nur die aktiv wählbaren.
   const inverterSteps = useConfigStore(
     (s) => s.selections.find((sel) => sel.phase === "inverter")?.steps ?? [],
   );
   const isIES = inverterSteps.includes("IES");
-  const availableSeries = SOLAX_BATTERY_SERIES.filter((s) =>
+  const displaySeries = SOLAX_BATTERY_SERIES.filter((s) =>
     isIES ? s.scope === "ies" : s.scope === "split",
   );
+  const selectableSeries = displaySeries.filter((s) => !s.comingSoon);
 
-  // Default: erste verfügbare Serie, sodass der User sofort den Slider sieht
+  // Default: erste wählbare Serie, sodass der User sofort den Slider sieht
   // und via Thumbnails unten zwischen Serien wechseln kann.
   const [series, setSeries] = useState<BatterySeries | null>(
-    availableSeries[0] ?? null,
+    selectableSeries[0] ?? null,
   );
   const [kwh, setKwh] = useState<number>(series?.sliderStops[0] ?? 0);
   const [variantIdx, setVariantIdx] = useState<number>(0);
@@ -82,17 +88,17 @@ export function BatteryConfigurator({ lang, onConfirm }: Props) {
   // der den Inverter von Split auf IES wechselt), auf die jetzt gültige
   // Default-Serie zurückfallen, damit die Auswahl konsistent bleibt.
   // Dep-List nutzt `isIES` + `series?.key` als Primitive, sonst würde der
-  // Effect bei jedem Render feuern (availableSeries ist ein neues Array).
+  // Effect bei jedem Render feuern (displaySeries ist ein neues Array).
   useEffect(() => {
-    const nextAvailable = SOLAX_BATTERY_SERIES.filter((s) =>
-      isIES ? s.scope === "ies" : s.scope === "split",
+    const nextSelectable = SOLAX_BATTERY_SERIES.filter(
+      (s) => !s.comingSoon && (isIES ? s.scope === "ies" : s.scope === "split"),
     );
-    if (!series && nextAvailable[0]) {
-      setSeries(nextAvailable[0]);
-      setKwh(nextAvailable[0].sliderStops[0] ?? 0);
+    if (!series && nextSelectable[0]) {
+      setSeries(nextSelectable[0]);
+      setKwh(nextSelectable[0].sliderStops[0] ?? 0);
       setVariantIdx(0);
-    } else if (series && !nextAvailable.some((s) => s.key === series.key)) {
-      const next = nextAvailable[0] ?? null;
+    } else if (series && !nextSelectable.some((s) => s.key === series.key)) {
+      const next = nextSelectable[0] ?? null;
       setSeries(next);
       setKwh(next?.sliderStops[0] ?? 0);
       setVariantIdx(0);
@@ -226,32 +232,40 @@ export function BatteryConfigurator({ lang, onConfirm }: Props) {
       {/* Serien-Thumbnails unten — bildliche Auswahl der verfügbaren
           Batterien. Klick wechselt die Serie, Slider springt auf den
           kleinsten Stop der neuen Serie. Der aktive Eintrag ist optisch
-          hervorgehoben (primäre Border + primäre Unterlegung). */}
-      {availableSeries.length > 1 && (
+          hervorgehoben (primäre Border + primäre Unterlegung). `comingSoon`
+          Einträge werden gegraut und mit Badge "Bald verfügbar" gezeigt,
+          sind aber nicht klickbar. */}
+      {displaySeries.length > 1 && (
         <div className="pt-4 border-t border-border">
           <p className="text-xs font-semibold uppercase text-muted-foreground mb-3">
             {t.chooseSeries}
           </p>
           <div className="flex flex-wrap gap-3">
-            {availableSeries.map((s) => {
+            {displaySeries.map((s) => {
               const active = s.key === series.key;
+              const soon = !!s.comingSoon;
               return (
                 <button
                   key={s.key}
                   type="button"
+                  disabled={soon}
+                  aria-disabled={soon}
                   onClick={() => {
+                    if (soon) return;
                     if (s.key === series.key) return;
                     setSeries(s);
                     setKwh(s.sliderStops[0] ?? 0);
                     setVariantIdx(0);
                   }}
-                  aria-pressed={active}
-                  title={s.label}
+                  aria-pressed={!soon && active}
+                  title={soon ? `${s.label} — ${t.comingSoon}` : s.label}
                   className={[
-                    "shrink-0 rounded-lg border-2 p-2 transition-all bg-card",
-                    active
-                      ? "border-primary ring-2 ring-primary/20"
-                      : "border-border hover:border-primary/60",
+                    "relative shrink-0 rounded-lg border-2 p-2 transition-all bg-card",
+                    soon
+                      ? "border-dashed border-muted-foreground/40 cursor-not-allowed"
+                      : active
+                        ? "border-primary ring-2 ring-primary/20"
+                        : "border-border hover:border-primary/60",
                   ].join(" ")}
                 >
                   <Image
@@ -259,16 +273,24 @@ export function BatteryConfigurator({ lang, onConfirm }: Props) {
                     alt={s.label}
                     width={90}
                     height={90}
-                    className="h-16 w-16 sm:h-20 sm:w-20 object-contain"
+                    className={[
+                      "h-16 w-16 sm:h-20 sm:w-20 object-contain",
+                      soon ? "opacity-40 grayscale" : "",
+                    ].join(" ")}
                   />
                   <span
                     className={[
                       "block text-[10px] sm:text-xs font-medium text-center mt-1 max-w-[80px] sm:max-w-[96px] truncate",
-                      active ? "text-primary" : "text-muted-foreground",
+                      soon ? "text-muted-foreground/70" : active ? "text-primary" : "text-muted-foreground",
                     ].join(" ")}
                   >
                     {s.label}
                   </span>
+                  {soon && (
+                    <span className="absolute -top-1 -right-1 rounded-full bg-amber-400 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-neutral-900 shadow-sm">
+                      {t.comingSoon}
+                    </span>
+                  )}
                 </button>
               );
             })}

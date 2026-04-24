@@ -50,6 +50,14 @@ export interface BatterySeries {
   sliderStops: number[];
   /** 'split' = only offered with Split-System inverters. 'ies' = only IES. */
   scope: "split" | "ies";
+  /**
+   * Markiert Serien, die im Katalog schon angeteasert sind, aber noch nicht
+   * bestellbar — z. B. weil Marketing das Produkt ankündigt, während die
+   * Montage-Daten vom Hersteller noch nicht final sind. `comingSoon: true`
+   * bedeutet: Thumbnail wird sichtbar, aber als "Bald verfügbar" gelabelt
+   * und ist nicht klickbar, `entries`/`sliderStops` dürfen leer sein.
+   */
+  comingSoon?: boolean;
 }
 
 const T58_ENTRIES: MontageEntry[] = [
@@ -62,8 +70,8 @@ const T58_ENTRIES: MontageEntry[] = [
   { kwh: 46,   model: "T58", moduleKwh: 5.8, minModules: 2, parts: { master: 1, slave: 7, BMS_Paralell_Box_G2: 1 } },
 ];
 
-const S_ENTRIES: MontageEntry[] = [
-  // HS25 — 2.5 kWh/Modul
+// Triple Power S 2.5 (HS25) — 2.5 kWh/Modul
+const S25_ENTRIES: MontageEntry[] = [
   { kwh: 7.5,  model: "HS25", moduleKwh: 2.5, minModules: 3, parts: { BMS: 1, BAT_BOX: 3 } },
   { kwh: 10,   model: "HS25", moduleKwh: 2.5, minModules: 3, parts: { BMS: 1, BAT_BOX: 4 } },
   { kwh: 12.5, model: "HS25", moduleKwh: 2.5, minModules: 3, parts: { BMS: 1, BAT_BOX: 5 } },
@@ -75,7 +83,10 @@ const S_ENTRIES: MontageEntry[] = [
   { kwh: 27.5, model: "HS25", moduleKwh: 2.5, minModules: 3, parts: { BMS: 1, BAT_BOX: 11, Series_BOX: 1 } },
   { kwh: 30,   model: "HS25", moduleKwh: 2.5, minModules: 3, parts: { BMS: 1, BAT_BOX: 12, Series_BOX: 1 } },
   { kwh: 32.5, model: "HS25", moduleKwh: 2.5, minModules: 3, parts: { BMS: 1, BAT_BOX: 13, Series_BOX: 1 } },
-  // HS36 — 3.6 kWh/Modul
+];
+
+// Triple Power S 3.6 (HS36) — 3.6 kWh/Modul
+const S36_ENTRIES: MontageEntry[] = [
   { kwh: 10.8, model: "HS36", moduleKwh: 3.6, minModules: 3, parts: { BMS: 1, BAT_BOX: 3 } },
   { kwh: 14.4, model: "HS36", moduleKwh: 3.6, minModules: 3, parts: { BMS: 1, BAT_BOX: 4 } },
   { kwh: 18,   model: "HS36", moduleKwh: 3.6, minModules: 3, parts: { BMS: 1, BAT_BOX: 5 } },
@@ -117,13 +128,23 @@ function stops(entries: MontageEntry[]): number[] {
 // divs: the DOM renders one <div class="animated-square"> per point).
 export const SOLAX_BATTERY_SERIES: BatterySeries[] = [
   {
-    key: "s25-s36",
-    label: "Triple Power S 25/S 36",
-    moduleLabel: "2,5 / 3,6 kWh je Modul",
+    key: "s25",
+    label: "Triple Power S 2.5",
+    moduleLabel: "2,5 kWh je Modul",
     image: "/products/batteries/s25-s36.png",
     ratings: { maxPower: 9, startingCapacity: 7, installationFriendly: 9, compactDesign: 9, temperatureRange: 9 },
-    entries: S_ENTRIES,
-    sliderStops: stops(S_ENTRIES),
+    entries: S25_ENTRIES,
+    sliderStops: stops(S25_ENTRIES),
+    scope: "split",
+  },
+  {
+    key: "s36",
+    label: "Triple Power S 3.6",
+    moduleLabel: "3,6 kWh je Modul",
+    image: "/products/batteries/s25-s36.png",
+    ratings: { maxPower: 9, startingCapacity: 7, installationFriendly: 9, compactDesign: 9, temperatureRange: 9 },
+    entries: S36_ENTRIES,
+    sliderStops: stops(S36_ENTRIES),
     scope: "split",
   },
   {
@@ -146,6 +167,19 @@ export const SOLAX_BATTERY_SERIES: BatterySeries[] = [
     entries: T30_ENTRIES,
     sliderStops: stops(T30_ENTRIES),
     scope: "split",
+  },
+  // Angekündigt, noch nicht bestellbar. Thumbnail erscheint gegraut mit
+  // "Bald verfügbar"-Badge; Klick macht nichts, keine Montage-Daten.
+  {
+    key: "t-bat-h58-v3",
+    label: "T-BAT H 5.8 V3",
+    moduleLabel: "Bald verfügbar",
+    image: "/products/batteries/t58.png",
+    ratings: { maxPower: 0, startingCapacity: 0, installationFriendly: 0, compactDesign: 0, temperatureRange: 0 },
+    entries: [],
+    sliderStops: [],
+    scope: "split",
+    comingSoon: true,
   },
   {
     key: "ies-hs50e",

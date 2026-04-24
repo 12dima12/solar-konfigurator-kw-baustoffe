@@ -4,7 +4,7 @@ Tags: solar, pv, konfigurator, photovoltaik
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.7.8
+Stable tag: 2.7.9
 License: Proprietary
 
 PV-Werkzeuge für KW Baustoffe: PV-Konfigurator und Solarrechner als WordPress-Plugin.
@@ -19,6 +19,18 @@ keine externe Datenweitergabe). Rate-Limiting, Honeypot, Ticket-IDs und Submissi
 Shortcode: [kw_pv_konfigurator]
 
 == Changelog ==
+
+= 2.7.9 =
+* feat: Triple Power S 2.5 (HS25, 2,5 kWh/Modul) und Triple Power S 3.6
+  (HS36, 3,6 kWh/Modul) werden jetzt als zwei getrennte Batterieserien
+  angeboten. Vorher waren sie in einer gemeinsamen Serie "S 25/S 36" mit
+  einem durchmischten Slider zusammengefasst; jetzt hat jede Variante
+  ihren eigenen Kapazitäts-Slider mit nur den zu dem Modultyp passenden
+  Stops (7.5/10/12.5/…/32.5 kWh für S 2.5; 10.8/14.4/18/…/46.8 kWh für S 3.6).
+* feat: Batterie T-BAT H 5.8 V3 wird als "Bald verfügbar"-Teaser im
+  Thumbnail-Footer gelistet (gegraut + Amber-Badge), nicht klickbar.
+  Sobald Hersteller die Montage-Daten finalisiert, werden die Stops
+  nachgereicht und die Serie ist auswählbar.
 
 = 2.7.8 =
 * feat: Batteriekonfigurator im GBC-Stil umgebaut — die verfügbaren

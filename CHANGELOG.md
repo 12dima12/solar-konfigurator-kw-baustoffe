@@ -4,6 +4,35 @@ Format: [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+## [2.7.9] – 2026-04-24 – S 2.5 / S 3.6 getrennt, T-BAT H 5.8 V3 als Teaser
+
+### Changed
+- **Triple Power S 25/S 36 aufgeteilt** in zwei eigenständige Serien:
+  - `"s25"` — *Triple Power S 2.5* — Modul 2,5 kWh, Stops
+    7,5 / 10 / 12,5 / 15 / 17,5 / 20 / 22,5 / 25 / 27,5 / 30 / 32,5 kWh
+  - `"s36"` — *Triple Power S 3.6* — Modul 3,6 kWh, Stops
+    10,8 / 14,4 / 18 / 21,6 / 25,2 / 28,8 / 32,4 / 36 / 39,6 / 43,2 / 46,8 kWh
+
+  Bisher landeten beide in einer gemeinsamen Slider-Stop-Liste (22 Stops,
+  22 × gemischt HS25 / HS36) und der User musste über `findEntriesForKwh`
+  erraten, welches Modul hinter dem aktuellen Stop steckt. Jetzt führen
+  beide Serien eigenständig ihre Slider-Stops und Montage-Varianten.
+  Übergangs-Key `"s25-s36"` wird nicht mehr verwendet — frisch gestartete
+  Sessions sind nicht betroffen; eine persistierte Alt-Session läuft
+  normal ins Zurücksetzen, sobald der User in die Batterie-Phase kommt.
+
+### Added
+- **Batterie-Teaser "Bald verfügbar"**: Neues Feld `comingSoon?: boolean`
+  auf `BatterySeries`. Einträge mit `comingSoon: true` werden im
+  Thumbnail-Footer des Battery-Menüs gegraut (Grayscale + 40 % Opacity)
+  mit einer Amber-Badge "Bald verfügbar" angezeigt und sind nicht
+  klickbar. Auto-Selection überspringt sie. Erster Teaser: **T-BAT H 5.8 V3**
+  (`key: "t-bat-h58-v3"`, scope `split`). Sobald die Montage-Daten
+  vom Hersteller final sind, müssen `entries` + `sliderStops` befüllt
+  und `comingSoon` entfernt werden.
+- **i18n für "Bald verfügbar"**: Neue UI-Strings in de/en/cs
+  (`comingSoon: "Bald verfügbar" | "Coming soon" | "Již brzy"`).
+
 ## [2.7.8] – 2026-04-24 – Batteriemenü im GBC-Stil + Slider `−`/`+` Buttons
 
 ### Added

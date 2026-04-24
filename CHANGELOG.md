@@ -4,6 +4,25 @@ Format: [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+## [2.7.7] – 2026-04-24 – Revert IES-Backup (Domänenfehler), Altcha-Fixes behalten
+
+### Reverted
+- **`X3 EPS PBOX 60 kW` aus dem Backup-Tree entfernt** (alle drei Locales).
+  Die v2.7.6-Annahme "IES-Wechselrichter brauchen ein anderes Backup-
+  Produkt" war falsch — der Stand aus v2.7.5 (Ja → X3 EPS Box + X3 Matebox
+  Advanced, Nein) ist der korrekte.
+- **`inverterLine`-Mechanik entfernt**: `InverterLine`-Type aus `types.ts`,
+  Feld aus `ConfigNode` und `PhaseSelection.selectedProduct`, Propagation
+  aus `useConfigState.ts`, Filter-Ast aus `solax/rules.ts`. Damit auch
+  69 Inverter-Leaf-Tags aus dem Katalog (waren stumme Metadaten ohne
+  aktive Wirkung nach dem Revert).
+
+### Retained from 2.7.6
+- **Altcha-Widget**: `language`-Attribut, dynamischer `altcha/i18n/<lang>`-
+  Import, `expired`-Event-Handler mit Token-Reset + Hinweistext bleiben
+  aktiv. Das sind reine UX-Verbesserungen auf der Captcha-Seite,
+  unabhängig von der Backup-Katalogfrage.
+
 ## [2.7.6] – 2026-04-24 – IES-Backup-Box + Altcha nach Doku
 
 ### Added

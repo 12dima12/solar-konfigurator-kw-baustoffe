@@ -4,7 +4,7 @@ Tags: solar, pv, konfigurator, photovoltaik
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.7.6
+Stable tag: 2.7.7
 License: Proprietary
 
 PV-Werkzeuge für KW Baustoffe: PV-Konfigurator und Solarrechner als WordPress-Plugin.
@@ -19,6 +19,14 @@ keine externe Datenweitergabe). Rate-Limiting, Honeypot, Ticket-IDs und Submissi
 Shortcode: [kw_pv_konfigurator]
 
 == Changelog ==
+
+= 2.7.7 =
+* revert: Das in v2.7.6 eingeführte IES-eigene Backup-Produkt
+  (X3 EPS PBOX 60 kW) und die zugehörige `inverterLine`-Filter-Logik
+  werden entfernt — die Backup-Auswahl kehrt zur v2.7.5-Variante zurück
+  (Ja → X3 EPS Box / X3 Matebox Advanced, Nein). Die Altcha-Doku-
+  Abgleiche (language-Attribut, i18n-Import, expired-Event) aus v2.7.6
+  bleiben erhalten.
 
 = 2.7.6 =
 * feat: IES-Wechselrichter bekommen jetzt die passende Notstrom-Box

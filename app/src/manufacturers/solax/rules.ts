@@ -1,5 +1,5 @@
 import type { ManufacturerRules } from "../types";
-import type { ConfigNode, ConfigPhase, InverterLine, Lang, PhaseType } from "@/data/types";
+import type { ConfigNode, ConfigPhase, Lang, PhaseType } from "@/data/types";
 import type { InstallationType, PhaseSelection } from "@/store/configStore";
 
 // Primäre Quelle: der bestätigte Inverter-Leaf trägt `phaseType`. Erst wenn
@@ -25,19 +25,6 @@ function isX1Selected(selections: PhaseSelection[]): boolean {
 
 function isX3Selected(selections: PhaseSelection[]): boolean {
   return getInverterPhaseType(selections) === "x3";
-}
-
-// Welche Produktlinie hat der User gewählt?
-// - "hybrid"  → Split-System-Hybride (X1 Hybrid, X3 Hybrid G4, X3 HYB PRO).
-//   Passender Backup: X3 EPS Box / X3 Matebox Advanced.
-// - "ies"     → SolaX X3-IES (alle Leistungsklassen).
-//   Passender Backup: X3 EPS PBOX 60 kW.
-// - null      → Ultra-Modelle oder ">30 kW"-Kontakt-Leaf, die wir bisher nicht
-//   tagged haben (Domänen-Klärung steht aus). Filter lässt dann alles durch
-//   (Migrations-Fallback), damit diese User nicht abgeschnitten werden.
-function getInverterLine(selections: PhaseSelection[]): InverterLine | null {
-  const inverter = selections.find((s) => s.phase === "inverter");
-  return inverter?.selectedProduct?.inverterLine ?? null;
 }
 
 const warnedMissingPhaseTag = new Set<string>();
@@ -100,35 +87,21 @@ const rules: ManufacturerRules = {
       }
     }
 
-    // Backup / Ersatzstromversorgung:
-    //   1. Phasen-Kompatibilität (X1/X3) via node.phaseType
-    //   2. Produktlinie (Hybrid vs. IES) via node.inverterLine — damit
-    //      IES-Nutzer die X3 EPS PBOX 60 kW statt der EPS Box / Matebox
-    //      sehen, und Hybrid-Nutzer umgekehrt.
-    // Strukturknoten wie "Yes"/"No" bleiben untagged und passen durch
-    // den Migrations-Fallback. Dev-Warnung nur für echte Produkt-Leaves.
+    // Backup / Ersatzstromversorgung: an X1 inverter needs an X1 backup unit
+    // and vice versa. Phase compatibility comes from explicit node.phaseType
+    // tags; untagged nodes (e.g. "Yes"/"No" section headings) pass through
+    // intentionally, with a dev warning when a leaf is missing the tag.
     if (phase === "backup") {
       const x1 = isX1Selected(selections);
       const x3 = isX3Selected(selections);
-      const line = getInverterLine(selections);
-
-      if (!x1 && !x3 && !line) return filtered;
-
-      const keepPhase: PhaseType | null = x3 ? "x3" : x1 ? "x1" : null;
-
+      if (!x1 && !x3) return filtered;
+      const keep: PhaseType = x3 ? "x3" : "x1";
       return filtered.filter(([key, node]) => {
-        // Produkt-Leaves ohne phaseType passen durch (Fallback mit Warnung).
         if (!node.phaseType) {
           warnMissingPhaseTag(phase, key, node);
           return true;
         }
-        // Phasen-Kompatibilität
-        if (keepPhase && node.phaseType !== keepPhase) return false;
-        // Produktlinien-Kompatibilität: wenn der Inverter eine Linie hat und
-        // das Backup-Produkt eine abweichende — ausfiltern. Untagged Backup-
-        // Produkte bleiben sichtbar (Migrations-Fallback).
-        if (line && node.inverterLine && node.inverterLine !== line) return false;
-        return true;
+        return node.phaseType === keep;
       });
     }
     return filtered;

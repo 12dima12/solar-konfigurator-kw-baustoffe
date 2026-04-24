@@ -4,6 +4,46 @@ Format: [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+## [2.7.11] – 2026-04-24 – IES ohne Triple-Power-Montage-Teile + DE-Sprach-Sweep
+
+### Fixed
+- **IES-Batterie zeigte fälschlich Holding Bracket + Base Plate**:
+  Die Accessory-Phase zählte für jede Batterie-Serie automatisch
+  "Solax Triple Power Holding Bracket" (1 pro 2 Module) und
+  "Solax Triple Power Base Plate" (1 pro Modul). Diese Produktnamen
+  sind eindeutig Triple-Power-spezifisch; die IES HS50E-D-Serie hat
+  eine eigene Montagelösung. Neues Feld `usesMountingAccessories` auf
+  `BatterySeries` (default `true` für Backward-Compat); bei
+  `ies-hs50e` explizit auf `false` gesetzt. In der Accessory-UI wird
+  der "Batterie-Zubehör (automatisch hergeleitet)"-Abschnitt dann
+  komplett ausgeblendet und die Items landen auch nicht in der
+  Submit-Mail / PDF. (`AccessoryConfigurator.tsx:114-124`)
+- **Breadcrumb zeigte englische Step-Keys**: Die Konfigurator-
+  Breadcrumb unter dem Phasen-Titel rendere die rohen `steps`-Keys
+  (z.B. "Split System › Three-phase inverter X3 › 8.0 kW"). Jetzt
+  löst die neue Helper-Funktion `resolveStepLabels` jeden Step auf
+  sein lokalisiertes `label` auf. Der Breadcrumb liest in de/en/cs
+  konsistent. (`navigation.ts`, `ConfiguratorShell.tsx`)
+- **Submit-Zusammenfassung zeigte "Notstrom: No" / "Wallbox: No Charger"**:
+  Opt-out-Leaves im Katalog haben `value: null`. Der
+  `confirmProduct`-Fallback in `useConfigState` nahm dann den rohen
+  englischen Key ("No", "No Charger") als Value. Fallback-Reihenfolge
+  jetzt `node.value || node.label || key` — Opt-outs zeigen die
+  lokalisierte Bezeichnung ("Nein", "Kein Ladegerät"). (`useConfigState.ts:29`)
+- **Deutsche Umlaut-Fehler im Katalog und in `messages/de.json`**:
+  `Ladegerat` → `Ladegerät`, `Wahlen` → `Wählen`, `wahlen` → `wählen`,
+  `Gerat`/`gerat` → `Gerät`/`gerät`.
+
+### Added
+- **`BatterySeries.usesMountingAccessories?: boolean`** — Flag um
+  Triple-Power-Montage-Teile pro Serie aus- und einzuschalten. Default
+  `true`; nur für Serien, die NICHT zum Triple-Power-Sortiment gehören,
+  auf `false` setzen. Aktuell betrifft das nur `ies-hs50e`.
+- **`resolveStepLabels(phase, lang, steps, catalog)`** — walkt den
+  Tree entlang der Step-Keys und liefert für jeden Step das
+  lokalisierte Label (oder fallback auf value/key). Wiederverwendbar
+  für jede Breadcrumb-Anzeige.
+
 ## [2.7.10] – 2026-04-24 – Wallbox: "Mehr als eine"-Option entfernt
 
 ### Removed

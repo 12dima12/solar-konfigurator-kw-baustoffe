@@ -4391,7 +4391,7 @@
         "One": {
           "label": "Eine",
           "value": "One",
-          "title": "Wahlen Sie die Ladeleistung",
+          "title": "Wählen Sie die Ladeleistung",
           "icon": "fa-solid fa-1 text-blue-500",
           "description": null,
           "image": null,
@@ -4409,7 +4409,7 @@
                 "Socket": {
                   "label": "Typ-2 Buchse",
                   "value": "Socket",
-                  "title": "HAC-Version auswahlen",
+                  "title": "HAC-Version auswählen",
                   "icon": "fa-solid fa-plug-circle-bolt text-purple-700",
                   "description": null,
                   "image": null,
@@ -4444,7 +4444,7 @@
                 "Plug": {
                   "label": "Typ-2 Kabel",
                   "value": "Plug",
-                  "title": "HAC-Version auswahlen",
+                  "title": "HAC-Version auswählen",
                   "icon": "fa-solid fa-charging-station text-blue-500",
                   "description": null,
                   "image": null,
@@ -4490,7 +4490,7 @@
                 "Socket": {
                   "label": "Typ-2 Buchse",
                   "value": "Socket",
-                  "title": "HAC-Version auswahlen",
+                  "title": "HAC-Version auswählen",
                   "icon": "fa-solid fa-plug-circle-bolt text-purple-700",
                   "description": null,
                   "image": null,
@@ -4525,7 +4525,7 @@
                 "Plug": {
                   "label": "Typ-2 Kabel",
                   "value": "Plug",
-                  "title": "HAC-Version auswahlen",
+                  "title": "HAC-Version auswählen",
                   "icon": "fa-solid fa-charging-station text-blue-500",
                   "description": null,
                   "image": null,
@@ -4562,7 +4562,7 @@
           }
         },
         "No Charger": {
-          "label": "Kein Ladegerat",
+          "label": "Kein Ladegerät",
           "value": null,
           "title": null,
           "icon": "fa-solid fa-minus text-red-500",

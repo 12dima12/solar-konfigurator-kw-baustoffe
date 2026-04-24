@@ -11,6 +11,7 @@ import {
   BATTERY_BASE_PLATE,
 } from "@/manufacturers/solax/accessory-catalog";
 import { computeBatteryAccessories } from "@/lib/battery-accessory";
+import { SOLAX_BATTERY_SERIES } from "@/manufacturers/solax/battery-series";
 import type { Lang } from "@/data/types";
 import { Check, Battery, Radio, Package, Gauge, RotateCcw } from "lucide-react";
 
@@ -113,7 +114,17 @@ export function AccessoryConfigurator({ lang, onConfirm, onBack }: Props) {
 
   const batteryMeta = selections.find((s) => s.phase === "battery")?.selectedProduct?.batteryMeta;
   const moduleCount = batteryMeta?.moduleCount ?? 0;
-  const batteryAcc = computeBatteryAccessories(moduleCount);
+  // Holding Bracket + Base Plate sind Triple-Power-Zubehörteile (siehe
+  // Produktnamen "Solax Triple Power Holding Bracket" etc.). Die IES
+  // HS50E-D-Serie hat eine eigene Montagelösung; `usesMountingAccessories`
+  // entscheidet pro BatterySeries. Default: true.
+  const selectedSeries = batteryMeta
+    ? SOLAX_BATTERY_SERIES.find((s) => s.key === batteryMeta.seriesKey)
+    : undefined;
+  const seriesUsesMounting = selectedSeries?.usesMountingAccessories !== false;
+  const batteryAcc = seriesUsesMounting
+    ? computeBatteryAccessories(moduleCount)
+    : { brackets: 0, basePlates: 0 };
 
   const inverterSteps = selections.find((s) => s.phase === "inverter")?.steps ?? [];
   const isX1 = inverterSteps.includes("Single-phase inverter X1");
@@ -195,7 +206,10 @@ export function AccessoryConfigurator({ lang, onConfirm, onBack }: Props) {
 
   return (
     <div className="space-y-6">
-      <section>
+      {/* Triple-Power-Montagezubehör — wird nur angezeigt, wenn die gewählte
+          Batterieserie Holding Bracket + Base Plate tatsächlich braucht.
+          IES HS50E-D hat eine eigene Befestigungslösung; dort überspringen. */}
+      <section className={seriesUsesMounting ? "" : "hidden"}>
         <div className="flex items-center gap-2 mb-2">
           <Battery className="h-4 w-4 text-primary" />
           <h3 className="font-semibold text-sm">{t.forBattery}</h3>

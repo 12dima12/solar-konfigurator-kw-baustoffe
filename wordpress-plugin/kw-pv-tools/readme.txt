@@ -4,7 +4,7 @@ Tags: solar, pv, konfigurator, photovoltaik
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.7.10
+Stable tag: 2.7.11
 License: Proprietary
 
 PV-Werkzeuge für KW Baustoffe: PV-Konfigurator und Solarrechner als WordPress-Plugin.
@@ -19,6 +19,26 @@ keine externe Datenweitergabe). Rate-Limiting, Honeypot, Ticket-IDs und Submissi
 Shortcode: [kw_pv_konfigurator]
 
 == Changelog ==
+
+= 2.7.11 =
+* fix: IES-Batterie (HS50E-D) zeigte fälschlich "3× Holding Bracket" und
+  "6× Base Plate" als automatisch hergeleitetes Zubehör an. Das sind
+  Triple-Power-spezifische Montage-Teile (siehe Produktnamen "Solax
+  Triple Power ..."); IES hat eine eigene Montagelösung. Neues Feld
+  `usesMountingAccessories` auf `BatterySeries`; für IES auf `false`
+  gesetzt, der Batterie-Zubehör-Block wird dann komplett ausgeblendet.
+* fix: Deutschsprachige Oberfläche war an mehreren Stellen englisch —
+  namentlich in der Breadcrumb ("Split System › Three-phase inverter X3
+  › 8.0 kW") und in der Zusammenfassung ("Notstrom: No" /
+  "Wallbox: No Charger"). Jetzt:
+  - Breadcrumb resolved jeden Step auf das lokalisierte `label`
+    (neue Helper-Funktion `resolveStepLabels`),
+  - `confirmProduct`-Fallback nutzt `label` vor dem rohen Key, sodass
+    Opt-out-Leaves mit `value: null` die deutsche Bezeichnung "Nein" /
+    "Kein Ladegerät" statt des englischen Keys zeigen.
+* fix: Deutsche Umlaut-Fehler im Katalog/Messages korrigiert
+  ("Ladegerat" → "Ladegerät", "Wahlen" → "Wählen", "wahlen" → "wählen",
+  "Gerat" → "Gerät").
 
 = 2.7.10 =
 * chore: In der Wallbox-Phase die "Für mehr als eine Wallbox kontaktieren

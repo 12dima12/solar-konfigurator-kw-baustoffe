@@ -81,3 +81,39 @@ export function getNextPhase(
 }
 
 export const ACTIVE_PHASES: ConfigPhase[] = ["inverter", "backup", "battery", "wallbox", "accessory"];
+
+/**
+ * Übersetzt die Step-Keys (die intern immer englisch sind, z.B. "Split System",
+ * "Three-phase inverter X3", "Yes", "One", "Power 11") in ihre sprachspezifischen
+ * Labels für die Breadcrumb-Anzeige. Fällt auf den Key zurück, wenn kein Label
+ * am Knoten hängt. Operiert iterativ entlang der tatsächlichen Tree-Struktur —
+ * so bekommt jeder Step das Label aus exakt dem Knoten, in den der User
+ * hineingesprungen ist.
+ */
+export function resolveStepLabels(
+  phase: ConfigPhase,
+  lang: Lang,
+  steps: string[],
+  catalog: Record<string, unknown>,
+): string[] {
+  const tree = getPhaseTree(phase, lang, catalog);
+  if (!tree) return steps;
+
+  const labels: string[] = [];
+  let current: Record<string, ConfigNode> | null = tree;
+  for (const key of steps) {
+    const node: ConfigNode | undefined = current?.[key];
+    if (!node) {
+      labels.push(key);
+      current = null;
+      continue;
+    }
+    labels.push(
+      (typeof node.label === "string" && node.label) ||
+        (typeof node.value === "string" && node.value) ||
+        key,
+    );
+    current = (node.children as Record<string, ConfigNode> | undefined) ?? null;
+  }
+  return labels;
+}

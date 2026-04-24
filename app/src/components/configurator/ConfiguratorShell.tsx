@@ -13,7 +13,7 @@ import { CurrentSetupSidebar } from "./CurrentSetupSidebar";
 import { useConfigState } from "@/hooks/useConfigState";
 import { useConfigStore } from "@/store/configStore";
 import { useIframeResize } from "@/hooks/useIframeResize";
-import { ACTIVE_PHASES } from "@/lib/navigation";
+import { ACTIVE_PHASES, resolveStepLabels } from "@/lib/navigation";
 import { scrollToTop } from "@/lib/scroll-to-top";
 import { useManufacturer } from "@/lib/manufacturer-context";
 import { ChevronLeft, RotateCcw } from "lucide-react";
@@ -199,7 +199,14 @@ export function ConfiguratorShell() {
             <h2 className="text-xl font-bold text-primary">{phaseTitle}</h2>
             {steps.length > 0 && (
               <p className="text-sm text-muted-foreground mt-0.5">
-                {steps.map((s) => <span key={s} className="after:content-['_›_'] last:after:content-[''] after:mx-1">{s}</span>)}
+                {resolveStepLabels(phase, lang, steps, manufacturer.catalog).map((label, i) => (
+                  <span
+                    key={`${i}-${label}`}
+                    className="after:content-['_›_'] last:after:content-[''] after:mx-1"
+                  >
+                    {label}
+                  </span>
+                ))}
               </p>
             )}
             {/* Node-level question title (e.g. "Benötigte Anzahl an MPP-Trackern?"

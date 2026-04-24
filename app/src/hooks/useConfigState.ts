@@ -24,7 +24,11 @@ export function useConfigState(catalog: Record<string, unknown>) {
     if (isLeafNode(node)) {
       confirmProduct({
         product_name: node.product_name ?? key,
-        value: node.value ?? key,
+        // Fallback-Reihenfolge: value (falls gesetzt) → label (für Opt-out-
+        // Leaves wie "No" / "No Charger" mit value=null) → key. Ohne den
+        // label-Fallback erscheint in der Zusammenfassung z.B. "Notstrom: No"
+        // statt "Notstrom: Nein".
+        value: node.value || node.label || key,
         image: node.image,
         phaseType: node.phaseType,
       });

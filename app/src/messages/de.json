@@ -120,9 +120,9 @@
     "description": "X3 IES 8K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>"
   },
   {
-    "key": "Kein Ladegerat",
+    "key": "Kein Ladegerät",
     "title": null,
-    "label": "Kein Ladegerat",
+    "label": "Kein Ladegerät",
     "description": null
   },
   {
@@ -133,13 +133,13 @@
   },
   {
     "key": "One",
-    "title": "Wahlen Sie die Ladeleistung",
+    "title": "Wählen Sie die Ladeleistung",
     "label": "Eine",
     "description": null
   },
   {
     "key": "Plug",
-    "title": "HAC-Version auswahlen",
+    "title": "HAC-Version auswählen",
     "label": "Typ-2 Kabel",
     "description": null
   },
@@ -163,7 +163,7 @@
   },
   {
     "key": "Socket",
-    "title": "HAC-Version auswahlen",
+    "title": "HAC-Version auswählen",
     "label": "Typ-2 Buchse",
     "description": null
   },

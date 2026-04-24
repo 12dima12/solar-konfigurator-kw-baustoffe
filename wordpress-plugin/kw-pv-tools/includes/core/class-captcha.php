@@ -74,11 +74,20 @@ class Captcha {
      * Der Client löst das PoW, indem er number = 0..maxNumber durchsucht bis
      * sha256(salt + number) === challenge.
      *
-     * Format: altcha.js ≥3.x erwartet die v1-Struktur mit `_version`, `parameters`
-     * und separater `signature`. Das frühere flache Format (algorithm/challenge/
-     * salt/signature/maxNumber nebeneinander) liefert bei altcha 3.x
-     * `challenge.parameters.algorithm === undefined` → Widget wirft
-     * "Unsupported algorithm undefined." und zeigt "Verification failed".
+     * Format: das FLACHE altcha-v2-Format mit `algorithm/challenge/salt/
+     * signature/maxNumber` auf Root-Ebene. altcha@3 erkennt dieses Layout
+     * via `isChallengeV1()` (prüft auf Top-Level `"challenge"`-Feld) und
+     * ruft intern `createChallengeFromV1()` auf, das es in die neue
+     * `parameters.{nonce,keyPrefix,keyLength,cost,...}`-Struktur
+     * übersetzt (altcha/dist/main/altcha.js Zeile 6110ff.).
+     *
+     * Die in v2.6.2 eingeführte Nested-Variante mit `_version: 1` und
+     * `parameters`-Wrapper greift NICHT: altcha v3 schluckt sie zwar
+     * syntaktisch, scheitert dann aber an `isChallengeValid()` (erwartet
+     * `parameters.nonce` und `parameters.keyPrefix`, beides fehlt) →
+     * "Challenge validation failed" → Widget-State=ERROR.
+     * Siehe docs/DECISIONS.md ADR-015 (hat den Fehler konzeptionell
+     * aufgebaut) und die Korrektur in v2.7.12.
      */
     private static function create_challenge( string $hmac_key, int $max_number ): array {
         $salt          = bin2hex( random_bytes( 12 ) );
@@ -87,14 +96,11 @@ class Captcha {
         $signature     = hash_hmac( 'sha256', $challenge, $hmac_key );
 
         return [
-            '_version'   => 1,
-            'parameters' => [
-                'algorithm' => 'SHA-256',
-                'challenge' => $challenge,
-                'maxNumber' => $max_number,
-                'salt'      => $salt,
-            ],
-            'signature'  => $signature,
+            'algorithm' => 'SHA-256',
+            'challenge' => $challenge,
+            'maxNumber' => $max_number,
+            'salt'      => $salt,
+            'signature' => $signature,
         ];
     }
 

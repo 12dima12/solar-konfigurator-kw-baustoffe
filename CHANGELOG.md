@@ -4,6 +4,51 @@ Format: [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+## [2.7.12] – 2026-04-24 – Captcha-Challenge-Format zurück auf flaches v2
+
+### Fixed
+- **Captcha-Widget lief in den Fehler-Zustand** ("Captcha konnte nicht
+  geladen werden — widget reported error state"). Root Cause (endlich
+  wirklich gefunden): das PHP-Backend sendet die Challenge seit
+  v2.6.2 (commit `ad97b57`) in einem nested Format:
+  ```json
+  { "_version": 1, "parameters": { "algorithm", "challenge", "salt", "maxNumber" }, "signature" }
+  ```
+  altcha@3.0.4 erkennt dieses Layout weder als v1 noch als v3:
+  - `isChallengeV1()` prüft auf ein **Top-Level** `"challenge"`-Feld
+    (`altcha/dist/main/altcha.js:6210`) — unser Payload hat nur
+    `parameters.challenge`, also `false`.
+  - `isChallengeValid()` prüft auf `parameters.nonce` **und**
+    `parameters.keyPrefix` (die v3-Felder, `altcha.js:6213`) — beides
+    nicht vorhanden, also ebenfalls `false`.
+  - Ergebnis: `"Challenge validation failed."` Exception im Widget →
+    `setState(State.ERROR)` → unser AltchaWidget-Wrapper fängt den
+    Error-State und zeigt die rote "Captcha konnte nicht geladen
+    werden"-Meldung.
+
+  Lösung: Backend sendet jetzt wieder das **flache v2-Format** (wie
+  vor v2.6.2):
+  ```json
+  { "algorithm", "challenge", "salt", "maxNumber", "signature" }
+  ```
+  altcha@3 detektiert das über `isChallengeV1` (Top-Level `challenge`
+  vorhanden) und ruft intern `createChallengeFromV1()` auf, das es in
+  die `{ parameters: { algorithm, nonce, keyPrefix, keyLength, cost,
+  salt }, signature }`-Struktur übersetzt, die der PoW-Solver braucht.
+  Der Kommentar-Block in `class-captcha.php` ist entsprechend
+  korrigiert — ADR-015 war an der Stelle irreführend.
+
+### Notes
+- `verify_altcha()` ist von der Änderung nicht betroffen: die Funktion
+  kann seit v2.6.2 sowohl das neue nested als auch das alte flache
+  Submission-Payload-Format parsen. Das bleibt so.
+- Im PHP-Backend-Test direkt geprüft:
+  ```
+  curl /wp-json/kw-pv-tools/v1/captcha/altcha/challenge
+  → { "algorithm": "SHA-256", "challenge": "…", "maxNumber": 100000,
+      "salt": "…", "signature": "…" }
+  ```
+
 ## [2.7.11] – 2026-04-24 – IES ohne Triple-Power-Montage-Teile + DE-Sprach-Sweep
 
 ### Fixed

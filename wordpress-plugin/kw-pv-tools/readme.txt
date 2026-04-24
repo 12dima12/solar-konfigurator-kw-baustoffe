@@ -4,7 +4,7 @@ Tags: solar, pv, konfigurator, photovoltaik
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.7.11
+Stable tag: 2.7.12
 License: Proprietary
 
 PV-Werkzeuge für KW Baustoffe: PV-Konfigurator und Solarrechner als WordPress-Plugin.
@@ -19,6 +19,18 @@ keine externe Datenweitergabe). Rate-Limiting, Honeypot, Ticket-IDs und Submissi
 Shortcode: [kw_pv_konfigurator]
 
 == Changelog ==
+
+= 2.7.12 =
+* fix: Captcha-Widget ging in den Fehler-Zustand ("Captcha konnte nicht
+  geladen werden — widget reported error state"). Root Cause: das
+  PHP-Backend sendete die Challenge seit v2.6.2 in einem nested
+  `{_version:1, parameters:{...}, signature}`-Format, das altcha@3 weder
+  als v1 (kein Top-Level-`challenge`-Feld) noch als v3 (kein
+  `parameters.nonce`/`keyPrefix`) erkennt → `isChallengeValid()` gibt
+  false → "Challenge validation failed". Rückkehr zum flachen
+  v2-Format (algorithm/challenge/salt/maxNumber/signature auf Root-
+  Ebene); altcha v3 hat einen eingebauten v1→v3-Translator der dieses
+  Format wieder lesen kann.
 
 = 2.7.11 =
 * fix: IES-Batterie (HS50E-D) zeigte fälschlich "3× Holding Bracket" und

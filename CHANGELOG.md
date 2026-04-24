@@ -4,6 +4,32 @@ Format: [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+## [2.7.2] – 2026-04-24 – Plugin-Integration: CSP-Header scope-gated
+
+### Fixed
+- **Menu-Toggle des Themes bricht, sobald das Plugin aktiv ist**: Der
+  `Content-Security-Policy`-Header wurde auf ALLEN Frontend-Seiten der Site
+  gesetzt (via `add_action('wp', 'send_csp')`), auch wenn die Seite den
+  Konfigurator gar nicht einbettet. `script-src 'self'` (ohne
+  `'unsafe-inline'`, weil die Seite kein Konfigurator ist) blockiert jedes
+  inline-JS, das Themes typischerweise für Mobile-Menu-Toggles, hamburger-
+  buttons, Tag-Manager, Analytics-Pixel oder Cookie-Banner nutzen. Nutzer
+  sahen nur, dass das Hamburger-Menü auf einmal nichts mehr tut — die
+  Browser-Konsole zeigte zwar `Refused to execute inline script ...`, aber
+  Site-Besitzer ohne DevTools-Skills finden das nicht. Jetzt früh-return
+  aus `CSP::send_csp()`, wenn die Seite keinen Konfigurator hat; das Theme
+  bleibt unberührt. (`class-csp.php:53-64`)
+
+### Notes
+- **MPPT-Labels bei der WR-Auswahl**: Der Render-Pfad ist korrekt — die
+  Karten zeigen an jedem Power-Level die MPPT-Notation (`MPPT (Strings):
+  2 (2/1)` vs `MPPT (Strings): 3 (1/1/1)`) via `renderFormattedLabel` über
+  die `<small>`-Tag-Unterstützung. Der Katalog ist gegenüber der GBC-
+  Referenz 1:1 identisch. Wer das Label "nicht mehr" sieht, hat
+  vermutlich noch eine ältere Plugin-Version aus der Zeit vor Commit
+  `7486e14` (fix: render <small> labels) im Browser-Cache. v2.7.2 bringt
+  durch das erneute Asset-Hashing ohnehin einen Cache-Bust.
+
 ## [2.7.1] – 2026-04-24 – Code-Review-Fixes auf v2.7.0
 
 ### Fixed

@@ -53,15 +53,17 @@ class CSP {
     public static function send_csp(): void {
         if ( is_admin() ) return;
 
-        $needs_inline = self::$needs_inline || self::current_page_has_konfigurator();
+        // Die CSP ist NUR für die Konfigurator-Seite relevant — auf allen
+        // anderen Seiten würde sie das Theme beschädigen (inline-JS für
+        // Mobile-Menu-Toggles, Analytics-Snippets, etc. werden durch
+        // `script-src 'self'` hart blockiert, ohne dass der Nutzer die
+        // Ursache sieht). Wenn die aktuelle Seite den Konfigurator nicht
+        // einbettet, geben wir den CSP-Header NICHT aus und das Theme läuft
+        // unverändert.
+        $is_konfigurator_page = self::$needs_inline || self::current_page_has_konfigurator();
+        if ( ! $is_konfigurator_page ) return;
 
-        $script_src = "'self'";
-        if ( $needs_inline ) {
-            $script_src .= " 'unsafe-inline'";
-        } elseif ( ! empty( self::SCRIPT_HASHES ) ) {
-            $hashes     = implode( ' ', array_map( fn( $h ) => "'sha256-{$h}'", self::SCRIPT_HASHES ) );
-            $script_src .= ' ' . $hashes;
-        }
+        $script_src = "'self' 'unsafe-inline'";
 
         $directives = [
             "default-src 'self'",

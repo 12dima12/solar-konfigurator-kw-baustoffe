@@ -4,7 +4,7 @@ Tags: solar, pv, konfigurator, photovoltaik
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.7.1
+Stable tag: 2.7.2
 License: Proprietary
 
 PV-Werkzeuge für KW Baustoffe: PV-Konfigurator und Solarrechner als WordPress-Plugin.
@@ -19,6 +19,16 @@ keine externe Datenweitergabe). Rate-Limiting, Honeypot, Ticket-IDs und Submissi
 Shortcode: [kw_pv_konfigurator]
 
 == Changelog ==
+
+= 2.7.2 =
+* fix (Plugin-Integration): Der CSP-Header (`Content-Security-Policy`) wurde
+  bisher auf ALLEN Frontend-Seiten der Site gesendet — nicht nur auf
+  Konfigurator-Seiten. `script-src 'self'` blockiert inline-JS, was viele
+  Themes für Mobile-Menu-Toggles, Analytics-Snippets und Tag-Manager
+  verwenden. Ergebnis: Menu-Toggle tot, sobald das Plugin aktiv war.
+  Fix: CSP-Header wird jetzt NUR gesetzt, wenn die aktuelle Seite tatsächlich
+  den Konfigurator-Shortcode / -Block enthält. Alle anderen Seiten bleiben
+  unberührt.
 
 = 2.7.1 =
 * fix: AC-Coupling-Banner versprach "alle Produktkategorien eingeschränkt",

@@ -73,19 +73,19 @@ const rules: ManufacturerRules = {
     selections: PhaseSelection[],
     installationType: InstallationType | null,
   ): Array<[string, ConfigNode]> {
+    void installationType; // derzeit keine AC-Kopplung-Einschränkung aktiv
     let filtered = options;
 
-    // AC-coupling mode exposes only explicitly compatible paths.
-    // As a migration fallback we keep the original list if nothing matches
-    // yet (so partially tagged trees stay usable while data is being enriched).
-    if (installationType === "ac-coupling") {
-      const acCompatible = options.filter(([key, node]) =>
-        supportsInstallationType(key, node, "ac-coupling")
-      );
-      if (acCompatible.length > 0) {
-        filtered = acCompatible;
-      }
-    }
+    // Hinweis: Bis v2.7.14 lief hier ein AC-Kopplung-Compatibility-Filter,
+    // der Optionen ohne `compatibility: ["ac-coupling"]` aussortiert hat.
+    // Im Resultat sah der User in AC-Kopplung:
+    //   - Backup: nur "Nein"
+    //   - Wallbox: nur "Eine" (weil die Heuristik `"HAC"` im Namen matched,
+    //     "Kein Ladegerät" aber rausfiel)
+    // Das war gewollt als Retrofit-Semantik, der Kunde möchte aber die
+    // volle Auswahl sehen (er entscheidet selbst, was er zur bestehenden
+    // PV-Anlage hinzunimmt). Filter deaktiviert; die Katalog-Tags
+    // `compatibility` bleiben als Metadata erhalten.
 
     // Backup / Ersatzstromversorgung: an X1 inverter needs an X1 backup unit
     // and vice versa. Phase compatibility comes from explicit node.phaseType

@@ -4,6 +4,36 @@ Format: [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+## [2.7.17] – 2026-04-24 – Holding-Bracket-Default gedreht + AC-Kopplung Filter entfernt
+
+### Fixed
+- **Holding Bracket + Base Plate werden für aktuelle Batterie-Serien
+  nicht mehr gezeigt** (IES HS50E-D und Triple Power S/T). Der User hat
+  bestätigt, dass diese externen Montage-Teile nur für T-BAT H 5.8 V3
+  (derzeit Teaser) vorgesehen sind; die heutigen Serien bringen ihre
+  Montage im Gehäuse mit. Default von `usesMountingAccessories`
+  umgedreht: jetzt opt-in per `true`, nicht opt-out per `false`. Nur
+  `t-bat-h58-v3` hat das Flag aktiv; die anderen Serien bekommen die
+  Komponenten-Auflistung im Zubehör-Schritt nicht mehr injiziert.
+  (`battery-series.ts`, `AccessoryConfigurator.tsx:124`)
+- **AC-Kopplung zeigt jetzt die volle Auswahl in Notstrom + Wallbox.**
+  Der in v2.7.0 eingeführte AC-Kopplung-Compatibility-Filter in
+  `solax/rules.ts` hat auf Basis von `compatibility: ["ac-coupling"]`-
+  Tags aus dem Katalog sowie einer `"hac"/"retrofit"`-Heuristik gefiltert.
+  Praktisches Ergebnis:
+  - Notstrom-Phase zeigte nur "Nein" (weil "Ja" nur `compatibility:
+    ["new"]` hatte).
+  - Wallbox-Phase zeigte nur "Eine" (weil das `"HAC"` im Produktnamen
+    die Heuristik triggerte), die "Kein Ladegerät"-Option fiel raus.
+  Der User möchte in AC-Kopplung selbst entscheiden; Filter komplett
+  deaktiviert. Katalog-Tags `compatibility` und die
+  `supportsInstallationType`-Funktion bleiben als Metadata für
+  spätere Feinjustierung erhalten.
+
+### Changed
+- `BatterySeries.usesMountingAccessories` ist jetzt ein Opt-in-Flag
+  (Default-Semantik: `false`). Dokumentiert im JSDoc-Kommentar.
+
 ## [2.7.16] – 2026-04-24 – Render-Loop-Fix in AC-Kopplung
 
 ### Fixed

@@ -114,14 +114,15 @@ export function AccessoryConfigurator({ lang, onConfirm, onBack }: Props) {
 
   const batteryMeta = selections.find((s) => s.phase === "battery")?.selectedProduct?.batteryMeta;
   const moduleCount = batteryMeta?.moduleCount ?? 0;
-  // Holding Bracket + Base Plate sind Triple-Power-Zubehörteile (siehe
-  // Produktnamen "Solax Triple Power Holding Bracket" etc.). Die IES
-  // HS50E-D-Serie hat eine eigene Montagelösung; `usesMountingAccessories`
-  // entscheidet pro BatterySeries. Default: true.
+  // Holding Bracket + Base Plate sind laut Hersteller ausschließlich für
+  // T-BAT H 5.8 V3 vorgesehen — heutige Serien (Triple Power S/T, IES
+  // HS50E-D) haben eine eigene Montagelösung im Gehäuse. `usesMountingAccessories`
+  // ist daher ein Opt-in pro Serie; nur wer es explizit auf `true` setzt,
+  // bekommt die Komponenten-Auflistung im Zubehör-Schritt.
   const selectedSeries = batteryMeta
     ? SOLAX_BATTERY_SERIES.find((s) => s.key === batteryMeta.seriesKey)
     : undefined;
-  const seriesUsesMounting = selectedSeries?.usesMountingAccessories !== false;
+  const seriesUsesMounting = selectedSeries?.usesMountingAccessories === true;
   const batteryAcc = seriesUsesMounting
     ? computeBatteryAccessories(moduleCount)
     : { brackets: 0, basePlates: 0 };

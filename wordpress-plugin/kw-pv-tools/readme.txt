@@ -4,7 +4,7 @@ Tags: solar, pv, konfigurator, photovoltaik
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.7.16
+Stable tag: 2.7.17
 License: Proprietary
 
 PV-Werkzeuge für KW Baustoffe: PV-Konfigurator und Solarrechner als WordPress-Plugin.
@@ -19,6 +19,21 @@ keine externe Datenweitergabe). Rate-Limiting, Honeypot, Ticket-IDs und Submissi
 Shortcode: [kw_pv_konfigurator]
 
 == Changelog ==
+
+= 2.7.17 =
+* fix: Holding Bracket + Base Plate verschwinden jetzt aus dem Zubehör-
+  Schritt für alle heutigen Batterie-Serien. Laut Hersteller-Feedback
+  sind diese Montage-Teile nur für T-BAT H 5.8 V3 vorgesehen; Triple
+  Power S/T und IES HS50E-D haben eigene Montagelösungen im Gehäuse.
+  Default des `usesMountingAccessories`-Flags umgedreht: nur explizit
+  als `true` markierte Serien zeigen die Komponenten. Aktuell nur
+  T-BAT H 5.8 V3 (derzeit noch im "Bald verfügbar"-Teaser-Zustand).
+* fix: AC-Kopplung zeigte nur reduzierte Auswahl in der Notstrom- und
+  Wallbox-Phase (z.B. keine "Kein Ladegerät"-Option im Wallbox-Schritt,
+  weil der HAC-Heuristik-Filter sie ausblendete). Der AC-Kopplung-
+  Compatibility-Filter ist komplett deaktiviert; in AC-Kopplung sieht
+  der Kunde jetzt dieselbe volle Auswahl wie bei Neuinstallation und
+  entscheidet selbst, was er zur bestehenden PV-Anlage hinzunimmt.
 
 = 2.7.16 =
 * fix: Endlos-Render-Loop im BatteryConfigurator bei AC-Kopplung

@@ -59,12 +59,12 @@ export interface BatterySeries {
    */
   comingSoon?: boolean;
   /**
-   * "Solax Triple Power Holding Bracket" + "Solax Triple Power Base Plate"
-   * sind Triple-Power-spezifische Montage-Teile (Wandhalterung + Bodenplatte
-   * pro Modul). Die IES HS50E-D-Serie hat eine eigene Montagekonstruktion
-   * und braucht diese NICHT — `usesMountingAccessories: false` schaltet
-   * die Accessory-Phase entsprechend aus. Default ohne Angabe ist `true`
-   * (Backward-Compat für Triple-Power-Serien).
+   * Holding Bracket + Base Plate (Wandhalterung + Bodenplatte pro Modul)
+   * sind laut Hersteller-Feedback ausschließlich für T-BAT H 5.8 V3
+   * vorgesehen — die heutigen Serien (Triple Power S/T, IES HS50E-D)
+   * haben ihre eigene Montagelösung im Gehäuse. Flag standardmäßig
+   * `false`; nur Serien, die diese Zusatzkomponenten explizit benötigen,
+   * setzen `usesMountingAccessories: true`.
    */
   usesMountingAccessories?: boolean;
 }
@@ -179,6 +179,8 @@ export const SOLAX_BATTERY_SERIES: BatterySeries[] = [
   },
   // Angekündigt, noch nicht bestellbar. Thumbnail erscheint gegraut mit
   // "Bald verfügbar"-Badge; Klick macht nichts, keine Montage-Daten.
+  // `usesMountingAccessories: true` — das ist die einzige Serie, die
+  // Holding Bracket + Base Plate als externe Montage-Komponenten braucht.
   {
     key: "t-bat-h58-v3",
     label: "T-BAT H 5.8 V3",
@@ -189,6 +191,7 @@ export const SOLAX_BATTERY_SERIES: BatterySeries[] = [
     sliderStops: [],
     scope: "split",
     comingSoon: true,
+    usesMountingAccessories: true,
   },
   {
     key: "ies-hs50e",
@@ -200,7 +203,6 @@ export const SOLAX_BATTERY_SERIES: BatterySeries[] = [
     entries: HS50E_ENTRIES,
     sliderStops: stops(HS50E_ENTRIES),
     scope: "ies",
-    usesMountingAccessories: false,
   },
 ];
 

@@ -4,6 +4,40 @@ Format: [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+## [2.7.8] – 2026-04-24 – Batteriemenü im GBC-Stil + Slider `−`/`+` Buttons
+
+### Added
+- **Serien-Thumbnail-Row am unteren Rand des Battery-Menüs**:
+  Die verfügbaren Batterieserien (je nach Inverter: IES HS50E-D oder die
+  drei Triple-Power-Serien) werden jetzt als kleine klickbare Produkt-
+  bilder unter dem Detail-Bereich gezeigt. Aktiv-Serie hat primäre Border
+  + Ring. Klick wechselt die Serie, Slider springt auf deren kleinsten Stop.
+- **Auto-Selected erste Serie**: Statt einer vorgelagerten Serien-Grid-
+  Seite landet der User direkt im Detail-View der ersten verfügbaren
+  Serie und kann über die Thumbnail-Row wechseln. Weniger Klicks bis zur
+  Kapazitätswahl, klarere visuelle Hierarchie.
+- **Gelbe kWh-Pill** über dem Slider-Thumb (wie GBC) — die aktuelle
+  Kapazität bewegt sich sichtbar mit dem Thumb mit.
+- **`−` / `+` Buttons am Kapazitäts-Slider** (links rot / rechts grün).
+  Springen jeweils zum vorigen/nächsten `sliderStop`. Fallback für Mobile-
+  User, die die kleinen Tick-Dots schwer präzise treffen.
+- **`−` / `+` Buttons am Power-Slider** (Inverter-Leistungsauswahl) mit
+  identischer Optik. Konsistente Slider-UX über den ganzen Konfigurator.
+- **Dynamische "X.XX kWh Batterie Montage"-Textzeile** unter dem Slider;
+  zeigt die tatsächlich montierte Kapazität der aktuell gewählten Variante
+  (nicht den Roh-Slider-Wert) und aktualisiert sich bei jeder Änderung.
+
+### Changed
+- `BatteryConfigurator` hat jetzt nur noch einen UI-Zustand (Detail-View
+  mit Thumbnail-Row) statt zweier Screens (Grid → Detail). Die
+  Rating-Bar-Kacheln aus dem alten Grid-View sind entfallen; die Info
+  liegt jetzt kompakter im Produkt-Thumbnail-Tooltip.
+- "Zurück"-Button im Battery-Menü ist jetzt ein dunkler Secondary-Button
+  (statt ghost), passend zum GBC-Referenzbild.
+- Numeric-Ruler unter dem Kapazitäts-Slider bekommt links/rechts horiz.
+  Abstand in Spalten-Breite der `−`/`+` Buttons, damit die Skala bündig
+  mit dem eigentlichen Track fluchtet.
+
 ## [2.7.7] – 2026-04-24 – Revert IES-Backup (Domänenfehler), Altcha-Fixes behalten
 
 ### Reverted

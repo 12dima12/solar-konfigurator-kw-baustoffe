@@ -6,7 +6,7 @@ import { OptionGrid } from "./OptionGrid";
 import { getChildrenSorted, resolveNode } from "@/lib/navigation";
 import type { ConfigNode, Lang } from "@/data/types";
 import { POWER_STOPS_X3, POWER_OVER_30_KEY } from "@/lib/constants";
-import { Phone } from "lucide-react";
+import { Minus, Phone, Plus } from "lucide-react";
 
 interface Props {
   lang: Lang;
@@ -27,7 +27,6 @@ export function PowerSlider({ lang, steps, onSelect, catalog }: Props) {
   const parentNode = resolveNode("inverter", lang, steps, catalog);
   if (!parentNode) return null;
 
-  const sorted = getChildrenSorted(parentNode);
   const isOver30 = sliderIndex === POWER_STOPS_X3.length;
 
   const powerNode = parentNode.children
@@ -36,7 +35,7 @@ export function PowerSlider({ lang, steps, onSelect, catalog }: Props) {
 
   const powerChildren = powerNode ? getChildrenSorted(powerNode) : [];
 
-  const labels: Record<string, { title: string; unit: string; contact: string; request: string; ariaPower: string; noProducts: string }> = {
+  const labels: Record<string, { title: string; unit: string; contact: string; request: string; ariaPower: string; noProducts: string; decrease: string; increase: string }> = {
     de: {
       title: "Benötigte Leistung auswählen",
       unit: "kW",
@@ -44,6 +43,8 @@ export function PowerSlider({ lang, steps, onSelect, catalog }: Props) {
       request: "Anfrage senden",
       ariaPower: "Leistung",
       noProducts: `Für ${selectedKw} kW keine Produkte verfügbar.`,
+      decrease: "Leistung verringern",
+      increase: "Leistung erhöhen",
     },
     en: {
       title: "Select required power",
@@ -52,6 +53,8 @@ export function PowerSlider({ lang, steps, onSelect, catalog }: Props) {
       request: "Send request",
       ariaPower: "Power",
       noProducts: `No products available for ${selectedKw} kW.`,
+      decrease: "Decrease power",
+      increase: "Increase power",
     },
     cs: {
       title: "Vyberte požadovaný výkon",
@@ -60,9 +63,15 @@ export function PowerSlider({ lang, steps, onSelect, catalog }: Props) {
       request: "Odeslat poptávku",
       ariaPower: "Výkon",
       noProducts: `Pro ${selectedKw} kW nejsou dostupné žádné produkty.`,
+      decrease: "Snížit výkon",
+      increase: "Zvýšit výkon",
     },
   };
   const l = labels[lang] ?? labels.de;
+
+  const maxIdx = POWER_STOPS_X3.length; // inclusive: last index = ">30 kW"
+  const canDec = sliderIndex > 0;
+  const canInc = sliderIndex < maxIdx;
 
   return (
     <div className="space-y-8">
@@ -75,17 +84,43 @@ export function PowerSlider({ lang, steps, onSelect, catalog }: Props) {
           </span>
         </div>
 
-        <Slider
-          min={0}
-          max={POWER_STOPS_X3.length}
-          step={1}
-          value={[sliderIndex]}
-          onValueChange={(vals) => setSliderIndex(Array.isArray(vals) ? vals[0] : vals)}
-          className="my-4"
-          aria-label={l.ariaPower}
-        />
+        {/* −/+ Buttons flankieren den Slider. Wenn das Antippen der Tick-Dots
+            auf Mobile wacklig ist, kommt man so trotzdem schrittweise an den
+            gewünschten Stop. */}
+        <div className="flex items-center gap-3 sm:gap-4 my-4">
+          <button
+            type="button"
+            onClick={() => canDec && setSliderIndex((i) => Math.max(0, i - 1))}
+            disabled={!canDec}
+            aria-label={l.decrease}
+            className="shrink-0 inline-flex h-9 w-9 items-center justify-center rounded-full text-red-600 hover:bg-red-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+          >
+            <Minus className="h-6 w-6" strokeWidth={3} />
+          </button>
 
-        <div className="flex justify-between text-xs text-muted-foreground px-1">
+          <Slider
+            min={0}
+            max={maxIdx}
+            step={1}
+            value={[sliderIndex]}
+            onValueChange={(vals) => setSliderIndex(Array.isArray(vals) ? vals[0] : vals)}
+            className="flex-1"
+            aria-label={l.ariaPower}
+          />
+
+          <button
+            type="button"
+            onClick={() => canInc && setSliderIndex((i) => Math.min(maxIdx, i + 1))}
+            disabled={!canInc}
+            aria-label={l.increase}
+            className="shrink-0 inline-flex h-9 w-9 items-center justify-center rounded-full text-emerald-600 hover:bg-emerald-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+          >
+            <Plus className="h-6 w-6" strokeWidth={3} />
+          </button>
+        </div>
+
+        {/* kW-Ruler unterhalb des Sliders, in der Track-Breite (minus −/+ Buttons). */}
+        <div className="flex justify-between text-xs text-muted-foreground px-1 mx-12 sm:mx-13">
           {POWER_STOPS_X3.map((kw) => (
             <span key={kw}>{kw}</span>
           ))}

@@ -4,7 +4,7 @@ Tags: solar, pv, konfigurator, photovoltaik
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.7.7
+Stable tag: 2.7.8
 License: Proprietary
 
 PV-Werkzeuge für KW Baustoffe: PV-Konfigurator und Solarrechner als WordPress-Plugin.
@@ -19,6 +19,20 @@ keine externe Datenweitergabe). Rate-Limiting, Honeypot, Ticket-IDs und Submissi
 Shortcode: [kw_pv_konfigurator]
 
 == Changelog ==
+
+= 2.7.8 =
+* feat: Batteriekonfigurator im GBC-Stil umgebaut — die verfügbaren
+  Batterieserien liegen jetzt als kleine Produktbilder UNTEN, die gewählte
+  Serie nimmt den Hauptbereich ein (Slider, Montage-Varianten, kWh-Anzeige).
+  Klick auf ein Thumbnail wechselt die Serie.
+* feat: Kapazitäts-Slider mit großer gelber "X.X kWh"-Pill überm Thumb
+  (aktualisiert sich dynamisch) + neuen `−`/`+` Buttons an den Rändern,
+  damit man auch ohne präzises Treffen der Tick-Dots durch die Stops
+  springen kann.
+* feat: "X.XX kWh Batterie Montage"-Textzeile zeigt live die aktuell
+  gewählte Montage-Kapazität.
+* feat: Power-Slider (Inverter-Auswahl) bekommt dieselben `−`/`+` Buttons —
+  Mobile-UX für alle Slider im Konfigurator einheitlich.
 
 = 2.7.7 =
 * revert: Das in v2.7.6 eingeführte IES-eigene Backup-Produkt

@@ -103,7 +103,7 @@
                       "title": null,
                       "icon": null,
                       "description": "X3 Hybrid G4 5.0 kW",
-                      "image": "img/X3 G4.png",
+                      "image": "img/X3 Hybrid Serie.png",
                       "info": {
                         "title": "X3 G4 5.0 kW Technische Spezifikationen",
                         "specs": [
@@ -216,7 +216,7 @@
                       "title": null,
                       "icon": null,
                       "description": "X3 Hybrid G4 6.0 kW",
-                      "image": "img/X3 G4.png",
+                      "image": "img/X3 Hybrid Serie.png",
                       "info": {
                         "title": "X3 G4 6.0 kW Technische Spezifikationen",
                         "specs": [
@@ -329,7 +329,7 @@
                       "title": null,
                       "icon": null,
                       "description": "X3 Hybrid G4 8.0 kW",
-                      "image": "img/X3 G4.png",
+                      "image": "img/X3 Hybrid Serie.png",
                       "info": {
                         "title": "X3 G4 8.0 kW Technische Spezifikationen",
                         "specs": [
@@ -442,7 +442,7 @@
                       "title": null,
                       "icon": null,
                       "description": "X3 Hybrid G4 10.0 kW",
-                      "image": "img/X3 G4.png",
+                      "image": "img/X3 Hybrid Serie.png",
                       "info": {
                         "title": "X3 G4 10.0 kW Technische Spezifikationen",
                         "specs": [
@@ -600,7 +600,7 @@
                       "phaseType": "x3"
                     },
                     "G-21d-4212": {
-                      "priority": 3,
+                      "priority": 1,
                       "product_code": "G-21d-4212",
                       "product_name": "Solax G4 X3-Hybrid-12.0-D, WiFi+LAN, CT",
                       "type": "SolaX Hybrid G4",
@@ -610,7 +610,7 @@
                       "title": null,
                       "icon": null,
                       "description": "X3 Hybrid G4 12.0 kW",
-                      "image": "img/X3 G4.png",
+                      "image": "img/X3 Hybrid Serie.png",
                       "info": {
                         "title": "X3 G4 12.0 kW Technische Spezifikationen",
                         "specs": [
@@ -669,7 +669,7 @@
                       "title": null,
                       "icon": null,
                       "description": "X3 Hybrid G4 15.0 kW",
-                      "image": "img/X3 G4.png",
+                      "image": "img/X3 Hybrid Serie.png",
                       "info": {
                         "title": "X3 G4 15.0 kW Technische Spezifikationen",
                         "specs": [
@@ -1448,7 +1448,7 @@
                       "title": null,
                       "icon": null,
                       "description": "X3 Hybrid G4 5.0 kW",
-                      "image": "img/X3 G4.png",
+                      "image": "img/X3 Hybrid Serie.png",
                       "info": {
                         "title": "X3 G4 5.0 kW Technical Specifications",
                         "specs": [
@@ -1561,7 +1561,7 @@
                       "title": null,
                       "icon": null,
                       "description": "X3 Hybrid G4 6.0 kW",
-                      "image": "img/X3 G4.png",
+                      "image": "img/X3 Hybrid Serie.png",
                       "info": {
                         "title": "X3 G4 6.0 kW Technical Specifications",
                         "specs": [
@@ -1674,7 +1674,7 @@
                       "title": null,
                       "icon": null,
                       "description": "X3 Hybrid G4 8.0 kW",
-                      "image": "img/X3 G4.png",
+                      "image": "img/X3 Hybrid Serie.png",
                       "info": {
                         "title": "X3 G4 8.0 kW Technical Specifications",
                         "specs": [
@@ -1787,7 +1787,7 @@
                       "title": null,
                       "icon": null,
                       "description": "X3 Hybrid G4 10.0 kW",
-                      "image": "img/X3 G4.png",
+                      "image": "img/X3 Hybrid Serie.png",
                       "info": {
                         "title": "X3 G4 10.0 kW Technical Specifications",
                         "specs": [
@@ -1945,7 +1945,7 @@
                       "phaseType": "x3"
                     },
                     "G-21d-4212": {
-                      "priority": 3,
+                      "priority": 1,
                       "product_code": "G-21d-4212",
                       "product_name": "Solax G4 X3-Hybrid-12.0-D, WiFi+LAN, CT",
                       "type": "SolaX Hybrid G4",
@@ -1955,7 +1955,7 @@
                       "title": null,
                       "icon": null,
                       "description": "X3 Hybrid G4 12.0 kW",
-                      "image": "img/X3 G4.png",
+                      "image": "img/X3 Hybrid Serie.png",
                       "info": {
                         "title": "X3 G4 12.0 kW Technical Specifications",
                         "specs": [
@@ -2014,7 +2014,7 @@
                       "title": null,
                       "icon": null,
                       "description": "X3 Hybrid G4 15.0 kW",
-                      "image": "img/X3 G4.png",
+                      "image": "img/X3 Hybrid Serie.png",
                       "info": {
                         "title": "X3 G4 15.0 kW Technical Specifications",
                         "specs": [
@@ -2793,7 +2793,7 @@
                       "title": null,
                       "icon": null,
                       "description": "X3 Hybrid G4 5.0 kW",
-                      "image": "img/X3 G4.png",
+                      "image": "img/X3 Hybrid Serie.png",
                       "info": {
                         "title": "X3 G4 5.0 kW Technické specifikace",
                         "specs": [
@@ -2906,7 +2906,7 @@
                       "title": null,
                       "icon": null,
                       "description": "X3 Hybrid G4 6.0 kW",
-                      "image": "img/X3 G4.png",
+                      "image": "img/X3 Hybrid Serie.png",
                       "info": {
                         "title": "X3 G4 6.0 kW Technické specifikace",
                         "specs": [
@@ -3019,7 +3019,7 @@
                       "title": null,
                       "icon": null,
                       "description": "X3 Hybrid G4 8.0 kW",
-                      "image": "img/X3 G4.png",
+                      "image": "img/X3 Hybrid Serie.png",
                       "info": {
                         "title": "X3 G4 8.0 kW Technické specifikace",
                         "specs": [
@@ -3132,7 +3132,7 @@
                       "title": null,
                       "icon": null,
                       "description": "X3 Hybrid G4 10.0 kW",
-                      "image": "img/X3 G4.png",
+                      "image": "img/X3 Hybrid Serie.png",
                       "info": {
                         "title": "X3 G4 10.0 kW Technické specifikace",
                         "specs": [
@@ -3290,7 +3290,7 @@
                       "phaseType": "x3"
                     },
                     "G-21d-4212": {
-                      "priority": 3,
+                      "priority": 1,
                       "product_code": "G-21d-4212",
                       "product_name": "Solax G4 X3-Hybrid-12.0-D, WiFi+LAN, CT",
                       "type": "SolaX Hybrid G4",
@@ -3300,7 +3300,7 @@
                       "title": null,
                       "icon": null,
                       "description": "X3 Hybrid G4 12.0 kW",
-                      "image": "img/X3 G4.png",
+                      "image": "img/X3 Hybrid Serie.png",
                       "info": {
                         "title": "X3 G4 12.0 kW Technické specifikace",
                         "specs": [
@@ -3359,7 +3359,7 @@
                       "title": null,
                       "icon": null,
                       "description": "X3 Hybrid G4 15.0 kW",
-                      "image": "img/X3 G4.png",
+                      "image": "img/X3 Hybrid Serie.png",
                       "info": {
                         "title": "X3 G4 15.0 kW Technické specifikace",
                         "specs": [

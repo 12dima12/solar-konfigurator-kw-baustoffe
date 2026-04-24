@@ -4,7 +4,7 @@ Tags: solar, pv, konfigurator, photovoltaik
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.7.2
+Stable tag: 2.7.3
 License: Proprietary
 
 PV-Werkzeuge für KW Baustoffe: PV-Konfigurator und Solarrechner als WordPress-Plugin.
@@ -19,6 +19,15 @@ keine externe Datenweitergabe). Rate-Limiting, Honeypot, Ticket-IDs und Submissi
 Shortcode: [kw_pv_konfigurator]
 
 == Changelog ==
+
+= 2.7.3 =
+* feat: Triple-Power-S Batterieauswahl beginnt jetzt bei 3 Modulen
+  (S 2.5: 7,5 kWh / S 36: 10,8 kWh) — kleinere Konfigurationen waren
+  zuvor nicht auswählbar, obwohl `minModules: 3` das erlaubt.
+* feat: X3-Hybrid-Serie (Non-PRO) erscheint bei jeder Leistungsklasse
+  links, X3-HYB-G4 PRO rechts. Bisher war die 12.0 kW-Karte invertiert.
+* feat: Neues Produktfoto für die X3-Hybrid-Serie (G4, Non-PRO),
+  abgestimmt auf das Herstellermaterial von SolaX (at.solaxpower.com).
 
 = 2.7.2 =
 * fix (Plugin-Integration): Der CSP-Header (`Content-Security-Policy`) wurde

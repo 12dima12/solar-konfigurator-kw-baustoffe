@@ -4,6 +4,24 @@ Format: [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+## [2.7.3] – 2026-04-24 – Batterie-Minimalkonfig + Inverter-Layout + X3-Hybrid-Foto
+
+### Added
+- **Triple-Power-S-Batterie**: Zwei neue Slider-Stops `7,5 kWh` (HS25,
+  1× BMS + 3× S 2.5) und `10,8 kWh` (HS36, 1× BMS + 3× S 36). Der Typ
+  erlaubt laut `minModules: 3` diese Drei-Modul-Ausbauten bereits, die
+  Stops fehlten aber in `S_ENTRIES`, weswegen der Slider erst bei
+  10 kWh / 14,4 kWh einstieg.
+- **Neues Produktfoto `X3 Hybrid Serie.png`** für alle X3-Hybrid-G4 (Non-
+  PRO) Wechselrichter. Quelle: at.solaxpower.com Mai 2025.
+
+### Changed
+- **X3-Inverter-Reihenfolge**: X3-Hybrid-G4 (Non-PRO) steht in jeder
+  Leistungsklasse links, X3-HYB-G4 PRO rechts. Die 12.0 kW-Karte hatte
+  PRO auf `priority: 2` und Hybrid auf `priority: 3` — das ist die einzige
+  Power-Stufe, die invertiert war. Alle Hybrid/PRO-Paare laufen jetzt mit
+  Hybrid < PRO im Sort-Order.
+
 ## [2.7.2] – 2026-04-24 – Plugin-Integration: CSP-Header scope-gated
 
 ### Fixed

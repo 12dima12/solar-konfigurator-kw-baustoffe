@@ -64,6 +64,7 @@ const T58_ENTRIES: MontageEntry[] = [
 
 const S_ENTRIES: MontageEntry[] = [
   // HS25 — 2.5 kWh/Modul
+  { kwh: 7.5,  model: "HS25", moduleKwh: 2.5, minModules: 3, parts: { BMS: 1, BAT_BOX: 3 } },
   { kwh: 10,   model: "HS25", moduleKwh: 2.5, minModules: 3, parts: { BMS: 1, BAT_BOX: 4 } },
   { kwh: 12.5, model: "HS25", moduleKwh: 2.5, minModules: 3, parts: { BMS: 1, BAT_BOX: 5 } },
   { kwh: 15,   model: "HS25", moduleKwh: 2.5, minModules: 3, parts: { BMS: 1, BAT_BOX: 6 } },
@@ -75,6 +76,7 @@ const S_ENTRIES: MontageEntry[] = [
   { kwh: 30,   model: "HS25", moduleKwh: 2.5, minModules: 3, parts: { BMS: 1, BAT_BOX: 12, Series_BOX: 1 } },
   { kwh: 32.5, model: "HS25", moduleKwh: 2.5, minModules: 3, parts: { BMS: 1, BAT_BOX: 13, Series_BOX: 1 } },
   // HS36 — 3.6 kWh/Modul
+  { kwh: 10.8, model: "HS36", moduleKwh: 3.6, minModules: 3, parts: { BMS: 1, BAT_BOX: 3 } },
   { kwh: 14.4, model: "HS36", moduleKwh: 3.6, minModules: 3, parts: { BMS: 1, BAT_BOX: 4 } },
   { kwh: 18,   model: "HS36", moduleKwh: 3.6, minModules: 3, parts: { BMS: 1, BAT_BOX: 5 } },
   { kwh: 21.6, model: "HS36", moduleKwh: 3.6, minModules: 3, parts: { BMS: 1, BAT_BOX: 6 } },

@@ -27,6 +27,7 @@ export function useConfigState(catalog: Record<string, unknown>) {
         value: node.value ?? key,
         image: node.image,
         phaseType: node.phaseType,
+        inverterLine: node.inverterLine,
       });
       if (!isFinalPhase) {
         useConfigStore.getState().skipPhase();

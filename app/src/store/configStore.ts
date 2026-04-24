@@ -1,7 +1,7 @@
 "use client";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { ConfigPhase, Lang, PhaseType } from "@/data/types";
+import type { ConfigPhase, InverterLine, Lang, PhaseType } from "@/data/types";
 import { ACTIVE_PHASES } from "@/lib/navigation";
 
 export interface PhaseSelection {
@@ -12,6 +12,7 @@ export interface PhaseSelection {
     value: string;
     image?: string | null;
     phaseType?: PhaseType;
+    inverterLine?: InverterLine;
     /**
      * Written by the battery phase so the accessory phase can derive
      * holding-bracket / base-plate counts without re-running the slider

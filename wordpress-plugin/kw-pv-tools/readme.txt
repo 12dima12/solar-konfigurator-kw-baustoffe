@@ -4,7 +4,7 @@ Tags: solar, pv, konfigurator, photovoltaik
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.7.5
+Stable tag: 2.7.6
 License: Proprietary
 
 PV-Werkzeuge für KW Baustoffe: PV-Konfigurator und Solarrechner als WordPress-Plugin.
@@ -19,6 +19,21 @@ keine externe Datenweitergabe). Rate-Limiting, Honeypot, Ticket-IDs und Submissi
 Shortcode: [kw_pv_konfigurator]
 
 == Changelog ==
+
+= 2.7.6 =
+* feat: IES-Wechselrichter bekommen jetzt die passende Notstrom-Box
+  "X3 EPS PBOX 60 kW" (B-210-10081) statt der für Split-System-Hybride
+  gedachten X3 EPS Box / X3 Matebox Advanced. Neuer Katalog-Tag
+  `inverterLine` ("hybrid" | "ies") trennt die Produktlinien im Filter;
+  Ultra-Wechselrichter bleiben vorerst untagged (zeigen weiterhin alle
+  Backup-Optionen).
+* fix: Altcha-Widget nach Hersteller-Doku aufgeräumt:
+  - `language`-Attribut wird jetzt gesetzt (Widget-Texte
+    "Ich bin ein Mensch" etc. erscheinen in de/en/cs),
+  - passende i18n-Datei wird pro Sprache dynamisch nachgeladen,
+  - `expired`-Event setzt den Captcha-Token zurück → Submit sperrt sich
+    wieder, User muss erneut bestätigen,
+  - Hinweistext "Captcha abgelaufen — bitte erneut bestätigen" eingeblendet.
 
 = 2.7.5 =
 * fix: Captcha funktionierte nicht. altcha v3.x hat das Attribut von

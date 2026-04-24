@@ -40,7 +40,8 @@
                   "description": "X1 Hybrid G4 3.0 kW",
                   "image": "img/X1 G4.png",
                   "info": null,
-                  "phaseType": "x1"
+                  "phaseType": "x1",
+                  "inverterLine": "hybrid"
                 },
                 "3.7 kW": {
                   "priority": 101,
@@ -55,7 +56,8 @@
                   "description": "X1 Hybrid G4 3.7 kW",
                   "image": "img/X1 G4.png",
                   "info": null,
-                  "phaseType": "x1"
+                  "phaseType": "x1",
+                  "inverterLine": "hybrid"
                 },
                 "5.0 kW": {
                   "priority": 102,
@@ -70,7 +72,8 @@
                   "description": "X1 Hybrid G4 5.0 kW",
                   "image": "img/X1 G4.png",
                   "info": null,
-                  "phaseType": "x1"
+                  "phaseType": "x1",
+                  "inverterLine": "hybrid"
                 }
               }
             },
@@ -137,7 +140,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     },
                     "G-21d-4P05": {
                       "priority": 3,
@@ -192,7 +196,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     }
                   }
                 },
@@ -250,7 +255,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     },
                     "G-21d-4P06": {
                       "priority": 103,
@@ -305,7 +311,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     }
                   }
                 },
@@ -363,7 +370,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     },
                     "G-21d-4P08": {
                       "priority": 4,
@@ -418,7 +426,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     }
                   }
                 },
@@ -476,7 +485,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     },
                     "G-21d-4P10": {
                       "priority": 3,
@@ -531,7 +541,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     }
                   }
                 },
@@ -597,7 +608,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     },
                     "G-21d-4212": {
                       "priority": 1,
@@ -644,7 +656,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     }
                   }
                 },
@@ -703,7 +716,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     },
                     "G-21d-4P15": {
                       "priority": 3,
@@ -759,7 +773,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     },
                     "2 (2/2) AFCI": {
                       "priority": 4,
@@ -1241,7 +1256,8 @@
               "image": "img/IES.png",
               "info": "",
               "priority": 1,
-              "phaseType": "x3"
+              "phaseType": "x3",
+              "inverterLine": "ies"
             },
             "5.0 kW": {
               "product_code": "G-21d-3I50a",
@@ -1255,7 +1271,8 @@
               "image": "img/IES.png",
               "info": "",
               "priority": 2,
-              "phaseType": "x3"
+              "phaseType": "x3",
+              "inverterLine": "ies"
             },
             "6.0 kW AFCI": {
               "product_code": "G-21d-3I60a",
@@ -1269,7 +1286,8 @@
               "image": "img/IES.png",
               "info": "",
               "priority": 3,
-              "phaseType": "x3"
+              "phaseType": "x3",
+              "inverterLine": "ies"
             },
             "6.0 kW": {
               "product_code": "G-21d-3I60",
@@ -1283,7 +1301,8 @@
               "image": "img/IES.png",
               "info": null,
               "priority": 4,
-              "phaseType": "x3"
+              "phaseType": "x3",
+              "inverterLine": "ies"
             },
             "8.0 kW": {
               "product_code": "G-21d-3I80a",
@@ -1297,7 +1316,8 @@
               "image": "img/IES.png",
               "info": null,
               "priority": 5,
-              "phaseType": "x3"
+              "phaseType": "x3",
+              "inverterLine": "ies"
             },
             "10.0 kW": {
               "product_code": "G-21d-3I100a",
@@ -1311,7 +1331,8 @@
               "image": "img/IES.png",
               "info": null,
               "priority": 6,
-              "phaseType": "x3"
+              "phaseType": "x3",
+              "inverterLine": "ies"
             },
             "12.0 kW": {
               "product_code": "G-21d-3I120a",
@@ -1325,7 +1346,8 @@
               "image": "img/IES.png",
               "info": null,
               "priority": 7,
-              "phaseType": "x3"
+              "phaseType": "x3",
+              "inverterLine": "ies"
             },
             "15.0 kW": {
               "product_code": "G-21d-3I150a",
@@ -1339,7 +1361,8 @@
               "image": "img/IES.png",
               "info": null,
               "priority": 8,
-              "phaseType": "x3"
+              "phaseType": "x3",
+              "inverterLine": "ies"
             }
           }
         }
@@ -1385,7 +1408,8 @@
                   "description": "X1 Hybrid G4 3.0 kW",
                   "image": "img/X1 G4.png",
                   "info": null,
-                  "phaseType": "x1"
+                  "phaseType": "x1",
+                  "inverterLine": "hybrid"
                 },
                 "3.7 kW": {
                   "priority": 101,
@@ -1400,7 +1424,8 @@
                   "description": "X1 Hybrid G4 3.7 kW",
                   "image": "img/X1 G4.png",
                   "info": null,
-                  "phaseType": "x1"
+                  "phaseType": "x1",
+                  "inverterLine": "hybrid"
                 },
                 "5.0 kW": {
                   "priority": 102,
@@ -1415,7 +1440,8 @@
                   "description": "X1 Hybrid G4 5.0 kW",
                   "image": "img/X1 G4.png",
                   "info": null,
-                  "phaseType": "x1"
+                  "phaseType": "x1",
+                  "inverterLine": "hybrid"
                 }
               }
             },
@@ -1482,7 +1508,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     },
                     "G-21d-4P05": {
                       "priority": 3,
@@ -1537,7 +1564,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     }
                   }
                 },
@@ -1595,7 +1623,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     },
                     "G-21d-4P06": {
                       "priority": 103,
@@ -1650,7 +1679,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     }
                   }
                 },
@@ -1708,7 +1738,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     },
                     "G-21d-4P08": {
                       "priority": 4,
@@ -1763,7 +1794,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     }
                   }
                 },
@@ -1821,7 +1853,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     },
                     "G-21d-4P10": {
                       "priority": 3,
@@ -1876,7 +1909,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     }
                   }
                 },
@@ -1942,7 +1976,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     },
                     "G-21d-4212": {
                       "priority": 1,
@@ -1989,7 +2024,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     }
                   }
                 },
@@ -2048,7 +2084,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     },
                     "G-21d-4P15": {
                       "priority": 3,
@@ -2104,7 +2141,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     },
                     "2 (2/2) AFCI": {
                       "priority": 4,
@@ -2586,7 +2624,8 @@
               "image": "img/IES.png",
               "info": "",
               "priority": 1,
-              "phaseType": "x3"
+              "phaseType": "x3",
+              "inverterLine": "ies"
             },
             "5.0 kW": {
               "product_code": "G-21d-3I50a",
@@ -2600,7 +2639,8 @@
               "image": "img/IES.png",
               "info": "",
               "priority": 2,
-              "phaseType": "x3"
+              "phaseType": "x3",
+              "inverterLine": "ies"
             },
             "6.0 kW AFCI": {
               "product_code": "G-21d-3I60a",
@@ -2614,7 +2654,8 @@
               "image": "img/IES.png",
               "info": "",
               "priority": 3,
-              "phaseType": "x3"
+              "phaseType": "x3",
+              "inverterLine": "ies"
             },
             "6.0 kW": {
               "product_code": "G-21d-3I60",
@@ -2628,7 +2669,8 @@
               "image": "img/IES.png",
               "info": null,
               "priority": 4,
-              "phaseType": "x3"
+              "phaseType": "x3",
+              "inverterLine": "ies"
             },
             "8.0 kW": {
               "product_code": "G-21d-3I80a",
@@ -2642,7 +2684,8 @@
               "image": "img/IES.png",
               "info": null,
               "priority": 5,
-              "phaseType": "x3"
+              "phaseType": "x3",
+              "inverterLine": "ies"
             },
             "10.0 kW": {
               "product_code": "G-21d-3I100a",
@@ -2656,7 +2699,8 @@
               "image": "img/IES.png",
               "info": null,
               "priority": 6,
-              "phaseType": "x3"
+              "phaseType": "x3",
+              "inverterLine": "ies"
             },
             "12.0 kW": {
               "product_code": "G-21d-3I120a",
@@ -2670,7 +2714,8 @@
               "image": "img/IES.png",
               "info": null,
               "priority": 7,
-              "phaseType": "x3"
+              "phaseType": "x3",
+              "inverterLine": "ies"
             },
             "15.0 kW": {
               "product_code": "G-21d-3I150a",
@@ -2684,7 +2729,8 @@
               "image": "img/IES.png",
               "info": null,
               "priority": 8,
-              "phaseType": "x3"
+              "phaseType": "x3",
+              "inverterLine": "ies"
             }
           }
         }
@@ -2730,7 +2776,8 @@
                   "description": "X1 Hybrid G4 3.0 kW",
                   "image": "img/X1 G4.png",
                   "info": null,
-                  "phaseType": "x1"
+                  "phaseType": "x1",
+                  "inverterLine": "hybrid"
                 },
                 "3.7 kW": {
                   "priority": 101,
@@ -2745,7 +2792,8 @@
                   "description": "X1 Hybrid G4 3.7 kW",
                   "image": "img/X1 G4.png",
                   "info": null,
-                  "phaseType": "x1"
+                  "phaseType": "x1",
+                  "inverterLine": "hybrid"
                 },
                 "5.0 kW": {
                   "priority": 102,
@@ -2760,7 +2808,8 @@
                   "description": "X1 Hybrid G4 5.0 kW",
                   "image": "img/X1 G4.png",
                   "info": null,
-                  "phaseType": "x1"
+                  "phaseType": "x1",
+                  "inverterLine": "hybrid"
                 }
               }
             },
@@ -2827,7 +2876,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     },
                     "G-21d-4P05": {
                       "priority": 3,
@@ -2882,7 +2932,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     }
                   }
                 },
@@ -2940,7 +2991,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     },
                     "G-21d-4P06": {
                       "priority": 103,
@@ -2995,7 +3047,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     }
                   }
                 },
@@ -3053,7 +3106,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     },
                     "G-21d-4P08": {
                       "priority": 4,
@@ -3108,7 +3162,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     }
                   }
                 },
@@ -3166,7 +3221,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     },
                     "G-21d-4P10": {
                       "priority": 3,
@@ -3221,7 +3277,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     }
                   }
                 },
@@ -3287,7 +3344,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     },
                     "G-21d-4212": {
                       "priority": 1,
@@ -3334,7 +3392,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     }
                   }
                 },
@@ -3393,7 +3452,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     },
                     "G-21d-4P15": {
                       "priority": 3,
@@ -3449,7 +3509,8 @@
                           }
                         ]
                       },
-                      "phaseType": "x3"
+                      "phaseType": "x3",
+                      "inverterLine": "hybrid"
                     },
                     "2 (2/2) AFCI": {
                       "priority": 4,
@@ -3931,7 +3992,8 @@
               "image": "img/IES.png",
               "info": "",
               "priority": 1,
-              "phaseType": "x3"
+              "phaseType": "x3",
+              "inverterLine": "ies"
             },
             "5.0 kW": {
               "product_code": "G-21d-3I50a",
@@ -3945,7 +4007,8 @@
               "image": "img/IES.png",
               "info": "",
               "priority": 2,
-              "phaseType": "x3"
+              "phaseType": "x3",
+              "inverterLine": "ies"
             },
             "6.0 kW AFCI": {
               "product_code": "G-21d-3I60a",
@@ -3959,7 +4022,8 @@
               "image": "img/IES.png",
               "info": "",
               "priority": 3,
-              "phaseType": "x3"
+              "phaseType": "x3",
+              "inverterLine": "ies"
             },
             "6.0 kW": {
               "product_code": "G-21d-3I60",
@@ -3973,7 +4037,8 @@
               "image": "img/IES.png",
               "info": null,
               "priority": 4,
-              "phaseType": "x3"
+              "phaseType": "x3",
+              "inverterLine": "ies"
             },
             "8.0 kW": {
               "product_code": "G-21d-3I80a",
@@ -3987,7 +4052,8 @@
               "image": "img/IES.png",
               "info": null,
               "priority": 5,
-              "phaseType": "x3"
+              "phaseType": "x3",
+              "inverterLine": "ies"
             },
             "10.0 kW": {
               "product_code": "G-21d-3I100a",
@@ -4001,7 +4067,8 @@
               "image": "img/IES.png",
               "info": null,
               "priority": 6,
-              "phaseType": "x3"
+              "phaseType": "x3",
+              "inverterLine": "ies"
             },
             "12.0 kW": {
               "product_code": "G-21d-3I120a",
@@ -4015,7 +4082,8 @@
               "image": "img/IES.png",
               "info": null,
               "priority": 7,
-              "phaseType": "x3"
+              "phaseType": "x3",
+              "inverterLine": "ies"
             },
             "15.0 kW": {
               "product_code": "G-21d-3I150a",
@@ -4029,7 +4097,8 @@
               "image": "img/IES.png",
               "info": null,
               "priority": 8,
-              "phaseType": "x3"
+              "phaseType": "x3",
+              "inverterLine": "ies"
             }
           }
         }
@@ -4079,7 +4148,8 @@
                   }
                 ]
               },
-              "priority": 999
+              "priority": 999,
+              "inverterLine": "hybrid"
             },
             "X3 Matebox Advanced": {
               "product_code": "G-210-405dd",
@@ -4116,7 +4186,22 @@
                   }
                 ]
               },
-              "priority": 999
+              "priority": 999,
+              "inverterLine": "hybrid"
+            },
+            "X3 EPS PBOX 60 kW": {
+              "product_code": "B-210-10081",
+              "product_name": "Solax X3-EPS PBOX-60kW-G2",
+              "value": "X3 EPS PBOX 60 kW",
+              "title": null,
+              "icon": null,
+              "description": null,
+              "image": "img/EPS 60 kW.png",
+              "info": null,
+              "priority": 999,
+              "phaseType": "x3",
+              "inverterLine": "ies",
+              "label": "X3 EPS PBOX 60 kW"
             }
           }
         },
@@ -4177,7 +4262,8 @@
                   }
                 ]
               },
-              "priority": 999
+              "priority": 999,
+              "inverterLine": "hybrid"
             },
             "X3 Matebox Advanced": {
               "product_code": "G-210-405dd",
@@ -4214,7 +4300,22 @@
                   }
                 ]
               },
-              "priority": 999
+              "priority": 999,
+              "inverterLine": "hybrid"
+            },
+            "X3 EPS PBOX 60 kW": {
+              "product_code": "B-210-10081",
+              "product_name": "Solax X3-EPS PBOX-60kW-G2",
+              "value": "X3 EPS PBOX 60 kW",
+              "title": null,
+              "icon": null,
+              "description": null,
+              "image": "img/EPS 60 kW.png",
+              "info": null,
+              "priority": 999,
+              "phaseType": "x3",
+              "inverterLine": "ies",
+              "label": "X3 EPS PBOX 60 kW"
             }
           }
         },
@@ -4275,7 +4376,8 @@
                   }
                 ]
               },
-              "priority": 999
+              "priority": 999,
+              "inverterLine": "hybrid"
             },
             "X3 Matebox Advanced": {
               "product_code": "G-210-405dd",
@@ -4312,7 +4414,22 @@
                   }
                 ]
               },
-              "priority": 999
+              "priority": 999,
+              "inverterLine": "hybrid"
+            },
+            "X3 EPS PBOX 60 kW": {
+              "product_code": "B-210-10081",
+              "product_name": "Solax X3-EPS PBOX-60kW-G2",
+              "value": "X3 EPS PBOX 60 kW",
+              "title": null,
+              "icon": null,
+              "description": null,
+              "image": "img/EPS 60 kW.png",
+              "info": null,
+              "priority": 999,
+              "phaseType": "x3",
+              "inverterLine": "ies",
+              "label": "X3 EPS PBOX 60 kW"
             }
           }
         },

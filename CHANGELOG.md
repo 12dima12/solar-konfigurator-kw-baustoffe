@@ -4,6 +4,50 @@ Format: [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+## [2.7.6] – 2026-04-24 – IES-Backup-Box + Altcha nach Doku
+
+### Added
+- **IES-eigene Notstrom-Box**: SolaX X3-IES-Wechselrichter brauchen die
+  `X3 EPS PBOX 60 kW` (product_code B-210-10081, Bild `EPS 60 kW.png`),
+  nicht die für Split-System-Hybride vorgesehene X3 EPS Box oder
+  X3 Matebox Advanced. Das Produkt war in `analysis/products.json` als
+  "X3 IES / Ultra"-kompatibel dokumentiert, fehlte aber im aktiven
+  Katalog. Jetzt unter `backup/<lang>/tree/Yes/children/X3 EPS PBOX 60 kW`
+  eingetragen (3 Locales).
+- **Katalog-Feld `inverterLine: "hybrid" | "ies"`**: Neuer Discriminator
+  am `ConfigNode`, damit wir innerhalb der X3-Welt (`phaseType: "x3"`)
+  zwischen der klassischen Hybrid-Serie und der IES-Serie unterscheiden
+  können. 69 Inverter-Leaves getaggt (3 X1-Hybrid + 12 X3-Hybrid + 8 IES
+  × 3 Locales). Ultra-Inverter bleiben bewusst untagged, bis die
+  Domänen-Zuordnung geklärt ist — der Migrations-Fallback zeigt ihnen
+  weiterhin alle Backup-Optionen.
+- **`inverterLine` in `PhaseSelection.selectedProduct`**: Feld wird vom
+  bestätigten Inverter-Leaf in den Store propagiert (`useConfigState.ts`).
+
+### Changed
+- **`solax/rules.ts` Backup-Filter**: Neben `phaseType` wird jetzt auch
+  `inverterLine` gegengeprüft. Wenn der Inverter eine Linie hat und das
+  Backup-Produkt eine abweichende, fliegt die Option raus. Untagged
+  Backup-Produkte passen weiter durch, damit halb-annotierte Kataloge
+  nicht User blocken.
+- **Altcha-Widget laut offizieller Doku überarbeitet**:
+  - `language={lang}`-Attribut setzt die Widget-Texte auf de/en/cs.
+  - Vor `import("altcha")` wird jetzt die passende i18n-Datei
+    (`altcha/i18n/de` / `en` / `cs`) dazugeimportiert, damit der
+    `language`-Prop überhaupt eine Wirkung hat (sonst bleibt die
+    Fallback-Sprache).
+  - Neuer `expired`-Event-Listener: wenn die Challenge abläuft, wird
+    `onVerify("")` ausgelöst → Submit-Button sperrt sich wieder,
+    Hinweistext "Captcha abgelaufen — bitte erneut bestätigen" erscheint.
+
+### Notes
+- Die README von altcha@3.0.4 (`node_modules/altcha/README.md`) war die
+  Referenz für den Abgleich. Alle offiziell dokumentierten Attribute
+  (`challenge`, `language`, `name`, `type`, `auto`, `workers`, `display`)
+  wurden geprüft; unsere Integration nutzt jetzt die idiomatische
+  `challenge`-URL plus `language` und setzt den Rest auf die Defaults
+  (`type="checkbox"`, `auto="off"`).
+
 ## [2.7.5] – 2026-04-24 – Captcha-Fix: altcha v3 erwartet `challenge` statt `challengeurl`
 
 ### Fixed

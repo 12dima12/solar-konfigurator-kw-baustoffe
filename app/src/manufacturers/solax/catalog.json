@@ -323,7 +323,7 @@
                       "product_code": "G-21c-4208",
                       "product_name": "Solax G4 X3-Hybrid-8.0-D, CT, ohne WiFi 3.0",
                       "type": "SolaX Hybrid G4",
-                      "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 2 <small class=\"text-gray-600\">(2/1)</small>",
+                      "label": "MPPT <small class=\"text-gray-600\">(Stränge)</small>: 2 <small class=\"text-gray-600\">(2/1)</small>",
                       "value": "X3 G4",
                       "power": 8,
                       "title": null,
@@ -370,7 +370,7 @@
                       "product_code": "G-21d-4P08",
                       "product_name": "Solax G4 X3-HYB-8.0-P, WiFi+LAN",
                       "type": "SolaX Hybrid G4 PRO",
-                      "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 3 <small class=\"text-gray-600\">(1/1/1)</small>",
+                      "label": "MPPT <small class=\"text-gray-600\">(Stränge)</small>: 3 <small class=\"text-gray-600\">(1/1/1)</small>",
                       "value": "X3 G4 PRO",
                       "power": 8,
                       "title": null,
@@ -436,7 +436,7 @@
                       "product_code": "G-21s-4210",
                       "product_name": "Solax G4 X3-Hybrid-10.0-D, WiFi 3.0, CT",
                       "type": "SolaX Hybrid G4",
-                      "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 2 <small class=\"text-gray-600\">(2/1)</small>",
+                      "label": "MPPT <small class=\"text-gray-600\">(Stränge)</small>: 2 <small class=\"text-gray-600\">(2/1)</small>",
                       "value": "X3 G4",
                       "power": 10,
                       "title": null,
@@ -483,7 +483,7 @@
                       "product_code": "G-21d-4P10",
                       "product_name": "Solax G4 X3-HYB-10.0-P, WiFi+LAN",
                       "type": "SolaX Hybrid G4 PRO",
-                      "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 3 <small class=\"text-gray-600\">(1/1/1)</small>",
+                      "label": "MPPT <small class=\"text-gray-600\">(Stränge)</small>: 3 <small class=\"text-gray-600\">(1/1/1)</small>",
                       "value": "X3 G4 PRO",
                       "power": 10,
                       "title": null,
@@ -549,7 +549,7 @@
                       "product_code": "G-21d-4P12",
                       "product_name": "Solax G4 X3-HYB-12.0-P, WiFi+LAN",
                       "type": "SolaX Hybrid G4 PRO",
-                      "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 3 <small class=\"text-gray-600\">(1/1/1)</small>",
+                      "label": "MPPT <small class=\"text-gray-600\">(Stränge)</small>: 3 <small class=\"text-gray-600\">(1/1/1)</small>",
                       "value": "X3 G4 PRO",
                       "power": 12,
                       "title": null,
@@ -604,7 +604,7 @@
                       "product_code": "G-21d-4212",
                       "product_name": "Solax G4 X3-Hybrid-12.0-D, WiFi+LAN, CT",
                       "type": "SolaX Hybrid G4",
-                      "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 2 <small class=\"text-gray-600\">(2/1)</small>",
+                      "label": "MPPT <small class=\"text-gray-600\">(Stränge)</small>: 2 <small class=\"text-gray-600\">(2/1)</small>",
                       "value": "X3 G4",
                       "power": 12,
                       "title": null,
@@ -663,7 +663,7 @@
                       "product_name": "Solax G4 X3-Hybrid-15.0-D, CT, ohne WiFi 3.0",
                       "type": "SolaX Hybrid G4",
                       "group": "Solax Hybrid G4",
-                      "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 2 <small class=\"text-gray-600\">(2/1)</small>",
+                      "label": "MPPT <small class=\"text-gray-600\">(Stränge)</small>: 2 <small class=\"text-gray-600\">(2/1)</small>",
                       "value": "X3 G4",
                       "power": 15,
                       "title": null,
@@ -711,7 +711,7 @@
                       "product_name": "Solax G4 X3-HYB-15.0-P, WiFi+LAN",
                       "type": "SolaX Hybrid G4 PRO",
                       "group": "Solax Hybrid G4",
-                      "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 3 <small class=\"text-gray-600\">(1/1/1)</small>",
+                      "label": "MPPT <small class=\"text-gray-600\">(Stränge)</small>: 3 <small class=\"text-gray-600\">(1/1/1)</small>",
                       "value": "X3 G4 PRO",
                       "power": 15,
                       "title": null,
@@ -767,7 +767,7 @@
                       "product_name": "Solax X3 ULT-15K, AFCI, WiFi+LAN, CT, (2xMPP)",
                       "type": "SolaX Hybrid Ultra AFCI",
                       "group": "SolaX Hybrid Ultra",
-                      "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 2 <small class=\"text-gray-600\">(2/2)</small>",
+                      "label": "MPPT <small class=\"text-gray-600\">(Stränge)</small>: 2 <small class=\"text-gray-600\">(2/2)</small>",
                       "value": "X3 Ultra 15 K AFCI",
                       "power": 15,
                       "title": null,
@@ -819,7 +819,7 @@
                       "product_name": "Solax X3 ULT-15K, WiFi+LAN, CT, (2xMPP)",
                       "type": "SolaX Hybrid Ultra",
                       "group": "SolaX Hybrid Ultra",
-                      "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 2 <small class=\"text-gray-600\">(2/2)</small>",
+                      "label": "MPPT <small class=\"text-gray-600\">(Stränge)</small>: 2 <small class=\"text-gray-600\">(2/2)</small>",
                       "value": "X3 Ultra 15 K",
                       "power": 15,
                       "title": null,
@@ -881,7 +881,7 @@
                       "product_code": "G-21s-3H20a",
                       "product_name": "Solax X3 ULT-20K , AFCI, WiFi+LAN, CT, (2xMPP)",
                       "type": "SolaX Hybrid Ultra AFCI",
-                      "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 2 <small class=\"text-gray-600\">(2/2)</small>",
+                      "label": "MPPT <small class=\"text-gray-600\">(Stränge)</small>: 2 <small class=\"text-gray-600\">(2/2)</small>",
                       "value": "X3 Ultra 20 K AFCI",
                       "power": 20,
                       "title": null,
@@ -932,7 +932,7 @@
                       "product_code": "G-21s-3H20",
                       "product_name": "Solax X3 ULT-20K, WiFi+LAN, CT, (2xMPP)",
                       "type": "SolaX Hybrid Ultra",
-                      "label": "MPPT <small class=\"text-gray-600\">(Strings)</small>: 2 <small class=\"text-gray-600\">(2/2)</small>",
+                      "label": "MPPT <small class=\"text-gray-600\">(Stränge)</small>: 2 <small class=\"text-gray-600\">(2/2)</small>",
                       "value": "X3 Ultra 20 K",
                       "power": 20,
                       "title": null,
@@ -4342,7 +4342,7 @@
         "Triple Power T30": "Triple Power T30"
       },
       "titlesByPath": {
-        "": "1) Select Battery"
+        "": "Batterie auswählen"
       },
       "dynamicTitles": [],
       "iconsByPath": [],
@@ -4358,7 +4358,7 @@
         "Triple Power T30": "Triple Power T30"
       },
       "titlesByPath": {
-        "": "1) Select Battery"
+        "": "Select battery"
       },
       "dynamicTitles": [],
       "iconsByPath": [],
@@ -4374,7 +4374,7 @@
         "Triple Power T30": "Triple Power T30"
       },
       "titlesByPath": {
-        "": "1) Select Battery"
+        "": "Vyberte baterii"
       },
       "dynamicTitles": [],
       "iconsByPath": [],
@@ -4389,7 +4389,7 @@
       "titlesByPath": {},
       "tree": {
         "One": {
-          "label": "Eine",
+          "label": "X3-HAC 11/22 kW",
           "value": "One",
           "title": "Wählen Sie die Ladeleistung",
           "icon": "fa-solid fa-1 text-blue-500",
@@ -4481,7 +4481,7 @@
             "Power 22": {
               "label": "22 kW",
               "value": "Power 22",
-              "title": "Steckdose oder Stecker",
+              "title": "Buchse oder Kabel",
               "icon": null,
               "description": null,
               "image": null,
@@ -4578,7 +4578,7 @@
       "titlesByPath": {},
       "tree": {
         "One": {
-          "label": "One",
+          "label": "X3-HAC 11/22 kW",
           "value": "One",
           "title": "Select Wallbox Power",
           "icon": "fa-solid fa-1 text-blue-500",
@@ -4670,7 +4670,7 @@
             "Power 22": {
               "label": "22 kW",
               "value": "Power 22",
-              "title": "Socket or plug",
+              "title": "Socket or Cable",
               "icon": null,
               "description": null,
               "image": null,
@@ -4767,7 +4767,7 @@
       "titlesByPath": {},
       "tree": {
         "One": {
-          "label": "Jedna",
+          "label": "X3-HAC 11/22 kW",
           "value": "One",
           "title": "Vyberte výkon nabijecky",
           "icon": "fa-solid fa-1 text-blue-500",
@@ -4859,7 +4859,7 @@
             "Power 22": {
               "label": "22 kW",
               "value": "Power 22",
-              "title": "Zasuvka nebo zastrcka",
+              "title": "Zásuvka nebo kabel",
               "icon": null,
               "description": null,
               "image": null,

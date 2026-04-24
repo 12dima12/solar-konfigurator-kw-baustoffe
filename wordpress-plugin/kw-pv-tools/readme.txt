@@ -4,7 +4,7 @@ Tags: solar, pv, konfigurator, photovoltaik
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.7.19
+Stable tag: 2.7.20
 License: Proprietary
 
 PV-Werkzeuge für KW Baustoffe: PV-Konfigurator und Solarrechner als WordPress-Plugin.
@@ -19,6 +19,20 @@ keine externe Datenweitergabe). Rate-Limiting, Honeypot, Ticket-IDs und Submissi
 Shortcode: [kw_pv_konfigurator]
 
 == Changelog ==
+
+= 2.7.20 =
+* chore: Wallbox-Root-Option "Eine" in "X3-HAC 11/22 kW" umbenannt
+  (de/en/cs). Label ist jetzt konkret zum Produkt statt generisch.
+  Die Kindknoten (11 kW / 22 kW / Buchse / Kabel / Standard / Mit
+  Display) bleiben unverändert.
+* fix: Deutsche Sprachtexte vollständig durchgezogen — englische Leaks
+  im sichtbaren DE-Tree beseitigt:
+  - Batterie-Phase-Überschrift "1) Select Battery" → "Batterie auswählen"
+    (auch en/cs lokalisiert).
+  - Inverter-Labels "(Strings)" → "(Stränge)" in 12 DE-MPPT-Labels
+    (8/10/12/15/20 kW Hybrid-Varianten).
+  - Wallbox-Titel "Steckdose oder Stecker" auf "Buchse oder Kabel"
+    harmonisiert (Power 22 zog mit Power 11 gleich).
 
 = 2.7.19 =
 * fix: Bei AC-Kopplung ist die Standard-Auswahl im Zubehör-Schritt jetzt

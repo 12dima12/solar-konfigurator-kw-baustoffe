@@ -4,6 +4,28 @@ Format: [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+## [2.7.20] – 2026-04-24 – Wallbox-Rename + Deutsch-Sprach-Sweep
+
+### Changed
+- **Wallbox-Root-Option "Eine" umbenannt in "X3-HAC 11/22 kW"** in
+  allen drei Locales. Der Kunde sieht jetzt auf einen Blick, welches
+  Produkt hinter der Kachel steckt. Die Unterstruktur (11/22 kW →
+  Buchse/Kabel → Standard/Mit Display) bleibt unverändert.
+
+### Fixed
+- **Batterie-Phase-Überschrift "1) Select Battery"** — englisches
+  Alt-Relikt aus dem GBC-Katalog. Jetzt:
+  - de: "Batterie auswählen"
+  - en: "Select battery"
+  - cs: "Vyberte baterii"
+- **"(Strings)" in MPPT-Labels** der DE-Inverter (8/10/12/15/20 kW
+  Hybrid/PRO-Varianten) → `(Stränge)`. 12 Einträge umgestellt.
+- **Wallbox-Phase-Titel** für "Power 22" lautete "Steckdose oder
+  Stecker", "Power 11" dagegen "Buchse oder Kabel". Jetzt überall
+  einheitlich "Buchse oder Kabel" (de) / "Socket or Cable" (en) /
+  "Zásuvka nebo kabel" (cs) — passt zur "Typ-2 Buchse" /
+  "Typ-2 Kabel"-Beschriftung der Kindoptionen.
+
 ## [2.7.19] – 2026-04-24 – AC-Kopplung: Dongle + Smart Meter opt-in (Default = kein)
 
 ### Changed

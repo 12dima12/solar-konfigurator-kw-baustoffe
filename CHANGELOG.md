@@ -4,6 +4,31 @@ Format: [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+## [2.7.16] – 2026-04-24 – Render-Loop-Fix in AC-Kopplung
+
+### Fixed
+- **React-Error #185 "Maximum update depth exceeded" beim Wechsel in
+  AC-Kopplung**. Die ErrorBoundary aus v2.7.15 hat den Crash
+  strukturiert sichtbar gemacht; der Stacktrace zeigte auf einen
+  Render-Loop. Ursache: der Zustand-Selector in `BatteryConfigurator`
+  ```ts
+  useConfigStore((s) => s.selections.find(
+    (sel) => sel.phase === "inverter"
+  )?.steps ?? []);
+  ```
+  fiel bei AC-Kopplung immer auf den Fallback `?? []`, weil die
+  Selections-Kette dort **keinen** `"inverter"`-Slot enthält
+  (`["battery","backup","wallbox","accessory"]`). Jeder Aufruf
+  erzeugte ein **neues** leeres Array, Zustand verglich die Referenz
+  per `Object.is` und triggerte einen Re-Render. Der nächste Render
+  rief den Selector wieder auf, neue Referenz, nächster Re-Render, …
+  bis React mit #185 abbricht. In "Neue Installation" gab es den Loop
+  nicht, weil dort die Inverter-Selection den Selector auf eine
+  stabile `.steps`-Referenz führte.
+- Fix: Modul-Level-Konstante `EMPTY_STEPS: string[] = []` als stabile
+  Leer-Referenz im Fallback. Zustand erkennt Referenzgleichheit und
+  beendet die Render-Schleife. (`BatteryConfigurator.tsx:61,89`)
+
 ## [2.7.15] – 2026-04-24 – iOS-iframe-Crash bei AC-Kopplung + ErrorBoundary
 
 ### Fixed

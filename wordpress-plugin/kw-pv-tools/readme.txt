@@ -4,7 +4,7 @@ Tags: solar, pv, konfigurator, photovoltaik
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.7.15
+Stable tag: 2.7.16
 License: Proprietary
 
 PV-Werkzeuge für KW Baustoffe: PV-Konfigurator und Solarrechner als WordPress-Plugin.
@@ -19,6 +19,16 @@ keine externe Datenweitergabe). Rate-Limiting, Honeypot, Ticket-IDs und Submissi
 Shortcode: [kw_pv_konfigurator]
 
 == Changelog ==
+
+= 2.7.16 =
+* fix: Endlos-Render-Loop im BatteryConfigurator bei AC-Kopplung
+  (React-Error #185 "Maximum update depth exceeded"). Der Zustand-
+  Selector für inverter-Steps fiel bei AC-Kopplung immer auf `?? []`
+  zurück und erzeugte jedes Mal ein neues leeres Array — Zustand
+  verglich die Referenz, sah sie als geändert und triggerte den
+  nächsten Render, ad infinitum. Fix: modul-level EMPTY_STEPS-
+  Konstante als stabile Fallback-Referenz. Damit kippt der iframe
+  auf iOS Safari auch nicht mehr ("This page couldn't load").
 
 = 2.7.15 =
 * fix: iOS Safari zeigte beim Klick auf "AC-Kopplung" manchmal

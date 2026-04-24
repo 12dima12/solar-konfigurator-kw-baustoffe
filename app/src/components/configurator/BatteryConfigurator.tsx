@@ -59,6 +59,10 @@ const UI = {
   },
 } satisfies Record<Lang, Record<string, string>>;
 
+// Modul-Level-Konstante: stabile Leer-Array-Referenz für Zustand-Selectors
+// (siehe Kommentar im Hook-Aufruf unten).
+const EMPTY_STEPS: string[] = [];
+
 export function BatteryConfigurator({ lang, onConfirm }: Props) {
   const t = UI[lang];
 
@@ -72,8 +76,13 @@ export function BatteryConfigurator({ lang, onConfirm }: Props) {
   //     Der Kunde entscheidet via Thumbnail-Row, welche Serie zu seiner
   //     vorhandenen Anlage passt.
   const installationType = useConfigStore((s) => s.installationType);
+  // Stabile Leer-Referenz: Der Selector unten fällt bei AC-Kopplung immer
+  // auf den Fallback, weil dort kein "inverter"-Slot in selections existiert.
+  // Mit einem frischen `[]` pro Aufruf sieht Zustand bei jedem Render eine
+  // neue Referenz und triggert endlos re-renders → React #185
+  // ("Maximum update depth exceeded") kippt den iframe.
   const inverterSteps = useConfigStore(
-    (s) => s.selections.find((sel) => sel.phase === "inverter")?.steps ?? [],
+    (s) => s.selections.find((sel) => sel.phase === "inverter")?.steps ?? EMPTY_STEPS,
   );
   const isIES = inverterSteps.includes("IES");
   const isACCoupling = installationType === "ac-coupling";

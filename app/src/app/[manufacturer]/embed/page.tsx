@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getManufacturer, listManufacturers } from "@/manufacturers";
 import { ManufacturerProvider } from "@/lib/manufacturer-context";
 import { ConfiguratorShell } from "@/components/configurator/ConfiguratorShell";
+import { ConfiguratorErrorBoundary } from "@/components/configurator/ErrorBoundary";
 
 interface Props {
   params: Promise<{ manufacturer: string }>;
@@ -20,7 +21,9 @@ export default async function EmbedPage({ params }: Props) {
     <html>
       <body className="bg-transparent overflow-x-hidden">
         <ManufacturerProvider meta={manufacturer.meta} catalog={manufacturer.catalog}>
-          <ConfiguratorShell />
+          <ConfiguratorErrorBoundary>
+            <ConfiguratorShell />
+          </ConfiguratorErrorBoundary>
         </ManufacturerProvider>
       </body>
     </html>

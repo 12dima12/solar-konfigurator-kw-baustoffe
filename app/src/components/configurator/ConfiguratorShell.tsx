@@ -165,7 +165,12 @@ export function ConfiguratorShell() {
             lang={lang}
             onPick={(t) => {
               setInstallationType(t);
-              scrollToTop();
+              // scrollToTop erst nach dem Re-Render feuern. Sonst fordert
+              // das postMessage bereits vor dem ResizeObserver-Update eine
+              // Scroll-Animation an, was auf iOS Safari in Kombination mit
+              // dem Höhensprung (Picker → Battery-Config mit Thumbnails)
+              // den iframe crashen lässt ("This page couldn't load").
+              setTimeout(scrollToTop, 60);
             }}
           />
         </main>

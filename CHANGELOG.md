@@ -4,6 +4,30 @@ Format: [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+## [2.7.15] – 2026-04-24 – iOS-iframe-Crash bei AC-Kopplung + ErrorBoundary
+
+### Fixed
+- **"This page couldn't load" auf iOS Safari nach Klick auf
+  AC-Kopplung**: Der `InstallationTypePicker` feuerte `scrollToTop()`
+  synchron im gleichen Event-Handler wie `setInstallationType()`. In
+  Kombination mit dem Höhensprung (Picker ca. 400 px → Battery-
+  Konfiguration ca. 1200 px) und dem ResizeObserver-getriggerten
+  postMessage an das Parent-Fenster konnte iOS den iframe reclaimen.
+  `scrollToTop` läuft jetzt in einem `setTimeout(..., 60)` — nach dem
+  Re-Render und dem ersten Resize-Event ist der iframe wieder stabil.
+  (`ConfiguratorShell.tsx:167`)
+
+### Added
+- **`ConfiguratorErrorBoundary`** in
+  `app/src/components/configurator/ErrorBoundary.tsx`. Fängt
+  unerwartete React-Fehler innerhalb des Konfigurators ab und zeigt
+  einen strukturierten Fehlerdialog mit Reload-Button + `<details>`-
+  Block für technische Details (Error-Message). Verhindert, dass ein
+  Crash in einer Teilkomponente den gesamten iframe weiß rendern
+  lässt — iOS Safari interpretiert weißen iframe-Content gelegentlich
+  als Navigation-Failure ("This page couldn't load"). Wrapper ist in
+  beiden Entry-Points (`/embed`, `/configurator`) aktiv.
+
 ## [2.7.14] – 2026-04-24 – AC-Kopplung: Reihenfolge mit Backup + IES-Batterie
 
 ### Changed

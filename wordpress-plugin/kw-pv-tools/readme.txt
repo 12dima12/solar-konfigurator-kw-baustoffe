@@ -4,7 +4,7 @@ Tags: solar, pv, konfigurator, photovoltaik
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.7.14
+Stable tag: 2.7.15
 License: Proprietary
 
 PV-Werkzeuge für KW Baustoffe: PV-Konfigurator und Solarrechner als WordPress-Plugin.
@@ -19,6 +19,19 @@ keine externe Datenweitergabe). Rate-Limiting, Honeypot, Ticket-IDs und Submissi
 Shortcode: [kw_pv_konfigurator]
 
 == Changelog ==
+
+= 2.7.15 =
+* fix: iOS Safari zeigte beim Klick auf "AC-Kopplung" manchmal
+  "This page couldn't load" und brach den iframe ab. Ursache war ein
+  Race zwischen dem postMessage-basierten Scroll-to-Top und dem
+  ResizeObserver-getriggerten Höhen-Update; der iframe wurde während
+  des Höhensprungs reclaimed. `scrollToTop` wird jetzt nach einem
+  kurzen Tick (60ms) ausgeführt, nachdem der Re-Render und das
+  erste Resize-Event durch sind.
+* feat: ErrorBoundary um den gesamten Konfigurator. Wenn ein
+  unerwarteter React-Fehler auftritt, zeigt der iframe jetzt eine
+  Fehlermeldung mit Reload-Button statt leer zu werden (was iOS
+  Safari als Navigation-Failure interpretieren könnte).
 
 = 2.7.14 =
 * feat: AC-Kopplung-Flow auf Wunsch angepasst: Reihenfolge jetzt

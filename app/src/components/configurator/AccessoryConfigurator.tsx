@@ -127,11 +127,19 @@ export function AccessoryConfigurator({ lang, onConfirm, onBack }: Props) {
     ? computeBatteryAccessories(moduleCount)
     : { brackets: 0, basePlates: 0 };
 
+  // Smart-Meter-Auswahl: bei Neuinstallation filtert die Phase (X1 / X3)
+  // aus der Inverter-Selektion. Bei AC-Kopplung gibt es keinen
+  // Inverter-Schritt — der Kunde rüstet einen Speicher an einer
+  // bestehenden PV-Anlage nach, deren Phase wir nicht kennen. Daher
+  // zeigen wir dort beide Smart-Meter (1-phasig und 3-phasig) zur Auswahl;
+  // der Kunde selektiert den passenden für sein Haus.
+  const installationType = useConfigStore((s) => s.installationType);
   const inverterSteps = selections.find((s) => s.phase === "inverter")?.steps ?? [];
   const isX1 = inverterSteps.includes("Single-phase inverter X1");
   const isX3 = inverterSteps.includes("Three-phase inverter X3");
+  const isACCoupling = installationType === "ac-coupling";
   const availableMeters = SOLAX_SMART_METERS.filter(
-    (m) => (isX1 && m.phase === "X1") || (isX3 && m.phase === "X3"),
+    (m) => isACCoupling || (isX1 && m.phase === "X1") || (isX3 && m.phase === "X3"),
   );
 
   const [dongleKey, setDongleKey] = useState<string | null>("dongle-wifi-lan");

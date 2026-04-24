@@ -4,6 +4,18 @@ Format: [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+## [2.7.18] – 2026-04-24 – Smart Meter auch bei AC-Kopplung sichtbar
+
+### Fixed
+- **Smart-Meter-Abschnitt war bei AC-Kopplung leer**. Der Filter in
+  `AccessoryConfigurator.tsx` leitete die Meter-Phase (X1 / X3) aus
+  `selections.find((s) => s.phase === "inverter")?.steps` ab. Bei
+  AC-Kopplung gibt es keinen Inverter-Slot, ergo `isX1 = isX3 = false`,
+  `availableMeters = []`, und die Sektion verschwand. Fix: bei
+  `installationType === "ac-coupling"` passieren beide Smart-Meter
+  den Filter, der Kunde wählt den zu seiner bestehenden PV-Anlage
+  passenden selbst. (`AccessoryConfigurator.tsx:130-137`)
+
 ## [2.7.17] – 2026-04-24 – Holding-Bracket-Default gedreht + AC-Kopplung Filter entfernt
 
 ### Fixed

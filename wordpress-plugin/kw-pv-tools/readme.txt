@@ -4,7 +4,7 @@ Tags: solar, pv, konfigurator, photovoltaik
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.7.17
+Stable tag: 2.7.18
 License: Proprietary
 
 PV-Werkzeuge für KW Baustoffe: PV-Konfigurator und Solarrechner als WordPress-Plugin.
@@ -19,6 +19,15 @@ keine externe Datenweitergabe). Rate-Limiting, Honeypot, Ticket-IDs und Submissi
 Shortcode: [kw_pv_konfigurator]
 
 == Changelog ==
+
+= 2.7.18 =
+* fix: Smart-Meter-Auswahl ist jetzt auch bei AC-Kopplung sichtbar.
+  Vorher filterte der Accessory-Schritt die Smart-Meter nach der
+  Inverter-Phase (X1 / X3) — bei AC-Kopplung gibt es aber keinen
+  Inverter-Schritt, also war die Liste leer. Bei AC-Kopplung werden
+  jetzt beide Smart-Meter (1-phasig Solax Chint DDSU666 und 3-phasig
+  DTSU666) zur Auswahl angeboten; der Kunde wählt den für seine
+  bestehende PV-Anlage passenden.
 
 = 2.7.17 =
 * fix: Holding Bracket + Base Plate verschwinden jetzt aus dem Zubehör-

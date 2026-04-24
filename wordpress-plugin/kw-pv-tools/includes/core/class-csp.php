@@ -53,38 +53,29 @@ class CSP {
     public static function send_csp(): void {
         if ( is_admin() ) return;
 
-        // Die CSP ist NUR für die Konfigurator-Seite relevant — auf allen
-        // anderen Seiten würde sie das Theme beschädigen (inline-JS für
-        // Mobile-Menu-Toggles, Analytics-Snippets, etc. werden durch
-        // `script-src 'self'` hart blockiert, ohne dass der Nutzer die
-        // Ursache sieht). Wenn die aktuelle Seite den Konfigurator nicht
-        // einbettet, geben wir den CSP-Header NICHT aus und das Theme läuft
-        // unverändert.
+        // CSP nur auf Seiten, die den Konfigurator tatsächlich einbetten —
+        // und dort auch nur minimal (frame-ancestors + generische Security-
+        // Header). Eine vollständige CSP-Direktivenliste (`script-src`,
+        // `style-src`, `font-src`, `connect-src`, `frame-src`, …) auf der
+        // Parent-Seite würde regelmäßig das WP-Theme zerstören:
+        //   - `font-src 'self' data:` blockiert Google Fonts → Theme-Typo
+        //     fällt auf System-Fonts zurück, das wirkt wie "CSS kaputt".
+        //   - `script-src 'self' 'unsafe-inline'` blockiert externe
+        //     Tag-Manager/Analytics-Snippets, Cookie-Banner, CDN-Bundles.
+        //   - `frame-src 'self'` blockiert YouTube/Vimeo im Theme.
+        //   - `connect-src 'self'` blockiert externe API-Calls.
+        // Der eigentliche Konfigurator läuft im iframe, der als statische
+        // HTML-Datei aus /wp-content/plugins/.../embed/ ausgeliefert wird.
+        // Dieses Dokument bekommt bewusst keinen PHP-generierten CSP-
+        // Header — es ist Build-artefakt aus kontrolliertem Bundle.
         $is_konfigurator_page = self::$needs_inline || self::current_page_has_konfigurator();
         if ( ! $is_konfigurator_page ) return;
 
-        $script_src = "'self' 'unsafe-inline'";
-
-        $directives = [
-            "default-src 'self'",
-            "script-src {$script_src}",
-            "style-src 'self' 'unsafe-inline'",
-            // https: für Gravatar (Admin-Bar eingeloggter User). Kein CDN-Upload-Kanal —
-            // CSP erlaubt hier nur lesenden Fetch, kein Script-Exec.
-            "img-src 'self' https: data: blob:",
-            // data: für Next.js icon fonts (inline base64 WOFF2 im Bundle).
-            "font-src 'self' data:",
-            "connect-src 'self'",
-            "worker-src 'self' blob:",
-            // 'self' damit der Konfigurator-iframe (gleicher Host) laden darf.
-            "frame-src 'self'",
-            "object-src 'none'",
-            "base-uri 'self'",
-            "form-action 'self'",
-            "frame-ancestors 'self' https://www.kw-baustoffe.de https://kw-baustoffe.de",
-        ];
-
-        header( 'Content-Security-Policy: ' . implode( '; ', $directives ) );
+        // Clickjacking-Schutz: die Konfigurator-Seite darf nur von der
+        // eigenen Origin geframt werden. `frame-ancestors` ist die moderne
+        // CSP-Variante von X-Frame-Options und erlaubt mehrere Origins
+        // (falls die Site später auf www./ohne www. getrennt wird).
+        header( "Content-Security-Policy: frame-ancestors 'self' https://www.kw-baustoffe.de https://kw-baustoffe.de" );
 
         header( 'X-Frame-Options: SAMEORIGIN' );
         header( 'X-Content-Type-Options: nosniff' );

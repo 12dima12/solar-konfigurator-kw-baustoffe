@@ -4,6 +4,39 @@ Format: [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+## [2.7.4] – 2026-04-24 – CSP minimal gehalten (Theme-CSS nicht mehr kaputt)
+
+### Fixed
+- **"CSS gesprengt" auf Konfigurator-Seiten**: Bereits in v2.7.2 wurde die
+  CSP auf Nicht-Konfigurator-Seiten komplett entfernt (Menu-Toggle-Fix).
+  Auf der Konfigurator-Seite selbst greift sie aber weiterhin — und dort
+  zerstörte sie reihum Elemente des umgebenden WP-Themes:
+  - `font-src 'self' data:` → **Google Fonts geblockt** → Theme-Typografie
+    fällt auf System-Fonts zurück (wirkt wie "Layout kaputt", Buchstaben-
+    abstände stimmen nicht, Headlines sehen falsch aus)
+  - `script-src 'self' 'unsafe-inline'` → Tag-Manager, Analytics, CDN-JS
+    geblockt
+  - `frame-src 'self'` → YouTube/Vimeo im Theme-Content nicht mehr
+    einbettbar
+  - `connect-src 'self'` → externe API-Calls (Cookie-Banner, Analytics)
+    geblockt
+  Ab v2.7.4 sendet das Plugin auf Konfigurator-Seiten nur noch
+  `frame-ancestors 'self' https://www.kw-baustoffe.de https://kw-baustoffe.de`
+  (Clickjacking-Schutz) plus die generischen Security-Header
+  (`X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`).
+  Das Theme läuft unverändert; der Konfigurator (im iframe) ist davon
+  nicht betroffen, weil er als statische HTML-Datei aus
+  `/wp-content/plugins/.../embed/` ausgeliefert wird und ohnehin keinen
+  PHP-generierten CSP-Header bekommt. (`class-csp.php:53-83`)
+
+### Removed
+- Die alten CSP-Direktiven `default-src`, `script-src`, `style-src`,
+  `img-src`, `font-src`, `connect-src`, `worker-src`, `frame-src`,
+  `object-src`, `base-uri`, `form-action` auf der Parent-Seite.
+  Der Kommentar-Block zu `SCRIPT_HASHES` (Batch F geplant) bleibt als
+  Platzhalter erhalten, falls wir später doch eine hash-basierte
+  `script-src`-Allowlist für den _iframe_ ausrollen.
+
 ## [2.7.3] – 2026-04-24 – Batterie-Minimalkonfig + Inverter-Layout + X3-Hybrid-Foto
 
 ### Added

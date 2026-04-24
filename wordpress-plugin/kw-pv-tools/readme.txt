@@ -4,7 +4,7 @@ Tags: solar, pv, konfigurator, photovoltaik
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.7.3
+Stable tag: 2.7.4
 License: Proprietary
 
 PV-Werkzeuge für KW Baustoffe: PV-Konfigurator und Solarrechner als WordPress-Plugin.
@@ -19,6 +19,18 @@ keine externe Datenweitergabe). Rate-Limiting, Honeypot, Ticket-IDs und Submissi
 Shortcode: [kw_pv_konfigurator]
 
 == Changelog ==
+
+= 2.7.4 =
+* fix: "CSS gesprengt" auf Konfigurator-Seiten — die CSP auf der Parent-Seite
+  enthielt eine vollständige Direktiven-Liste (`script-src`, `style-src`,
+  `font-src`, `connect-src`, `frame-src`), die reihum das Theme zerstörte:
+  Google Fonts → blockiert → Theme-Typo fällt auf System-Fonts zurück
+  (wirkt wie kaputtes Layout), Tag-Manager/Analytics → blockiert, YouTube-
+  Einbettungen → blockiert. Ab sofort sendet das Plugin auf Konfigurator-
+  Seiten nur noch `frame-ancestors` (Clickjacking-Schutz) + die generischen
+  Security-Header (`X-Frame-Options`, `X-Content-Type-Options`,
+  `Referrer-Policy`). Das Theme läuft unverändert, der Konfigurator
+  funktioniert weiter.
 
 = 2.7.3 =
 * feat: Triple-Power-S Batterieauswahl beginnt jetzt bei 3 Modulen

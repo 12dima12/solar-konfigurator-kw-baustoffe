@@ -12,11 +12,15 @@ APP_DIR="$REPO_ROOT/app"
 TARGET="$REPO_ROOT/wordpress-plugin/kw-pv-tools/assets/konfigurator"
 
 # 1. Next.js-App bauen
+# NEXT_BUILD_CPUS=1 ist für den CI-Container (OpenVZ, numproc=1100) nötig,
+# sonst schlägt "Collecting page data" mit EAGAIN beim spawn fehl. Auf
+# normalen Dev-Maschinen kann der Wert überschrieben oder weggelassen werden.
 echo "[sync] Baue Next.js-App..."
 (
   cd "$APP_DIR"
   NEXT_PUBLIC_API_BASE="/wp-json/kw-pv-tools/v1" \
   NEXT_PUBLIC_ASSET_PREFIX="/wp-content/plugins/kw-pv-tools/assets/konfigurator" \
+  NEXT_BUILD_CPUS="${NEXT_BUILD_CPUS:-1}" \
   pnpm build
 )
 

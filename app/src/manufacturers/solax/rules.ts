@@ -2,33 +2,45 @@ import type { ManufacturerRules } from "../types";
 import type { ConfigNode, ConfigPhase, Lang, PhaseType } from "@/data/types";
 import type { InstallationType, PhaseSelection } from "@/store/configStore";
 
-function isX1Selected(selections: PhaseSelection[]): boolean {
+// Primäre Quelle: der bestätigte Inverter-Leaf trägt `phaseType`. Erst wenn
+// der User noch keinen Inverter bestätigt hat (oder ein Legacy-Produkt ohne
+// Tag), fallen wir auf die Step-Pfad-Erkennung zurück. Der Fallback deckt
+// nur den Split-System-Zweig ab; IES etc. laufen ausschließlich über den
+// phaseType-Tag.
+function getInverterPhaseType(selections: PhaseSelection[]): PhaseType | null {
   const inverter = selections.find((s) => s.phase === "inverter");
-  if (!inverter) return false;
-  return (
-    inverter.steps.includes("Split System") &&
-    inverter.steps.includes("Single-phase inverter X1")
-  );
+  if (!inverter) return null;
+  const tagged = inverter.selectedProduct?.phaseType;
+  if (tagged) return tagged;
+  if (inverter.steps.includes("Split System")) {
+    if (inverter.steps.includes("Single-phase inverter X1")) return "x1";
+    if (inverter.steps.includes("Three-phase inverter X3")) return "x3";
+  }
+  return null;
+}
+
+function isX1Selected(selections: PhaseSelection[]): boolean {
+  return getInverterPhaseType(selections) === "x1";
 }
 
 function isX3Selected(selections: PhaseSelection[]): boolean {
-  const inverter = selections.find((s) => s.phase === "inverter");
-  if (!inverter) return false;
-  return (
-    inverter.steps.includes("Split System") &&
-    inverter.steps.includes("Three-phase inverter X3")
-  );
+  return getInverterPhaseType(selections) === "x3";
 }
 
 const warnedMissingPhaseTag = new Set<string>();
 
+// Nur auf echten Produkt-Leaves warnen (product_name gesetzt UND keine
+// children). Strukturknoten wie "Yes" / "No" sind gewollt untagged und
+// dürfen das Dev-Log nicht verrauschen — sonst gewöhnt man sich an die
+// Warnung und übersieht echte Katalog-Lücken.
 function warnMissingPhaseTag(phase: ConfigPhase, key: string, node: ConfigNode): void {
   if (process.env.NODE_ENV === "production") return;
-  const warningKey = `${phase}:${key}:${node.product_name ?? ""}`;
+  if (!node.product_name || node.children) return;
+  const warningKey = `${phase}:${key}:${node.product_name}`;
   if (warnedMissingPhaseTag.has(warningKey)) return;
   warnedMissingPhaseTag.add(warningKey);
   console.warn(
-    `[solax rules] Missing phaseType tag on backup option "${key}" (${node.product_name ?? "unknown product_name"}). Passing through by fallback.`,
+    `[solax rules] Missing phaseType tag on backup product leaf "${key}" (${node.product_name}). Passing through by fallback.`,
   );
 }
 
@@ -95,7 +107,15 @@ const rules: ManufacturerRules = {
     return filtered;
   },
 
-  validateCombination(selections: PhaseSelection[]): { valid: boolean; reason?: string } {
+  // Safety net: die Kombinationen, die hier abgelehnt werden, sollten vom
+  // filterOptions-Block oben bereits unerreichbar sein (die Option wird aus
+  // dem Grid entfernt, bevor der User klicken kann). Die Prüfung bleibt für
+  // korrupte persistierte States (z.B. alte Zustand-Snapshots nach einem
+  // Katalog-Wechsel) und als letzte Verteidigungslinie.
+  validateCombination(
+    selections: PhaseSelection[],
+    installationType?: InstallationType | null,
+  ): { valid: boolean; reason?: string } {
     const x1 = isX1Selected(selections);
     const x3 = isX3Selected(selections);
     const backup = selections.find((s) => s.phase === "backup");
@@ -110,6 +130,18 @@ const rules: ManufacturerRules = {
       }
       if (x3 && isX1Backup) {
         return { valid: false, reason: "X3 inverter requires X3 backup unit" };
+      }
+
+      // AC-Kopplung erlaubt in der Backup-Phase nur die "No"-Option (kein
+      // Backup). Wenn trotzdem ein Backup-Produkt als selectedProduct
+      // persistiert ist (z.B. Modus-Wechsel nach der Auswahl), ist das
+      // inkonsistent — echte Backup-Produkte tragen einen phaseType-Tag.
+      // "No" hat keinen Tag und darf passieren.
+      if (installationType === "ac-coupling" && backupPhaseType) {
+        return {
+          valid: false,
+          reason: "AC coupling mode does not support a backup unit selection",
+        };
       }
     }
 

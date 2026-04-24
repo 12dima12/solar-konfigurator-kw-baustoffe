@@ -4,7 +4,7 @@ Tags: solar, pv, konfigurator, photovoltaik
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.7.0
+Stable tag: 2.7.1
 License: Proprietary
 
 PV-Werkzeuge für KW Baustoffe: PV-Konfigurator und Solarrechner als WordPress-Plugin.
@@ -19,6 +19,28 @@ keine externe Datenweitergabe). Rate-Limiting, Honeypot, Ticket-IDs und Submissi
 Shortcode: [kw_pv_konfigurator]
 
 == Changelog ==
+
+= 2.7.1 =
+* fix: AC-Coupling-Banner versprach "alle Produktkategorien eingeschränkt",
+  tatsächlich wirkt der Filter nur in der Backup-Phase. Text jetzt ehrlich.
+* fix: Der IES-Inverter-Branch (Solax X3-IES-4.0K ... 15.0K) wurde von der
+  X1/X3-Detection nicht erkannt; Backup-Filter war dort wirkungslos. Jetzt
+  über strukturierte phaseType-Tags am Produktknoten gelöst.
+* fix: Dev-Warning-Spam für die Backup-Strukturknoten "Yes" / "No" —
+  Warnung feuert jetzt nur noch auf echten Produkt-Leaves ohne phaseType.
+* fix: Tschechische Pluralregel (2-4 Positionen zeigten fälschlich das
+  Genitiv-Plural "položek"; jetzt korrekt "položky" für 2-4, "položek" für 5+).
+* fix: AC-Coupling-Banner nutzt wieder die UI-Map-Konvention (vorher inline
+  Ternary-Cascades).
+* fix: `PHASE_TITLES.finish` ergänzt für de/en/cs.
+* fix: `validateCombination` lehnt AC-Coupling mit Backup-Produkt ab
+  (Safety-Net für inkonsistente persistierte States); "Kein Backup"-Opt-out
+  bleibt weiter erlaubt.
+* refactor: `FlatProduct.phaseType` (tot) entfernt. `installationType`-
+  Parameter auch bei `validateCombination` verfügbar.
+* build: `next.config.ts` `experimental.cpus` nur noch gesetzt, wenn
+  `NEXT_BUILD_CPUS` als env-Var gesetzt ist. sync-konfigurator.sh setzt
+  sinnvollen Default=1 für den CI-Container.
 
 = 2.7.0 =
 * feat: Installations-Modus im Konfigurator (Neuanlage vs. AC-Kopplung/Retrofit).

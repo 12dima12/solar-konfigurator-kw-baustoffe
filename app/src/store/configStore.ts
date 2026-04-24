@@ -64,6 +64,10 @@ export const useConfigStore = create<ConfigState>()(
       installationType: null,
 
       setInstallationType: (t) => set({ installationType: t }),
+      // Setzt installationType zurück und wickelt dabei den Wizard auf die
+      // erste Phase ohne Selektionen zurück. Sprache (`lang`) bleibt
+      // erhalten, damit ein Sprachwechsel des Users beim Mode-Umschalten
+      // nicht verlorengeht.
       clearInstallationType: () => set({ installationType: null, currentPhaseIndex: 0, selections: initialSelections() }),
 
       selectOption: (key) => {

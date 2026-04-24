@@ -45,6 +45,7 @@ const UI = {
     modules: "Module",
     noAccessories: "Kein Zubehör",
     item: "Position",
+    itemsFew: "Positionen",
     items: "Positionen",
   },
   en: {
@@ -65,6 +66,7 @@ const UI = {
     modules: "modules",
     noAccessories: "No accessories",
     item: "item",
+    itemsFew: "items",
     items: "items",
   },
   cs: {
@@ -85,9 +87,25 @@ const UI = {
     modules: "moduly",
     noAccessories: "Žádné příslušenství",
     item: "položka",
+    itemsFew: "položky",
     items: "položek",
   },
 } satisfies Record<Lang, Record<string, string>>;
+
+// Tschechisch unterscheidet drei Plural-Formen: "one" (1), "few" (2–4),
+// "many" (5+). Deutsch/Englisch kennen nur "one" vs. "other"; dort zeigen
+// `items` und `itemsFew` auf denselben String. Intl.PluralRules kapselt die
+// CLDR-Regeln, damit wir nicht pro Sprache eigene Conditionals pflegen.
+function pluralize(
+  count: number,
+  lang: Lang,
+  t: { item: string; itemsFew: string; items: string },
+): string {
+  const rule = new Intl.PluralRules(lang).select(count);
+  if (rule === "one") return t.item;
+  if (rule === "few") return t.itemsFew;
+  return t.items;
+}
 
 export function AccessoryConfigurator({ lang, onConfirm, onBack }: Props) {
   const t = UI[lang];
@@ -169,7 +187,7 @@ export function AccessoryConfigurator({ lang, onConfirm, onBack }: Props) {
       summary:
         summaryBits.length === 0
           ? t.noAccessories
-          : `${summaryBits.length} ${summaryBits.length === 1 ? t.item : t.items}`,
+          : `${summaryBits.length} ${pluralize(summaryBits.length, lang, t)}`,
       productListMulti: lines.join(" · "),
       items,
     });

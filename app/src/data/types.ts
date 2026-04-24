@@ -61,6 +61,5 @@ export interface FlatProduct {
   power?: number;
   type?: string;
   group?: string | null;
-  phaseType?: PhaseType;
   available_in_langs: Lang[];
 }

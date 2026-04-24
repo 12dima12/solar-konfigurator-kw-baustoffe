@@ -15,11 +15,16 @@ const nextConfig: NextConfig = {
   // Produce `solax/configurator/index.html` instead of `solax/configurator.html`
   // so the plugin's manifest lookup points at a directory.
   trailingSlash: true,
-  // Cap static-export worker pool to 1 — OpenVZ container has a hard
-  // numproc=1100 limit and the default of 4+ jest-workers triggers EAGAIN
-  // on `spawn` during "Collecting page data". Slower build, same output.
+  // Cap static-export worker pool only when NEXT_BUILD_CPUS is set —
+  // der Build-Container (OpenVZ, numproc=1100) braucht `cpus: 1` damit
+  // "Collecting page data" nicht an EAGAIN beim `spawn` scheitert. Auf
+  // Entwickler-Maschinen ohne numproc-Limit bleibt der Default (4+) aktiv
+  // und der Build parallelisiert wie gewohnt. Setzen via
+  //   NEXT_BUILD_CPUS=1 pnpm build
   experimental: {
-    cpus: 1,
+    ...(process.env.NEXT_BUILD_CPUS
+      ? { cpus: Number(process.env.NEXT_BUILD_CPUS) }
+      : {}),
   },
 };
 

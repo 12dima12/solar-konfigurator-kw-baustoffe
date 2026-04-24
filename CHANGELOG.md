@@ -4,6 +4,61 @@ Format: [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+## [2.7.1] – 2026-04-24 – Code-Review-Fixes auf v2.7.0
+
+### Fixed
+- **AC-Coupling-Banner-Text**: Vorher versprach der gelbe Hinweis "Produktauswahl
+  ist auf Retrofit-kompatible Komponenten eingeschränkt", tatsächlich wirkt der
+  Filter aber nur in der Backup-Phase (Inverter/Battery/Wallbox/Accessory haben
+  noch keine `compatibility`-Tags, der Migrations-Fallback lässt alles durch).
+  Text jetzt präzise: "In der Backup-Phase werden nur retrofit-taugliche
+  Optionen angezeigt; die übrigen Phasen zeigen das volle Sortiment."
+- **IES-Inverter-Branch unerkannt**: `isX3Selected` prüfte nur `steps.includes("Split System")`
+  und übersah damit den gesamten IES-Zweig (8 X3-Inverter-Produkte von
+  `Solax X3-IES-4.0K` bis `15.0K`). Nutzer, die einen IES-Inverter wählten,
+  bekamen die Backup-Filterung nicht zu sehen. Detection läuft jetzt primär
+  über `selectedProduct.phaseType`-Tag am Katalogknoten; der Step-String-Pfad
+  bleibt als Fallback für den Split-System-Zweig erhalten.
+- **Dev-Warning-Spam**: `warnMissingPhaseTag` feuerte bei jedem Rendern der
+  Backup-Phase für die Strukturknoten "Yes" und "No" — beide sind gewollt
+  untagged (keine Produkte). Gate jetzt auf `product_name && !children`
+  verschärft, sodass Warnungen nur noch echte Katalog-Lücken an Produkt-Leaves
+  anzeigen.
+- **Tschechische Plural-Grammatik**: Zubehör-Summary zeigte "2 položek"
+  (Genitiv-Plural, korrekt für 5+) auch für 2–4. `pluralize()` nutzt jetzt
+  `Intl.PluralRules` und unterscheidet one/few/other korrekt: 1 položka,
+  2–4 položky, 5+ položek.
+- **AC-Coupling-Banner i18n inline**: Vorher verschachtelte
+  `lang === "de" ? ... : lang === "en" ? ... : ...` Ternaries, jetzt saubere
+  `AC_COUPLING_NOTICE: Record<Lang, {title, body}>`-Map wie die anderen
+  i18n-Konstanten.
+- **Latente Detection-Regression**: Als Folge von B3 wurde sichergestellt,
+  dass `getInverterPhaseType` vor einer unvollständigen Selektion null
+  zurückgibt (statt falsch "x1" oder "x3"), sodass der Backup-Filter
+  konservativ alle Optionen passieren lässt.
+
+### Added
+- **`PHASE_TITLES.finish`** für de/en/cs (vorher nur Fallback auf "finish").
+- **`installationType`-Parameter in `validateCombination`**: Safety-Net gegen
+  inkonsistente persistierte States (AC-Coupling-Modus + echtes Backup-Produkt
+  im `selectedProduct`). "Kein Backup"-Opt-out ("No", kein phaseType) bleibt
+  explizit valide.
+- **93 `phaseType`-Tags an Inverter-Leaves** in de/en/cs (x1: 3 Produkte ×
+  3 Locales; x3: 28 Produkte × 3 Locales inkl. IES).
+
+### Changed
+- **`next.config.ts` — `experimental.cpus` env-gated**: Nur noch gesetzt,
+  wenn `NEXT_BUILD_CPUS` als env-Var vorliegt. Auf normalen Dev-Maschinen
+  parallelisiert der Build wieder mit 4+ Workern. `sync-konfigurator.sh`
+  setzt Default=1 für den CI-Container (OpenVZ, numproc=1100).
+- **`clearInstallationType` dokumentiert**: Zurücksetzen bewahrt die
+  aktuelle Sprache (`lang`), damit ein Sprachwechsel beim Mode-Umschalten
+  nicht verlorengeht.
+
+### Removed
+- **`FlatProduct.phaseType`** war totes Feld (in keinem Code gesetzt oder
+  gelesen). Entfernt.
+
 ## [2.7.0] – 2026-04-23 – Installations-Modus, i18n-Vervollständigung, phaseType-Refactor
 
 ### Added

@@ -5,7 +5,7 @@ const rules: ManufacturerRules = {
   filterOptions(_phase, _lang, options, _selections, _installationType) {
     return options;
   },
-  validateCombination(_selections) {
+  validateCombination(_selections, _installationType) {
     return { valid: true };
   },
 };

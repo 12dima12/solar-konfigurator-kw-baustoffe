@@ -39,7 +39,8 @@
                   "icon": null,
                   "description": "X1 Hybrid G4 3.0 kW",
                   "image": "img/X1 G4.png",
-                  "info": null
+                  "info": null,
+                  "phaseType": "x1"
                 },
                 "3.7 kW": {
                   "priority": 101,
@@ -53,7 +54,8 @@
                   "icon": null,
                   "description": "X1 Hybrid G4 3.7 kW",
                   "image": "img/X1 G4.png",
-                  "info": null
+                  "info": null,
+                  "phaseType": "x1"
                 },
                 "5.0 kW": {
                   "priority": 102,
@@ -67,7 +69,8 @@
                   "icon": null,
                   "description": "X1 Hybrid G4 5.0 kW",
                   "image": "img/X1 G4.png",
-                  "info": null
+                  "info": null,
+                  "phaseType": "x1"
                 }
               }
             },
@@ -133,7 +136,8 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     },
                     "G-21d-4P05": {
                       "priority": 3,
@@ -187,7 +191,8 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     }
                   }
                 },
@@ -244,7 +249,8 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     },
                     "G-21d-4P06": {
                       "priority": 103,
@@ -298,7 +304,8 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     }
                   }
                 },
@@ -355,7 +362,8 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     },
                     "G-21d-4P08": {
                       "priority": 4,
@@ -409,7 +417,8 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     }
                   }
                 },
@@ -466,7 +475,8 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     },
                     "G-21d-4P10": {
                       "priority": 3,
@@ -520,7 +530,8 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     }
                   }
                 },
@@ -585,7 +596,8 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     },
                     "G-21d-4212": {
                       "priority": 3,
@@ -631,7 +643,8 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     }
                   }
                 },
@@ -689,7 +702,8 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     },
                     "G-21d-4P15": {
                       "priority": 3,
@@ -744,7 +758,8 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     },
                     "2 (2/2) AFCI": {
                       "priority": 4,
@@ -795,7 +810,8 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     },
                     "2 (2/2)": {
                       "priority": 102,
@@ -846,7 +862,8 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     }
                   }
                 },
@@ -907,7 +924,8 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     },
                     "2 (2/2)": {
                       "priority": 100,
@@ -957,7 +975,8 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     }
                   }
                 },
@@ -1018,7 +1037,8 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     },
                     "X3 Ultra 3 MPPT": {
                       "priority": 100,
@@ -1068,7 +1088,8 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     }
                   }
                 },
@@ -1129,7 +1150,8 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     },
                     "X3 Ultra 3 MPPT": {
                       "priority": 100,
@@ -1179,7 +1201,8 @@
                             "value": "Generator kompatibel"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     }
                   }
                 },
@@ -1217,7 +1240,8 @@
               "description": "X3 IES 4K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": "",
-              "priority": 1
+              "priority": 1,
+              "phaseType": "x3"
             },
             "5.0 kW": {
               "product_code": "G-21d-3I50a",
@@ -1230,7 +1254,8 @@
               "description": "X3 IES 5K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": "",
-              "priority": 2
+              "priority": 2,
+              "phaseType": "x3"
             },
             "6.0 kW AFCI": {
               "product_code": "G-21d-3I60a",
@@ -1243,7 +1268,8 @@
               "description": "X3 IES 6K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": "",
-              "priority": 3
+              "priority": 3,
+              "phaseType": "x3"
             },
             "6.0 kW": {
               "product_code": "G-21d-3I60",
@@ -1256,7 +1282,8 @@
               "description": "X3 IES 6K<span class='text-red-500'><i class='fa-solid fa-xmark mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "priority": 4
+              "priority": 4,
+              "phaseType": "x3"
             },
             "8.0 kW": {
               "product_code": "G-21d-3I80a",
@@ -1269,7 +1296,8 @@
               "description": "X3 IES 8K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "priority": 5
+              "priority": 5,
+              "phaseType": "x3"
             },
             "10.0 kW": {
               "product_code": "G-21d-3I100a",
@@ -1282,7 +1310,8 @@
               "description": "X3 IES 10K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "priority": 6
+              "priority": 6,
+              "phaseType": "x3"
             },
             "12.0 kW": {
               "product_code": "G-21d-3I120a",
@@ -1295,7 +1324,8 @@
               "description": "X3 IES 12K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "priority": 7
+              "priority": 7,
+              "phaseType": "x3"
             },
             "15.0 kW": {
               "product_code": "G-21d-3I150a",
@@ -1308,7 +1338,8 @@
               "description": "X3 IES 15K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "priority": 8
+              "priority": 8,
+              "phaseType": "x3"
             }
           }
         }
@@ -1353,7 +1384,8 @@
                   "icon": null,
                   "description": "X1 Hybrid G4 3.0 kW",
                   "image": "img/X1 G4.png",
-                  "info": null
+                  "info": null,
+                  "phaseType": "x1"
                 },
                 "3.7 kW": {
                   "priority": 101,
@@ -1367,7 +1399,8 @@
                   "icon": null,
                   "description": "X1 Hybrid G4 3.7 kW",
                   "image": "img/X1 G4.png",
-                  "info": null
+                  "info": null,
+                  "phaseType": "x1"
                 },
                 "5.0 kW": {
                   "priority": 102,
@@ -1381,7 +1414,8 @@
                   "icon": null,
                   "description": "X1 Hybrid G4 5.0 kW",
                   "image": "img/X1 G4.png",
-                  "info": null
+                  "info": null,
+                  "phaseType": "x1"
                 }
               }
             },
@@ -1447,7 +1481,8 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     },
                     "G-21d-4P05": {
                       "priority": 3,
@@ -1501,7 +1536,8 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     }
                   }
                 },
@@ -1558,7 +1594,8 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     },
                     "G-21d-4P06": {
                       "priority": 103,
@@ -1612,7 +1649,8 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     }
                   }
                 },
@@ -1669,7 +1707,8 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     },
                     "G-21d-4P08": {
                       "priority": 4,
@@ -1723,7 +1762,8 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     }
                   }
                 },
@@ -1780,7 +1820,8 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     },
                     "G-21d-4P10": {
                       "priority": 3,
@@ -1834,7 +1875,8 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     }
                   }
                 },
@@ -1899,7 +1941,8 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     },
                     "G-21d-4212": {
                       "priority": 3,
@@ -1945,7 +1988,8 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     }
                   }
                 },
@@ -2003,7 +2047,8 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     },
                     "G-21d-4P15": {
                       "priority": 3,
@@ -2058,7 +2103,8 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     },
                     "2 (2/2) AFCI": {
                       "priority": 4,
@@ -2109,7 +2155,8 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     },
                     "2 (2/2)": {
                       "priority": 102,
@@ -2160,7 +2207,8 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     }
                   }
                 },
@@ -2221,7 +2269,8 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     },
                     "2 (2/2)": {
                       "priority": 100,
@@ -2271,7 +2320,8 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     }
                   }
                 },
@@ -2332,7 +2382,8 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     },
                     "X3 Ultra 3 MPPT": {
                       "priority": 100,
@@ -2382,7 +2433,8 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     }
                   }
                 },
@@ -2443,7 +2495,8 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     },
                     "X3 Ultra 3 MPPT": {
                       "priority": 100,
@@ -2493,7 +2546,8 @@
                             "value": "Generator Compatible"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     }
                   }
                 },
@@ -2531,7 +2585,8 @@
               "description": "X3 IES 4K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": "",
-              "priority": 1
+              "priority": 1,
+              "phaseType": "x3"
             },
             "5.0 kW": {
               "product_code": "G-21d-3I50a",
@@ -2544,7 +2599,8 @@
               "description": "X3 IES 5K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": "",
-              "priority": 2
+              "priority": 2,
+              "phaseType": "x3"
             },
             "6.0 kW AFCI": {
               "product_code": "G-21d-3I60a",
@@ -2557,7 +2613,8 @@
               "description": "X3 IES 6K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": "",
-              "priority": 3
+              "priority": 3,
+              "phaseType": "x3"
             },
             "6.0 kW": {
               "product_code": "G-21d-3I60",
@@ -2570,7 +2627,8 @@
               "description": "X3 IES 6K<span class='text-red-500'><i class='fa-solid fa-xmark mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "priority": 4
+              "priority": 4,
+              "phaseType": "x3"
             },
             "8.0 kW": {
               "product_code": "G-21d-3I80a",
@@ -2583,7 +2641,8 @@
               "description": "X3 IES 8K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "priority": 5
+              "priority": 5,
+              "phaseType": "x3"
             },
             "10.0 kW": {
               "product_code": "G-21d-3I100a",
@@ -2596,7 +2655,8 @@
               "description": "X3 IES 10K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "priority": 6
+              "priority": 6,
+              "phaseType": "x3"
             },
             "12.0 kW": {
               "product_code": "G-21d-3I120a",
@@ -2609,7 +2669,8 @@
               "description": "X3 IES 12K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "priority": 7
+              "priority": 7,
+              "phaseType": "x3"
             },
             "15.0 kW": {
               "product_code": "G-21d-3I150a",
@@ -2622,7 +2683,8 @@
               "description": "X3 IES 15K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "priority": 8
+              "priority": 8,
+              "phaseType": "x3"
             }
           }
         }
@@ -2667,7 +2729,8 @@
                   "icon": null,
                   "description": "X1 Hybrid G4 3.0 kW",
                   "image": "img/X1 G4.png",
-                  "info": null
+                  "info": null,
+                  "phaseType": "x1"
                 },
                 "3.7 kW": {
                   "priority": 101,
@@ -2681,7 +2744,8 @@
                   "icon": null,
                   "description": "X1 Hybrid G4 3.7 kW",
                   "image": "img/X1 G4.png",
-                  "info": null
+                  "info": null,
+                  "phaseType": "x1"
                 },
                 "5.0 kW": {
                   "priority": 102,
@@ -2695,7 +2759,8 @@
                   "icon": null,
                   "description": "X1 Hybrid G4 5.0 kW",
                   "image": "img/X1 G4.png",
-                  "info": null
+                  "info": null,
+                  "phaseType": "x1"
                 }
               }
             },
@@ -2761,7 +2826,8 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     },
                     "G-21d-4P05": {
                       "priority": 3,
@@ -2815,7 +2881,8 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     }
                   }
                 },
@@ -2872,7 +2939,8 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     },
                     "G-21d-4P06": {
                       "priority": 103,
@@ -2926,7 +2994,8 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     }
                   }
                 },
@@ -2983,7 +3052,8 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     },
                     "G-21d-4P08": {
                       "priority": 4,
@@ -3037,7 +3107,8 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     }
                   }
                 },
@@ -3094,7 +3165,8 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     },
                     "G-21d-4P10": {
                       "priority": 3,
@@ -3148,7 +3220,8 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     }
                   }
                 },
@@ -3213,7 +3286,8 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     },
                     "G-21d-4212": {
                       "priority": 3,
@@ -3259,7 +3333,8 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     }
                   }
                 },
@@ -3317,7 +3392,8 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     },
                     "G-21d-4P15": {
                       "priority": 3,
@@ -3372,7 +3448,8 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     },
                     "2 (2/2) AFCI": {
                       "priority": 4,
@@ -3423,7 +3500,8 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     },
                     "2 (2/2)": {
                       "priority": 102,
@@ -3474,7 +3552,8 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     }
                   }
                 },
@@ -3535,7 +3614,8 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     },
                     "2 (2/2)": {
                       "priority": 100,
@@ -3585,7 +3665,8 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     }
                   }
                 },
@@ -3646,7 +3727,8 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     },
                     "X3 Ultra 3 MPPT": {
                       "priority": 100,
@@ -3696,7 +3778,8 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     }
                   }
                 },
@@ -3757,7 +3840,8 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     },
                     "X3 Ultra 3 MPPT": {
                       "priority": 100,
@@ -3807,7 +3891,8 @@
                             "value": "Kompatibilní s generátorem"
                           }
                         ]
-                      }
+                      },
+                      "phaseType": "x3"
                     }
                   }
                 },
@@ -3845,7 +3930,8 @@
               "description": "X3 IES 4K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": "",
-              "priority": 1
+              "priority": 1,
+              "phaseType": "x3"
             },
             "5.0 kW": {
               "product_code": "G-21d-3I50a",
@@ -3858,7 +3944,8 @@
               "description": "X3 IES 5K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": "",
-              "priority": 2
+              "priority": 2,
+              "phaseType": "x3"
             },
             "6.0 kW AFCI": {
               "product_code": "G-21d-3I60a",
@@ -3871,7 +3958,8 @@
               "description": "X3 IES 6K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": "",
-              "priority": 3
+              "priority": 3,
+              "phaseType": "x3"
             },
             "6.0 kW": {
               "product_code": "G-21d-3I60",
@@ -3884,7 +3972,8 @@
               "description": "X3 IES 6K<span class='text-red-500'><i class='fa-solid fa-xmark mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "priority": 4
+              "priority": 4,
+              "phaseType": "x3"
             },
             "8.0 kW": {
               "product_code": "G-21d-3I80a",
@@ -3897,7 +3986,8 @@
               "description": "X3 IES 8K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "priority": 5
+              "priority": 5,
+              "phaseType": "x3"
             },
             "10.0 kW": {
               "product_code": "G-21d-3I100a",
@@ -3910,7 +4000,8 @@
               "description": "X3 IES 10K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "priority": 6
+              "priority": 6,
+              "phaseType": "x3"
             },
             "12.0 kW": {
               "product_code": "G-21d-3I120a",
@@ -3923,7 +4014,8 @@
               "description": "X3 IES 12K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "priority": 7
+              "priority": 7,
+              "phaseType": "x3"
             },
             "15.0 kW": {
               "product_code": "G-21d-3I150a",
@@ -3936,7 +4028,8 @@
               "description": "X3 IES 15K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>",
               "image": "img/IES.png",
               "info": null,
-              "priority": 8
+              "priority": 8,
+              "phaseType": "x3"
             }
           }
         }
@@ -3954,7 +4047,9 @@
         "Yes": {
           "label": "Ja",
           "value": "Yes",
-          "compatibility": ["new"],
+          "compatibility": [
+            "new"
+          ],
           "title": "Wählen Sie eine Option für die automatische Umschaltung",
           "icon": "fa-solid fa-check text-green-500",
           "description": null,
@@ -4028,7 +4123,10 @@
         "No": {
           "label": "Nein",
           "value": null,
-          "compatibility": ["new", "ac-coupling"],
+          "compatibility": [
+            "new",
+            "ac-coupling"
+          ],
           "icon": "fa-solid fa-xmark text-red-500",
           "title": null,
           "image": null,
@@ -4047,7 +4145,9 @@
         "Yes": {
           "label": "Yes",
           "value": "Yes",
-          "compatibility": ["new"],
+          "compatibility": [
+            "new"
+          ],
           "title": "Select Backup Option",
           "icon": "fa-solid fa-check text-green-500",
           "description": null,
@@ -4121,7 +4221,10 @@
         "No": {
           "label": "No",
           "value": null,
-          "compatibility": ["new", "ac-coupling"],
+          "compatibility": [
+            "new",
+            "ac-coupling"
+          ],
           "icon": "fa-solid fa-xmark text-red-500",
           "title": null,
           "image": null,
@@ -4140,7 +4243,9 @@
         "Yes": {
           "label": "Ano",
           "value": "Yes",
-          "compatibility": ["new"],
+          "compatibility": [
+            "new"
+          ],
           "title": "Vyberte zálohovací zařízení",
           "icon": "fa-solid fa-check text-green-500",
           "description": null,
@@ -4214,7 +4319,10 @@
         "No": {
           "label": "Ne",
           "value": null,
-          "compatibility": ["new", "ac-coupling"],
+          "compatibility": [
+            "new",
+            "ac-coupling"
+          ],
           "icon": "fa-solid fa-xmark text-red-500",
           "title": null,
           "image": null,

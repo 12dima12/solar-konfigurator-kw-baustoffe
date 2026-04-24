@@ -27,7 +27,10 @@ export interface ManufacturerRules {
     selections: PhaseSelection[],
     installationType: InstallationType | null
   ): Array<[string, ConfigNode]>;
-  validateCombination(selections: PhaseSelection[]): { valid: boolean; reason?: string };
+  validateCombination(
+    selections: PhaseSelection[],
+    installationType?: InstallationType | null
+  ): { valid: boolean; reason?: string };
 }
 
 export interface Manufacturer {

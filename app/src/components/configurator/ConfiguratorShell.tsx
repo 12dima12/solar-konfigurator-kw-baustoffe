@@ -26,6 +26,7 @@ const PHASE_TITLES: Record<string, Record<Lang, string>> = {
   battery: { de: "Batterie auswählen", en: "Select battery", cs: "Vyberte baterii" },
   wallbox: { de: "Wallbox konfigurieren", en: "Configure wallbox", cs: "Konfigurace wallboxu" },
   accessory: { de: "Zubehör auswählen", en: "Select accessories", cs: "Vyberte příslušenství" },
+  finish: { de: "Zusammenfassung", en: "Summary", cs: "Shrnutí" },
 };
 
 const BACK_LABELS: Record<Lang, string> = {
@@ -38,6 +39,26 @@ const ACCESSORY_EMPTY_FALLBACK: Record<Lang, string> = {
   de: "Kein Zubehör",
   en: "No accessories",
   cs: "Žádné příslušenství",
+};
+
+// Die Backup-Phase filtert AC-Coupling-kompatible Optionen streng über das
+// `compatibility`-Feld; in den übrigen Phasen sind die Katalogknoten noch
+// nicht annotiert und der Migrations-Fallback in solax/rules.ts lässt das
+// Originalset durch. Der Banner soll nicht mehr versprechen als der Filter
+// aktuell einhält.
+const AC_COUPLING_NOTICE: Record<Lang, { title: string; body: string }> = {
+  de: {
+    title: "Hinweis — AC-Kopplung (Retrofit)",
+    body: "Sie ergänzen eine bestehende PV-Anlage um einen Batteriespeicher. In der Backup-Phase werden nur retrofit-taugliche Optionen angezeigt; die übrigen Phasen zeigen das volle Sortiment. Bei Fragen zur Kompatibilität kontaktieren Sie bitte unseren Vertrieb.",
+  },
+  en: {
+    title: "Note — AC Coupling (Retrofit)",
+    body: "You are retrofitting an existing PV system with battery storage. The backup phase is restricted to retrofit-capable options; other phases still show the full range. For compatibility questions please contact our sales team.",
+  },
+  cs: {
+    title: "Upozornění — AC Coupling (dovybavení)",
+    body: "Doplňujete stávající fotovoltaický systém o baterii. Ve fázi zálohování se zobrazují pouze varianty vhodné pro dovybavení; ostatní fáze ukazují kompletní sortiment. V případě dotazů k kompatibilitě prosím kontaktujte prodejní tým.",
+  },
 };
 
 export function ConfiguratorShell() {
@@ -168,16 +189,8 @@ export function ConfiguratorShell() {
 
         {installationType === "ac-coupling" && (
           <div className="mb-6 rounded-lg border-2 border-amber-300 bg-amber-50 p-4 text-sm">
-            <p className="font-semibold text-amber-900 mb-1">
-              {lang === "de" ? "Wichtiger Hinweis — AC-Kopplung" : lang === "en" ? "Important note — AC Coupling" : "Důležité upozornění — AC Coupling"}
-            </p>
-            <p className="text-amber-800">
-              {lang === "de"
-                ? "Sie ergänzen eine bestehende PV-Anlage um einen Batteriespeicher. Die Produktauswahl ist auf Retrofit-kompatible Komponenten eingeschränkt. Bei Fragen zur Kompatibilität kontaktieren Sie bitte unseren Vertrieb."
-                : lang === "en"
-                ? "You are retrofitting an existing PV system with battery storage. The product selection is limited to retrofit-compatible components. For compatibility questions please contact our sales team."
-                : "Doplňujete stávající fotovoltaický systém o baterii. Výběr produktů je omezen na komponenty kompatibilní s dovybavením. V případě dotazů kontaktujte prodejní tým."}
-            </p>
+            <p className="font-semibold text-amber-900 mb-1">{AC_COUPLING_NOTICE[lang].title}</p>
+            <p className="text-amber-800">{AC_COUPLING_NOTICE[lang].body}</p>
           </div>
         )}
 

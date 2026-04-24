@@ -4,7 +4,7 @@ Tags: solar, pv, konfigurator, photovoltaik
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.7.18
+Stable tag: 2.7.19
 License: Proprietary
 
 PV-Werkzeuge für KW Baustoffe: PV-Konfigurator und Solarrechner als WordPress-Plugin.
@@ -19,6 +19,14 @@ keine externe Datenweitergabe). Rate-Limiting, Honeypot, Ticket-IDs und Submissi
 Shortcode: [kw_pv_konfigurator]
 
 == Changelog ==
+
+= 2.7.19 =
+* fix: Bei AC-Kopplung ist die Standard-Auswahl im Zubehör-Schritt jetzt
+  "Kein Dongle" und "Kein Smart Meter". Bei Neuinstallation bleibt die
+  bisherige Voreinstellung (WiFi+LAN-Dongle, Smart-Meter passend zur
+  Inverter-Phase) erhalten, damit der User dort nur noch Anpassungen
+  machen muss. Retrofit-Kunden werden nichts aufgedrängt — sie aktivieren
+  Dongle / Smart-Meter bei Bedarf selbst.
 
 = 2.7.18 =
 * fix: Smart-Meter-Auswahl ist jetzt auch bei AC-Kopplung sichtbar.

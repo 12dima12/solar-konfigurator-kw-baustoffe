@@ -142,9 +142,20 @@ export function AccessoryConfigurator({ lang, onConfirm, onBack }: Props) {
     (m) => isACCoupling || (isX1 && m.phase === "X1") || (isX3 && m.phase === "X3"),
   );
 
-  const [dongleKey, setDongleKey] = useState<string | null>("dongle-wifi-lan");
+  // Default-Auswahl je Installationsmodus:
+  //   - Neuinstallation: sinnvolle Voreinstellungen (WiFi+LAN-Dongle,
+  //     Smart-Meter passend zur Inverter-Phase), damit der User nur
+  //     Anpassungen treffen muss.
+  //   - AC-Kopplung: bewusst beides auf "nichts" — der Retrofit-Kunde
+  //     entscheidet aktiv, ob Dongle/Smart-Meter mit dazu sollen; es wird
+  //     ihm nichts aufgedrängt.
+  const [dongleKey, setDongleKey] = useState<string | null>(
+    isACCoupling ? null : "dongle-wifi-lan",
+  );
   const [otherKeys, setOtherKeys] = useState<Set<string>>(new Set());
-  const [meterKey, setMeterKey] = useState<string | null>(availableMeters[0]?.key ?? null);
+  const [meterKey, setMeterKey] = useState<string | null>(
+    isACCoupling ? null : availableMeters[0]?.key ?? null,
+  );
 
   const toggleOther = (k: string) =>
     setOtherKeys((prev) => {

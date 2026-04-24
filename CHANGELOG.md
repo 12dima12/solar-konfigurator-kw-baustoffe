@@ -4,6 +4,18 @@ Format: [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+## [2.7.19] – 2026-04-24 – AC-Kopplung: Dongle + Smart Meter opt-in (Default = kein)
+
+### Changed
+- **`AccessoryConfigurator` Defaults hängen jetzt vom Installationsmodus ab.**
+  - `installationType === "ac-coupling"`: `dongleKey = null` (→ "Kein
+    Dongle"-Karte vorausgewählt), `meterKey = null` (→ "Kein Meter"
+    vorausgewählt). Der Retrofit-Kunde muss aktiv etwas auswählen,
+    bekommt nichts aufgedrängt.
+  - Sonst (Neuinstallation): Defaults wie gehabt —
+    `dongleKey = "dongle-wifi-lan"` und `meterKey = availableMeters[0]?.key`.
+  (`AccessoryConfigurator.tsx:145-155`)
+
 ## [2.7.18] – 2026-04-24 – Smart Meter auch bei AC-Kopplung sichtbar
 
 ### Fixed

@@ -126,12 +126,6 @@
     "description": null
   },
   {
-    "key": "More then one",
-    "title": "Wahlen Sie eine Option",
-    "label": "Fur mehr als eine Wallbox kontaktieren Sie bitte unseren Vertrieb.",
-    "description": null
-  },
-  {
     "key": "Nein",
     "title": null,
     "label": "Nein",

@@ -4,6 +4,15 @@ Format: [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+## [2.7.10] – 2026-04-24 – Wallbox: "Mehr als eine"-Option entfernt
+
+### Removed
+- Wallbox-Root-Option **"Für mehr als eine Wallbox kontaktieren Sie bitte
+  unseren Vertrieb."** aus dem Katalog-Tree (de/en/cs). Verbleibend:
+  `Eine` (mit Leistungsklassen + Varianten) und `Kein Ladegerät`.
+  Die drei Kontakt-Labels wurden auch aus `app/src/messages/{de,en,cs}.json`
+  entfernt — waren nur Übersetzungs-Artefakte vom Original-Katalog-Recon.
+
 ## [2.7.9] – 2026-04-24 – S 2.5 / S 3.6 getrennt, T-BAT H 5.8 V3 als Teaser
 
 ### Changed

@@ -114,12 +114,6 @@
     "description": "X3 IES 8K<span class='text-green-500'><i class='fa-solid fa-check mx-1'></i>AFCI</span>"
   },
   {
-    "key": "More then one",
-    "title": "Select an option",
-    "label": "For more than one wallbox, please contact your installer.",
-    "description": null
-  },
-  {
     "key": "No",
     "title": null,
     "label": "No",

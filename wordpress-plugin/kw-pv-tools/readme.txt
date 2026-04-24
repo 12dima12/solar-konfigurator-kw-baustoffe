@@ -4,7 +4,7 @@ Tags: solar, pv, konfigurator, photovoltaik
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.7.9
+Stable tag: 2.7.10
 License: Proprietary
 
 PV-Werkzeuge für KW Baustoffe: PV-Konfigurator und Solarrechner als WordPress-Plugin.
@@ -19,6 +19,11 @@ keine externe Datenweitergabe). Rate-Limiting, Honeypot, Ticket-IDs und Submissi
 Shortcode: [kw_pv_konfigurator]
 
 == Changelog ==
+
+= 2.7.10 =
+* chore: In der Wallbox-Phase die "Für mehr als eine Wallbox kontaktieren
+  Sie bitte unseren Vertrieb."-Option entfernt. Verbleibende Auswahl:
+  "Eine" (mit Leistungsklassen & Varianten) und "Kein Ladegerät".
 
 = 2.7.9 =
 * feat: Triple Power S 2.5 (HS25, 2,5 kWh/Modul) und Triple Power S 3.6

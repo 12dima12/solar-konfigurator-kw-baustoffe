@@ -3,7 +3,7 @@
  * Plugin Name:       KW PV Tools
  * Plugin URI:        https://github.com/12dima12/solar-konfigurator-kw-baustoffe
  * Description:       PV-Werkzeuge für KW Baustoffe: Konfigurator, Solarrechner.
- * Version:           2.7.9
+ * Version:           2.7.10
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Author:            KW Baustoffe GmbH
@@ -14,7 +14,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'KW_PV_TOOLS_VERSION',  '2.7.9' );
+define( 'KW_PV_TOOLS_VERSION',  '2.7.10' );
 define( 'KW_PV_TOOLS_PATH',     plugin_dir_path( __FILE__ ) );
 define( 'KW_PV_TOOLS_URL',      plugin_dir_url( __FILE__ ) );
 define( 'KW_PV_TOOLS_BASENAME', plugin_basename( __FILE__ ) );

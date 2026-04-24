@@ -120,12 +120,6 @@
     "description": null
   },
   {
-    "key": "More then one",
-    "title": "Vyberte moznost",
-    "label": "Pro vice nez jednu nabijcku kontaktujte sveho instalatera.",
-    "description": null
-  },
-  {
     "key": "Ne",
     "title": null,
     "label": "Ne",

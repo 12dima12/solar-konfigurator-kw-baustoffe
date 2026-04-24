@@ -4561,15 +4561,6 @@
             }
           }
         },
-        "More then one": {
-          "label": "Fur mehr als eine Wallbox kontaktieren Sie bitte unseren Vertrieb.",
-          "value": "More then one",
-          "title": "Wahlen Sie eine Option",
-          "icon": "fa-solid fa-infinity text-green-500",
-          "description": null,
-          "image": null,
-          "info": null
-        },
         "No Charger": {
           "label": "Kein Ladegerat",
           "value": null,
@@ -4759,15 +4750,6 @@
             }
           }
         },
-        "More then one": {
-          "label": "For more than one wallbox, please contact your installer.",
-          "value": "More then one",
-          "title": "Select an option",
-          "icon": "fa-solid fa-infinity text-green-500",
-          "description": null,
-          "image": null,
-          "info": null
-        },
         "No Charger": {
           "label": "No Charger",
           "value": null,
@@ -4956,15 +4938,6 @@
               }
             }
           }
-        },
-        "More then one": {
-          "label": "Pro vice nez jednu nabijcku kontaktujte sveho instalatera.",
-          "value": "More then one",
-          "title": "Vyberte moznost",
-          "icon": "fa-solid fa-infinity text-green-500",
-          "description": null,
-          "image": null,
-          "info": null
         },
         "No Charger": {
           "label": "Zadna nabijecka",

@@ -4,7 +4,7 @@ Tags: solar, pv, konfigurator, photovoltaik
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.7.22
+Stable tag: 2.7.23
 License: Proprietary
 
 PV-Werkzeuge für KW Baustoffe: PV-Konfigurator und Solarrechner als WordPress-Plugin.
@@ -19,6 +19,15 @@ keine externe Datenweitergabe). Rate-Limiting, Honeypot, Ticket-IDs und Submissi
 Shortcode: [kw_pv_konfigurator]
 
 == Changelog ==
+
+= 2.7.23 =
+* fix: Speicher-Foto fehlte in der "Meine Auswahl"-Sidebar und in der
+  Submit-Zusammenfassung. Der Battery-Konfirm-Pfad setzte hart
+  `image: null`. Jetzt wird das Serien-Bild (z.B.
+  `/products/batteries/s25-s36.png`) durchgereicht. Sidebar und
+  SubmitSummary kennen jetzt zwei Image-Path-Konventionen — Katalog
+  ("img/Foo.png" → /products/Foo.png) und absolute App-Pfade
+  ("/products/...") — und verarbeiten beide korrekt.
 
 = 2.7.22 =
 * fix: Smart-Meter- und Dongle-Karten in der Zubehör-Phase haben jetzt

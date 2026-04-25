@@ -23,6 +23,13 @@ interface Props {
     seriesLabel: string;
     moduleCount: number;
     montageParts: BatteryMontage["parts"];
+    /**
+     * Pfad des Serien-Produktfotos (z. B. "/products/batteries/s25-s36.png").
+     * Wird in der "Meine Auswahl"-Sidebar (CurrentSetupSidebar) und in der
+     * Submit-Zusammenfassung als Thumbnail genutzt — bisher war hier
+     * `null` gesetzt und der Speicher-Slot blieb bildlos.
+     */
+    image: string;
   }) => void;
 }
 
@@ -250,6 +257,7 @@ export function BatteryConfigurator({ lang, onConfirm }: Props) {
               seriesLabel: series.label,
               moduleCount: countBatteryModules(selected.parts),
               montageParts: selected.parts,
+              image: series.image,
             });
           }}
           disabled={!selected}

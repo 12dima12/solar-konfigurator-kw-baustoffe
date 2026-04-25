@@ -69,8 +69,17 @@ export function CurrentSetupSidebar({ selections, lang }: Props) {
               >
                 {s.selectedProduct?.image ? (
                   <div className="shrink-0 h-12 w-12 flex items-center justify-center rounded-md bg-muted/40">
+                    {/* Image kommt in zwei Konventionen:
+                          1. Katalog-Style "img/Foo.png" — wird zu /products/Foo.png
+                          2. Bereits absolut "/products/batteries/foo.png" (Battery-
+                             Serien) — wird unverändert verwendet
+                        publicAsset() hängt nur den NEXT_PUBLIC_ASSET_PREFIX vor. */}
                     <Image
-                      src={publicAsset(`/products/${s.selectedProduct.image.replace("img/", "")}`)}
+                      src={publicAsset(
+                        s.selectedProduct.image.startsWith("/")
+                          ? s.selectedProduct.image
+                          : `/products/${s.selectedProduct.image.replace("img/", "")}`,
+                      )}
                       alt={s.selectedProduct.value}
                       width={40}
                       height={40}

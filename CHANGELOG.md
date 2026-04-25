@@ -4,6 +4,25 @@ Format: [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+## [2.7.23] – 2026-04-25 – Batterie-Foto in Sidebar + SubmitSummary
+
+### Fixed
+- **Speicher-Foto fehlte in der "Meine Auswahl"-Sidebar und in der
+  Submit-Zusammenfassung.** `confirmBattery` in `ConfiguratorShell`
+  setzte hart `image: null`, weil die Series-Konfiguration aus
+  `BatteryConfigurator.onConfirm` keine Bild-Information durchreichte.
+  Jetzt:
+  1. `BatteryConfigurator.onConfirm`-Payload erweitert um `image`
+     (`series.image`, z.B. `/products/batteries/s25-s36.png`).
+  2. `confirmBattery` reicht das Bild in `confirmProduct` durch.
+  3. `CurrentSetupSidebar` und `SubmitSummary` kennen jetzt zwei
+     Pfad-Konventionen für `selectedProduct.image`:
+     - **Katalog-Style** `"img/Foo.png"` → `publicAsset("/products/Foo.png")`
+       (Inverter, Backup, Wallbox via Tree-Leaves)
+     - **Absolute App-Pfade** `"/products/batteries/foo.png"` → unverändert
+       durchpubliziert (Battery-Serien aus battery-series.ts)
+  Erkennung über `image.startsWith("/")`.
+
 ## [2.7.22] – 2026-04-25 – Zubehör-Karten mit Icons + Image-Preload
 
 ### Fixed

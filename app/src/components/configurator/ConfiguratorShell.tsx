@@ -108,12 +108,15 @@ export function ConfiguratorShell() {
     seriesLabel: string;
     moduleCount: number;
     montageParts: Array<{ count: number; label: string }>;
+    image: string;
   }) => {
     const store = useConfigStore.getState();
     store.confirmProduct({
       product_name: `${payload.label} · ${payload.model}`,
       value: payload.value,
-      image: null,
+      // Serien-Bild durchreichen, damit "Meine Auswahl"-Sidebar und
+      // Submit-Zusammenfassung ein Speicher-Thumbnail zeigen.
+      image: payload.image,
       batteryMeta: {
         seriesKey: payload.key,
         seriesLabel: payload.seriesLabel,

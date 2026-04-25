@@ -81,6 +81,11 @@ export function ConfiguratorShell() {
     steps.includes("Split System") &&
     steps.includes("Three-phase inverter X3");
 
+  const isX1 =
+    phase === "inverter" &&
+    steps.includes("Split System") &&
+    steps.includes("Single-phase inverter X1");
+
   const isBattery = phase === "battery";
   const isAccessory = phase === "accessory";
 
@@ -249,7 +254,9 @@ export function ConfiguratorShell() {
         </div>
 
         {isX3 ? (
-          <PowerSlider lang={lang} steps={steps} onSelect={handleSelect} catalog={manufacturer.catalog} />
+          <PowerSlider lang={lang} steps={steps} onSelect={handleSelect} catalog={manufacturer.catalog} variant="x3" />
+        ) : isX1 ? (
+          <PowerSlider lang={lang} steps={steps} onSelect={handleSelect} catalog={manufacturer.catalog} variant="x1" />
         ) : isBattery ? (
           <BatteryConfigurator lang={lang} onConfirm={confirmBattery} />
         ) : isAccessory ? (

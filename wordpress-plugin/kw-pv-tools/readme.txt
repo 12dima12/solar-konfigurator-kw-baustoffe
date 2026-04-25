@@ -4,7 +4,7 @@ Tags: solar, pv, konfigurator, photovoltaik
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.7.23
+Stable tag: 2.7.24
 License: Proprietary
 
 PV-Werkzeuge für KW Baustoffe: PV-Konfigurator und Solarrechner als WordPress-Plugin.
@@ -19,6 +19,18 @@ keine externe Datenweitergabe). Rate-Limiting, Honeypot, Ticket-IDs und Submissi
 Shortcode: [kw_pv_konfigurator]
 
 == Changelog ==
+
+= 2.7.24 =
+* fix: X1-Wechselrichter-Auswahl bekommt jetzt denselben Power-Slider-Look
+  wie X3 (vorher: einfaches Grid mit drei Karten 3.0/3.7/5.0 kW). Beide
+  Pfade nutzen denselben PowerSlider mit `variant`-Prop. X1 hat drei
+  Stops (3.0/3.7/5.0 kW), kein ">30 kW"-Endpunkt. Sobald man die
+  Leistung am Slider trifft, erscheint die Produkt-Card direkt.
+* fix: Notstrom-Auswahl bei X1-Wechselrichter zeigte keine Optionen.
+  Jetzt sind X1 EPS Box (B-210-10061) und X1 Matebox Advanced
+  (G-210-303d) im Backup-Tree (de/en/cs) eingetragen, beide mit
+  phaseType=x1 — der Filter zeigt sie nur bei X1-Inverter und blendet
+  die X3-Pendants entsprechend aus.
 
 = 2.7.23 =
 * fix: Speicher-Foto fehlte in der "Meine Auswahl"-Sidebar und in der

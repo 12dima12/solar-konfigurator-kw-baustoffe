@@ -3,9 +3,10 @@ import { useState } from "react";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { OptionGrid } from "./OptionGrid";
-import { getChildrenSorted, resolveNode } from "@/lib/navigation";
+import { OptionCard } from "./OptionCard";
+import { getChildrenSorted, isLeafNode, resolveNode } from "@/lib/navigation";
 import type { ConfigNode, Lang } from "@/data/types";
-import { POWER_STOPS_X3, POWER_OVER_30_KEY } from "@/lib/constants";
+import { POWER_STOPS_X1, POWER_STOPS_X3, POWER_OVER_30_KEY } from "@/lib/constants";
 import { Minus, Phone, Plus } from "lucide-react";
 
 interface Props {
@@ -13,27 +14,43 @@ interface Props {
   steps: string[];
   onSelect: (key: string, node: ConfigNode) => void;
   catalog: Record<string, unknown>;
+  /**
+   * "x1" → POWER_STOPS_X1 [3.0, 3.7, 5.0], kein ">30 kW"-Endpunkt
+   * "x3" (default) → POWER_STOPS_X3 [5..30], inkl. ">30 kW"-Kontakt-Card
+   * Wir nutzen denselben Slider in beiden Pfaden, damit X1 und X3
+   * dieselbe UX bekommen (vorher hatte X1 nur ein Plain-Grid).
+   */
+  variant?: "x1" | "x3";
 }
 
-export function PowerSlider({ lang, steps, onSelect, catalog }: Props) {
+export function PowerSlider({ lang, steps, onSelect, catalog, variant = "x3" }: Props) {
+  const stops = variant === "x1" ? POWER_STOPS_X1 : POWER_STOPS_X3;
+  const supportsOver30 = variant === "x3";
   const [sliderIndex, setSliderIndex] = useState(0);
-  const selectedKw = POWER_STOPS_X3[sliderIndex];
+  const selectedKw = stops[sliderIndex];
 
+  // Generischer powerKey: "{kw}.0 kW" für ganzzahlige (5/6/8/...) oder
+  // "{kw} kW" für Float-Werte (3.0/3.7/5.0). Das Katalog-Schema folgt
+  // beidem: X3 hat "5.0 kW", X1 hat "3.0 kW" / "3.7 kW" / "5.0 kW".
   const powerKey =
-    sliderIndex >= POWER_STOPS_X3.length
+    supportsOver30 && sliderIndex >= stops.length
       ? POWER_OVER_30_KEY
-      : `${selectedKw}.0 kW`;
+      : `${selectedKw.toFixed(1)} kW`;
 
   const parentNode = resolveNode("inverter", lang, steps, catalog);
   if (!parentNode) return null;
 
-  const isOver30 = sliderIndex === POWER_STOPS_X3.length;
+  const isOver30 = supportsOver30 && sliderIndex === stops.length;
 
   const powerNode = parentNode.children
     ? (parentNode.children as Record<string, ConfigNode>)[powerKey]
     : undefined;
 
   const powerChildren = powerNode ? getChildrenSorted(powerNode) : [];
+  // Wenn der Power-Node selbst schon ein Leaf ist (X1: 3.0/3.7/5.0 sind
+  // direkt Produkte), zeigen wir EINE OptionCard statt eines Grids — dann
+  // hat man dieselbe Optik wie ein Variant-Grid bei X3, nur mit einem Item.
+  const powerNodeIsLeaf = !!powerNode && isLeafNode(powerNode);
 
   const labels: Record<string, { title: string; unit: string; contact: string; request: string; ariaPower: string; noProducts: string; decrease: string; increase: string }> = {
     de: {
@@ -69,9 +86,14 @@ export function PowerSlider({ lang, steps, onSelect, catalog }: Props) {
   };
   const l = labels[lang] ?? labels.de;
 
-  const maxIdx = POWER_STOPS_X3.length; // inclusive: last index = ">30 kW"
+  // Bei X3 inklusive ">30 kW"-Endpunkt; bei X1 nur die echten Stops
+  const maxIdx = supportsOver30 ? stops.length : stops.length - 1;
   const canDec = sliderIndex > 0;
   const canInc = sliderIndex < maxIdx;
+
+  // Anzeigeformatierung des aktuellen Werts: bei X1 mit einer Nachkommastelle,
+  // bei X3 ganzzahlig (5/6/8/…/30) bzw. ">30"
+  const displayKw = isOver30 ? "> 30" : variant === "x1" ? selectedKw.toFixed(1) : `${Math.round(selectedKw)}`;
 
   return (
     <div className="space-y-8">
@@ -80,7 +102,7 @@ export function PowerSlider({ lang, steps, onSelect, catalog }: Props) {
 
         <div className="flex items-center gap-4 mb-2">
           <span className="text-3xl font-bold text-primary tabular-nums w-20">
-            {isOver30 ? "> 30" : selectedKw} <span className="text-base font-normal">{l.unit}</span>
+            {displayKw} <span className="text-base font-normal">{l.unit}</span>
           </span>
         </div>
 
@@ -121,10 +143,10 @@ export function PowerSlider({ lang, steps, onSelect, catalog }: Props) {
 
         {/* kW-Ruler unterhalb des Sliders, in der Track-Breite (minus −/+ Buttons). */}
         <div className="flex justify-between text-xs text-muted-foreground px-1 mx-12 sm:mx-13">
-          {POWER_STOPS_X3.map((kw) => (
-            <span key={kw}>{kw}</span>
+          {stops.map((kw) => (
+            <span key={kw}>{variant === "x1" ? kw.toFixed(1) : Math.round(kw)}</span>
           ))}
-          <span>&gt;30</span>
+          {supportsOver30 && <span>&gt;30</span>}
         </div>
       </div>
 
@@ -135,6 +157,17 @@ export function PowerSlider({ lang, steps, onSelect, catalog }: Props) {
           <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-white">
             {l.request}
           </Button>
+        </div>
+      ) : powerNodeIsLeaf && powerNode ? (
+        // X1-Pfad: Power-Node ist direkt ein Produkt-Leaf — als einzelne
+        // OptionCard rendern, damit der User genauso anklickt wie eine
+        // Variante im X3-Grid.
+        <div className="grid grid-cols-1 gap-4">
+          <OptionCard
+            nodeKey={powerKey}
+            node={powerNode}
+            onClick={onSelect}
+          />
         </div>
       ) : powerChildren.length > 0 ? (
         <>

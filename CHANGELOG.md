@@ -4,6 +4,37 @@ Format: [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 
+## [2.7.24] – 2026-04-25 – X1-UX angeglichen + X1-Backup-Optionen ergänzt
+
+### Fixed
+- **X1-Wechselrichter-Menü hatte abweichende UX** (einfaches Grid statt
+  PowerSlider). Jetzt nutzt der X1-Pfad denselben `PowerSlider` wie X3,
+  parametrisiert über das neue `variant`-Prop:
+  - `variant="x1"` → `POWER_STOPS_X1 = [3.0, 3.7, 5.0]`, kein
+    `>30 kW`-Endpunkt, Anzeige mit einer Nachkommastelle
+  - `variant="x3"` (Default) → bisheriges Verhalten unverändert
+  Wenn der Power-Node ein direkter Produkt-Leaf ist (X1-Fall), zeigt
+  der Slider darunter eine einzelne `OptionCard` statt eines Grids —
+  optisch identisch zur Variant-Auswahl bei X3.
+  (`PowerSlider.tsx`, `ConfiguratorShell.tsx:84-95,250-256`,
+  `lib/constants.ts:16`)
+- **X1-Backup-Optionen fehlten komplett.** Wer bei der Inverter-Wahl
+  einen X1-Wechselrichter genommen hat, bekam in der Notstrom-Phase
+  unter "Ja" keine Produkte zu sehen, weil der Filter (phaseType-
+  basiert) nur X3-Produkte fand. Jetzt im Backup-Tree (de/en/cs)
+  ergänzt:
+  - **X1 EPS Box** — `Solax X1-EPS Box, 1*63 A` (Code B-210-10061),
+    Bild `img/X1 EPS Box.png`, `phaseType: "x1"`, `priority: 999`
+  - **X1 Matebox Advanced** — `Solax X1-Matebox Advanced, D` (Code
+    G-210-303d), Bild `img/X1 Matebox Advanced.png`, `phaseType: "x1"`,
+    `priority: 99`
+  Der existierende `phaseType`-Filter in `solax/rules.ts` zeigt sie nur
+  für X1-Inverter (und blendet die X3-Pendants entsprechend aus).
+
+### Added
+- `POWER_STOPS_X1 = [3.0, 3.7, 5.0]` in `lib/constants.ts`.
+- `PowerSlider.variant?: "x1" | "x3"` prop.
+
 ## [2.7.23] – 2026-04-25 – Batterie-Foto in Sidebar + SubmitSummary
 
 ### Fixed

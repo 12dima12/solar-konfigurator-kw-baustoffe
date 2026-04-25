@@ -4117,6 +4117,32 @@
                 ]
               },
               "priority": 999
+            },
+            "X1 EPS Box": {
+              "product_code": "B-210-10061",
+              "product_name": "Solax X1-EPS Box, 1*63 A",
+              "value": "X1 EPS Box",
+              "label": "X1 EPS Box",
+              "title": null,
+              "icon": null,
+              "description": null,
+              "image": "img/X1 EPS Box.png",
+              "info": null,
+              "priority": 999,
+              "phaseType": "x1"
+            },
+            "X1 Matebox Advanced": {
+              "product_code": "G-210-303d",
+              "product_name": "Solax X1-Matebox Advanced, D",
+              "value": "X1 Matebox Advanced",
+              "label": "X1 Matebox Advanced",
+              "title": null,
+              "icon": null,
+              "description": null,
+              "image": "img/X1 Matebox Advanced.png",
+              "info": null,
+              "priority": 99,
+              "phaseType": "x1"
             }
           }
         },
@@ -4215,6 +4241,32 @@
                 ]
               },
               "priority": 999
+            },
+            "X1 EPS Box": {
+              "product_code": "B-210-10061",
+              "product_name": "Solax X1-EPS Box, 1*63 A",
+              "value": "X1 EPS Box",
+              "label": "X1 EPS Box",
+              "title": null,
+              "icon": null,
+              "description": null,
+              "image": "img/X1 EPS Box.png",
+              "info": null,
+              "priority": 999,
+              "phaseType": "x1"
+            },
+            "X1 Matebox Advanced": {
+              "product_code": "G-210-303d",
+              "product_name": "Solax X1-Matebox Advanced, D",
+              "value": "X1 Matebox Advanced",
+              "label": "X1 Matebox Advanced",
+              "title": null,
+              "icon": null,
+              "description": null,
+              "image": "img/X1 Matebox Advanced.png",
+              "info": null,
+              "priority": 99,
+              "phaseType": "x1"
             }
           }
         },
@@ -4313,6 +4365,32 @@
                 ]
               },
               "priority": 999
+            },
+            "X1 EPS Box": {
+              "product_code": "B-210-10061",
+              "product_name": "Solax X1-EPS Box, 1*63 A",
+              "value": "X1 EPS Box",
+              "label": "X1 EPS Box",
+              "title": null,
+              "icon": null,
+              "description": null,
+              "image": "img/X1 EPS Box.png",
+              "info": null,
+              "priority": 999,
+              "phaseType": "x1"
+            },
+            "X1 Matebox Advanced": {
+              "product_code": "G-210-303d",
+              "product_name": "Solax X1-Matebox Advanced, D",
+              "value": "X1 Matebox Advanced",
+              "label": "X1 Matebox Advanced",
+              "title": null,
+              "icon": null,
+              "description": null,
+              "image": "img/X1 Matebox Advanced.png",
+              "info": null,
+              "priority": 99,
+              "phaseType": "x1"
             }
           }
         },

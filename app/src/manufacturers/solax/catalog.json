@@ -4143,6 +4143,32 @@
               "info": null,
               "priority": 99,
               "phaseType": "x1"
+            },
+            "X3 Matebox G2": {
+              "product_code": "G-210-503m",
+              "product_name": "Solax X3-Matebox G2",
+              "value": "X3 Matebox G2",
+              "label": "X3 Matebox G2",
+              "phaseType": "x3",
+              "title": null,
+              "icon": null,
+              "description": null,
+              "image": "img/X3 Matebox G2.png",
+              "info": null,
+              "priority": 999
+            },
+            "X3 EPS PBOX 60 kW": {
+              "product_code": "B-210-10081",
+              "product_name": "Solax X3-EPS PBOX-60kW-G2",
+              "value": "X3 EPS PBOX 60 kW",
+              "label": "X3 EPS PBOX 60 kW",
+              "phaseType": "x3",
+              "title": null,
+              "icon": null,
+              "description": null,
+              "image": "img/EPS 60 kW.png",
+              "info": null,
+              "priority": 999
             }
           }
         },
@@ -4267,6 +4293,32 @@
               "info": null,
               "priority": 99,
               "phaseType": "x1"
+            },
+            "X3 Matebox G2": {
+              "product_code": "G-210-503m",
+              "product_name": "Solax X3-Matebox G2",
+              "value": "X3 Matebox G2",
+              "label": "X3 Matebox G2",
+              "phaseType": "x3",
+              "title": null,
+              "icon": null,
+              "description": null,
+              "image": "img/X3 Matebox G2.png",
+              "info": null,
+              "priority": 999
+            },
+            "X3 EPS PBOX 60 kW": {
+              "product_code": "B-210-10081",
+              "product_name": "Solax X3-EPS PBOX-60kW-G2",
+              "value": "X3 EPS PBOX 60 kW",
+              "label": "X3 EPS PBOX 60 kW",
+              "phaseType": "x3",
+              "title": null,
+              "icon": null,
+              "description": null,
+              "image": "img/EPS 60 kW.png",
+              "info": null,
+              "priority": 999
             }
           }
         },
@@ -4391,6 +4443,32 @@
               "info": null,
               "priority": 99,
               "phaseType": "x1"
+            },
+            "X3 Matebox G2": {
+              "product_code": "G-210-503m",
+              "product_name": "Solax X3-Matebox G2",
+              "value": "X3 Matebox G2",
+              "label": "X3 Matebox G2",
+              "phaseType": "x3",
+              "title": null,
+              "icon": null,
+              "description": null,
+              "image": "img/X3 Matebox G2.png",
+              "info": null,
+              "priority": 999
+            },
+            "X3 EPS PBOX 60 kW": {
+              "product_code": "B-210-10081",
+              "product_name": "Solax X3-EPS PBOX-60kW-G2",
+              "value": "X3 EPS PBOX 60 kW",
+              "label": "X3 EPS PBOX 60 kW",
+              "phaseType": "x3",
+              "title": null,
+              "icon": null,
+              "description": null,
+              "image": "img/EPS 60 kW.png",
+              "info": null,
+              "priority": 999
             }
           }
         },
